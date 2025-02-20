@@ -14,9 +14,10 @@ export interface PartnerStore {
 
 export const usePartnerStore = create<PartnerStore>(set => ({
   partners: [
-    { id: 1, name: 'Jorgin' },
+    { id: 1, name: 'João' },
     { id: 2, name: 'Maria' },
     { id: 3, name: 'João' },
+    { id: 3, name: 'Guilhermex' },
   ],
   addPartner: (partner: Partner) => {
     set(state => ({ partners: [...state.partners, partner] }));

@@ -15,6 +15,7 @@ import {
   YAxis,
   CartesianGrid,
 } from 'recharts';
+import { Helmet } from 'react-helmet';
 
 interface PieData {
   name: string;
@@ -25,6 +26,7 @@ const pieData: PieData[] = [
   { name: 'Ativos', value: 10 },
   { name: 'Finalizados', value: 25 },
   { name: 'Em Andamento', value: 15 },
+  { name: 'Imigração', value: 15 },
 ];
 const COLORS = ['#333', '#666', '#999'];
 
@@ -46,6 +48,7 @@ const lineData: LineData[] = [
 export function Dashboard() {
   return (
     <div className="flex h-screen overflow-hidden">
+      <Helmet title="Deashboard" />
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
@@ -59,7 +62,7 @@ export function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-md">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                Distribuição de Projetos
+                Distribuição de Contratos
               </h2>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>

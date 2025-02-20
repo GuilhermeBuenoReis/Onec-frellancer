@@ -28,7 +28,7 @@ export function Sidebar() {
                   className="flex items-center p-2 rounded hover:bg-gray-300"
                 >
                   <span className="mr-2">📈</span>
-                  <span>Investimentos</span>
+                  <span>Planilhas</span>
                 </NavLink>
               </li>
               <li>

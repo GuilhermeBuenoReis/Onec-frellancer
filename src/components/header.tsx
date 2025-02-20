@@ -8,7 +8,7 @@ export function Header() {
           src="https://github.com/guilhermebuenoreis.png"
           alt="Avatar"
         />
-        <span>Jane Doe</span>
+        <span>Guilherme</span>
       </div>
     </header>
   );
