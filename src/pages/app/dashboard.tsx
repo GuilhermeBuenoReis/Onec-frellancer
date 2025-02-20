@@ -53,7 +53,7 @@ export function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card title="Contratos Ativos" value="10" icon="📌" />
             <Card title="Contratos Finalizados" value="25" icon="✅" />
-            <Card title="Contratos em Imigração" value="12" icon="💰" />
+            <Card title="Contratos em Imigração" value="12" icon="🔄" />
             <Card title="Valor Total" value="R$ 50.000" icon="💰" />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
