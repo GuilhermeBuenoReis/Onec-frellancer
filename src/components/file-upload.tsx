@@ -1,11 +1,11 @@
-// src/components/FileUpload.tsx
+// FileUpload.tsx
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 
 interface FileUploadProps {
-  onFileUpload: (fileData: string, fileName: string) => void;
+  onFileUpload: (file: File, fileName: string) => void;
 }
 
 function FileUpload(props: FileUploadProps) {
@@ -21,22 +21,13 @@ function FileUpload(props: FileUploadProps) {
     setIsUploading(true);
     setProgress(0);
 
-    // Simulação de carregamento: incrementa 5% a cada 200ms
     const interval = setInterval(() => {
       setProgress(prev => {
         const newProgress = prev + 5;
         if (newProgress >= 100) {
           clearInterval(interval);
-          // Leitura do arquivo após atingir 100%
-          const reader = new FileReader();
-          reader.onload = e => {
-            const text = e.target?.result;
-            if (typeof text === 'string') {
-              onFileUpload(text, file.name);
-            }
-            setIsUploading(false);
-          };
-          reader.readAsText(file);
+          onFileUpload(file, file.name);
+          setIsUploading(false);
           return 100;
         }
         return newProgress;
@@ -64,6 +55,7 @@ function FileUpload(props: FileUploadProps) {
           type="file"
           onChange={handleFileChange}
           className="hidden"
+          accept=".xls,.xlsx"
         />
         {isUploading && (
           <div className="w-full mt-4">

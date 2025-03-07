@@ -23,13 +23,18 @@
       "recommended": true,
       "style": {
         "noNonNullAssertion": "off",
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "useNumberNamespace": "off"
       },
       "a11y": {
         "noLabelWithoutControl": "off"
       },
       "complexity": {
-        "noForEach": "off"
+        "noForEach": "off",
+        "useLiteralKeys": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
       }
     }
   },

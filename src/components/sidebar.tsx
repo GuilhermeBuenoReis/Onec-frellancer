@@ -24,7 +24,7 @@ export function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/investimentos"
+                  to="/upload"
                   className="flex items-center p-2 rounded hover:bg-gray-300"
                 >
                   <span className="mr-2">📈</span>

@@ -1,4 +1,3 @@
-// pages/Dashboard.tsx
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Card } from '@/components/card';

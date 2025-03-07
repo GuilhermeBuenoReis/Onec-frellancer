@@ -1,13 +1,13 @@
 import { create } from 'zustand';
+import type { ExelDataNegotiation } from '@/mappers/excel-mapper';
 
 interface SpreadsheetStore {
-  sheetData: string | null;
-  setSheetData: (data: string) => void;
+  sheetData: Record<string, ExelDataNegotiation[]> | null;
+  setSheetData: (data: Record<string, ExelDataNegotiation[]>) => void;
 }
 
-export function useSpreadsheetStore() {
-  return create<SpreadsheetStore>(set => ({
-    sheetData: null,
-    setSheetData: (data: string) => set({ sheetData: data }),
-  }));
-}
+export const useSpreadsheetStore = create<SpreadsheetStore>(set => ({
+  sheetData: null,
+  setSheetData: (data: Record<string, ExelDataNegotiation[]>) =>
+    set({ sheetData: data }),
+}));
