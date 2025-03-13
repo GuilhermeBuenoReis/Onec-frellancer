@@ -140,14 +140,22 @@ export type DeletePartner404 = {
 };
 
 export type CreateDataNegotiationBody = {
-  title: string;
-  client: string;
-  user: string;
-  tags: string;
-  step: string;
-  status: string;
-  value: number;
-  partnerId: string;
+  /** @nullable */
+  title: string | null;
+  /** @nullable */
+  client: string | null;
+  /** @nullable */
+  user: string | null;
+  /** @nullable */
+  tags: string | null;
+  /** @nullable */
+  step: string | null;
+  /** @nullable */
+  status: string | null;
+  /** @nullable */
+  value: number | null;
+  /** @nullable */
+  partnerId: string | null;
   /** @nullable */
   startsDate: string | null;
   /** @nullable */
@@ -219,7 +227,8 @@ export type DeleteNegotiation404 = {
 export type CreateContractBody = {
   /** @nullable */
   city: string | null;
-  client: string;
+  /** @nullable */
+  client: string | null;
   /** @nullable */
   state: string | null;
   /** @nullable */
@@ -396,16 +405,17 @@ export type DeleteUser400 = {
   message: string;
 };
 
-type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
+export type GetContractStatusCount200Item = {
+  status: string;
+  count: number;
+};
 
 /**
  * Create a new partner
  */
 export const createPartner = (
     createPartnerBody: CreatePartnerBody,
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
@@ -414,21 +424,21 @@ export const createPartner = (
       headers: {'Content-Type': 'application/json', },
       data: createPartnerBody, signal
     },
-      options);
+      );
     }
   
 
 
 export const getCreatePartnerMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPartner>>, TError,{data: CreatePartnerBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPartner>>, TError,{data: CreatePartnerBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof createPartner>>, TError,{data: CreatePartnerBody}, TContext> => {
     
 const mutationKey = ['createPartner'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -436,7 +446,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPartner>>, {data: CreatePartnerBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  createPartner(data,requestOptions)
+          return  createPartner(data,)
         }
 
         
@@ -449,7 +459,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreatePartnerMutationError = unknown
 
     export const useCreatePartner = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPartner>>, TError,{data: CreatePartnerBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPartner>>, TError,{data: CreatePartnerBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof createPartner>>,
         TError,
@@ -467,14 +477,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const getPartners = (
     
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
       return http<GetPartners200Item[]>(
       {url: `http://localhost:3333/partners`, method: 'GET', signal
     },
-      options);
+      );
     }
   
 
@@ -483,16 +493,16 @@ export const getGetPartnersQueryKey = () => {
     }
 
     
-export const getGetPartnersQueryOptions = <TData = Awaited<ReturnType<typeof getPartners>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPartners>>, TError, TData>>, request?: SecondParameter<typeof http>}
+export const getGetPartnersQueryOptions = <TData = Awaited<ReturnType<typeof getPartners>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPartners>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetPartnersQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPartners>>> = ({ signal }) => getPartners(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPartners>>> = ({ signal }) => getPartners(signal);
 
       
 
@@ -512,7 +522,7 @@ export function useGetPartners<TData = Awaited<ReturnType<typeof getPartners>>, 
           TError,
           Awaited<ReturnType<typeof getPartners>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetPartners<TData = Awaited<ReturnType<typeof getPartners>>, TError = unknown>(
@@ -522,16 +532,16 @@ export function useGetPartners<TData = Awaited<ReturnType<typeof getPartners>>, 
           TError,
           Awaited<ReturnType<typeof getPartners>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetPartners<TData = Awaited<ReturnType<typeof getPartners>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPartners>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPartners>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetPartners<TData = Awaited<ReturnType<typeof getPartners>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPartners>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPartners>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -553,7 +563,7 @@ export function useGetPartners<TData = Awaited<ReturnType<typeof getPartners>>, 
 export const updatePartner = (
     id: string,
     updatePartnerBody: UpdatePartnerBody,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<UpdatePartner200>(
@@ -561,21 +571,21 @@ export const updatePartner = (
       headers: {'Content-Type': 'application/json', },
       data: updatePartnerBody
     },
-      options);
+      );
     }
   
 
 
 export const getUpdatePartnerMutationOptions = <TError = UpdatePartner404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePartner>>, TError,{id: string;data: UpdatePartnerBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePartner>>, TError,{id: string;data: UpdatePartnerBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof updatePartner>>, TError,{id: string;data: UpdatePartnerBody}, TContext> => {
     
 const mutationKey = ['updatePartner'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -583,7 +593,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePartner>>, {id: string;data: UpdatePartnerBody}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updatePartner(id,data,requestOptions)
+          return  updatePartner(id,data,)
         }
 
         
@@ -596,7 +606,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdatePartnerMutationError = UpdatePartner404
 
     export const useUpdatePartner = <TError = UpdatePartner404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePartner>>, TError,{id: string;data: UpdatePartnerBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePartner>>, TError,{id: string;data: UpdatePartnerBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof updatePartner>>,
         TError,
@@ -614,27 +624,27 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const deletePartner = (
     id: string,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<DeletePartner200>(
       {url: `http://localhost:3333/partners/${id}`, method: 'DELETE'
     },
-      options);
+      );
     }
   
 
 
 export const getDeletePartnerMutationOptions = <TError = DeletePartner404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePartner>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePartner>>, TError,{id: string}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof deletePartner>>, TError,{id: string}, TContext> => {
     
 const mutationKey = ['deletePartner'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -642,7 +652,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePartner>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
-          return  deletePartner(id,requestOptions)
+          return  deletePartner(id,)
         }
 
         
@@ -655,7 +665,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type DeletePartnerMutationError = DeletePartner404
 
     export const useDeletePartner = <TError = DeletePartner404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePartner>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePartner>>, TError,{id: string}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof deletePartner>>,
         TError,
@@ -673,7 +683,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const createDataNegotiation = (
     createDataNegotiationBody: CreateDataNegotiationBody,
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
@@ -682,21 +692,21 @@ export const createDataNegotiation = (
       headers: {'Content-Type': 'application/json', },
       data: createDataNegotiationBody, signal
     },
-      options);
+      );
     }
   
 
 
 export const getCreateDataNegotiationMutationOptions = <TError = CreateDataNegotiation400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDataNegotiation>>, TError,{data: CreateDataNegotiationBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDataNegotiation>>, TError,{data: CreateDataNegotiationBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof createDataNegotiation>>, TError,{data: CreateDataNegotiationBody}, TContext> => {
     
 const mutationKey = ['createDataNegotiation'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -704,7 +714,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createDataNegotiation>>, {data: CreateDataNegotiationBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  createDataNegotiation(data,requestOptions)
+          return  createDataNegotiation(data,)
         }
 
         
@@ -717,7 +727,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateDataNegotiationMutationError = CreateDataNegotiation400
 
     export const useCreateDataNegotiation = <TError = CreateDataNegotiation400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDataNegotiation>>, TError,{data: CreateDataNegotiationBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDataNegotiation>>, TError,{data: CreateDataNegotiationBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof createDataNegotiation>>,
         TError,
@@ -735,14 +745,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const getNegotiation = (
     
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
       return http<GetNegotiation200Item[]>(
       {url: `http://localhost:3333/negotiation`, method: 'GET', signal
     },
-      options);
+      );
     }
   
 
@@ -751,16 +761,16 @@ export const getGetNegotiationQueryKey = () => {
     }
 
     
-export const getGetNegotiationQueryOptions = <TData = Awaited<ReturnType<typeof getNegotiation>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiation>>, TError, TData>>, request?: SecondParameter<typeof http>}
+export const getGetNegotiationQueryOptions = <TData = Awaited<ReturnType<typeof getNegotiation>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiation>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetNegotiationQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNegotiation>>> = ({ signal }) => getNegotiation(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNegotiation>>> = ({ signal }) => getNegotiation(signal);
 
       
 
@@ -780,7 +790,7 @@ export function useGetNegotiation<TData = Awaited<ReturnType<typeof getNegotiati
           TError,
           Awaited<ReturnType<typeof getNegotiation>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetNegotiation<TData = Awaited<ReturnType<typeof getNegotiation>>, TError = unknown>(
@@ -790,16 +800,16 @@ export function useGetNegotiation<TData = Awaited<ReturnType<typeof getNegotiati
           TError,
           Awaited<ReturnType<typeof getNegotiation>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetNegotiation<TData = Awaited<ReturnType<typeof getNegotiation>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiation>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiation>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetNegotiation<TData = Awaited<ReturnType<typeof getNegotiation>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiation>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiation>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -821,7 +831,7 @@ export function useGetNegotiation<TData = Awaited<ReturnType<typeof getNegotiati
 export const updateNegotiation = (
     id: string,
     updateNegotiationBody: UpdateNegotiationBody,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<UpdateNegotiation200>(
@@ -829,21 +839,21 @@ export const updateNegotiation = (
       headers: {'Content-Type': 'application/json', },
       data: updateNegotiationBody
     },
-      options);
+      );
     }
   
 
 
 export const getUpdateNegotiationMutationOptions = <TError = UpdateNegotiation404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNegotiation>>, TError,{id: string;data: UpdateNegotiationBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNegotiation>>, TError,{id: string;data: UpdateNegotiationBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof updateNegotiation>>, TError,{id: string;data: UpdateNegotiationBody}, TContext> => {
     
 const mutationKey = ['updateNegotiation'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -851,7 +861,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateNegotiation>>, {id: string;data: UpdateNegotiationBody}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateNegotiation(id,data,requestOptions)
+          return  updateNegotiation(id,data,)
         }
 
         
@@ -864,7 +874,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateNegotiationMutationError = UpdateNegotiation404
 
     export const useUpdateNegotiation = <TError = UpdateNegotiation404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNegotiation>>, TError,{id: string;data: UpdateNegotiationBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateNegotiation>>, TError,{id: string;data: UpdateNegotiationBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof updateNegotiation>>,
         TError,
@@ -882,27 +892,27 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const deleteNegotiation = (
     id: string,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<DeleteNegotiation200>(
       {url: `http://localhost:3333/negotiation/${id}`, method: 'DELETE'
     },
-      options);
+      );
     }
   
 
 
 export const getDeleteNegotiationMutationOptions = <TError = DeleteNegotiation404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteNegotiation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteNegotiation>>, TError,{id: string}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof deleteNegotiation>>, TError,{id: string}, TContext> => {
     
 const mutationKey = ['deleteNegotiation'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -910,7 +920,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteNegotiation>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
-          return  deleteNegotiation(id,requestOptions)
+          return  deleteNegotiation(id,)
         }
 
         
@@ -923,7 +933,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type DeleteNegotiationMutationError = DeleteNegotiation404
 
     export const useDeleteNegotiation = <TError = DeleteNegotiation404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteNegotiation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteNegotiation>>, TError,{id: string}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof deleteNegotiation>>,
         TError,
@@ -941,7 +951,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const createContract = (
     createContractBody: CreateContractBody,
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
@@ -950,21 +960,21 @@ export const createContract = (
       headers: {'Content-Type': 'application/json', },
       data: createContractBody, signal
     },
-      options);
+      );
     }
   
 
 
 export const getCreateContractMutationOptions = <TError = CreateContract400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createContract>>, TError,{data: CreateContractBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createContract>>, TError,{data: CreateContractBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof createContract>>, TError,{data: CreateContractBody}, TContext> => {
     
 const mutationKey = ['createContract'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -972,7 +982,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createContract>>, {data: CreateContractBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  createContract(data,requestOptions)
+          return  createContract(data,)
         }
 
         
@@ -985,7 +995,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateContractMutationError = CreateContract400
 
     export const useCreateContract = <TError = CreateContract400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createContract>>, TError,{data: CreateContractBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createContract>>, TError,{data: CreateContractBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof createContract>>,
         TError,
@@ -1003,14 +1013,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const getContract = (
     
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
       return http<GetContract200Item[]>(
       {url: `http://localhost:3333/contract`, method: 'GET', signal
     },
-      options);
+      );
     }
   
 
@@ -1019,16 +1029,16 @@ export const getGetContractQueryKey = () => {
     }
 
     
-export const getGetContractQueryOptions = <TData = Awaited<ReturnType<typeof getContract>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContract>>, TError, TData>>, request?: SecondParameter<typeof http>}
+export const getGetContractQueryOptions = <TData = Awaited<ReturnType<typeof getContract>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContract>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetContractQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getContract>>> = ({ signal }) => getContract(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getContract>>> = ({ signal }) => getContract(signal);
 
       
 
@@ -1048,7 +1058,7 @@ export function useGetContract<TData = Awaited<ReturnType<typeof getContract>>, 
           TError,
           Awaited<ReturnType<typeof getContract>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetContract<TData = Awaited<ReturnType<typeof getContract>>, TError = unknown>(
@@ -1058,16 +1068,16 @@ export function useGetContract<TData = Awaited<ReturnType<typeof getContract>>, 
           TError,
           Awaited<ReturnType<typeof getContract>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetContract<TData = Awaited<ReturnType<typeof getContract>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContract>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContract>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetContract<TData = Awaited<ReturnType<typeof getContract>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContract>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContract>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -1089,7 +1099,7 @@ export function useGetContract<TData = Awaited<ReturnType<typeof getContract>>, 
 export const updateContract = (
     id: string,
     updateContractBody: UpdateContractBody,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<UpdateContract200>(
@@ -1097,21 +1107,21 @@ export const updateContract = (
       headers: {'Content-Type': 'application/json', },
       data: updateContractBody
     },
-      options);
+      );
     }
   
 
 
 export const getUpdateContractMutationOptions = <TError = UpdateContract404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateContract>>, TError,{id: string;data: UpdateContractBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateContract>>, TError,{id: string;data: UpdateContractBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof updateContract>>, TError,{id: string;data: UpdateContractBody}, TContext> => {
     
 const mutationKey = ['updateContract'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -1119,7 +1129,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateContract>>, {id: string;data: UpdateContractBody}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateContract(id,data,requestOptions)
+          return  updateContract(id,data,)
         }
 
         
@@ -1132,7 +1142,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateContractMutationError = UpdateContract404
 
     export const useUpdateContract = <TError = UpdateContract404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateContract>>, TError,{id: string;data: UpdateContractBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateContract>>, TError,{id: string;data: UpdateContractBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof updateContract>>,
         TError,
@@ -1150,27 +1160,27 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const deleteContract = (
     id: string,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<DeleteContract200>(
       {url: `http://localhost:3333/contract/${id}`, method: 'DELETE'
     },
-      options);
+      );
     }
   
 
 
 export const getDeleteContractMutationOptions = <TError = DeleteContract404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteContract>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteContract>>, TError,{id: string}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof deleteContract>>, TError,{id: string}, TContext> => {
     
 const mutationKey = ['deleteContract'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -1178,7 +1188,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteContract>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
-          return  deleteContract(id,requestOptions)
+          return  deleteContract(id,)
         }
 
         
@@ -1191,7 +1201,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type DeleteContractMutationError = DeleteContract404
 
     export const useDeleteContract = <TError = DeleteContract404,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteContract>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteContract>>, TError,{id: string}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof deleteContract>>,
         TError,
@@ -1209,7 +1219,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const authenticateUser = (
     authenticateUserBody: AuthenticateUserBody,
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
@@ -1218,21 +1228,21 @@ export const authenticateUser = (
       headers: {'Content-Type': 'application/json', },
       data: authenticateUserBody, signal
     },
-      options);
+      );
     }
   
 
 
 export const getAuthenticateUserMutationOptions = <TError = AuthenticateUser401,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authenticateUser>>, TError,{data: AuthenticateUserBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authenticateUser>>, TError,{data: AuthenticateUserBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof authenticateUser>>, TError,{data: AuthenticateUserBody}, TContext> => {
     
 const mutationKey = ['authenticateUser'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -1240,7 +1250,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof authenticateUser>>, {data: AuthenticateUserBody}> = (props) => {
           const {data} = props ?? {};
 
-          return  authenticateUser(data,requestOptions)
+          return  authenticateUser(data,)
         }
 
         
@@ -1253,7 +1263,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type AuthenticateUserMutationError = AuthenticateUser401
 
     export const useAuthenticateUser = <TError = AuthenticateUser401,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authenticateUser>>, TError,{data: AuthenticateUserBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authenticateUser>>, TError,{data: AuthenticateUserBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof authenticateUser>>,
         TError,
@@ -1271,14 +1281,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const getProfileUser = (
     
- options?: SecondParameter<typeof http>,signal?: AbortSignal
+ signal?: AbortSignal
 ) => {
       
       
       return http<GetProfileUser200Item[]>(
       {url: `http://localhost:3333/users`, method: 'GET', signal
     },
-      options);
+      );
     }
   
 
@@ -1287,16 +1297,16 @@ export const getGetProfileUserQueryKey = () => {
     }
 
     
-export const getGetProfileUserQueryOptions = <TData = Awaited<ReturnType<typeof getProfileUser>>, TError = GetProfileUser400>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileUser>>, TError, TData>>, request?: SecondParameter<typeof http>}
+export const getGetProfileUserQueryOptions = <TData = Awaited<ReturnType<typeof getProfileUser>>, TError = GetProfileUser400>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileUser>>, TError, TData>>, }
 ) => {
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetProfileUserQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProfileUser>>> = ({ signal }) => getProfileUser(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProfileUser>>> = ({ signal }) => getProfileUser(signal);
 
       
 
@@ -1316,7 +1326,7 @@ export function useGetProfileUser<TData = Awaited<ReturnType<typeof getProfileUs
           TError,
           Awaited<ReturnType<typeof getProfileUser>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetProfileUser<TData = Awaited<ReturnType<typeof getProfileUser>>, TError = GetProfileUser400>(
@@ -1326,16 +1336,16 @@ export function useGetProfileUser<TData = Awaited<ReturnType<typeof getProfileUs
           TError,
           Awaited<ReturnType<typeof getProfileUser>>
         > , 'initialData'
-      >, request?: SecondParameter<typeof http>}
+      >, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetProfileUser<TData = Awaited<ReturnType<typeof getProfileUser>>, TError = GetProfileUser400>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileUser>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileUser>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetProfileUser<TData = Awaited<ReturnType<typeof getProfileUser>>, TError = GetProfileUser400>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileUser>>, TError, TData>>, request?: SecondParameter<typeof http>}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileUser>>, TError, TData>>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -1357,7 +1367,7 @@ export function useGetProfileUser<TData = Awaited<ReturnType<typeof getProfileUs
 export const updateUser = (
     id: string,
     updateUserBody: UpdateUserBody,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<UpdateUser200>(
@@ -1365,21 +1375,21 @@ export const updateUser = (
       headers: {'Content-Type': 'application/json', },
       data: updateUserBody
     },
-      options);
+      );
     }
   
 
 
 export const getUpdateUserMutationOptions = <TError = UpdateUser400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{id: string;data: UpdateUserBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{id: string;data: UpdateUserBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{id: string;data: UpdateUserBody}, TContext> => {
     
 const mutationKey = ['updateUser'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -1387,7 +1397,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateUser>>, {id: string;data: UpdateUserBody}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  updateUser(id,data,requestOptions)
+          return  updateUser(id,data,)
         }
 
         
@@ -1400,7 +1410,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateUserMutationError = UpdateUser400
 
     export const useUpdateUser = <TError = UpdateUser400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{id: string;data: UpdateUserBody}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{id: string;data: UpdateUserBody}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof updateUser>>,
         TError,
@@ -1418,27 +1428,27 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
  */
 export const deleteUser = (
     id: string,
- options?: SecondParameter<typeof http>,) => {
+ ) => {
       
       
       return http<DeleteUser200>(
       {url: `http://localhost:3333/users/${id}`, method: 'DELETE'
     },
-      options);
+      );
     }
   
 
 
 export const getDeleteUserMutationOptions = <TError = DeleteUser400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,{id: string}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,{id: string}, TContext> => {
     
 const mutationKey = ['deleteUser'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
+const {mutation: mutationOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+      : {mutation: { mutationKey, }};
 
       
 
@@ -1446,7 +1456,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUser>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
-          return  deleteUser(id,requestOptions)
+          return  deleteUser(id,)
         }
 
         
@@ -1459,7 +1469,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type DeleteUserMutationError = DeleteUser400
 
     export const useDeleteUser = <TError = DeleteUser400,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof http>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,{id: string}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof deleteUser>>,
         TError,
@@ -1471,3 +1481,85 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
+    
+/**
+ * Get contract status count
+ */
+export const getContractStatusCount = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetContractStatusCount200Item[]>(
+      {url: `http://localhost:3333/contract/status-count`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetContractStatusCountQueryKey = () => {
+    return [`http://localhost:3333/contract/status-count`] as const;
+    }
+
+    
+export const getGetContractStatusCountQueryOptions = <TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetContractStatusCountQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getContractStatusCount>>> = ({ signal }) => getContractStatusCount(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetContractStatusCountQueryResult = NonNullable<Awaited<ReturnType<typeof getContractStatusCount>>>
+export type GetContractStatusCountQueryError = unknown
+
+
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContractStatusCount>>,
+          TError,
+          Awaited<ReturnType<typeof getContractStatusCount>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContractStatusCount>>,
+          TError,
+          Awaited<ReturnType<typeof getContractStatusCount>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetContractStatusCountQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}

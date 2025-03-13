@@ -1,36 +1,43 @@
-import { useReadExcelFile } from "@/hooks/use-exel-reader";
+import { useExcelReader } from '@/hooks/use-exel-reader';
+import type { ProcessedExcelData } from './types'; // ajuste o caminho conforme necessário
 
-export function submissionDataExcelToDatabase() {
-  const file = event.target.files?.[0];
-  if (!file) return;
-
+export async function submissionDataExcelToDatabase(
+  file: File
+): Promise<ProcessedExcelData> {
+  if (!file) throw new Error('Arquivo não informado');
 
   try {
-    const parsedData = await useReadExcelFile(file);
-    setData(parsedData);
-    console.log('✅ Dados processados:', parsedData);
+    const parsedData = await useExcelReader(file);
+    console.log('Dados lidos:', parsedData);
 
-    const contracts = parsedData['Contratos']?.map((contract: any) => ({
-      city: contract['Cidade'],
-      client: contract['CLIENTE'],
-      state: contract['Estado'],
-      cnpj: contract['CNPJ'],
-      sindic: contract['Sindic'],
-      year: contract['ANO'],
-      matter: contract['MATÉRIA'],
-      forecast: contract['Previsao'],
-      contractTotal: contract['CONTRATO TOTAL'],
-      percentage: contract['PERCENTUAL'],
-      signedContract: contract['CONTRATO ASSINADO'],
-      status: contract['STATUS'],
-      averageGuide: contract['MÉDIA DE GUIA'],
-      partner: contract['PARCEIRO'],
-      partnerCommission: contract['Comissão parceiro'],
-      counter: contract['Contador'],
-      email: contract['e-mail responsável'],
+    const contracts = parsedData?.Contratos?.map((contract: any) => ({
+      city: contract['Cidade'] || null, // Cidade
+      client: contract['CLIENTE'] || '', // CLIENTE
+      state: contract['Estado'] || null, // Estado
+      cnpj: contract['CNPJ'] || null, // CNPJ
+      sindic: contract['Sindic'] || null, // Sindic
+      year: contract['ANO'] || null, // ANO
+      matter: contract['MATÉRIA'] || null,
+      forecast: contract['Previsao'] || null,
+      contractTotal: contract['CONTRATO TOTAL'] || null,
+      percentage: contract['PERCENTUAL']
+        ? parseFloat(contract['PERCENTUAL'])
+        : null, // PERCENTUAL
+      signedContract: contract['CONTRATO ASSINADO'] || null, // CONTRATO ASSINADO
+      status: contract['STATUS'] || null, // STATUS
+      averageGuide: contract['MÉDIA DE GUIA']
+        ? parseFloat(contract['MÉDIA DE GUIA'])
+        : null, // MÉDIA DE GUIA
+      partner: contract['PARCEIRO'] || null, // PARCEIRO
+      partnerCommission: contract['Comissão parceiro']
+        ? parseFloat(contract['Comissão parceiro'])
+        : null, // Comissão parceiro
+      counter: contract['Contador'] || null, // Contador
+      email: contract['e-mail responsável'] || null, // e-mail responsável
     }));
 
-    const negotiations = parsedData['Dados']?.map((dataNegotiation: any) => ({
+    // Aqui mantemos o mapeamento dos outros campos como estavam
+    const negotiations = parsedData?.Dados?.map((dataNegotiation: any) => ({
       title: dataNegotiation['título'],
       client: dataNegotiation['Cliente'],
       user: dataNegotiation['ususario'],
@@ -44,7 +51,7 @@ export function submissionDataExcelToDatabase() {
       averageGuide: dataNegotiation['média'],
     }));
 
-    const partners = parsedData['Parceiros']?.map((partner: any) => ({
+    const partners = parsedData?.Parceiros?.map((partner: any) => ({
       name: partner['NOME'],
       cpfOrCnpj: partner['CPF/CNPJ'],
       city: partner['CIDADE'],
@@ -62,26 +69,9 @@ export function submissionDataExcelToDatabase() {
       responsible: partner['responsável'],
     }));
 
-    if (contracts) {
-      contracts.forEach(contract => {
-        createContract(contract);
-      });
-    }
-
-    if (negotiations) {
-      negotiations.forEach(negotiation => {
-        createDataNegotiation(negotiation);
-      });
-    }
-
-    if (partners) {
-      partners.forEach(partner => {
-        createPartner(partner);
-      });
-    }
+    return { contracts, negotiations, partners };
   } catch (error) {
     console.error('Erro ao processar o arquivo:', error);
-  } finally {
-    setLoading(false);
+    throw error;
   }
 }

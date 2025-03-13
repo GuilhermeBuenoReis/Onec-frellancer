@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { usePartnerStore, type Partner } from '@/store/partner-store';
+import { Helmet } from 'react-helmet';
 
 export function Employee() {
   const { partners } = usePartnerStore();
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <Helmet title="Parceiros" />
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />

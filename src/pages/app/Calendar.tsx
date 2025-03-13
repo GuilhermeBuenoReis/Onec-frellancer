@@ -1,4 +1,3 @@
-// src/pages/Calendario.tsx
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -6,6 +5,7 @@ import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import '@/styles/react-calendar-custom.css';
 import { useNotificationStore } from '@/store/notification-store';
+import { Helmet } from 'react-helmet';
 
 export function Calendario() {
   const lastSpreadsheetUpload = new Date('2025-02-15');
@@ -26,10 +26,9 @@ export function Calendario() {
       const newEvent = { date: selectedDate, title };
       setEvents([...events, newEvent]);
 
-      // Se o evento for para hoje, dispare uma notificação global
       if (selectedDate.toDateString() === new Date().toDateString()) {
         useNotificationStore.getState().addNotification({
-          id: Date.now(), // usando timestamp como id
+          id: Date.now(),
           type: 'info',
           title: 'Novo Compromisso',
           message: `Você marcou um compromisso para hoje: ${title}`,
@@ -41,6 +40,7 @@ export function Calendario() {
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <Helmet title="Calendárioa" />
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-y-auto">
         <Header />
@@ -73,7 +73,6 @@ export function Calendario() {
             </div>
           </div>
 
-          {/* Área do Calendário */}
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">
               Selecione um Dia
@@ -100,7 +99,6 @@ export function Calendario() {
             </div>
           </div>
 
-          {/* Lista de Eventos para o Dia Selecionado */}
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">
               Eventos para {selectedDate.toLocaleDateString()}
@@ -108,6 +106,7 @@ export function Calendario() {
             {eventsForDate.length > 0 ? (
               <ul className="space-y-2">
                 {eventsForDate.map((event, index) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                   <li key={index} className="p-2 border rounded bg-gray-50">
                     {event.title}
                   </li>

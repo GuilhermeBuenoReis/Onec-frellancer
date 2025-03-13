@@ -1,6 +1,8 @@
 import Cookies from 'universal-cookie';
 
-async function getHeaders(headers: HeadersInit = {}): Promise<HeadersInit> {
+async function getHeaders(
+  headers: Record<string, string> = {}
+): Promise<Record<string, string>> {
   const cookie = new Cookies();
   const token = cookie.get('app-token');
 
@@ -11,29 +13,46 @@ async function getHeaders(headers: HeadersInit = {}): Promise<HeadersInit> {
   return headers;
 }
 
-export async function http<T>(
-  path: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const headers = await getHeaders(options.headers ?? {}); // Aqui garantimos que headers seja um objeto válido
+interface HttpRequestOptions extends RequestInit {
+  url: string;
+  data?: unknown;
+}
 
-  const url = new URL(path, import.meta.env.VITE_API_URL);
+export async function http<T>({
+  url,
+  data,
+  ...options
+}: HttpRequestOptions): Promise<T> {
+  const headers = await getHeaders(
+    (options.headers ?? {}) as Record<string, string>
+  );
 
-  const request = new Request(url, {
+  let body = options.body;
+  if (data !== undefined) {
+    body = JSON.stringify(data);
+    if (!headers['Content-Type'] && !headers['content-type']) {
+      headers['Content-Type'] = 'application/json';
+    }
+  }
+
+  const finalUrl = new URL(url, import.meta.env.VITE_API_URL);
+  console.log('URL construída:', finalUrl.toString());
+
+  const request = new Request(finalUrl.toString(), {
     ...options,
-    headers, // Passa os headers corretos
+    headers,
+    body,
   });
 
   const response = await fetch(request);
 
   if (response.ok) {
     if (response.headers.get('content-type')?.includes('application/json')) {
-      const data = await response.json();
-      return data as T;
+      const responseData = await response.json();
+      return responseData as T;
     }
-
-    const data = await response.text();
-    return data as T;
+    const responseData = await response.text();
+    return responseData as T;
   }
 
   return Promise.reject(response);

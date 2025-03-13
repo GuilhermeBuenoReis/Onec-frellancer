@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { useAuthenticateUser } from '@/http/generated/api'; // Supondo que seja o hook gerado pelo Orval
+import {
+  type AuthenticateUserBody,
+  useAuthenticateUser,
+} from '@/http/generated/api';
 
 interface LoginFormInputs {
   email: string;
@@ -20,26 +23,30 @@ export function Login() {
   const navigate = useNavigate();
   const cookies = new Cookies();
 
-  const { mutateAsync: authenticate } = useAuthenticateUser(); // Hook de autenticação gerado pelo Orval
+  const { mutateAsync: authenticate } = useAuthenticateUser();
 
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  const onSubmit = async (data: LoginFormInputs) => {
+  const onSubmit = async ({ email, password }: AuthenticateUserBody) => {
     setIsLoading(true);
     setLoginError(null);
 
     try {
-      const response = await authenticate({ data });
+      console.log('Sending request to authenticate with data:', {
+        email,
+        password,
+      });
+      const response = await authenticate({ data: { email, password } });
       const token = response.token;
       cookies.set('app-token', token, {
         path: '/',
-        maxAge: 60 * 24 * 60 * 60, // 60 dias
+        maxAge: 60 * 24 * 60 * 60,
       });
 
       navigate('/dashboard');
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setLoginError('Credenciais inválidas. Tente novamente.');
     } finally {
       setIsLoading(false);

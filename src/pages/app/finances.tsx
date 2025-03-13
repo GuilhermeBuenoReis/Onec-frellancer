@@ -56,9 +56,7 @@ const expenseBreakdown = [
 export function Financas() {
   return (
     <div className="flex h-screen overflow-hidden">
-      <Helmet>
-        <title>Finanças - Dashboard</title>
-      </Helmet>
+      <Helmet title="Finanças" />
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-y-auto">
         <Header />

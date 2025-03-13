@@ -25,8 +25,9 @@ const pieData: PieData[] = [
   { name: 'Ativos', value: 10 },
   { name: 'Finalizados', value: 25 },
   { name: 'Em Andamento', value: 15 },
-  { name: 'Imigração', value: 15 },
+  { name: 'Em migração', value: 15 },
 ];
+
 const COLORS = ['#333', '#666', '#999'];
 
 interface LineData {
@@ -53,9 +54,9 @@ export function Dashboard() {
         <Header />
         <main className="p-6 bg-gray-50 overflow-y-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card title="Contratos Ativos" value="10" icon="📌" />
+            <Card title="Contratos Ativos" value="15" icon="📌" />
             <Card title="Contratos Finalizados" value="25" icon="✅" />
-            <Card title="Contratos em Imigração" value="12" icon="🔄" />
+            <Card title="Contratos em Migração" value="12" icon="🔄" />
             <Card title="Valor Total" value="R$ 50.000" icon="💰" />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -73,7 +74,7 @@ export function Dashboard() {
                     outerRadius={100}
                     paddingAngle={5}
                   >
-                    {pieData.map((entry, index) => (
+                    {pieData.map((_, index) => (
                       <Cell
                         key={`cell-${index.toString()}`}
                         fill={COLORS[index % COLORS.length]}

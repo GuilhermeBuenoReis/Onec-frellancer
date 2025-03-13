@@ -14,6 +14,7 @@ import {
 } from 'recharts';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
+import { Helmet } from 'react-helmet';
 
 interface SaleRecord {
   date: string;
@@ -26,7 +27,6 @@ interface ImigRecord {
 }
 
 function fetchSalesDataForPartner(partnerId: number): Promise<SaleRecord[]> {
-  // Simulação de dados: se partnerId for 1 (por exemplo, Jorgin), retorna dados
   if (partnerId === 1) {
     return Promise.resolve([
       { date: 'Jan', sales: 120 },
@@ -56,7 +56,6 @@ export function PartnerDashboard() {
     }
   }, [partnerId]);
 
-  // Cálculos para vendas
   const totalSales = salesData.reduce((acc, record) => acc + record.sales, 0);
   const avgSales = salesData.length
     ? Math.round(totalSales / salesData.length)
@@ -66,11 +65,11 @@ export function PartnerDashboard() {
     { date: '', sales: 0 } as SaleRecord
   );
 
-  // Cálculos para contratos de imigração
   const totalImig = imigData.reduce((acc, record) => acc + record.contracts, 0);
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <Helmet title="Deashboard do Parceiro" />
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
@@ -78,7 +77,6 @@ export function PartnerDashboard() {
           <h2 className="text-2xl font-semibold mb-6 text-gray-800">
             Dashboard de Vendas do Parceiro: {partnerId}
           </h2>
-          {/* Resumo de Métricas */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
             <div className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center">
               <span className="text-gray-500 text-sm">Total de Vendas</span>
@@ -100,17 +98,16 @@ export function PartnerDashboard() {
             </div>
             <div className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center">
               <span className="text-gray-500 text-sm">
-                Contratos em Imigração
+                Contratos em Migração
               </span>
               <span className="text-2xl font-bold text-gray-800">
                 {totalImig}
               </span>
             </div>
           </div>
-          {/* Gráfico de Linha para Vendas */}
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
             <h3 className="text-xl font-semibold mb-4 text-gray-800">
-              Tendência Mensal (Linha)
+              Tendência Mensal
             </h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={salesData}>
@@ -129,10 +126,9 @@ export function PartnerDashboard() {
               </LineChart>
             </ResponsiveContainer>
           </div>
-          {/* Gráfico de Barras para Vendas */}
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
             <h3 className="text-xl font-semibold mb-4 text-gray-800">
-              Tendência Mensal (Barras)
+              Tendência Mensal
             </h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={salesData}>
@@ -145,7 +141,6 @@ export function PartnerDashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          {/* Gráfico Fino para Contratos em Imigração */}
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-xl font-semibold mb-4 text-gray-800">
               Tendência de Contratos de Imigração

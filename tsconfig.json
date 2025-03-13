@@ -15,6 +15,10 @@
         "./src/*"
       ]
     },
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "lib": [
+      "dom",
+      "esnext"
+    ]
   }
 }

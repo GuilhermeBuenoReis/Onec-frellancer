@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { ListTodo } from 'lucide-react';
 
 export function Sidebar() {
   return (
@@ -15,7 +16,7 @@ export function Sidebar() {
             <ul className="space-y-2">
               <li>
                 <NavLink
-                  to="/"
+                  to="/dashboard"
                   className="flex items-center p-2 rounded hover:bg-gray-300"
                 >
                   <span className="mr-2">🏠</span>
@@ -58,11 +59,13 @@ export function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/analises"
+                  to="/pendencias"
                   className="flex items-center p-2 rounded hover:bg-gray-300"
                 >
-                  <span className="mr-2">📊</span>
-                  <span>Análises</span>
+                  <span className="mr-2">
+                    <ListTodo />
+                  </span>
+                  <span>Pendências</span>
                 </NavLink>
               </li>
             </ul>
@@ -90,28 +93,9 @@ export function Sidebar() {
                   <span>Notificações</span>
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/configuracoes"
-                  className="flex items-center p-2 rounded hover:bg-gray-300"
-                >
-                  <span className="mr-2">⚙️</span>
-                  <span>Configurações</span>
-                </NavLink>
-              </li>
             </ul>
           </div>
         </nav>
-      </div>
-      <div className="border-t border-gray-300 pt-4 text-center">
-        <div className="flex items-center justify-center">
-          <img
-            className="w-10 h-10 rounded-full mr-2"
-            src="https://github.com/guilhermebuenoreis.png"
-            alt="Avatar"
-          />
-          <span>Guilherme</span>
-        </div>
       </div>
     </aside>
   );

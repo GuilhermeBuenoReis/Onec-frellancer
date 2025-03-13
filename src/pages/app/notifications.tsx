@@ -1,14 +1,15 @@
-// src/pages/Notifications.tsx
 import { useNotificationStore } from '@/store/notification-store';
 import { Notification } from '@/components/notification';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
+import { Helmet } from 'react-helmet';
 
 export function NotificationsPage() {
   const notifications = useNotificationStore(state => state.notifications);
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <Helmet title="Notificação" />
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-y-auto">
         <Header />
