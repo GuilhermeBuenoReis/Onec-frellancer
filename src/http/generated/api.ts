@@ -411,6 +411,247 @@ export type GetContractStatusCount200Item = {
 };
 
 /**
+ * @nullable
+ */
+export type CreatePendingBodyStatus = typeof CreatePendingBodyStatus[keyof typeof CreatePendingBodyStatus] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreatePendingBodyStatus = {
+  Aberto: 'Aberto',
+  Encaminhado: 'Encaminhado',
+  Pendente: 'Pendente',
+  Concluído: 'Concluído',
+} as const;
+
+export type CreatePendingBodyCategory = typeof CreatePendingBodyCategory[keyof typeof CreatePendingBodyCategory];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreatePendingBodyCategory = {
+  SAC: 'SAC',
+  Atendimento: 'Atendimento',
+  Financeiro: 'Financeiro',
+  Diretoria: 'Diretoria',
+  Comercial: 'Comercial',
+  Auditoria: 'Auditoria',
+} as const;
+
+export type CreatePendingBody = {
+  /** @nullable */
+  client: string | null;
+  /** @nullable */
+  callReason: string | null;
+  /** @nullable */
+  status: CreatePendingBodyStatus;
+  /** @nullable */
+  priority: string | null;
+  /** @nullable */
+  responsible: string | null;
+  category: CreatePendingBodyCategory;
+  /** @nullable */
+  description: string | null;
+};
+
+export type CreatePending201 = {
+  id: string;
+};
+
+/**
+ * @nullable
+ */
+export type GetPendings200ItemStatus = typeof GetPendings200ItemStatus[keyof typeof GetPendings200ItemStatus] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPendings200ItemStatus = {
+  Aberto: 'Aberto',
+  Encaminhado: 'Encaminhado',
+  Pendente: 'Pendente',
+  Concluído: 'Concluído',
+} as const;
+
+/**
+ * @nullable
+ */
+export type GetPendings200ItemCategory = typeof GetPendings200ItemCategory[keyof typeof GetPendings200ItemCategory] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPendings200ItemCategory = {
+  SAC: 'SAC',
+  Atendimento: 'Atendimento',
+  Financeiro: 'Financeiro',
+  Diretoria: 'Diretoria',
+  Comercial: 'Comercial',
+  Auditoria: 'Auditoria',
+} as const;
+
+export type GetPendings200Item = {
+  id: string;
+  /** @nullable */
+  client: string | null;
+  /** @nullable */
+  callReason: string | null;
+  /** @nullable */
+  status: GetPendings200ItemStatus;
+  /** @nullable */
+  priority: string | null;
+  /** @nullable */
+  responsible: string | null;
+  /** @nullable */
+  category: GetPendings200ItemCategory;
+  /** @nullable */
+  description: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type DeletePending200 = {
+  message: string;
+};
+
+export type DeletePending404 = {
+  message: string;
+};
+
+/**
+ * @nullable
+ */
+export type UpdatePendingBodyStatus = typeof UpdatePendingBodyStatus[keyof typeof UpdatePendingBodyStatus] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdatePendingBodyStatus = {
+  Aberto: 'Aberto',
+  Encaminhado: 'Encaminhado',
+  Pendente: 'Pendente',
+  Concluído: 'Concluído',
+} as const;
+
+/**
+ * @nullable
+ */
+export type UpdatePendingBodyCategory = typeof UpdatePendingBodyCategory[keyof typeof UpdatePendingBodyCategory] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdatePendingBodyCategory = {
+  SAC: 'SAC',
+  Atendimento: 'Atendimento',
+  Financeiro: 'Financeiro',
+  Diretoria: 'Diretoria',
+  Comercial: 'Comercial',
+  Auditoria: 'Auditoria',
+} as const;
+
+export type UpdatePendingBody = {
+  /** @nullable */
+  client?: string | null;
+  /** @nullable */
+  callReason?: string | null;
+  /** @nullable */
+  status?: UpdatePendingBodyStatus;
+  /** @nullable */
+  priority?: string | null;
+  /** @nullable */
+  responsible?: string | null;
+  /** @nullable */
+  category?: UpdatePendingBodyCategory;
+  /** @nullable */
+  description?: string | null;
+};
+
+export type UpdatePending200 = {
+  id: string;
+};
+
+export type UpdatePending404 = {
+  message: string;
+};
+
+export type CreatePortalControllBody = {
+  /** @nullable */
+  enterprise: string | null;
+  /** @nullable */
+  product: string | null;
+  /** @nullable */
+  percentageHonorary: number | null;
+  /** @nullable */
+  compensation: number | null;
+  /** @nullable */
+  honorary: number | null;
+  /** @nullable */
+  tax: number | null;
+  /** @nullable */
+  value: number | null;
+  /** @nullable */
+  situation: string | null;
+};
+
+export type CreatePortalControll201 = {
+  id: string;
+};
+
+export type GetPortalControlls200Item = {
+  /** @nullable */
+  id: string | null;
+  /** @nullable */
+  enterprise: string | null;
+  /** @nullable */
+  product: string | null;
+  /** @nullable */
+  percentageHonorary: number | null;
+  /** @nullable */
+  compensation: number | null;
+  /** @nullable */
+  honorary: number | null;
+  /** @nullable */
+  tax: number | null;
+  /** @nullable */
+  value: number | null;
+  /** @nullable */
+  situation: string | null;
+};
+
+export type DeletePortalControll200 = {
+  message: string;
+};
+
+export type DeletePortalControll404 = {
+  message: string;
+};
+
+export type UpdatePortalControllBody = {
+  /** @nullable */
+  id?: string | null;
+  /** @nullable */
+  enterprise?: string | null;
+  /** @nullable */
+  product?: string | null;
+  /** @nullable */
+  percentageHonorary?: number | null;
+  /** @nullable */
+  compensation?: number | null;
+  /** @nullable */
+  honorary?: number | null;
+  /** @nullable */
+  tax?: number | null;
+  /** @nullable */
+  value?: number | null;
+  /** @nullable */
+  situation?: string | null;
+};
+
+export type UpdatePortalControll200 = {
+  id: string;
+};
+
+export type UpdatePortalControll404 = {
+  message: string;
+};
+
+/**
  * Create a new partner
  */
 export const createPartner = (
@@ -1563,3 +1804,542 @@ export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getC
 
   return query;
 }
+
+
+
+
+/**
+ * Create a new pending
+ */
+export const createPending = (
+    createPendingBody: CreatePendingBody,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<CreatePending201>(
+      {url: `http://localhost:3333/pendings`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createPendingBody, signal
+    },
+      );
+    }
+  
+
+
+export const getCreatePendingMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPending>>, TError,{data: CreatePendingBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createPending>>, TError,{data: CreatePendingBody}, TContext> => {
+    
+const mutationKey = ['createPending'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPending>>, {data: CreatePendingBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createPending(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreatePendingMutationResult = NonNullable<Awaited<ReturnType<typeof createPending>>>
+    export type CreatePendingMutationBody = CreatePendingBody
+    export type CreatePendingMutationError = unknown
+
+    export const useCreatePending = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPending>>, TError,{data: CreatePendingBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createPending>>,
+        TError,
+        {data: CreatePendingBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreatePendingMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Get a list of pendings
+ */
+export const getPendings = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetPendings200Item[]>(
+      {url: `http://localhost:3333/pendings`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetPendingsQueryKey = () => {
+    return [`http://localhost:3333/pendings`] as const;
+    }
+
+    
+export const getGetPendingsQueryOptions = <TData = Awaited<ReturnType<typeof getPendings>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPendings>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPendingsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPendings>>> = ({ signal }) => getPendings(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPendings>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPendingsQueryResult = NonNullable<Awaited<ReturnType<typeof getPendings>>>
+export type GetPendingsQueryError = unknown
+
+
+export function useGetPendings<TData = Awaited<ReturnType<typeof getPendings>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPendings>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPendings>>,
+          TError,
+          Awaited<ReturnType<typeof getPendings>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPendings<TData = Awaited<ReturnType<typeof getPendings>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPendings>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPendings>>,
+          TError,
+          Awaited<ReturnType<typeof getPendings>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPendings<TData = Awaited<ReturnType<typeof getPendings>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPendings>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetPendings<TData = Awaited<ReturnType<typeof getPendings>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPendings>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPendingsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * Delete a pending
+ */
+export const deletePending = (
+    id: string,
+ ) => {
+      
+      
+      return http<DeletePending200>(
+      {url: `http://localhost:3333/pendings/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeletePendingMutationOptions = <TError = DeletePending404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePending>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deletePending>>, TError,{id: string}, TContext> => {
+    
+const mutationKey = ['deletePending'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePending>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deletePending(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeletePendingMutationResult = NonNullable<Awaited<ReturnType<typeof deletePending>>>
+    
+    export type DeletePendingMutationError = DeletePending404
+
+    export const useDeletePending = <TError = DeletePending404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePending>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deletePending>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeletePendingMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Update a pending
+ */
+export const updatePending = (
+    id: string,
+    updatePendingBody: UpdatePendingBody,
+ ) => {
+      
+      
+      return http<UpdatePending200>(
+      {url: `http://localhost:3333/pendings/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updatePendingBody
+    },
+      );
+    }
+  
+
+
+export const getUpdatePendingMutationOptions = <TError = UpdatePending404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePending>>, TError,{id: string;data: UpdatePendingBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updatePending>>, TError,{id: string;data: UpdatePendingBody}, TContext> => {
+    
+const mutationKey = ['updatePending'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePending>>, {id: string;data: UpdatePendingBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updatePending(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePendingMutationResult = NonNullable<Awaited<ReturnType<typeof updatePending>>>
+    export type UpdatePendingMutationBody = UpdatePendingBody
+    export type UpdatePendingMutationError = UpdatePending404
+
+    export const useUpdatePending = <TError = UpdatePending404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePending>>, TError,{id: string;data: UpdatePendingBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updatePending>>,
+        TError,
+        {id: string;data: UpdatePendingBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePendingMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Create a new portalcontroll
+ */
+export const createPortalControll = (
+    createPortalControllBody: CreatePortalControllBody,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<CreatePortalControll201>(
+      {url: `http://localhost:3333/portalcontrolls`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createPortalControllBody, signal
+    },
+      );
+    }
+  
+
+
+export const getCreatePortalControllMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPortalControll>>, TError,{data: CreatePortalControllBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createPortalControll>>, TError,{data: CreatePortalControllBody}, TContext> => {
+    
+const mutationKey = ['createPortalControll'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPortalControll>>, {data: CreatePortalControllBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createPortalControll(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreatePortalControllMutationResult = NonNullable<Awaited<ReturnType<typeof createPortalControll>>>
+    export type CreatePortalControllMutationBody = CreatePortalControllBody
+    export type CreatePortalControllMutationError = unknown
+
+    export const useCreatePortalControll = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPortalControll>>, TError,{data: CreatePortalControllBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createPortalControll>>,
+        TError,
+        {data: CreatePortalControllBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreatePortalControllMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Get a list of portalcontrolls
+ */
+export const getPortalControlls = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetPortalControlls200Item[]>(
+      {url: `http://localhost:3333/portalcontrolls`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetPortalControllsQueryKey = () => {
+    return [`http://localhost:3333/portalcontrolls`] as const;
+    }
+
+    
+export const getGetPortalControllsQueryOptions = <TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPortalControllsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPortalControlls>>> = ({ signal }) => getPortalControlls(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPortalControllsQueryResult = NonNullable<Awaited<ReturnType<typeof getPortalControlls>>>
+export type GetPortalControllsQueryError = unknown
+
+
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPortalControlls>>,
+          TError,
+          Awaited<ReturnType<typeof getPortalControlls>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPortalControlls>>,
+          TError,
+          Awaited<ReturnType<typeof getPortalControlls>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPortalControllsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * Delete a portalcontroll
+ */
+export const deletePortalControll = (
+    id: string,
+ ) => {
+      
+      
+      return http<DeletePortalControll200>(
+      {url: `http://localhost:3333/portalcontrolls/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeletePortalControllMutationOptions = <TError = DeletePortalControll404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePortalControll>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deletePortalControll>>, TError,{id: string}, TContext> => {
+    
+const mutationKey = ['deletePortalControll'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePortalControll>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deletePortalControll(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeletePortalControllMutationResult = NonNullable<Awaited<ReturnType<typeof deletePortalControll>>>
+    
+    export type DeletePortalControllMutationError = DeletePortalControll404
+
+    export const useDeletePortalControll = <TError = DeletePortalControll404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePortalControll>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deletePortalControll>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeletePortalControllMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Update a portalcontroll
+ */
+export const updatePortalControll = (
+    id: string,
+    updatePortalControllBody: UpdatePortalControllBody,
+ ) => {
+      
+      
+      return http<UpdatePortalControll200>(
+      {url: `http://localhost:3333/portalcontrolls/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updatePortalControllBody
+    },
+      );
+    }
+  
+
+
+export const getUpdatePortalControllMutationOptions = <TError = UpdatePortalControll404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePortalControll>>, TError,{id: string;data: UpdatePortalControllBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updatePortalControll>>, TError,{id: string;data: UpdatePortalControllBody}, TContext> => {
+    
+const mutationKey = ['updatePortalControll'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePortalControll>>, {id: string;data: UpdatePortalControllBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updatePortalControll(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePortalControllMutationResult = NonNullable<Awaited<ReturnType<typeof updatePortalControll>>>
+    export type UpdatePortalControllMutationBody = UpdatePortalControllBody
+    export type UpdatePortalControllMutationError = UpdatePortalControll404
+
+    export const useUpdatePortalControll = <TError = UpdatePortalControll404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePortalControll>>, TError,{id: string;data: UpdatePortalControllBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updatePortalControll>>,
+        TError,
+        {id: string;data: UpdatePortalControllBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePortalControllMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
