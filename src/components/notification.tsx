@@ -1,4 +1,3 @@
-// src/components/Notification.tsx
 interface NotificationProps {
   type?: 'success' | 'error' | 'warning' | 'info';
   title: string;
@@ -17,7 +16,7 @@ export function Notification({
         ? 'bg-red-500'
         : type === 'warning'
           ? 'bg-yellow-500'
-          : 'bg-blue-500'; // info
+          : 'bg-blue-500';
 
   return (
     <div

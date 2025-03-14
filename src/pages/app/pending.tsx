@@ -14,8 +14,11 @@ import {
 } from '@/components/ui/table';
 import { PendingForm } from '@/components/pending-form';
 import { useGetPendings } from '@/http/generated/api';
+import { usePendingIdStore } from '@/store/pending-id-store';
 
 export function Pending() {
+  const { id } = usePendingIdStore();
+
   const { data: pending } = useGetPendings();
 
   if (!pending) return;
@@ -37,7 +40,7 @@ export function Pending() {
 
             <PendingForm />
           </div>
-          {/* Listagem das pendências */}
+
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Lista de Pendências
@@ -71,7 +74,7 @@ export function Pending() {
                         {item.description}
                       </TableCell>
                       <TableCell>
-                        <Link to={`/pendencias/${item.id}`}>
+                        <Link to={`/pendencias/${id}`}>
                           <Eye className="w-5 h-5 text-gray-600 hover:text-gray-800" />
                         </Link>
                       </TableCell>

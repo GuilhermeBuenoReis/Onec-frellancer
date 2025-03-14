@@ -9,6 +9,7 @@ import { Button } from './ui/button';
 import { getGetPendingsQueryKey, useCreatePending } from '@/http/generated/api';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
+import { usePendingIdStore } from '@/store/pending-id-store';
 
 const pendingSchema = z.object({
   client: z.string().nonempty('Cliente é obrigatório'),
@@ -39,6 +40,8 @@ export function PendingForm() {
   const queryClient = useQueryClient();
   const { mutateAsync: createPending } = useCreatePending();
 
+  const { setId } = usePendingIdStore();
+
   const {
     register,
     handleSubmit,
@@ -63,7 +66,7 @@ export function PendingForm() {
     description,
   }: PendingFormData) {
     try {
-      await createPending({
+      const response = await createPending({
         data: {
           client,
           callReason,
@@ -74,6 +77,8 @@ export function PendingForm() {
           description,
         },
       });
+
+      setId(response.id);
 
       toast.success('Pendência criada com sucesso!');
       reset();
