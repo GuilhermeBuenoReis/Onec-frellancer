@@ -1,52 +1,52 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
+import { useCookies } from 'react-cookie';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import {
-  type AuthenticateUserBody,
-  useAuthenticateUser,
-} from '@/http/generated/api';
+import { useAuthenticateUser } from '@/http/generated/api';
 
-interface LoginFormInputs {
-  email: string;
-  password: string;
-}
+const loginSchema = z.object({
+  email: z.string().email({ message: 'Email inválido' }),
+  password: z
+    .string()
+    .min(6, { message: 'A senha deve ter no mínimo 6 caracteres' }),
+});
+
+type LoginFormInputs = z.infer<typeof loginSchema>;
 
 export function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>();
+  } = useForm<LoginFormInputs>({
+    resolver: zodResolver(loginSchema),
+  });
   const navigate = useNavigate();
-  const cookies = new Cookies();
-
-  const { mutateAsync: authenticate } = useAuthenticateUser();
-
+  const [, setCookie] = useCookies(['app-token']);
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  const onSubmit = async ({ email, password }: AuthenticateUserBody) => {
+  const { mutateAsync } = useAuthenticateUser();
+
+  const onSubmit = async ({ email, password }: LoginFormInputs) => {
     setIsLoading(true);
     setLoginError(null);
 
     try {
-      console.log('Sending request to authenticate with data:', {
-        email,
-        password,
-      });
-      const response = await authenticate({ data: { email, password } });
-      const token = response.token;
-      cookies.set('app-token', token, {
+      const response = await mutateAsync({ data: { email, password } });
+
+      setCookie('app-token', response.token, {
         path: '/',
         maxAge: 60 * 24 * 60 * 60,
       });
 
       navigate('/dashboard');
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error('Erro no login:', error);
       setLoginError('Credenciais inválidas. Tente novamente.');
     } finally {
       setIsLoading(false);
@@ -66,7 +66,7 @@ export function Login() {
               type="email"
               id="email"
               placeholder="Seu email"
-              {...register('email', { required: 'Email é obrigatório' })}
+              {...register('email')}
               className="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring focus:border-blue-300"
             />
             {errors.email && (
@@ -83,7 +83,7 @@ export function Login() {
               type="password"
               id="password"
               placeholder="Sua senha"
-              {...register('password', { required: 'Senha é obrigatória' })}
+              {...register('password')}
               className="mt-1 w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring focus:border-blue-300"
             />
             {errors.password && (

@@ -1,6 +1,5 @@
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
-import { Card } from '@/components/card';
 import {
   ResponsiveContainer,
   PieChart,
@@ -15,6 +14,8 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { Helmet } from 'react-helmet';
+import { useGetContractStatusCount } from '@/http/generated/api';
+import { StatusCardsInput } from '@/components/status-card-input';
 
 interface PieData {
   name: string;
@@ -28,7 +29,7 @@ const pieData: PieData[] = [
   { name: 'Em migração', value: 15 },
 ];
 
-const COLORS = ['#333', '#666', '#999'];
+const COLORS = ['#4CAF50', '#F44336', '#FF9800', '#2196F3'];
 
 interface LineData {
   name: string;
@@ -46,22 +47,28 @@ const lineData: LineData[] = [
 ];
 
 export function Dashboard() {
+  const { data: contractStatus } = useGetContractStatusCount();
+
+  if (!contractStatus) {
+    return null;
+  }
+
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Helmet title="Deashboard" />
+    <div className="flex h-screen overflow-hidden bg-gradient-to-r from-purple-600 to-indigo-700">
+      <Helmet title="Dashboard" />
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 rounded-l-xl shadow-xl">
         <Header />
-        <main className="p-6 bg-gray-50 overflow-y-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card title="Contratos Ativos" value="15" icon="📌" />
-            <Card title="Contratos Finalizados" value="25" icon="✅" />
-            <Card title="Contratos em Migração" value="12" icon="🔄" />
-            <Card title="Valor Total" value="R$ 50.000" icon="💰" />
+        <main className="p-8 overflow-y-auto">
+          <div className="bg-white p-8 rounded-2xl shadow-lg mb-10">
+            <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
+              Controle de Contratos
+            </h1>
+            <StatusCardsInput contractStatus={contractStatus} />
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
                 Distribuição de Contratos
               </h2>
               <ResponsiveContainer width="100%" height={300}>
@@ -74,10 +81,13 @@ export function Dashboard() {
                     outerRadius={100}
                     paddingAngle={5}
                   >
-                    {pieData.map((_, index) => (
+                    {contractStatus.map(item => (
                       <Cell
-                        key={`cell-${index.toString()}`}
-                        fill={COLORS[index % COLORS.length]}
+                        key={`cell-${
+                          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                          item.status
+                        }`}
+                        fill={COLORS[contractStatus.indexOf(item)]}
                       />
                     ))}
                   </Pie>
@@ -86,8 +96,8 @@ export function Dashboard() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            <div className="bg-white p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
                 Tendência Mensal
               </h2>
               <ResponsiveContainer width="100%" height={300}>
@@ -101,8 +111,8 @@ export function Dashboard() {
                     type="monotone"
                     dataKey="value"
                     stroke="#333"
-                    strokeWidth={2}
-                    activeDot={{ r: 6 }}
+                    strokeWidth={3}
+                    activeDot={{ r: 8 }}
                   />
                 </LineChart>
               </ResponsiveContainer>

@@ -24,8 +24,10 @@ import type {
 
 import { http } from '../client';
 export type CreatePartnerBody = {
-  name: string;
-  cpfOrCnpj: string;
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  cpfOrCnpj: string | null;
   /** @nullable */
   city: string | null;
   /** @nullable */
@@ -54,10 +56,16 @@ export type CreatePartnerBody = {
   responsible: string | null;
 };
 
-export type CreatePartner201 = {
-  id: string;
-  name: string;
-};
+/**
+ * @nullable
+ */
+export type CreatePartner201 = typeof CreatePartner201[keyof typeof CreatePartner201] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreatePartner201 = {
+  null: 'null',
+} as const;
 
 export type GetPartners200Item = {
   id: string;
@@ -175,10 +183,14 @@ export type CreateDataNegotiation400 = {
 
 export type GetNegotiation200Item = {
   id: string;
-  title: string;
-  client: string;
-  user: string;
-  tags: string;
+  /** @nullable */
+  title: string | null;
+  /** @nullable */
+  client: string | null;
+  /** @nullable */
+  user: string | null;
+  /** @nullable */
+  tags: string | null;
   /** @nullable */
   step: string | null;
   status: string;
@@ -274,7 +286,8 @@ export type GetContract200Item = {
   id: string;
   /** @nullable */
   city: string | null;
-  client: string;
+  /** @nullable */
+  client: string | null;
   /** @nullable */
   state: string | null;
   /** @nullable */
@@ -403,11 +416,6 @@ export type DeleteUser200 = {
 
 export type DeleteUser400 = {
   message: string;
-};
-
-export type GetContractStatusCount200Item = {
-  status: string;
-  count: number;
 };
 
 /**
@@ -649,6 +657,22 @@ export type UpdatePortalControll200 = {
 
 export type UpdatePortalControll404 = {
   message: string;
+};
+
+export type GetContractStatusCount200Item = {
+  /** @nullable */
+  status: string | null;
+  count: number;
+};
+
+export type GetContractStatusCountByFilterBody = {
+  filter: string;
+};
+
+export type GetContractStatusCountByFilter200Item = {
+  /** @nullable */
+  status: string | null;
+  count: number;
 };
 
 /**
@@ -1724,91 +1748,6 @@ const {mutation: mutationOptions} = options ?
     }
     
 /**
- * Get contract status count
- */
-export const getContractStatusCount = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return http<GetContractStatusCount200Item[]>(
-      {url: `http://localhost:3333/contract/status-count`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-export const getGetContractStatusCountQueryKey = () => {
-    return [`http://localhost:3333/contract/status-count`] as const;
-    }
-
-    
-export const getGetContractStatusCountQueryOptions = <TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetContractStatusCountQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getContractStatusCount>>> = ({ signal }) => getContractStatusCount(signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetContractStatusCountQueryResult = NonNullable<Awaited<ReturnType<typeof getContractStatusCount>>>
-export type GetContractStatusCountQueryError = unknown
-
-
-export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getContractStatusCount>>,
-          TError,
-          Awaited<ReturnType<typeof getContractStatusCount>>
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getContractStatusCount>>,
-          TError,
-          Awaited<ReturnType<typeof getContractStatusCount>>
-        > , 'initialData'
-      >, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetContractStatusCountQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-/**
  * Create a new pending
  */
 export const createPending = (
@@ -2340,6 +2279,153 @@ const {mutation: mutationOptions} = options ?
       > => {
 
       const mutationOptions = getUpdatePortalControllMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Get count of contracts by status
+ */
+export const getContractStatusCount = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetContractStatusCount200Item[]>(
+      {url: `http://localhost:3333/contract/status-count`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetContractStatusCountQueryKey = () => {
+    return [`http://localhost:3333/contract/status-count`] as const;
+    }
+
+    
+export const getGetContractStatusCountQueryOptions = <TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetContractStatusCountQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getContractStatusCount>>> = ({ signal }) => getContractStatusCount(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetContractStatusCountQueryResult = NonNullable<Awaited<ReturnType<typeof getContractStatusCount>>>
+export type GetContractStatusCountQueryError = unknown
+
+
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContractStatusCount>>,
+          TError,
+          Awaited<ReturnType<typeof getContractStatusCount>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContractStatusCount>>,
+          TError,
+          Awaited<ReturnType<typeof getContractStatusCount>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetContractStatusCount<TData = Awaited<ReturnType<typeof getContractStatusCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractStatusCount>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetContractStatusCountQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * Get count of contracts by status using a filter
+ */
+export const getContractStatusCountByFilter = (
+    getContractStatusCountByFilterBody: GetContractStatusCountByFilterBody,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetContractStatusCountByFilter200Item[]>(
+      {url: `http://localhost:3333/contract/status-count/filter`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: getContractStatusCountByFilterBody, signal
+    },
+      );
+    }
+  
+
+
+export const getGetContractStatusCountByFilterMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getContractStatusCountByFilter>>, TError,{data: GetContractStatusCountByFilterBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof getContractStatusCountByFilter>>, TError,{data: GetContractStatusCountByFilterBody}, TContext> => {
+    
+const mutationKey = ['getContractStatusCountByFilter'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof getContractStatusCountByFilter>>, {data: GetContractStatusCountByFilterBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  getContractStatusCountByFilter(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GetContractStatusCountByFilterMutationResult = NonNullable<Awaited<ReturnType<typeof getContractStatusCountByFilter>>>
+    export type GetContractStatusCountByFilterMutationBody = GetContractStatusCountByFilterBody
+    export type GetContractStatusCountByFilterMutationError = unknown
+
+    export const useGetContractStatusCountByFilter = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getContractStatusCountByFilter>>, TError,{data: GetContractStatusCountByFilterBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof getContractStatusCountByFilter>>,
+        TError,
+        {data: GetContractStatusCountByFilterBody},
+        TContext
+      > => {
+
+      const mutationOptions = getGetContractStatusCountByFilterMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

@@ -16,43 +16,47 @@ const normalizeString = (value: any): string | null => {
   return str === '' ? null : str;
 };
 
-const normalizeNumber = (value: any): number | null => {
-  if (value === undefined || value === null) return null;
-  const normalized = String(value).replace(',', '.');
-  const num = Number(normalized);
-  return Number.isNaN(num) ? null : num;
-};
+const normalizeNumber = (value: any): number | null =>
+  value === undefined || value === null
+    ? null
+    : Number(String(value).replace(',', '.')) || null;
 
-function transformExcelData(rawData: any[], dataType: DataType) {
+const transformExcelData = (rawData: any[], dataType: DataType) => {
   switch (dataType) {
-    case 'Contratos':
-      return rawData.map((contract: any) => ({
-        city: normalizeString(contract['Cidade']) || 'Cidade não informada',
-        client: normalizeString(contract['CLIENTE']) || 'Cliente não informado',
-        state: normalizeString(contract['Estado']) || 'Estado não informado',
-        cnpj: normalizeString(contract['CNPJ']) || 'CNPJ não informado',
-        sindic: normalizeString(contract['Sindic']) || 'Sindic não informado',
-        year: normalizeString(contract['ANO']) || 'Ano não informado',
-        matter: normalizeString(contract['MATÉRIA']) || 'Matéria não informada',
-        forecast:
-          normalizeString(contract['Previsao']) || 'Previsão não informada',
-        contractTotal:
-          normalizeString(contract['CONTRATO TOTAL']) ||
-          'Contrato total não informado',
-        percentage: normalizeNumber(contract['PERCENTUAL']) ?? 0,
-        signedContract:
-          normalizeString(contract['CONTRATO ASSINADO']) || 'Não informado',
-        status: normalizeString(contract['STATUS']) || 'Status não informado',
-        averageGuide: normalizeNumber(contract['MÉDIA DE GUIA']) ?? 0,
-        partner:
-          normalizeString(contract['PARCEIRO']) || 'Parceiro não informado',
-        partnerCommission: normalizeNumber(contract['Comissão parceiro']) ?? 0,
-        counter:
-          normalizeString(contract['Contador']) || 'Contador não informado',
-        email:
-          normalizeString(contract['e-mail responsável']) ||
-          'Email não informado',
-      }));
+    case 'Contratos': {
+      return rawData.map((contract: any) => {
+        return {
+          city: normalizeString(contract['Cidade']) || 'Cidade não informada',
+          client:
+            normalizeString(contract['CLIENTE']) || 'Cliente não informado',
+          state: normalizeString(contract['Estado']) || 'Estado não informado',
+          cnpj: normalizeString(contract['CNPJ']) || 'CNPJ não informado',
+          sindic: normalizeString(contract['Sindic']) || 'Sindic não informado',
+          year: normalizeString(contract['ANO']) || 'Ano não informado',
+          matter:
+            normalizeString(contract['MATÉRIA']) || 'Matéria não informada',
+          forecast:
+            normalizeString(contract['Previsao']) || 'Previsão não informada',
+          contractTotal:
+            normalizeString(contract['CONTRATO TOTAL']) ||
+            'Contrato total não informado',
+          percentage: normalizeNumber(contract['PERCENTUAL']) ?? 0,
+          signedContract:
+            normalizeString(contract['CONTRATO ASSINADO']) || 'Não informado',
+          status: normalizeString(contract['STATUS']) || null,
+          averageGuide: normalizeNumber(contract['MÉDIA DE GUIA']) ?? 0,
+          partner:
+            normalizeString(contract['PARCEIRO']) || 'Parceiro não informado',
+          partnerCommission:
+            normalizeNumber(contract['Comissão parceiro']) ?? 0,
+          counter:
+            normalizeString(contract['Contador']) || 'Contador não informado',
+          email:
+            normalizeString(contract['e-mail responsável']) ||
+            'Email não informado',
+        };
+      });
+    }
     case 'Dados':
       return rawData.map((row: any) => ({
         title: normalizeString(row['Título']) || 'Título não informado',
@@ -62,7 +66,7 @@ function transformExcelData(rawData: any[], dataType: DataType) {
         step: normalizeString(row['Etapaa']) || 'Etapa não informada',
         status: normalizeString(row['Status']) || 'Status não informado',
         value: row['Valor']
-          ? Number(row['Valor'].toString().replace(',', '.'))
+          ? Number(String(row['Valor']).replace(',', '.'))
           : 0,
         partnerId: normalizeString(row['PARCEIRO']) || 'Parceiro não informado',
         startsDate: row['Data Início']
@@ -70,7 +74,7 @@ function transformExcelData(rawData: any[], dataType: DataType) {
           : 'Data não informada',
         observation: normalizeString(row['OBS']) || 'Observação não informada',
         averageGuide: row['Média Guia']
-          ? Number(row['Média Guia'].toString().replace(',', '.'))
+          ? Number(String(row['Média Guia']).replace(',', '.'))
           : 0,
       }));
     case 'Parceiros':
@@ -99,15 +103,16 @@ function transformExcelData(rawData: any[], dataType: DataType) {
     default:
       return rawData;
   }
-}
+};
 
-const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
-  const [fileName, setFileName] = useState<string>('');
-  const [progress, setProgress] = useState<number>(0);
-  const [isUploading, setIsUploading] = useState<boolean>(false);
+const FileUpload: React.FC<FileUploadProps> = props => {
+  const { onFileUpload } = props;
+  const [fileName, setFileName] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const [sheetData, setSheetData] = useState<any[]>([]);
   const [transformedData, setTransformedData] = useState<any[]>([]);
-  const [sending, setSending] = useState<boolean>(false);
+  const [sending, setSending] = useState(false);
   const [dataType, setDataType] = useState<DataType>('Contratos');
 
   const handleFileChange = (
@@ -135,9 +140,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
       const data = new Uint8Array(e.target?.result as ArrayBuffer);
       const workbook = XLSX.read(data, { type: 'array' });
       let sheetIndex = 0;
-      if (dataType === 'Parceiros') {
-        sheetIndex = 3;
-      }
+      if (dataType === 'Parceiros') sheetIndex = 3;
       if (!workbook.SheetNames[sheetIndex]) {
         console.error(`Sheet not found at position ${sheetIndex + 1}`);
         setIsUploading(false);
@@ -153,7 +156,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
     reader.readAsArrayBuffer(file);
   };
 
-  const handleSubmitUploadFile = async () => {
+  const handleSubmitUploadFile = async (): Promise<void> => {
     setSending(true);
     let enviados = 0;
     let endpoint = '';
@@ -165,7 +168,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
       endpoint = 'http://localhost:3333/partners';
     }
     try {
-      for (const record of transformedData) {
+      for (let i = 0; i < transformedData.length; i++) {
+        const record = transformedData[i];
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -191,6 +195,12 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
     }
   };
 
+  const handleDataTypeChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    setDataType(e.target.value as DataType);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg flex flex-col gap-3">
@@ -206,7 +216,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
           <select
             id="data-type"
             value={dataType}
-            onChange={e => setDataType(e.target.value as DataType)}
+            onChange={handleDataTypeChange}
             className="w-full border border-gray-300 rounded-md p-2"
           >
             <option value="Contratos">Contratos</option>

@@ -35,6 +35,9 @@
       },
       "suspicious": {
         "noExplicitAny": "off"
+      },
+      "correctness": {
+        "useJsxKeyInIterable": "off"
       }
     }
   },
