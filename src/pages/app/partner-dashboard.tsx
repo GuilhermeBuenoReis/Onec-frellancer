@@ -91,7 +91,7 @@ export function PartnerDashboard() {
     );
   }
 
-  // Para este exemplo, utilizamos o primeiro parceiro filtrado
+  // Para este exemplo,  utilizamos o primeiro parceiro filtrado
   const partner = filteredPartners[0];
 
   return (
