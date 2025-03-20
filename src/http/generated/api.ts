@@ -69,8 +69,10 @@ export const CreatePartner201 = {
 
 export type GetPartners200Item = {
   id: string;
-  name: string;
-  cpfOrCnpj: string;
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  cpfOrCnpj: string | null;
   /** @nullable */
   city: string | null;
   /** @nullable */

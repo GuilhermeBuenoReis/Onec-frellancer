@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Button } from './ui/button';
 import * as XLSX from 'xlsx';
+import { toast } from 'sonner';
 
 export type DataType = 'Contratos' | 'Dados' | 'Parceiros';
 
@@ -187,8 +188,9 @@ const FileUpload: React.FC<FileUploadProps> = props => {
           enviados++;
         }
       }
-      alert(`Upload completed. Sent: ${enviados} / ${transformedData.length}`);
+      toast.success(`${enviados} registros enviados com sucesso!`);
     } catch (error) {
+      toast.error('Erro ao enviar dados');
       console.error('Error during upload:', error);
     } finally {
       setSending(false);

@@ -3,7 +3,7 @@ import { Card } from './card';
 import { useState } from 'react';
 import {
   useGetContractStatusCount,
-  useGetContractStatusCountByFilter,
+  // useGetContractStatusCountByFilter,
 } from '@/http/generated/api';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -26,7 +26,7 @@ export function StatusCardsInput({
   const [filtered, setFiltered] = useState(contractStatus);
 
   const { data: getContractStatus } = useGetContractStatusCount();
-  const { mutateAsync: statusFilter } = useGetContractStatusCountByFilter();
+  // const { mutateAsync: statusFilter } = useGetContractStatusCountByFilter();
 
   if (!getContractStatus) {
     return null;
@@ -65,7 +65,7 @@ export function StatusCardsInput({
         </button>
       </form>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {filtered.slice(0, 3).map(item => (
+        {filtered.slice(0, 16).map(item => (
           <Card
             key={item.status ?? Math.random().toString()}
             title={item.status || 'Não informado'}

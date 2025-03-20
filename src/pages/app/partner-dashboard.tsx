@@ -1,166 +1,218 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  BarChart,
-  Bar,
-} from 'recharts';
+import { useState } from 'react';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Helmet } from 'react-helmet';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from 'recharts';
 
-interface SaleRecord {
-  date: string;
-  sales: number;
-}
+type Partner = {
+  id: string;
+  name: string | null;
+  cpfOrCnpj: string | null;
+  city: string | null;
+  state: string | null;
+  commission: number | null;
+  portal: string | null;
+  channelHead: string | null;
+  regional: string | null;
+  coordinator: string | null;
+  agent: string | null;
+  indicator: string | null;
+  contract: string | null;
+  phone: string | null;
+  email: string | null;
+  responsible: string | null;
+};
 
-interface ImigRecord {
-  date: string;
-  contracts: number;
-}
+const mockPartners: Partner[] = [
+  {
+    id: '1',
+    name: 'Empresa X',
+    cpfOrCnpj: '123.456.789-00',
+    city: 'São Paulo',
+    state: 'SP',
+    commission: 10,
+    portal: 'Portal X',
+    channelHead: 'João Silva',
+    regional: 'Sudeste',
+    coordinator: 'Maria Oliveira',
+    agent: 'Carlos Souza',
+    indicator: 'José Santos',
+    contract: 'Contrato 001',
+    phone: '(11) 98765-4321',
+    email: 'empresa@email.com',
+    responsible: 'Ana Pereira',
+  },
+];
 
-function fetchSalesDataForPartner(partnerId: number): Promise<SaleRecord[]> {
-  if (partnerId === 1) {
-    return Promise.resolve([
-      { date: 'Jan', sales: 120 },
-      { date: 'Feb', sales: 200 },
-      { date: 'Mar', sales: 150 },
-      { date: 'Apr', sales: 250 },
-      { date: 'May', sales: 300 },
-      { date: 'Jun', sales: 280 },
-    ]);
-  }
-  return Promise.resolve([]);
-}
+// Dados fictícios para o gráfico de evolução da comissão:
+const commissionEvolution = [
+  { month: 'Jan', commission: 10 },
+  { month: 'Fev', commission: 12 },
+  { month: 'Mar', commission: 11 },
+  { month: 'Abr', commission: 13 },
+  { month: 'Mai', commission: 14 },
+  { month: 'Jun', commission: 12 },
+];
+
+// Dados fictícios para a distribuição de contratos:
+const pieData = [
+  { name: 'Ativos', value: 30 },
+  { name: 'Finalizados', value: 50 },
+  { name: 'Em Andamento', value: 20 },
+];
+const COLORS = ['#4CAF50', '#F44336', '#FF9800'];
 
 export function PartnerDashboard() {
-  const params = useParams<{ id: string }>();
-  const partnerId = params.id ? Number.parseInt(params.id, 10) : Number.NaN;
-  const [salesData, setSalesData] = useState<SaleRecord[]>([]);
-  const [imigData, setImigData] = useState<ImigRecord[]>([]);
-
-  useEffect(() => {
-    // biome-ignore lint/suspicious/noGlobalIsNan: <explanation>
-    if (!isNaN(partnerId)) {
-      fetchSalesDataForPartner(partnerId).then(data => {
-        setSalesData(data);
-      });
-      fetchSalesDataForPartner(partnerId).then(data => setImigData(data));
-    }
-  }, [partnerId]);
-
-  const totalSales = salesData.reduce((acc, record) => acc + record.sales, 0);
-  const avgSales = salesData.length
-    ? Math.round(totalSales / salesData.length)
-    : 0;
-  const bestMonth = salesData.reduce(
-    (prev, current) => (prev.sales > current.sales ? prev : current),
-    { date: '', sales: 0 } as SaleRecord
+  const [search, setSearch] = useState('');
+  const filteredPartners = mockPartners.filter(partner =>
+    partner.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const totalImig = imigData.reduce((acc, record) => acc + record.contracts, 0);
+  if (filteredPartners.length === 0) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-50">
+        <p className="text-xl text-gray-700">Nenhum parceiro encontrado.</p>
+      </div>
+    );
+  }
+
+  // Para este exemplo, utilizamos o primeiro parceiro filtrado
+  const partner = filteredPartners[0];
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Helmet title="Deashboard do Parceiro" />
+      <Helmet title="Dashboard de Parceiro" />
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 rounded-l-xl shadow-xl">
         <Header />
-        <main className="p-6 bg-gray-50 overflow-y-auto">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-            Dashboard de Vendas do Parceiro: {partnerId}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center">
-              <span className="text-gray-500 text-sm">Total de Vendas</span>
-              <span className="text-2xl font-bold text-gray-800">
-                {totalSales}
-              </span>
-            </div>
-            <div className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center">
-              <span className="text-gray-500 text-sm">Média Mensal</span>
-              <span className="text-2xl font-bold text-gray-800">
-                {avgSales}
-              </span>
-            </div>
-            <div className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center">
-              <span className="text-gray-500 text-sm">Melhor Mês</span>
-              <span className="text-2xl font-bold text-gray-800">
-                {bestMonth.date}
-              </span>
-            </div>
-            <div className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center">
-              <span className="text-gray-500 text-sm">
-                Contratos em Migração
-              </span>
-              <span className="text-2xl font-bold text-gray-800">
-                {totalImig}
-              </span>
-            </div>
+        <main className="p-8 overflow-y-auto">
+          <div className="bg-white p-8 rounded-2xl shadow-lg mb-10">
+            <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
+              Dashboard de Detalhes do Parceiro
+            </h1>
+
+            <Card className="mb-8">
+              <CardContent>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                  {partner.name}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                  <p>
+                    <strong>CPF/CNPJ:</strong> {partner.cpfOrCnpj}
+                  </p>
+                  <p>
+                    <strong>Cidade:</strong> {partner.city}
+                  </p>
+                  <p>
+                    <strong>Estado:</strong> {partner.state}
+                  </p>
+                  <p>
+                    <strong>Comissão Atual:</strong> {partner.commission}%
+                  </p>
+                  <p>
+                    <strong>Portal:</strong> {partner.portal}
+                  </p>
+                  <p>
+                    <strong>Head do Canal:</strong> {partner.channelHead}
+                  </p>
+                  <p>
+                    <strong>Regional:</strong> {partner.regional}
+                  </p>
+                  <p>
+                    <strong>Coordenador:</strong> {partner.coordinator}
+                  </p>
+                  <p>
+                    <strong>Agente:</strong> {partner.agent}
+                  </p>
+                  <p>
+                    <strong>Indicador:</strong> {partner.indicator}
+                  </p>
+                  <p>
+                    <strong>Contrato:</strong> {partner.contract}
+                  </p>
+                  <p>
+                    <strong>Telefone:</strong> {partner.phone}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {partner.email}
+                  </p>
+                  <p>
+                    <strong>Responsável:</strong> {partner.responsible}
+                  </p>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <Button variant="default">Editar Parceiro</Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
-              Tendência Mensal
-            </h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-                <XAxis dataKey="date" stroke="#666" />
-                <YAxis stroke="#666" />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="sales"
-                  stroke="#4facfe"
-                  strokeWidth={2}
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
-              Tendência Mensal
-            </h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-                <XAxis dataKey="date" stroke="#666" />
-                <YAxis stroke="#666" />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="sales" fill="#4facfe" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-md">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
-              Tendência de Contratos de Imigração
-            </h3>
-            <ResponsiveContainer width="100%" height={150}>
-              <LineChart data={imigData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-                <XAxis dataKey="date" stroke="#666" />
-                <YAxis stroke="#666" />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="contracts"
-                  stroke="#4facfe"
-                  strokeWidth={2}
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+                Evolução da Comissão
+              </h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={commissionEvolution}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="month" stroke="#4a5568" />
+                  <YAxis stroke="#4a5568" />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="commission"
+                    stroke="#4F46E5"
+                    strokeWidth={3}
+                    activeDot={{ r: 8 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="bg-white p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+                Distribuição de Contratos
+              </h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={70}
+                    outerRadius={100}
+                    paddingAngle={5}
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${
+                          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                          index
+                        }`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend verticalAlign="bottom" height={36} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </main>
       </div>
