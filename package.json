@@ -34,7 +34,6 @@
     "lightningcss": "^1.29.1",
     "lightningcss-win32-x64-msvc": "^1.29.1",
     "lucide-react": "^0.475.0",
-    "onec": "link:",
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-cookie": "^8.0.1",
