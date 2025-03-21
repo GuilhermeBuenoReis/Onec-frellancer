@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { ListTodo } from 'lucide-react';
+import { ListTodo, SlidersHorizontal } from 'lucide-react';
 
 export function Sidebar() {
   return (
@@ -74,7 +74,7 @@ export function Sidebar() {
                   className="flex items-center p-2 rounded hover:bg-gray-300"
                 >
                   <span className="mr-2">
-                    <ListTodo />
+                    <SlidersHorizontal />
                   </span>
                   <span>Portal de controle</span>
                 </NavLink>
