@@ -53,7 +53,7 @@ Construído com **React**, **Vite** e **TailwindCSS**, o frontend consome a API 
 
 ### 🔹 2. Clonar o Repositório
 ```sh
-$ git clone https://github.com/seu-usuario/onec-frontend.git
+$ https://github.com/GuilhermeBuenoReis/Onec-frellancer.git
 $ cd onec-frontend
 ```
 
