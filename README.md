@@ -82,9 +82,6 @@ Ou em modo watch:
 $ pnpm test:watch
 ```
 
-## ✅ Testes Automatizados
-Este projeto possui testes unitários utilizando **Vitest** para garantir a estabilidade da aplicação.
-
 ## 🔗 Comunicação com o Backend
 O frontend consome a API do **ONEC Backend** para obter e enviar dados relacionados à gestão de negociações e contratos. Certifique-se de que o backend esteja rodando para um funcionamento adequado.
 
