@@ -29,7 +29,17 @@ const pieData: PieData[] = [
   { name: 'Em migração', value: 15 },
 ];
 
-const COLORS = ['#4CAF50', '#F44336', '#FF9800', '#2196F3'];
+const COLORS: Record<string, string> = {
+  CONCLUIDO: '#4CAF50',
+  CANCELADO: '#F44336',
+  FINALIZADO: '#2196F3',
+  'AGUARDANDO RECEBER': '#FFC107',
+  PAGO: '#9C27B0',
+  PERDIDO: '#795548',
+  ATIVO: '#00BCD4',
+  MIGRADO: '#FF9800',
+  Desconhecido: '#808080',
+};
 
 interface LineData {
   name: string;
@@ -53,6 +63,13 @@ export function Dashboard() {
     return null;
   }
 
+  const formattedData = contractStatus
+    .filter(item => item.status !== null)
+    .map(item => ({
+      name: item.status as string,
+      value: item.count,
+    }));
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Dashboard" />
@@ -74,7 +91,7 @@ export function Dashboard() {
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={pieData}
+                    data={formattedData}
                     dataKey="value"
                     nameKey="name"
                     innerRadius={70}
@@ -84,7 +101,7 @@ export function Dashboard() {
                     {contractStatus.map(item => (
                       <Cell
                         key={`cell-${item.status}`}
-                        fill={COLORS[contractStatus.indexOf(item)]}
+                        fill={COLORS[item.status ?? 'DEFAULT'] || '#ccc'}
                       />
                     ))}
                   </Pie>
@@ -95,10 +112,10 @@ export function Dashboard() {
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
-                Tendência Mensal
+                Tendência
               </h2>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={lineData}>
+                <LineChart data={formattedData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
                   <XAxis dataKey="name" stroke="#666" />
                   <YAxis stroke="#666" />

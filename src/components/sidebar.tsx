@@ -68,6 +68,17 @@ export function Sidebar() {
                   <span>Pendências</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/controle-portal"
+                  className="flex items-center p-2 rounded hover:bg-gray-300"
+                >
+                  <span className="mr-2">
+                    <ListTodo />
+                  </span>
+                  <span>Portal de controle</span>
+                </NavLink>
+              </li>
             </ul>
           </div>
           <div>

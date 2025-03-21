@@ -9,6 +9,7 @@ import { NotificationsPage } from './pages/app/notifications';
 import { Financas } from './pages/app/finances';
 import { Login } from './pages/auth/login';
 import { PendingDetails } from './pages/app/pending-details';
+import { PortalControllDashboard } from './pages/app/portal-controll';
 
 export function App() {
   return (
@@ -24,6 +25,7 @@ export function App() {
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/notificacoes" element={<NotificationsPage />} />
         <Route path="/financas" element={<Financas />} />
+        <Route path="//controle-portal" element={<PortalControllDashboard />} />
       </Routes>
     </Router>
   );
