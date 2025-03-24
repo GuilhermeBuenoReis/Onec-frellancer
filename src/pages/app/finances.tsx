@@ -45,18 +45,22 @@ import { Helmet } from 'react-helmet';
 import dayjs from 'dayjs';
 
 export function Financas() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data: negotiation } = useGetNegotiation();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const [filterStatus, setFilterStatus] = useState('');
 
-  if (!negotiation) return null;
+  // Evite o early return. Use um valor padrão (array vazio) enquanto os dados não chegam.
+  const negotiationsData = negotiation || [];
+
+  const handleToggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
   const filteredNegotiations = useMemo(() => {
     return filterStatus
-      ? negotiation.filter(item => item.status === filterStatus)
-      : negotiation;
-  }, [negotiation, filterStatus]);
+      ? negotiationsData.filter(item => item.status === filterStatus)
+      : negotiationsData;
+  }, [negotiationsData, filterStatus]);
 
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * recordsPerPage;
@@ -88,7 +92,7 @@ export function Financas() {
     count: statusCountMap[status],
   }));
 
-  const COLORS: Record<string, string> = {
+  const COLORS = {
     CONCLUIDO: '#4CAF50',
     CANCELADO: '#F44336',
     FINALIZADO: '#2196F3',
@@ -106,6 +110,7 @@ export function Financas() {
     const month = date.format('MMM');
     monthlyCountMap[month] = (monthlyCountMap[month] || 0) + 1;
   });
+
   const monthlyData = Object.keys(monthlyCountMap)
     .map(month => ({ month, count: monthlyCountMap[month] }))
     .sort(
@@ -123,10 +128,42 @@ export function Financas() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Finanças" />
-      <Sidebar />
+
+      {/* Botão para abrir o Sidebar em telas mobile */}
+      <div className="md:hidden absolute top-4 left-4 z-50">
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="p-2 bg-gray-200 text-gray-700 rounded"
+          type="button"
+        >
+          ☰
+        </button>
+      </div>
+
+      {/* Sidebar: overlay mobile ou fixo em desktop */}
+      <div
+        className={`${
+          isSidebarOpen ? 'block' : 'hidden'
+        } fixed inset-0 z-40 md:static md:block`}
+      >
+        <div className="bg-white w-64 h-full shadow-lg md:relative">
+          <Sidebar />
+          <div className="md:hidden p-2">
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-2 bg-gray-200 text-gray-700 rounded"
+              type="button"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="flex-1 flex flex-col overflow-y-auto">
-        <Header />
-        <main className="p-6 bg-gray-50 space-y-8">
+        {/* Passando a prop onToggleSidebar para o Header */}
+        <Header onToggleSidebar={handleToggleSidebar} />
+        <main className="p-4 md:p-6 bg-gray-50 space-y-8 overflow-y-auto">
           <h2 className="text-3xl font-bold text-gray-800">
             Dashboard Financeiro
           </h2>
@@ -159,7 +196,7 @@ export function Financas() {
               </div>
             </Card>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row justify-between items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">Filtrar por Status</Button>

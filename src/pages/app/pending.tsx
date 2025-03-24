@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Helmet } from 'react-helmet';
@@ -14,21 +15,31 @@ import {
 import { PendingForm } from '@/components/pending-form';
 import { useGetPendings } from '@/http/generated/api';
 import { usePendingIdStore } from '@/store/pending-id-store';
+import { Menu } from 'lucide-react';
 
 export function Pending() {
   const { id } = usePendingIdStore();
-
   const { data: pending } = useGetPendings();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (!pending) return;
+  if (!pending) return null;
 
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Painel de Pendências" />
-      <Sidebar />
+
+      {/* Sidebar responsiva */}
+      <div
+        className={`fixed inset-0 z-50 transition-transform transform md:static ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0`}
+      >
+        <Sidebar />
+      </div>
+
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        <main className="p-6 bg-gray-50 overflow-y-auto space-y-6">
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto space-y-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
             Painel de Pendências
           </h1>
@@ -36,10 +47,8 @@ export function Pending() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Adicionar Nova Pendência
             </h2>
-
             <PendingForm />
           </div>
-
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Lista de Pendências

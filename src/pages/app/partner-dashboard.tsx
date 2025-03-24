@@ -59,7 +59,6 @@ const mockPartners: Partner[] = [
   },
 ];
 
-// Dados fictícios para o gráfico de evolução da comissão:
 const commissionEvolution = [
   { month: 'Jan', commission: 10 },
   { month: 'Fev', commission: 12 },
@@ -69,7 +68,6 @@ const commissionEvolution = [
   { month: 'Jun', commission: 12 },
 ];
 
-// Dados fictícios para a distribuição de contratos:
 const pieData = [
   { name: 'Ativos', value: 30 },
   { name: 'Finalizados', value: 50 },
@@ -79,6 +77,8 @@ const COLORS = ['#4CAF50', '#F44336', '#FF9800'];
 
 export function PartnerDashboard() {
   const [search, setSearch] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const filteredPartners = mockPartners.filter(partner =>
     partner.name?.toLowerCase().includes(search.toLowerCase())
   );
@@ -91,17 +91,27 @@ export function PartnerDashboard() {
     );
   }
 
-  // Para este exemplo,  utilizamos o primeiro parceiro filtrado
+  // Para este exemplo, utilizamos o primeiro parceiro filtrado
   const partner = filteredPartners[0];
 
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Dashboard de Parceiro" />
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 rounded-l-xl shadow-xl">
-        <Header />
-        <main className="p-8 overflow-y-auto">
-          <div className="bg-white p-8 rounded-2xl shadow-lg mb-10">
+
+      {/* Sidebar responsiva */}
+      <div
+        className={`fixed inset-0 z-50 transition-transform transform md:static ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0`}
+      >
+        <Sidebar />
+      </div>
+
+      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
+        {/* Header com botão toggle para mobile */}
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <main className="p-4 md:p-8 overflow-y-auto">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg mb-10">
             <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
               Dashboard de Detalhes do Parceiro
             </h1>
@@ -163,7 +173,7 @@ export function PartnerDashboard() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
                 Evolução da Comissão
               </h2>
@@ -184,7 +194,7 @@ export function PartnerDashboard() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
                 Distribuição de Contratos
               </h2>

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import {
@@ -22,12 +23,10 @@ interface PieData {
   value: number;
 }
 
-const pieData: PieData[] = [
-  { name: 'Ativos', value: 10 },
-  { name: 'Finalizados', value: 25 },
-  { name: 'Em Andamento', value: 15 },
-  { name: 'Em migração', value: 15 },
-];
+interface LineData {
+  name: string;
+  value: number;
+}
 
 const COLORS: Record<string, string> = {
   CONCLUIDO: '#4CAF50',
@@ -41,23 +40,9 @@ const COLORS: Record<string, string> = {
   Desconhecido: '#808080',
 };
 
-interface LineData {
-  name: string;
-  value: number;
-}
-
-const lineData: LineData[] = [
-  { name: 'Jan', value: 4000 },
-  { name: 'Fev', value: 3000 },
-  { name: 'Mar', value: 2000 },
-  { name: 'Abr', value: 2780 },
-  { name: 'Mai', value: 1890 },
-  { name: 'Jun', value: 2390 },
-  { name: 'Jul', value: 3490 },
-];
-
 export function Dashboard() {
   const { data: contractStatus } = useGetContractStatusCount();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   if (!contractStatus) {
     return null;
@@ -70,48 +55,72 @@ export function Dashboard() {
       value: item.count,
     }));
 
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
+
   return (
     <div className="flex h-screen overflow-hidden">
-      <Helmet title="Dashboard" />
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 rounded-l-xl shadow-xl">
-        <Header />
-        <main className="p-8 overflow-y-auto">
-          <div className="bg-white p-8 rounded-2xl shadow-lg mb-10">
-            <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
+      <div className="hidden md:block">
+        <Sidebar />
+      </div>
+
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden">
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={toggleSidebar}
+          />
+          <div className="relative bg-white w-64 h-full shadow-lg">
+            <Sidebar />
+          </div>
+        </div>
+      )}
+
+      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
+        {/* Header com botão para mobile */}
+        <Header onToggleSidebar={toggleSidebar} />
+        <main className="p-4 md:p-8 overflow-y-auto">
+          <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg mb-10">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6">
               Controle de Contratos
             </h1>
             <StatusCardsInput contractStatus={contractStatus} />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+            <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-xl md:text-2xl font-semibold mb-6 text-gray-800 text-center">
                 Distribuição de Contratos
               </h2>
               <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
+                <PieChart margin={{ top: -5, right: 20, bottom: 70, left: 20 }}>
                   <Pie
                     data={formattedData}
                     dataKey="value"
                     nameKey="name"
-                    innerRadius={70}
-                    outerRadius={100}
-                    paddingAngle={5}
+                    innerRadius={50}
+                    outerRadius={90}
+                    paddingAngle={2}
+                    label={false} // remove os labels internos
                   >
-                    {contractStatus.map(item => (
+                    {formattedData.map(entry => (
                       <Cell
-                        key={`cell-${item.status}`}
-                        fill={COLORS[item.status ?? 'DEFAULT'] || '#ccc'}
+                        key={`cell-${entry.name}`}
+                        fill={COLORS[entry.name] || '#ccc'}
                       />
                     ))}
                   </Pie>
                   <Tooltip />
-                  <Legend verticalAlign="bottom" height={36} />
+                  <Legend
+                    layout="horizontal"
+                    align="center"
+                    verticalAlign="bottom"
+                    wrapperStyle={{ fontSize: '10px' }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+            <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-xl md:text-2xl font-semibold mb-6 text-gray-800 text-center">
                 Tendência
               </h2>
               <ResponsiveContainer width="100%" height={300}>

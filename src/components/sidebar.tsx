@@ -3,14 +3,14 @@ import { ListTodo, SlidersHorizontal } from 'lucide-react';
 
 export function Sidebar() {
   return (
-    <aside className="w-72 bg-gradient-to-br from-white to-gray-200 text-gray-800 flex flex-col justify-between p-8">
+    <aside className="w-64 md:w-72 bg-gradient-to-br from-white to-gray-200 text-gray-800 flex flex-col justify-between p-6 md:p-8">
       <div>
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold">Onec</h2>
+          <h2 className="text-xl md:text-2xl font-bold">Onec</h2>
         </div>
         <nav>
           <div className="mb-6">
-            <h4 className="uppercase text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
+            <h4 className="uppercase text-xs md:text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
               Navegação
             </h4>
             <ul className="space-y-2">
@@ -44,7 +44,7 @@ export function Sidebar() {
             </ul>
           </div>
           <div className="mb-6">
-            <h4 className="uppercase text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
+            <h4 className="uppercase text-xs md:text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
               Relatórios
             </h4>
             <ul className="space-y-2">
@@ -82,7 +82,7 @@ export function Sidebar() {
             </ul>
           </div>
           <div>
-            <h4 className="uppercase text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
+            <h4 className="uppercase text-xs md:text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
               Outros
             </h4>
             <ul className="space-y-2">

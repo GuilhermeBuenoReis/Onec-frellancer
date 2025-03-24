@@ -28,6 +28,7 @@ export function PortalControllDashboard() {
   const { data: portalControlls, refetch } =
     useGetPortalControlls<CreatePortalControllInput[]>();
   const [filter, setFilter] = useState<string>('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const filteredData = useMemo(() => {
     if (!portalControlls) return [];
@@ -43,11 +44,19 @@ export function PortalControllDashboard() {
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
       <Helmet title="Portal Controll Dashboard" />
-      <Sidebar />
+
+      <div
+        className={`fixed inset-0 z-50 transition-transform transform md:static ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0`}
+      >
+        <Sidebar />
+      </div>
+
       <div className="flex-1 flex flex-col overflow-y-auto">
-        <Header />
-        <main className="p-8 container mx-auto">
-          <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center">
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <main className="p-4 md:p-8 container mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">
             Dashboard do Portal de Controle
           </h2>
           <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
@@ -79,7 +88,7 @@ export function PortalControllDashboard() {
             </DropdownMenu>
           </div>
           <Tabs defaultValue="list" className="space-y-6">
-            <TabsList className="flex justify-center bg-white shadow-md rounded-xs p-1">
+            <TabsList className="flex justify-center bg-white shadow-md rounded p-1">
               <TabsTrigger
                 value="list"
                 className="px-4 py-2 rounded-md cursor-pointer text-gray-700 hover:bg-gray-200 data-[state=active]:bg-gray-800 data-[state=active]:text-white transition-colors"
@@ -132,7 +141,6 @@ export function PortalControllDashboard() {
                           key={index}
                           className="hover:bg-gray-100 transition-colors duration-150"
                         >
-                          {/* Alinhamento à esquerda para as 4 primeiras células */}
                           <TableCell className="px-6 py-3 border-t border-gray-200 text-left">
                             {item.enterprise}
                           </TableCell>
@@ -145,7 +153,6 @@ export function PortalControllDashboard() {
                           <TableCell className="px-6 py-3 border-t border-gray-200 text-left">
                             {item.compensation}
                           </TableCell>
-                          {/* Alinhamento à direita para as 4 últimas células */}
                           <TableCell className="px-6 py-3 border-t border-gray-200 text-right">
                             {item.honorary}
                           </TableCell>

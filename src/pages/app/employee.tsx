@@ -1,29 +1,57 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
-import { usePartnerStore, type Partner } from '@/store/partner-store';
+import { usePartnerStore } from '@/store/partner-store';
 import { Helmet } from 'react-helmet';
 import { useGetPartners } from '@/http/generated/api';
 
 export function Employee() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { partners } = usePartnerStore();
   const { data: partner } = useGetPartners();
 
-  if (!partner) {
-    return;
-  }
+  if (!partner) return null;
+  if (partner[0].name === null) return null;
 
-  if (partner[0].name === null) return;
-
-  console.log(partner[0].id);
+  const handleToggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Parceiros" />
-      <Sidebar />
+
+      <div className="md:hidden absolute top-4 left-4 z-50">
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="p-2 bg-gray-200 text-gray-700 rounded"
+          type="button"
+        >
+          ☰
+        </button>
+      </div>
+
+      <div
+        className={`${
+          isSidebarOpen ? 'block' : 'hidden'
+        } fixed inset-0 z-40 md:static md:block`}
+      >
+        <div className="bg-white w-64 h-full shadow-lg md:relative">
+          <Sidebar />
+          <div className="md:hidden p-2">
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-2 bg-gray-200 text-gray-700 rounded"
+              type="button"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        <main className="p-6 bg-gray-50 overflow-y-auto">
+        <Header onToggleSidebar={handleToggleSidebar} />
+        <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto">
           <h2 className="text-2xl font-semibold mb-6 text-gray-800">
             Parceiros
           </h2>

@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Helmet } from 'react-helmet';
@@ -7,6 +8,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export function PendingDetails() {
   const { id } = useParams();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const pending = {
     id,
@@ -19,16 +21,26 @@ export function PendingDetails() {
     responsavel: 'João da Silva',
     categoria: 'SAC',
     descricao:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s...',
   };
 
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Detalhes da Pendência" />
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        <main className="p-6 bg-gray-50 overflow-y-auto">
+
+      {/* Sidebar responsiva */}
+      <div
+        className={`fixed inset-0 z-50 transition-transform transform md:static ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0`}
+      >
+        <Sidebar />
+      </div>
+
+      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
+        {/* Header com botão de toggle para mobile */}
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto">
           <div className="max-w-4xl mx-auto">
             <Link to="/pendencias">
               <Button variant="ghost" className="flex items-center mb-6">
@@ -36,7 +48,7 @@ export function PendingDetails() {
                 Voltar
               </Button>
             </Link>
-            <div className="bg-white p-8 rounded-xl shadow-lg">
+            <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg">
               <div className="flex flex-col sm:flex-row justify-between items-center border-b pb-4 mb-6">
                 <div>
                   <h1 className="text-3xl font-bold text-gray-800">

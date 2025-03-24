@@ -1,11 +1,13 @@
 import { useState } from 'react';
+
+import { Helmet } from 'react-helmet';
+import { Header } from '@/components/header';
+import { Sidebar } from '@/components/sidebar';
+import { useNotificationStore } from '@/store/notification-store';
+
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Sidebar } from '@/components/sidebar';
-import { Header } from '@/components/header';
 import '@/styles/react-calendar-custom.css';
-import { useNotificationStore } from '@/store/notification-store';
-import { Helmet } from 'react-helmet';
 
 export function Calendario() {
   const lastSpreadsheetUpload = new Date('2025-02-15');
@@ -40,7 +42,7 @@ export function Calendario() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Helmet title="Calendárioa" />
+      <Helmet title="Calendário" />
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-y-auto">
         <Header />
@@ -79,7 +81,7 @@ export function Calendario() {
             </h3>
             <div className="flex justify-center">
               <Calendar
-                onChange={(value, event) => {
+                onChange={value => {
                   if (value instanceof Date) {
                     setSelectedDate(value);
                   }
