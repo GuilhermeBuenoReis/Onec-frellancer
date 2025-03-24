@@ -9,10 +9,10 @@ import { useGetPartners } from '@/http/generated/api';
 export function Employee() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { partners } = usePartnerStore();
+
   const { data: partner } = useGetPartners();
 
   if (!partner) return null;
-  if (partner[0].name === null) return null;
 
   const handleToggleSidebar = () => setIsSidebarOpen(prev => !prev);
 

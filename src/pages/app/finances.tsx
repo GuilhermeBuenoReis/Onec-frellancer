@@ -50,10 +50,7 @@ export function Financas() {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const [filterStatus, setFilterStatus] = useState('');
-
-  // Evite o early return. Use um valor padrão (array vazio) enquanto os dados não chegam.
   const negotiationsData = negotiation || [];
-
   const handleToggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
   const filteredNegotiations = useMemo(() => {
@@ -92,7 +89,7 @@ export function Financas() {
     count: statusCountMap[status],
   }));
 
-  const COLORS = {
+  const COLORS: Record<string, string> = {
     CONCLUIDO: '#4CAF50',
     CANCELADO: '#F44336',
     FINALIZADO: '#2196F3',
@@ -126,44 +123,29 @@ export function Financas() {
   const totalPages = Math.ceil(filteredNegotiations.length / recordsPerPage);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="h-screen grid grid-cols-1 lg:grid-cols-[250px_auto]">
       <Helmet title="Finanças" />
-
-      {/* Botão para abrir o Sidebar em telas mobile */}
-      <div className="md:hidden absolute top-4 left-4 z-50">
-        <button
-          onClick={() => setIsSidebarOpen(true)}
-          className="p-2 bg-gray-200 text-gray-700 rounded"
-          type="button"
-        >
-          ☰
-        </button>
-      </div>
-
-      {/* Sidebar: overlay mobile ou fixo em desktop */}
       <div
-        className={`${
-          isSidebarOpen ? 'block' : 'hidden'
-        } fixed inset-0 z-40 md:static md:block`}
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transition-transform transform ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0 md:static lg:relative`}
       >
-        <div className="bg-white w-64 h-full shadow-lg md:relative">
-          <Sidebar />
-          <div className="md:hidden p-2">
-            <button
-              onClick={() => setIsSidebarOpen(false)}
-              className="p-2 bg-gray-200 text-gray-700 rounded"
-              type="button"
-            >
-              Fechar
-            </button>
-          </div>
+        <Sidebar />
+        <div className="md:hidden p-2">
+          <Button onClick={() => setIsSidebarOpen(false)} variant="outline">
+            Fechar
+          </Button>
         </div>
       </div>
-
-      <div className="flex-1 flex flex-col overflow-y-auto">
-        {/* Passando a prop onToggleSidebar para o Header */}
-        <Header onToggleSidebar={handleToggleSidebar} />
-        <main className="p-4 md:p-6 bg-gray-50 space-y-8 overflow-y-auto">
+      {isSidebarOpen && (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      <div className="flex flex-col overflow-y-auto items-center">
+        <main className="max-w-7xl mx-auto p-4 md:p-6 bg-gray-50 space-y-8">
           <h2 className="text-3xl font-bold text-gray-800">
             Dashboard Financeiro
           </h2>

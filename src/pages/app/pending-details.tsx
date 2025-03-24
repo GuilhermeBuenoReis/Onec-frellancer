@@ -28,7 +28,6 @@ export function PendingDetails() {
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Detalhes da Pendência" />
 
-      {/* Sidebar responsiva */}
       <div
         className={`fixed inset-0 z-50 transition-transform transform md:static ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -38,7 +37,6 @@ export function PendingDetails() {
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
-        {/* Header com botão de toggle para mobile */}
         <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto">
           <div className="max-w-4xl mx-auto">

@@ -3,7 +3,7 @@ import { ListTodo, SlidersHorizontal } from 'lucide-react';
 
 export function Sidebar() {
   return (
-    <aside className="w-64 md:w-72 bg-gradient-to-br from-white to-gray-200 text-gray-800 flex flex-col justify-between p-6 md:p-8">
+    <aside className="w-64 h-screen md:w-72 bg-gradient-to-br from-white to-gray-200 text-gray-800 flex flex-col justify-between p-6 md:p-8">
       <div>
         <div className="text-center mb-8">
           <h2 className="text-xl md:text-2xl font-bold">Onec</h2>

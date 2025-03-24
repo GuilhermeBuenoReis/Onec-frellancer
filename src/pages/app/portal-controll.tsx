@@ -104,72 +104,70 @@ export function PortalControllDashboard() {
             </TabsList>
             <TabsContent value="list">
               <Card className="p-6 shadow-lg rounded-xl bg-white">
-                <div className="overflow-x-auto">
-                  <Table className="min-w-full">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          Empresa
+                <Table className="min-w-full table-fixed">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        Empresa
+                      </TableCell>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        Produto
+                      </TableCell>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        % Honorário
+                      </TableCell>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        Compensação
+                      </TableCell>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        Honorário
+                      </TableCell>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        Imposto
+                      </TableCell>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        Valor
+                      </TableCell>
+                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
+                        Situação
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {filteredData.map((item, index) => (
+                      <TableRow
+                        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                        key={index}
+                        className="hover:bg-gray-100 transition-colors duration-150"
+                      >
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.enterprise}
                         </TableCell>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          Produto
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.product}
                         </TableCell>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          % Honorário
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.percentageHonorary}%
                         </TableCell>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          Compensação
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.compensation}
                         </TableCell>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          Honorário
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.honorary}
                         </TableCell>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          Imposto
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.tax}
                         </TableCell>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          Valor
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.value}
                         </TableCell>
-                        <TableCell className="px-6 py-3 font-semibold text-gray-800">
-                          Situação
+                        <TableCell className="border-t border-gray-200 text-left">
+                          {item.situation}
                         </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {filteredData.map((item, index) => (
-                        <TableRow
-                          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                          key={index}
-                          className="hover:bg-gray-100 transition-colors duration-150"
-                        >
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-left">
-                            {item.enterprise}
-                          </TableCell>
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-left">
-                            {item.product}
-                          </TableCell>
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-left">
-                            {item.percentageHonorary}%
-                          </TableCell>
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-left">
-                            {item.compensation}
-                          </TableCell>
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-right">
-                            {item.honorary}
-                          </TableCell>
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-right">
-                            {item.tax}
-                          </TableCell>
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-right">
-                            {item.value}
-                          </TableCell>
-                          <TableCell className="px-6 py-3 border-t border-gray-200 text-right">
-                            {item.situation}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+                    ))}
+                  </TableBody>
+                </Table>
               </Card>
             </TabsContent>
             <TabsContent value="create">
