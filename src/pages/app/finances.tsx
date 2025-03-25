@@ -1,22 +1,15 @@
 import { useState, useMemo } from 'react';
+import { Helmet } from 'react-helmet';
+import dayjs from 'dayjs';
 import { Sidebar } from '@/components/sidebar';
-import { Header } from '@/components/header';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import {
-  DropdownMenuContent,
   DropdownMenu,
-  DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import {
   Dialog,
@@ -28,21 +21,8 @@ import {
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { useGetNegotiation } from '@/http/generated/api';
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Tooltip,
-  Legend,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Cell,
-} from 'recharts';
-import { Helmet } from 'react-helmet';
-import dayjs from 'dayjs';
+import { FinancialDetails } from '@/components/finance-datails';
+import { FinancialCharts } from '@/components/financial-charts';
 
 export function Financas() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -89,6 +69,18 @@ export function Financas() {
     count: statusCountMap[status],
   }));
 
+  const monthlyCountMap: Record<string, number> = {};
+  filteredNegotiations.forEach(item => {
+    const date = dayjs(item.startsDate || '1970-01-01');
+    const month = date.format('MMM');
+    monthlyCountMap[month] = (monthlyCountMap[month] || 0) + 1;
+  });
+  const monthlyData = Object.keys(monthlyCountMap)
+    .map(month => ({ month, count: monthlyCountMap[month] }))
+    .sort(
+      (a, b) => dayjs(a.month, 'MMM').month() - dayjs(b.month, 'MMM').month()
+    );
+
   const COLORS: Record<string, string> = {
     CONCLUIDO: '#4CAF50',
     CANCELADO: '#F44336',
@@ -101,19 +93,6 @@ export function Financas() {
     Desconhecido: '#808080',
   };
 
-  const monthlyCountMap: Record<string, number> = {};
-  filteredNegotiations.forEach(item => {
-    const date = dayjs(item.startsDate || '1970-01-01');
-    const month = date.format('MMM');
-    monthlyCountMap[month] = (monthlyCountMap[month] || 0) + 1;
-  });
-
-  const monthlyData = Object.keys(monthlyCountMap)
-    .map(month => ({ month, count: monthlyCountMap[month] }))
-    .sort(
-      (a, b) => dayjs(a.month, 'MMM').month() - dayjs(b.month, 'MMM').month()
-    );
-
   const sortedNegotiations = useMemo(() => {
     return [...filteredNegotiations].sort(
       (a, b) => (b.value || 0) - (a.value || 0)
@@ -123,29 +102,32 @@ export function Financas() {
   const totalPages = Math.ceil(filteredNegotiations.length / recordsPerPage);
 
   return (
-    <div className="h-screen grid grid-cols-1 lg:grid-cols-[250px_auto]">
+    <div className="flex h-screen overflow-hidden">
       <Helmet title="Finanças" />
-      <div
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transition-transform transform ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:static lg:relative`}
-      >
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex">
         <Sidebar />
-        <div className="md:hidden p-2">
-          <Button onClick={() => setIsSidebarOpen(false)} variant="outline">
-            Fechar
-          </Button>
-        </div>
+        <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
+      {/* Mobile Sidebar */}
       {isSidebarOpen && (
-        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-        <div
-          className="fixed inset-0 bg-black opacity-50 z-30 md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
+        <div className="fixed inset-0 z-50 flex md:hidden">
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={handleToggleSidebar}
+          />
+          <div className="relative bg-white w-64 h-full shadow-lg">
+            <Sidebar />
+            <div className="p-2">
+              <Button onClick={handleToggleSidebar} variant="outline">
+                Fechar
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
-      <div className="flex flex-col overflow-y-auto items-center">
-        <main className="max-w-7xl mx-auto p-4 md:p-6 bg-gray-50 space-y-8">
+      <div className="flex-1 flex flex-col overflow-y-auto w-full">
+        <main className="w-full p-4 md:p-6 bg-gray-50 space-y-8">
           <h2 className="text-3xl font-bold text-gray-800">
             Dashboard Financeiro
           </h2>
@@ -154,7 +136,9 @@ export function Financas() {
               <div className="p-4 flex flex-col items-center">
                 <h3 className="text-lg font-semibold">Projetos</h3>
                 <p className="text-2xl">{totalProjects}</p>
-                <Badge variant="secondary">{filterStatus || 'Todos'}</Badge>
+                <span className="badge badge-secondary">
+                  {filterStatus || 'Todos'}
+                </span>
               </div>
             </Card>
             <Card>
@@ -238,110 +222,19 @@ export function Financas() {
               <TabsTrigger value="charts">Gráficos</TabsTrigger>
             </TabsList>
             <TabsContent value="details">
-              <Card>
-                <div className="overflow-x-auto">
-                  <Table className="min-w-full">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Título</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>Valor</TableCell>
-                        <TableCell>Data Início</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {paginatedData.map(item => (
-                        <TableRow key={item.id}>
-                          <TableCell>{item.id}</TableCell>
-                          <TableCell>
-                            {item.title || 'Título não definido'}
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline">
-                              {item.status || 'Desconhecido'}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            R$ {item.value?.toLocaleString() || '0'}
-                          </TableCell>
-                          <TableCell>
-                            {dayjs(item.startsDate).format('DD/MM/YYYY')}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-                <div className="flex justify-between items-center p-4">
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setCurrentPage(prev => Math.max(prev - 1, 1))
-                    }
-                    disabled={currentPage === 1}
-                  >
-                    Anterior
-                  </Button>
-                  <span>
-                    Página {currentPage} de {totalPages}
-                  </span>
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setCurrentPage(prev => Math.min(prev + 1, totalPages))
-                    }
-                    disabled={currentPage === totalPages}
-                  >
-                    Próxima
-                  </Button>
-                </div>
-              </Card>
+              <FinancialDetails
+                paginatedData={paginatedData}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
             </TabsContent>
             <TabsContent value="charts">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card>
-                  <h3 className="text-xl font-semibold mb-4">
-                    Distribuição de Status
-                  </h3>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={statusData}
-                        dataKey="count"
-                        nameKey="status"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        label
-                      >
-                        {statusData.map(entry => (
-                          <Cell
-                            key={`cell-${entry.status}`}
-                            fill={COLORS[entry.status] || '#ccc'}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend verticalAlign="bottom" height={36} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </Card>
-                <Card>
-                  <h3 className="text-xl font-semibold mb-4">
-                    Projetos por Mês
-                  </h3>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={monthlyData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="count" fill="#82ca9d" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </Card>
-              </div>
+              <FinancialCharts
+                statusData={statusData}
+                COLORS={COLORS}
+                monthlyData={monthlyData}
+              />
             </TabsContent>
           </Tabs>
         </main>

@@ -18,16 +18,6 @@ import { Helmet } from 'react-helmet';
 import { useGetContractStatusCount } from '@/http/generated/api';
 import { StatusCardsInput } from '@/components/status-card-input';
 
-interface PieData {
-  name: string;
-  value: number;
-}
-
-interface LineData {
-  name: string;
-  value: number;
-}
-
 const COLORS: Record<string, string> = {
   CONCLUIDO: '#4CAF50',
   CANCELADO: '#F44336',
@@ -59,13 +49,13 @@ export function Dashboard() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <div className="hidden md:block">
+      {/* Sidebar sempre visível em telas md+ (usa a nova Sidebar redimensionável) */}
+      <div className="hidden md:flex">
         <Sidebar />
       </div>
-
+      {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
-          {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={toggleSidebar}
@@ -75,9 +65,7 @@ export function Dashboard() {
           </div>
         </div>
       )}
-
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
-        {/* Header com botão para mobile */}
         <Header onToggleSidebar={toggleSidebar} />
         <main className="p-4 md:p-8 overflow-y-auto">
           <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg mb-10">
@@ -100,7 +88,7 @@ export function Dashboard() {
                     innerRadius={50}
                     outerRadius={90}
                     paddingAngle={2}
-                    label={false} // remove os labels internos
+                    label={false}
                   >
                     {formattedData.map(entry => (
                       <Cell
@@ -143,6 +131,7 @@ export function Dashboard() {
           </div>
         </main>
       </div>
+      <Helmet title="Dashboard" />
     </div>
   );
 }

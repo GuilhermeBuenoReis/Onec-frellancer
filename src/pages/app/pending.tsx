@@ -14,11 +14,8 @@ import {
 } from '@/components/ui/table';
 import { PendingForm } from '@/components/pending-form';
 import { useGetPendings } from '@/http/generated/api';
-import { usePendingIdStore } from '@/store/pending-id-store';
-import { Menu } from 'lucide-react';
 
 export function Pending() {
-  const { id } = usePendingIdStore();
   const { data: pending } = useGetPendings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -27,17 +24,35 @@ export function Pending() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Painel de Pendências" />
-
-      {/* Sidebar responsiva */}
-      <div
-        className={`fixed inset-0 z-50 transition-transform transform md:static ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0`}
-      >
+      {/* Desktop Sidebar com redimensionamento */}
+      <div className="hidden md:flex">
         <Sidebar />
+        <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
-
-      <div className="flex-1 flex flex-col overflow-hidden">
+      {/* Mobile Sidebar */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden">
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="relative bg-white w-64 h-full shadow-lg">
+            <Sidebar />
+            <div className="p-2">
+              <Link to="/pendencias">
+                <button
+                  type="submit"
+                  onClick={() => setSidebarOpen(false)}
+                  className="p-2 border rounded"
+                >
+                  Fechar
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="flex-1 flex flex-col overflow-y-auto w-full">
         <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto space-y-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
@@ -82,7 +97,7 @@ export function Pending() {
                         {item.description}
                       </TableCell>
                       <TableCell>
-                        <Link to={`/pendencias/${id}`}>
+                        <Link to={`/pendencias/${item.id}`}>
                           <Eye className="w-5 h-5 text-gray-600 hover:text-gray-800" />
                         </Link>
                       </TableCell>

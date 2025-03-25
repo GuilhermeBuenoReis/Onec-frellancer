@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Helmet } from 'react-helmet';
@@ -19,6 +19,13 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { useGetOnePartner } from '@/http/generated/api';
+import type { GetOnePartner200 } from '@/http/generated/api'; // Certifique-se de importar o tipo correto
+
+// Extendendo o tipo GetOnePartner200 para incluir as novas propriedades
+interface Partner extends GetOnePartner200 {
+  commissionEvolution?: { month: string; commission: number }[];
+  contractDistribution?: { name: string; value: number }[];
+}
 
 const defaultCommissionEvolution = [
   { month: 'Jan', commission: 10 },
@@ -50,20 +57,38 @@ export function PartnerDashboard() {
   if (error) return <p>Ocorreu um erro ao buscar os dados do parceiro.</p>;
   if (!partner) return <p>Nenhum parceiro encontrado.</p>;
 
-  const commissionData =
-    partner.commissionEvolution || defaultCommissionEvolution;
-  const pieChartData = partner.contractDistribution || defaultPieData;
+  // Fazemos a asserção de tipo para garantir que 'partner' possui as propriedades definidas em Partner
+  const partnerData = partner as Partner;
 
-  console.log(partner.contract);
+  const commissionData =
+    partnerData.commissionEvolution || defaultCommissionEvolution;
+  const pieChartData = partnerData.contractDistribution || defaultPieData;
 
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Dashboard de Parceiro" />
-      <div
-        className={`fixed inset-0 z-50 transition-transform transform md:static ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
-      >
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex">
         <Sidebar />
+        <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
+      {/* Mobile Sidebar */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden">
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="relative bg-white w-64 h-full shadow-lg">
+            <Sidebar />
+            <div className="p-2">
+              <Button onClick={() => setSidebarOpen(false)} variant="outline">
+                Fechar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
         <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="p-4 md:p-8 overflow-y-auto">
@@ -74,50 +99,50 @@ export function PartnerDashboard() {
             <Card className="mb-8">
               <CardContent>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                  {partner.name}
+                  {partnerData.name}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
                   <p>
-                    <strong>CPF/CNPJ:</strong> {partner.cpfOrCnpj}
+                    <strong>CPF/CNPJ:</strong> {partnerData.cpfOrCnpj}
                   </p>
                   <p>
-                    <strong>Cidade:</strong> {partner.city}
+                    <strong>Cidade:</strong> {partnerData.city}
                   </p>
                   <p>
-                    <strong>Estado:</strong> {partner.state}
+                    <strong>Estado:</strong> {partnerData.state}
                   </p>
                   <p>
-                    <strong>Comissão Atual:</strong> {partner.commission}%
+                    <strong>Comissão Atual:</strong> {partnerData.commission}%
                   </p>
                   <p>
-                    <strong>Portal:</strong> {partner.portal}
+                    <strong>Portal:</strong> {partnerData.portal}
                   </p>
                   <p>
-                    <strong>Head do Canal:</strong> {partner.channelHead}
+                    <strong>Head do Canal:</strong> {partnerData.channelHead}
                   </p>
                   <p>
-                    <strong>Regional:</strong> {partner.regional}
+                    <strong>Regional:</strong> {partnerData.regional}
                   </p>
                   <p>
-                    <strong>Coordenador:</strong> {partner.coordinator}
+                    <strong>Coordenador:</strong> {partnerData.coordinator}
                   </p>
                   <p>
-                    <strong>Agente:</strong> {partner.agent}
+                    <strong>Agente:</strong> {partnerData.agent}
                   </p>
                   <p>
-                    <strong>Indicador:</strong> {partner.indicator}
+                    <strong>Indicador:</strong> {partnerData.indicator}
                   </p>
                   <p>
-                    <strong>Contrato:</strong> {partner.contract}
+                    <strong>Contrato:</strong> {partnerData.contract}
                   </p>
                   <p>
-                    <strong>Telefone:</strong> {partner.phone}
+                    <strong>Telefone:</strong> {partnerData.phone}
                   </p>
                   <p>
-                    <strong>Email:</strong> {partner.email}
+                    <strong>Email:</strong> {partnerData.email}
                   </p>
                   <p>
-                    <strong>Responsável:</strong> {partner.responsible}
+                    <strong>Responsável:</strong> {partnerData.responsible}
                   </p>
                 </div>
                 <div className="mt-4 flex justify-end">

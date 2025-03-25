@@ -9,7 +9,6 @@ import { useGetPartners } from '@/http/generated/api';
 export function Employee() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { partners } = usePartnerStore();
-
   const { data: partner } = useGetPartners();
 
   if (!partner) return null;
@@ -19,36 +18,22 @@ export function Employee() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Parceiros" />
-
-      <div className="md:hidden absolute top-4 left-4 z-50">
-        <button
-          onClick={() => setIsSidebarOpen(true)}
-          className="p-2 bg-gray-200 text-gray-700 rounded"
-          type="button"
-        >
-          ☰
-        </button>
+      {/* Sidebar visível em telas md+ */}
+      <div className="hidden md:flex">
+        <Sidebar />
       </div>
-
-      <div
-        className={`${
-          isSidebarOpen ? 'block' : 'hidden'
-        } fixed inset-0 z-40 md:static md:block`}
-      >
-        <div className="bg-white w-64 h-full shadow-lg md:relative">
-          <Sidebar />
-          <div className="md:hidden p-2">
-            <button
-              onClick={() => setIsSidebarOpen(false)}
-              className="p-2 bg-gray-200 text-gray-700 rounded"
-              type="button"
-            >
-              Fechar
-            </button>
+      {/* Mobile Sidebar */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden">
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={handleToggleSidebar}
+          />
+          <div className="relative bg-white w-64 h-full shadow-lg">
+            <Sidebar />
           </div>
         </div>
-      </div>
-
+      )}
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header onToggleSidebar={handleToggleSidebar} />
         <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto">

@@ -44,15 +44,28 @@ export function PortalControllDashboard() {
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
       <Helmet title="Portal Controll Dashboard" />
-
-      <div
-        className={`fixed inset-0 z-50 transition-transform transform md:static ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0`}
-      >
+      {/* Desktop Sidebar com redimensionamento */}
+      <div className="hidden md:flex">
         <Sidebar />
+        <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
-
+      {/* Mobile Sidebar */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 transition-transform flex md:hidden">
+          <div
+            className="fixed inset-0 bg-black opacity-50"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="relative bg-white w-64 h-full shadow-lg">
+            <Sidebar />
+            <div className="p-2">
+              <Button onClick={() => setSidebarOpen(false)} variant="outline">
+                Fechar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex-1 flex flex-col overflow-y-auto">
         <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="p-4 md:p-8 container mx-auto">

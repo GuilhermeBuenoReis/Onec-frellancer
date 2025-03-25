@@ -27,7 +27,8 @@
         "useNumberNamespace": "off"
       },
       "a11y": {
-        "noLabelWithoutControl": "off"
+        "noLabelWithoutControl": "off",
+        "useKeyWithClickEvents": "off"
       },
       "complexity": {
         "noForEach": "off",
