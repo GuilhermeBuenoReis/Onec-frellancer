@@ -19,7 +19,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { Progress } from '@/components/ui/progress';
 import { useGetNegotiation } from '@/http/generated/api';
 import { FinancialDetails } from '@/components/finance-datails';
 import { FinancialCharts } from '@/components/financial-charts';
@@ -29,13 +28,21 @@ export function Financas() {
   const { data: negotiation } = useGetNegotiation();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
+  const allowedStatuses = [
+    'Ganho',
+    'Em Andamento',
+    'Status Bão Informado',
+    'Perdido',
+  ];
   const [filterStatus, setFilterStatus] = useState('');
   const negotiationsData = negotiation || [];
   const handleToggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
   const filteredNegotiations = useMemo(() => {
     return filterStatus
-      ? negotiationsData.filter(item => item.status === filterStatus)
+      ? negotiationsData.filter(
+          item => item.status?.toLowerCase() === filterStatus.toLowerCase()
+        )
       : negotiationsData;
   }, [negotiationsData, filterStatus]);
 
@@ -51,17 +58,10 @@ export function Financas() {
   );
   const averageValue =
     totalProjects > 0 ? (totalValue / totalProjects).toFixed(2) : 0;
-  const completedProjects = filteredNegotiations.filter(
-    item => item.status === 'CONCLUIDO'
-  ).length;
-  const progressPercent =
-    totalProjects > 0
-      ? Math.round((completedProjects / totalProjects) * 100)
-      : 0;
 
   const statusCountMap: Record<string, number> = {};
   filteredNegotiations.forEach(item => {
-    const status = item.status || 'Desconhecido';
+    const status = item.status ? item.status.toLowerCase() : 'desconhecido';
     statusCountMap[status] = (statusCountMap[status] || 0) + 1;
   });
   const statusData = Object.keys(statusCountMap).map(status => ({
@@ -82,15 +82,10 @@ export function Financas() {
     );
 
   const COLORS: Record<string, string> = {
-    CONCLUIDO: '#4CAF50',
-    CANCELADO: '#F44336',
-    FINALIZADO: '#2196F3',
-    'AGUARDANDO RECEBER': '#FFC107',
-    PAGO: '#9C27B0',
-    PERDIDO: '#795548',
-    ATIVO: '#00BCD4',
-    MIGRADO: '#FF9800',
-    Desconhecido: '#808080',
+    ganho: '#4CAF50',
+    'em andamento': '#FFC107',
+    'status bão informado': '#9C27B0',
+    perdido: '#F44336',
   };
 
   const sortedNegotiations = useMemo(() => {
@@ -104,12 +99,10 @@ export function Financas() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Finanças" />
-      {/* Desktop Sidebar */}
       <div className="hidden md:flex">
         <Sidebar />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
-      {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div
@@ -131,7 +124,7 @@ export function Financas() {
           <h2 className="text-3xl font-bold text-gray-800">
             Dashboard Financeiro
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card>
               <div className="p-4 flex flex-col items-center">
                 <h3 className="text-lg font-semibold">Projetos</h3>
@@ -153,14 +146,6 @@ export function Financas() {
                 <p className="text-2xl">R$ {averageValue}</p>
               </div>
             </Card>
-            <Card>
-              <div className="p-4 flex flex-col items-center">
-                <h3 className="text-lg font-semibold">Concluídos</h3>
-                <p className="text-2xl">{completedProjects}</p>
-                <Progress value={progressPercent} className="w-full mt-2" />
-                <span className="text-sm mt-1">{progressPercent}%</span>
-              </div>
-            </Card>
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center">
             <DropdownMenu>
@@ -176,7 +161,7 @@ export function Financas() {
                 >
                   Todos
                 </DropdownMenuItem>
-                {Object.keys(COLORS).map(status => (
+                {allowedStatuses.map(status => (
                   <DropdownMenuItem
                     key={status}
                     onClick={() => {

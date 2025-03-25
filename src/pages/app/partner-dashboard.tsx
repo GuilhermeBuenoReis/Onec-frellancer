@@ -57,7 +57,6 @@ export function PartnerDashboard() {
   if (error) return <p>Ocorreu um erro ao buscar os dados do parceiro.</p>;
   if (!partner) return <p>Nenhum parceiro encontrado.</p>;
 
-  // Fazemos a asserção de tipo para garantir que 'partner' possui as propriedades definidas em Partner
   const partnerData = partner as Partner;
 
   const commissionData =

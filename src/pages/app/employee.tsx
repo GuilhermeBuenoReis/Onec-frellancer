@@ -8,7 +8,6 @@ import { useGetPartners } from '@/http/generated/api';
 
 export function Employee() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { partners } = usePartnerStore();
   const { data: partner } = useGetPartners();
 
   if (!partner) return null;
@@ -18,11 +17,9 @@ export function Employee() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Parceiros" />
-      {/* Sidebar visível em telas md+ */}
       <div className="hidden md:flex">
         <Sidebar />
       </div>
-      {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div

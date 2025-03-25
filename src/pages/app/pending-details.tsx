@@ -5,24 +5,15 @@ import { Header } from '@/components/header';
 import { Helmet } from 'react-helmet';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useGetOnePending } from '@/http/generated/api';
 
 export function PendingDetails() {
   const { id } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const pending = {
-    id,
-    cliente: 'Cliente Exemplo',
-    motivo: 'Problema com o sistema',
-    status: 'Aberto',
-    prioridade: 'Alta',
-    criadoEm: '20/03/2025',
-    atualizadoEm: '20/03/2025',
-    responsavel: 'João da Silva',
-    categoria: 'SAC',
-    descricao:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s...',
-  };
+  const { data: pending } = id ? useGetOnePending(id) : { data: undefined };
+
+  if (!pending) return null;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -63,7 +54,7 @@ export function PendingDetails() {
               <div className="flex flex-col sm:flex-row justify-between items-center border-b pb-4 mb-6">
                 <div>
                   <h1 className="text-3xl font-bold text-gray-800">
-                    {pending.cliente}
+                    {pending.client}
                   </h1>
                   <p className="text-sm text-gray-500">ID: {pending.id}</p>
                 </div>
@@ -86,37 +77,25 @@ export function PendingDetails() {
                   <h2 className="text-lg font-medium text-gray-700">
                     Motivo do Chamado
                   </h2>
-                  <p className="text-gray-600">{pending.motivo}</p>
+                  <p className="text-gray-600">{pending.callReason}</p>
                 </div>
                 <div>
                   <h2 className="text-lg font-medium text-gray-700">
                     Prioridade
                   </h2>
-                  <p className="text-gray-600">{pending.prioridade}</p>
+                  <p className="text-gray-600">{pending.priority}</p>
                 </div>
                 <div>
                   <h2 className="text-lg font-medium text-gray-700">
                     Responsável
                   </h2>
-                  <p className="text-gray-600">{pending.responsavel}</p>
+                  <p className="text-gray-600">{pending.responsible}</p>
                 </div>
                 <div>
                   <h2 className="text-lg font-medium text-gray-700">
                     Categoria
                   </h2>
-                  <p className="text-gray-600">{pending.categoria}</p>
-                </div>
-                <div>
-                  <h2 className="text-lg font-medium text-gray-700">
-                    Criado em
-                  </h2>
-                  <p className="text-gray-600">{pending.criadoEm}</p>
-                </div>
-                <div>
-                  <h2 className="text-lg font-medium text-gray-700">
-                    Atualizado em
-                  </h2>
-                  <p className="text-gray-600">{pending.atualizadoEm}</p>
+                  <p className="text-gray-600">{pending.category}</p>
                 </div>
               </div>
               <div>
@@ -124,7 +103,7 @@ export function PendingDetails() {
                   Descrição
                 </h2>
                 <p className="text-gray-600 leading-relaxed">
-                  {pending.descricao}
+                  {pending.description}
                 </p>
               </div>
             </div>

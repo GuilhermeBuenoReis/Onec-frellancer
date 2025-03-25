@@ -728,6 +728,60 @@ export type GetContractStatusCountByFilter200Item = {
 };
 
 /**
+ * @nullable
+ */
+export type GetOnePending200Status = typeof GetOnePending200Status[keyof typeof GetOnePending200Status] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetOnePending200Status = {
+  Aberto: 'Aberto',
+  Encaminhado: 'Encaminhado',
+  Pendente: 'Pendente',
+  Concluído: 'Concluído',
+} as const;
+
+/**
+ * @nullable
+ */
+export type GetOnePending200Category = typeof GetOnePending200Category[keyof typeof GetOnePending200Category] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetOnePending200Category = {
+  SAC: 'SAC',
+  Atendimento: 'Atendimento',
+  Financeiro: 'Financeiro',
+  Diretoria: 'Diretoria',
+  Comercial: 'Comercial',
+  Auditoria: 'Auditoria',
+} as const;
+
+export type GetOnePending200 = {
+  id: string;
+  /** @nullable */
+  client: string | null;
+  /** @nullable */
+  callReason: string | null;
+  /** @nullable */
+  status: GetOnePending200Status;
+  /** @nullable */
+  priority: string | null;
+  /** @nullable */
+  responsible: string | null;
+  /** @nullable */
+  category: GetOnePending200Category;
+  /** @nullable */
+  description: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type GetOnePending404 = {
+  message: string;
+};
+
+/**
  * Create a new partner
  */
 export const createPartner = (
@@ -2566,3 +2620,85 @@ const {mutation: mutationOptions} = options ?
 
       return useMutation(mutationOptions);
     }
+    
+/**
+ * Get a single pending by id
+ */
+export const getOnePending = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetOnePending200>(
+      {url: `http://localhost:3333/pending/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetOnePendingQueryKey = (id: string,) => {
+    return [`http://localhost:3333/pending/${id}`] as const;
+    }
+
+    
+export const getGetOnePendingQueryOptions = <TData = Awaited<ReturnType<typeof getOnePending>>, TError = GetOnePending404>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOnePending>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetOnePendingQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOnePending>>> = ({ signal }) => getOnePending(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOnePending>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetOnePendingQueryResult = NonNullable<Awaited<ReturnType<typeof getOnePending>>>
+export type GetOnePendingQueryError = GetOnePending404
+
+
+export function useGetOnePending<TData = Awaited<ReturnType<typeof getOnePending>>, TError = GetOnePending404>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOnePending>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOnePending>>,
+          TError,
+          Awaited<ReturnType<typeof getOnePending>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetOnePending<TData = Awaited<ReturnType<typeof getOnePending>>, TError = GetOnePending404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOnePending>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOnePending>>,
+          TError,
+          Awaited<ReturnType<typeof getOnePending>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetOnePending<TData = Awaited<ReturnType<typeof getOnePending>>, TError = GetOnePending404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOnePending>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetOnePending<TData = Awaited<ReturnType<typeof getOnePending>>, TError = GetOnePending404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOnePending>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetOnePendingQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}

@@ -28,7 +28,6 @@ export function FinancialDetails({
         <Table className="min-w-full">
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
               <TableCell>Título</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Valor</TableCell>
@@ -38,7 +37,6 @@ export function FinancialDetails({
           <TableBody>
             {paginatedData.map(item => (
               <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
                 <TableCell>{item.title || 'Título não definido'}</TableCell>
                 <TableCell>
                   <span className="badge badge-outline">

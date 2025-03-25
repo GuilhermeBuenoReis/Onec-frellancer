@@ -5,11 +5,6 @@ import {
   Pie,
   Tooltip,
   Legend,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
   Cell,
 } from 'recharts';
 
@@ -19,14 +14,10 @@ interface FinancialChartsProps {
   monthlyData: { month: string; count: number }[];
 }
 
-export function FinancialCharts({
-  statusData,
-  COLORS,
-  monthlyData,
-}: FinancialChartsProps) {
+export function FinancialCharts({ statusData, COLORS }: FinancialChartsProps) {
   return (
     <div className="flex flex-col md:flex-row gap-6 w-full h-full p-4">
-      <Card className="flex-1 min-h-[350px] flex flex-col">
+      <Card className="flex-1 min-h-[350px] flex flex-col p-4">
         <h3 className="text-xl font-semibold mb-4">Distribuição de Status</h3>
         <div className="flex-grow">
           <ResponsiveContainer width="100%" height="100%">
@@ -48,22 +39,8 @@ export function FinancialCharts({
                 ))}
               </Pie>
               <Tooltip />
-              <Legend verticalAlign="bottom" height={36} />
+              <Legend verticalAlign="top" height={10} />
             </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
-      <Card className="flex-1 min-h-[350px] flex flex-col">
-        <h3 className="text-xl font-semibold mb-4">Projetos por Mês</h3>
-        <div className="flex-grow">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#82ca9d" />
-            </BarChart>
           </ResponsiveContainer>
         </div>
       </Card>
