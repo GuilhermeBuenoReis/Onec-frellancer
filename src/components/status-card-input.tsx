@@ -1,69 +1,82 @@
-import { Search } from 'lucide-react';
-import { Card } from './card';
 import { useState } from 'react';
+import { Card } from './card';
 import {
-  useGetContractStatusCount,
-  // useGetContractStatusCountByFilter,
-} from '@/http/generated/api';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ChevronDown } from 'lucide-react';
 
-const statusCardInputSchema = z.object({
-  filter: z.string().min(1, 'O campo não pode estar vazio'),
-});
+interface ContractStatus {
+  status: string | null;
+  count: number;
+}
 
-type StatusCardInput = z.infer<typeof statusCardInputSchema>;
+interface StatusCardsInputProps {
+  contractStatus: ContractStatus[];
+}
 
-export function StatusCardsInput({
-  contractStatus,
-}: {
-  contractStatus: { status: string | null; count: number }[];
-}) {
-  const { register, handleSubmit, reset } = useForm<StatusCardInput>({
-    resolver: zodResolver(statusCardInputSchema),
-  });
-  const [filtered, setFiltered] = useState(contractStatus);
+export function StatusCardsInput({ contractStatus }: StatusCardsInputProps) {
+  const [filtered, setFiltered] = useState<ContractStatus[]>(contractStatus);
+  const [selectedStatus, setSelectedStatus] = useState<string>('');
 
-  const { data: getContractStatus } = useGetContractStatusCount();
-  // const { mutateAsync: statusFilter } = useGetContractStatusCountByFilter();
+  const statusOptions = [
+    'CONCLUIDO',
+    'CANCELADO',
+    'FINALIZADO',
+    'AGUARDANDO RECEBER',
+    'Não informado',
+    'PAGO',
+    'PERDIDO',
+    'ATIVO',
+    'MIGRADO',
+  ];
 
-  if (!getContractStatus) {
-    return null;
-  }
+  const normalize = (str: string) =>
+    str
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s/g, '');
 
-  const onSubmit = async (data: StatusCardInput) => {
-    try {
-      const filteredData = getContractStatus.filter(item =>
-        item.status?.toLowerCase().includes(data.filter.toLowerCase())
-      );
+  const handleSelect = (status: string) => {
+    setSelectedStatus(status);
+    if (status === '') {
+      setFiltered(contractStatus);
+    } else {
+      const normalizedStatus = normalize(status);
+      const filteredData = contractStatus.filter(item => {
+        const itemStatus = item.status || '';
+        return normalize(itemStatus).includes(normalizedStatus);
+      });
       setFiltered(filteredData);
-
-      reset();
-    } catch (error) {
-      console.error('Erro ao buscar contratos:', error);
     }
   };
 
   return (
     <div className="mb-8">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center justify-center gap-4 mb-6"
-      >
-        <input
-          {...register('filter')}
-          placeholder="Digite o status do contrato..."
-          className="w-full max-w-md px-6 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all shadow-sm"
-        />
-        <button
-          type="submit"
-          className="px-3 py-3 bg-blue-500 text-white rounded-xl shadow-md hover:bg-blue-600 transition-all flex items-center gap-2 cursor-pointer"
-        >
-          <Search size={18} />
-          Buscar
-        </button>
-      </form>
+      <div className="flex items-center justify-center gap-4 mb-6">
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl shadow-md hover:bg-blue-600 transition-all cursor-pointer">
+            {selectedStatus || 'Selecione o status'}
+            <ChevronDown size={18} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuItem onClick={() => handleSelect('')}>
+              Todos
+            </DropdownMenuItem>
+            {statusOptions.map(status => (
+              <DropdownMenuItem
+                key={status}
+                onClick={() => handleSelect(status)}
+              >
+                {status}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {filtered.slice(0, 16).map(item => (
           <Card

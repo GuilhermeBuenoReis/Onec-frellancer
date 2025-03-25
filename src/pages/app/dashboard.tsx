@@ -49,11 +49,9 @@ export function Dashboard() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Sidebar sempre visível em telas md+ (usa a nova Sidebar redimensionável) */}
       <div className="hidden md:flex">
         <Sidebar />
       </div>
-      {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div
@@ -65,6 +63,7 @@ export function Dashboard() {
           </div>
         </div>
       )}
+
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
         <Header onToggleSidebar={toggleSidebar} />
         <main className="p-4 md:p-8 overflow-y-auto">

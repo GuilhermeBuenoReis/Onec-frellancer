@@ -35,7 +35,8 @@
         "useLiteralKeys": "off"
       },
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noMisleadingCharacterClass": "off"
       },
       "correctness": {
         "useJsxKeyInIterable": "off"

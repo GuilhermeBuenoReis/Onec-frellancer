@@ -204,8 +204,8 @@ const FileUpload: React.FC<FileUploadProps> = props => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg flex flex-col gap-3">
+    <div className="w-full flex flex-col items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md flex flex-col gap-3">
         <Label htmlFor="file-upload" className="block mb-4">
           <span className="text-xl font-medium text-gray-700">
             Selecione sua planilha

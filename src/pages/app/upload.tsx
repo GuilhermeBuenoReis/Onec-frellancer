@@ -16,23 +16,21 @@ export function Upload() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Upload" />
-      {/* Desktop Sidebar com redimensionamento */}
       <div className="hidden md:flex">
         <Sidebar />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
-      {/* Mobile Sidebar */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 transition-transform flex md:hidden">
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="relative bg-white w-64 h-full shadow-lg">
+          <div className="relative bg-white w-64 h-full shadow-md">
             <Sidebar />
             <div className="p-2">
               <button
-                type="submit"
+                type="button"
                 onClick={() => setSidebarOpen(false)}
                 className="p-2 border rounded"
               >
@@ -44,13 +42,13 @@ export function Upload() {
       )}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
         <button
-          type="submit"
-          className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-2 rounded-full shadow-lg"
+          type="button"
+          className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-2 rounded-full shadow-md"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           <Menu size={24} />
         </button>
-        <form className="w-full max-w-lg bg-white p-6 rounded-lg shadow-lg">
+        <form className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4 text-gray-800 text-center">
             Upload de Planilha
           </h2>
