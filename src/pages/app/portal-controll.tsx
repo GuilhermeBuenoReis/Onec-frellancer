@@ -1,196 +1,202 @@
 import { useState, useMemo } from 'react';
-import { Sidebar } from '@/components/sidebar';
-import { Header } from '@/components/header';
-import { Card } from '@/components/ui/card';
+import { ArrowRight, Menu } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from '@/components/ui/table';
-import {
-  DropdownMenuContent,
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Helmet } from 'react-helmet';
+  ResponsiveContainer,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip as RechartsTooltip,
+  Legend,
+  LineChart,
+  Line,
+} from 'recharts';
 import { useGetPortalControlls } from '@/http/generated/api';
-import {
-  PortalControleForm,
-  type CreatePortalControllInput,
-} from '@/components/portal-controle-form';
+import { Sidebar } from '@/components/sidebar';
+
+interface PortalControlData {
+  monthOfCalculation: string | null;
+  competenceMonth: string | null;
+  contract: number | null;
+  enterprise: string | null;
+  product: string | null;
+  percentageHonorary: number | null;
+  compensation: number | null;
+  honorary: number | null;
+  tax: number | null;
+  value: number | null;
+  situation: string | null;
+}
 
 export function PortalControllDashboard() {
-  const { data: portalControlls, refetch } =
-    useGetPortalControlls<CreatePortalControllInput[]>();
-  const [filter, setFilter] = useState<string>('');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data } = useGetPortalControlls<PortalControlData[]>();
 
-  const filteredData = useMemo(() => {
-    if (!portalControlls) return [];
-    return filter
-      ? portalControlls.filter(
-          item =>
-            item.enterprise.toLowerCase().includes(filter.toLowerCase()) ||
-            item.product.toLowerCase().includes(filter.toLowerCase())
-        )
-      : portalControlls;
-  }, [portalControlls, filter]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const totalValue: number = useMemo(
+    () => data?.reduce((acc, cur) => acc + (Number(cur.value) || 0), 0) ?? 0,
+    [data]
+  );
+  const totalHonorary: number = useMemo(
+    () => data?.reduce((acc, cur) => acc + (Number(cur.honorary) || 0), 0) ?? 0,
+    [data]
+  );
+  const totalCompensation: number = useMemo(
+    () =>
+      data?.reduce((acc, cur) => acc + (Number(cur.compensation) || 0), 0) ?? 0,
+    [data]
+  );
+
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
+  const chartData = useMemo(() => {
+    if (!data) return [];
+    const grouped: Record<
+      string,
+      { month: string; total: number; honorary: number; compensation: number }
+    > = {};
+
+    data.forEach(item => {
+      if (item.competenceMonth) {
+        if (!grouped[item.competenceMonth]) {
+          grouped[item.competenceMonth] = {
+            month: item.competenceMonth,
+            total: 0,
+            honorary: 0,
+            compensation: 0,
+          };
+        }
+        grouped[item.competenceMonth].total += Number(item.value) || 0;
+        grouped[item.competenceMonth].honorary += Number(item.honorary) || 0;
+        grouped[item.competenceMonth].compensation +=
+          Number(item.compensation) || 0;
+      }
+    });
+    return Object.values(grouped).sort((a, b) =>
+      a.month.localeCompare(b.month)
+    );
+  }, [data]);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
-      <Helmet title="Portal Controll Dashboard" />
-      {/* Desktop Sidebar com redimensionamento */}
-      <div className="hidden md:flex">
+    <div className="min-h-screen flex bg-gray-50">
+      <div className="hidden md:block">
         <Sidebar />
-        <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
-      {/* Mobile Sidebar */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-50 transition-transform flex md:hidden">
-          <div
-            className="fixed inset-0 bg-black opacity-50"
-            onClick={() => setSidebarOpen(false)}
-          />
-          <div className="relative bg-white w-64 h-full shadow-lg">
-            <Sidebar />
-            <div className="p-2">
-              <Button onClick={() => setSidebarOpen(false)} variant="outline">
-                Fechar
-              </Button>
-            </div>
-          </div>
+
+      {isSidebarOpen && (
+        <div className="absolute z-50 md:hidden">
+          <Sidebar />
+          <button
+            type="button"
+            onClick={() => setIsSidebarOpen(false)}
+            className="absolute top-4 right-4 bg-gray-300 p-2 rounded"
+          >
+            <ArrowRight size={14} />
+          </button>
         </div>
       )}
-      <div className="flex-1 flex flex-col overflow-y-auto">
-        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main className="p-4 md:p-8 container mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">
-            Dashboard do Portal de Controle
-          </h2>
-          <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-200"
-                >
-                  Filtrar por Enterprise
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white shadow-xl rounded-lg">
-                <DropdownMenuItem onClick={() => setFilter('')}>
-                  Todos
-                </DropdownMenuItem>
-                {portalControlls &&
-                  Array.from(
-                    new Set(portalControlls.map(item => item.enterprise))
-                  ).map(enterprise => (
-                    <DropdownMenuItem
-                      key={enterprise}
-                      onClick={() => setFilter(enterprise)}
-                    >
-                      {enterprise}
-                    </DropdownMenuItem>
-                  ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+
+      {/* Conteúdo Principal */}
+      <main className="flex-1 p-4 md:p-6 space-y-6">
+        {/* Cabeçalho com botão de menu para mobile e filtros */}
+        <header className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+          <div className="flex items-center">
+            {/* Botão de menu visível apenas em mobile */}
+            <Button
+              variant="outline"
+              className="md:hidden mr-4"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <Menu />
+            </Button>
           </div>
-          <Tabs defaultValue="list" className="space-y-6">
-            <TabsList className="flex justify-center bg-white shadow-md rounded p-1">
-              <TabsTrigger
-                value="list"
-                className="px-4 py-2 rounded-md cursor-pointer text-gray-700 hover:bg-gray-200 data-[state=active]:bg-gray-800 data-[state=active]:text-white transition-colors"
-              >
-                Listagem
-              </TabsTrigger>
-              <TabsTrigger
-                value="create"
-                className="px-4 py-2 rounded-md cursor-pointer text-gray-700 hover:bg-gray-200 data-[state=active]:bg-gray-800 data-[state=active]:text-white transition-colors"
-              >
-                Formulário
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="list">
-              <Card className="p-6 shadow-lg rounded-xl bg-white">
-                <Table className="min-w-full table-fixed">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        Empresa
-                      </TableCell>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        Produto
-                      </TableCell>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        % Honorário
-                      </TableCell>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        Compensação
-                      </TableCell>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        Honorário
-                      </TableCell>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        Imposto
-                      </TableCell>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        Valor
-                      </TableCell>
-                      <TableCell className="w-1/8 px-6 py-3 border-t border-gray-200 text-left">
-                        Situação
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {filteredData.map((item, index) => (
-                      <TableRow
-                        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                        key={index}
-                        className="hover:bg-gray-100 transition-colors duration-150"
-                      >
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.enterprise}
-                        </TableCell>
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.product}
-                        </TableCell>
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.percentageHonorary}%
-                        </TableCell>
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.compensation}
-                        </TableCell>
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.honorary}
-                        </TableCell>
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.tax}
-                        </TableCell>
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.value}
-                        </TableCell>
-                        <TableCell className="border-t border-gray-200 text-left">
-                          {item.situation}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Card>
-            </TabsContent>
-            <TabsContent value="create">
-              <Card className="p-8 shadow-lg rounded-xl bg-white">
-                <PortalControleForm onCreate={refetch} />
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </main>
-      </div>
+        </header>
+
+        {/* Cards com os totais */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card
+            className="cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => {}}
+          >
+            <CardHeader>
+              <CardTitle>Valor Total</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xl font-semibold">
+                {formatter.format(totalValue)}
+              </p>
+            </CardContent>
+          </Card>
+          <Card
+            className="cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => {}}
+          >
+            <CardHeader>
+              <CardTitle>Honorários Totais</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xl font-semibold">
+                {formatter.format(totalHonorary)}
+              </p>
+            </CardContent>
+          </Card>
+          <Card
+            className="cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => {}}
+          >
+            <CardHeader>
+              <CardTitle>Compensação Total</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xl font-semibold">
+                {formatter.format(totalCompensation)}
+              </p>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Gráfico de Linhas */}
+        <section className="bg-white p-4 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Evolução Mensal</h2>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis tickFormatter={value => formatter.format(Number(value))} />
+              <RechartsTooltip
+                formatter={value => formatter.format(Number(value))}
+              />
+              <Legend verticalAlign="top" height={36} />
+              <Line
+                type="monotone"
+                dataKey="total"
+                name="Valor Total"
+                stroke="#8884d8"
+                strokeWidth={2}
+                activeDot={{ r: 8 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="honorary"
+                name="Honorários"
+                stroke="#82ca9d"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="compensation"
+                name="Compensação"
+                stroke="#ffc658"
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </section>
+      </main>
     </div>
   );
 }

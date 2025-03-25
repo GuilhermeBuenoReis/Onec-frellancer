@@ -620,6 +620,12 @@ export type UpdatePending404 = {
 
 export type CreatePortalControllBody = {
   /** @nullable */
+  monthOfCalculation: string | null;
+  /** @nullable */
+  competenceMonth: string | null;
+  /** @nullable */
+  contract: number | null;
+  /** @nullable */
   enterprise: string | null;
   /** @nullable */
   product: string | null;
@@ -644,6 +650,12 @@ export type CreatePortalControll201 = {
 export type GetPortalControlls200Item = {
   /** @nullable */
   id: string | null;
+  /** @nullable */
+  monthOfCalculation: string | null;
+  /** @nullable */
+  competenceMonth: string | null;
+  /** @nullable */
+  contract: number | null;
   /** @nullable */
   enterprise: string | null;
   /** @nullable */
