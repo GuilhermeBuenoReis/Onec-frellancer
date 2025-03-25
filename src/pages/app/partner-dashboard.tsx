@@ -19,9 +19,8 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { useGetOnePartner } from '@/http/generated/api';
-import type { GetOnePartner200 } from '@/http/generated/api'; // Certifique-se de importar o tipo correto
+import type { GetOnePartner200 } from '@/http/generated/api';
 
-// Extendendo o tipo GetOnePartner200 para incluir as novas propriedades
 interface Partner extends GetOnePartner200 {
   commissionEvolution?: { month: string; commission: number }[];
   contractDistribution?: { name: string; value: number }[];
@@ -66,12 +65,10 @@ export function PartnerDashboard() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Dashboard de Parceiro" />
-      {/* Desktop Sidebar */}
       <div className="hidden md:flex">
         <Sidebar />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
-      {/* Mobile Sidebar */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div
@@ -144,13 +141,10 @@ export function PartnerDashboard() {
                     <strong>Responsável:</strong> {partnerData.responsible}
                   </p>
                 </div>
-                <div className="mt-4 flex justify-end">
-                  <Button variant="default">Editar Parceiro</Button>
-                </div>
               </CardContent>
             </Card>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
                 Evolução da Comissão
@@ -201,7 +195,7 @@ export function PartnerDashboard() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </div> */}
         </main>
       </div>
     </div>

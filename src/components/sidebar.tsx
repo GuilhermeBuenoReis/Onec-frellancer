@@ -113,7 +113,7 @@ export function Sidebar() {
                 </li>
               </ul>
             </div>
-            <div>
+            {/* <div>
               <h4 className="uppercase text-xs md:text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
                 Outros
               </h4>
@@ -137,7 +137,7 @@ export function Sidebar() {
                   </NavLink>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </nav>
         </div>
       </aside>
