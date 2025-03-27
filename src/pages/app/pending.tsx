@@ -14,12 +14,15 @@ import {
 } from '@/components/ui/table';
 import { PendingForm } from '@/components/pending-form';
 import { useGetPendings } from '@/http/generated/api';
+import dayjs from 'dayjs';
 
 export function Pending() {
   const { data: pending } = useGetPendings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (!pending) return null;
+
+  const formattedDate = dayjs(pending[0].createdAt).format('YYYY-MM-DD');
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -90,7 +93,9 @@ export function Pending() {
                       <TableCell>{item.callReason}</TableCell>
                       <TableCell>{item.status}</TableCell>
                       <TableCell>{item.priority}</TableCell>
-                      <TableCell>{item.createdAt}</TableCell>
+                      <TableCell>
+                        {dayjs(item.createdAt).format('YYYY-MM-DD')}
+                      </TableCell>
                       <TableCell>{item.responsible}</TableCell>
                       <TableCell>{item.category}</TableCell>
                       <TableCell className="max-w-xs truncate">
