@@ -6,7 +6,7 @@ import {
   TableBody,
 } from '@/components/ui/table';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Pagination } from '@/components/ui/pagination';
 import dayjs from 'dayjs';
 
 interface FinancialDetailsProps {
@@ -52,24 +52,13 @@ export function FinancialDetails({
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-between items-center p-4">
-        <Button
-          variant="outline"
-          onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </Button>
-        <span>
-          Página {currentPage} de {totalPages}
-        </span>
-        <Button
-          variant="outline"
-          onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        >
-          Próxima
-        </Button>
+      <div className="p-4 flex justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          className="justify-center"
+        />
       </div>
     </Card>
   );

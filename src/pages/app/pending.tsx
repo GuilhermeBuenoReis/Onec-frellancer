@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { Helmet } from 'react-helmet';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Eye } from 'lucide-react';
 import {
@@ -15,24 +15,32 @@ import {
 import { PendingForm } from '@/components/pending-form';
 import { useGetPendings } from '@/http/generated/api';
 import dayjs from 'dayjs';
+import { Pagination } from '@/components/ui/pagination';
 
 export function Pending() {
   const { data: pending } = useGetPendings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
 
   if (!pending) return null;
 
-  const formattedDate = dayjs(pending[0].createdAt).format('YYYY-MM-DD');
+  // Calcula o total de páginas com base na quantidade de pendências
+  const totalPages = Math.ceil(pending.length / recordsPerPage);
+
+  // Calcula as pendências que serão exibidas na página atual
+  const paginatedPendings = useMemo(() => {
+    const startIndex = (currentPage - 1) * recordsPerPage;
+    return pending.slice(startIndex, startIndex + recordsPerPage);
+  }, [pending, currentPage]);
 
   return (
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Painel de Pendências" />
-      {/* Desktop Sidebar com redimensionamento */}
       <div className="hidden md:flex">
         <Sidebar />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
-      {/* Mobile Sidebar */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div
@@ -87,7 +95,7 @@ export function Pending() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {pending.map(item => (
+                  {paginatedPendings.map(item => (
                     <TableRow key={item.id}>
                       <TableCell>{item.client}</TableCell>
                       <TableCell>{item.callReason}</TableCell>
@@ -110,6 +118,15 @@ export function Pending() {
                   ))}
                 </TableBody>
               </Table>
+            </div>
+
+            <div className="w-full flex justify-center">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={page => setCurrentPage(page)}
+                className="mt-4 "
+              />
             </div>
           </div>
         </main>

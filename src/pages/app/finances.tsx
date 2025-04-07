@@ -12,17 +12,10 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
 import { useGetNegotiation } from '@/http/generated/api';
 import { FinancialDetails } from '@/components/finance-datails';
 import { FinancialCharts } from '@/components/financial-charts';
+import { Link } from 'react-router-dom';
 
 export function Financas() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -89,7 +82,7 @@ export function Financas() {
     perdido: '#F44336',
   };
 
-  const sortedNegotiations = useMemo(() => {
+  useMemo(() => {
     return [...filteredNegotiations].sort(
       (a, b) => (b.value || 0) - (a.value || 0)
     );
@@ -175,32 +168,9 @@ export function Financas() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline">Top 5 Projetos</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Top 5 Projetos por Valor</DialogTitle>
-                  <DialogDescription>
-                    Confira os projetos com maior valor.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-2 mt-4">
-                  {sortedNegotiations.slice(0, 5).map(item => (
-                    <div
-                      key={item.id}
-                      className="flex justify-between items-center border-b py-2"
-                    >
-                      <span>{item.title || 'Título não definido'}</span>
-                      <span className="font-bold">
-                        R$ {item.value?.toLocaleString() || '0'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </DialogContent>
-            </Dialog>
+            <Link to="/create-negotiation">
+              <Button className="cursor-pointer">Criar</Button>
+            </Link>
           </div>
           <Tabs defaultValue="details" className="space-y-6">
             <TabsList>

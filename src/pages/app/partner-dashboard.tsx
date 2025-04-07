@@ -41,8 +41,6 @@ const defaultPieData = [
   { name: 'Em Andamento', value: 20 },
 ];
 
-const COLORS = ['#4CAF50', '#F44336', '#FF9800'];
-
 export function PartnerDashboard() {
   const { id } = useParams();
   const {
@@ -144,58 +142,6 @@ export function PartnerDashboard() {
               </CardContent>
             </Card>
           </div>
-          {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
-                Evolução da Comissão
-              </h2>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={commissionData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="month" stroke="#4a5568" />
-                  <YAxis stroke="#4a5568" />
-                  <Tooltip />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="commission"
-                    stroke="#4F46E5"
-                    strokeWidth={3}
-                    activeDot={{ r: 8 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
-                Distribuição de Contratos
-              </h2>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={pieChartData}
-                    dataKey="value"
-                    nameKey="name"
-                    innerRadius={70}
-                    outerRadius={100}
-                    paddingAngle={5}
-                  >
-                    {pieChartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${
-                          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                          index
-                        }`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend verticalAlign="bottom" height={36} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div> */}
         </main>
       </div>
     </div>

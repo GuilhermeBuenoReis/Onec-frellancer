@@ -10,6 +10,8 @@ import { Financas } from './pages/app/finances';
 import { Login } from './pages/auth/login';
 import { PendingDetails } from './pages/app/pending-details';
 import { PortalControllDashboard } from './pages/app/portal-controll';
+import { CreateNegotiation } from './pages/app/create-negotiation';
+import { CreatePartner } from './pages/app/create-partner';
 
 export function App() {
   return (
@@ -25,7 +27,9 @@ export function App() {
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/notificacoes" element={<NotificationsPage />} />
         <Route path="/financas" element={<Financas />} />
-        <Route path="//controle-portal" element={<PortalControllDashboard />} />
+        <Route path="/controle-portal" element={<PortalControllDashboard />} />
+        <Route path="/create-negotiation" element={<CreateNegotiation />} />
+        <Route path="/rh/parceiros/create" element={<CreatePartner />} />
       </Routes>
     </Router>
   );

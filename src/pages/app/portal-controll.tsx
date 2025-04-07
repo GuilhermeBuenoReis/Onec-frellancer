@@ -100,12 +100,9 @@ export function PortalControllDashboard() {
         </div>
       )}
 
-      {/* Conteúdo Principal */}
       <main className="flex-1 p-4 md:p-6 space-y-6">
-        {/* Cabeçalho com botão de menu para mobile e filtros */}
         <header className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
           <div className="flex items-center">
-            {/* Botão de menu visível apenas em mobile */}
             <Button
               variant="outline"
               className="md:hidden mr-4"
@@ -116,7 +113,6 @@ export function PortalControllDashboard() {
           </div>
         </header>
 
-        {/* Cards com os totais */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card
             className="cursor-pointer hover:shadow-lg transition-shadow"
@@ -159,7 +155,6 @@ export function PortalControllDashboard() {
           </Card>
         </section>
 
-        {/* Gráfico de Linhas */}
         <section className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4">Evolução Mensal</h2>
           <ResponsiveContainer width="100%" height={400}>
