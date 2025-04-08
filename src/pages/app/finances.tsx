@@ -1,5 +1,5 @@
 // Financas.tsx
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import dayjs from 'dayjs';
 import { Sidebar } from '@/components/sidebar';
@@ -16,7 +16,6 @@ import { useGetNegotiation } from '@/http/generated/api';
 import { FinancialDetails } from '@/components/finance-datails';
 import { FinancialCharts } from '@/components/financial-charts';
 import { Link } from 'react-router-dom';
-import { Pagination } from '@/components/ui/pagination';
 
 export function Financas() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -88,7 +87,7 @@ export function Financas() {
       (a, b) => dayjs(a.month, 'MMM').month() - dayjs(b.month, 'MMM').month()
     );
 
-  const sortedNegotiations = useMemo(() => {
+  useMemo(() => {
     return [...filteredNegotiations].sort(
       (a, b) => (b.value || 0) - (a.value || 0)
     );

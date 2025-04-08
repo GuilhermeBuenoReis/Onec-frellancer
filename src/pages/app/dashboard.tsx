@@ -1,3 +1,4 @@
+// Dashboard.tsx
 import React, { useState } from 'react';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
@@ -17,6 +18,8 @@ import {
 import { Helmet } from 'react-helmet';
 import { useGetContractStatusCount } from '@/http/generated/api';
 import { StatusCardsInput } from '@/components/status-card-input';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const COLORS: Record<string, string> = {
   CONCLUIDO: '#4CAF50',
@@ -67,11 +70,18 @@ export function Dashboard() {
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
         <Header onToggleSidebar={toggleSidebar} />
         <main className="p-4 md:p-8 overflow-y-auto">
+          <Helmet title="Dashboard" />
           <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg mb-10">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6">
               Controle de Contratos
             </h1>
             <StatusCardsInput contractStatus={contractStatus} />
+            {/* Botão para criar contrato */}
+            <div className="flex justify-center mt-6">
+              <Link to="/create-contract">
+                <Button variant="default">Criar Contrato</Button>
+              </Link>
+            </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg">
@@ -130,7 +140,6 @@ export function Dashboard() {
           </div>
         </main>
       </div>
-      <Helmet title="Dashboard" />
     </div>
   );
 }
