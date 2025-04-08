@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Link } from 'react-router-dom';
@@ -23,16 +23,17 @@ export function Pending() {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
 
-  if (!pending) return null;
+  const totalPages = useMemo(() => {
+    return pending ? Math.ceil(pending.length / recordsPerPage) : 0;
+  }, [pending]);
 
-  // Calcula o total de páginas com base na quantidade de pendências
-  const totalPages = Math.ceil(pending.length / recordsPerPage);
-
-  // Calcula as pendências que serão exibidas na página atual
   const paginatedPendings = useMemo(() => {
+    if (!pending) return [];
     const startIndex = (currentPage - 1) * recordsPerPage;
     return pending.slice(startIndex, startIndex + recordsPerPage);
   }, [pending, currentPage]);
+
+  if (!pending) return null;
 
   return (
     <div className="flex h-screen overflow-hidden">
