@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+// Financas.tsx
+import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import dayjs from 'dayjs';
 import { Sidebar } from '@/components/sidebar';
@@ -11,11 +12,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-
 import { useGetNegotiation } from '@/http/generated/api';
 import { FinancialDetails } from '@/components/finance-datails';
 import { FinancialCharts } from '@/components/financial-charts';
 import { Link } from 'react-router-dom';
+import { Pagination } from '@/components/ui/pagination';
 
 export function Financas() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -25,20 +26,32 @@ export function Financas() {
   const allowedStatuses = [
     'Ganho',
     'Em Andamento',
-    'Status Bão Informado',
+    'Status Não Informado',
     'Perdido',
   ];
   const [filterStatus, setFilterStatus] = useState('');
   const negotiationsData = negotiation || [];
+
   const handleToggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
   const filteredNegotiations = useMemo(() => {
-    return filterStatus
-      ? negotiationsData.filter(
-          item => item.status?.toLowerCase() === filterStatus.toLowerCase()
-        )
-      : negotiationsData;
+    if (filterStatus) {
+      return negotiationsData.filter(
+        item => item.status?.toLowerCase() === filterStatus.toLowerCase()
+      );
+    }
+    return negotiationsData;
   }, [negotiationsData, filterStatus]);
+
+  const totalPages = useMemo(() => {
+    return Math.ceil(filteredNegotiations.length / recordsPerPage);
+  }, [filteredNegotiations]);
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
 
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * recordsPerPage;
@@ -51,7 +64,7 @@ export function Financas() {
     0
   );
   const averageValue =
-    totalProjects > 0 ? (totalValue / totalProjects).toFixed(2) : 0;
+    totalProjects > 0 ? (totalValue / totalProjects).toFixed(2) : '0';
 
   const statusCountMap: Record<string, number> = {};
   filteredNegotiations.forEach(item => {
@@ -75,20 +88,11 @@ export function Financas() {
       (a, b) => dayjs(a.month, 'MMM').month() - dayjs(b.month, 'MMM').month()
     );
 
-  const COLORS: Record<string, string> = {
-    ganho: '#4CAF50',
-    'em andamento': '#FFC107',
-    'status bão informado': '#9C27B0',
-    perdido: '#F44336',
-  };
-
-  useMemo(() => {
+  const sortedNegotiations = useMemo(() => {
     return [...filteredNegotiations].sort(
       (a, b) => (b.value || 0) - (a.value || 0)
     );
   }, [filteredNegotiations]);
-
-  const totalPages = Math.ceil(filteredNegotiations.length / recordsPerPage);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -169,7 +173,7 @@ export function Financas() {
               </DropdownMenuContent>
             </DropdownMenu>
             <Link to="/create-negotiation">
-              <Button className="cursor-pointer">Criar</Button>
+              <Button>Criar</Button>
             </Link>
           </div>
           <Tabs defaultValue="details" className="space-y-6">
@@ -188,7 +192,12 @@ export function Financas() {
             <TabsContent value="charts">
               <FinancialCharts
                 statusData={statusData}
-                COLORS={COLORS}
+                COLORS={{
+                  ganho: '#4CAF50',
+                  'em andamento': '#FFC107',
+                  'status bão informado': '#9C27B0',
+                  perdido: '#F44336',
+                }}
                 monthlyData={monthlyData}
               />
             </TabsContent>

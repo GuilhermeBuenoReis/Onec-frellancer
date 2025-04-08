@@ -1,3 +1,4 @@
+// Pagination.tsx
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -65,14 +66,13 @@ const Pagination: React.FC<PaginationProps> = ({
         size="sm"
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
-        className="cursor-pointer"
       >
-        <ChevronLeft className="w-4 h-4 cursor-pointer" />
+        <ChevronLeft className="w-4 h-4" />
       </Button>
 
       {pages.map((page, index) =>
         page === '...' ? (
-          <span key={index} className="px-2 cursor-pointer">
+          <span key={index} className="px-2">
             ...
           </span>
         ) : (
@@ -81,7 +81,6 @@ const Pagination: React.FC<PaginationProps> = ({
             variant={page === currentPage ? 'default' : 'outline'}
             size="sm"
             onClick={() => onPageChange(page as number)}
-            className="cursor-pointer"
           >
             {page}
           </Button>
@@ -93,7 +92,6 @@ const Pagination: React.FC<PaginationProps> = ({
         size="sm"
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
-        className="cursor-pointer"
       >
         <ChevronRight className="w-4 h-4" />
       </Button>
