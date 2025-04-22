@@ -13,6 +13,8 @@ import { PortalControllDashboard } from './pages/app/portal-controll';
 import { CreateNegotiation } from './pages/app/create-negotiation';
 import { CreatePartner } from './pages/app/create-partner';
 import { CreateContract } from './pages/app/create-contract';
+import { UploadHonorary } from './components/upload-honorary';
+import { InformationHonorary } from './components/information-hononary';
 
 export function App() {
   return (
@@ -32,6 +34,8 @@ export function App() {
         <Route path="/create-negotiation" element={<CreateNegotiation />} />
         <Route path="/rh/parceiros/create" element={<CreatePartner />} />
         <Route path="/create-contract" element={<CreateContract />} />
+        <Route path="/upload-honorary" element={<UploadHonorary />} />
+        <Route path="/information-honorary" element={<InformationHonorary />} />
       </Routes>
     </Router>
   );
