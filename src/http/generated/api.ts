@@ -638,40 +638,16 @@ export type CreatePortalControllBody = {
   /** @nullable */
   tax: number | null;
   /** @nullable */
+  tj: number | null;
+  /** @nullable */
   value: number | null;
   /** @nullable */
   situation: string | null;
+  partnerId: string;
 };
 
 export type CreatePortalControll201 = {
   id: string;
-};
-
-export type GetPortalControlls200Item = {
-  /** @nullable */
-  id: string | null;
-  /** @nullable */
-  monthOfCalculation: string | null;
-  /** @nullable */
-  competenceMonth: string | null;
-  /** @nullable */
-  contract: number | null;
-  /** @nullable */
-  enterprise: string | null;
-  /** @nullable */
-  product: string | null;
-  /** @nullable */
-  percentageHonorary: number | null;
-  /** @nullable */
-  compensation: number | null;
-  /** @nullable */
-  honorary: number | null;
-  /** @nullable */
-  tax: number | null;
-  /** @nullable */
-  value: number | null;
-  /** @nullable */
-  situation: string | null;
 };
 
 export type DeletePortalControll200 = {
@@ -683,8 +659,6 @@ export type DeletePortalControll404 = {
 };
 
 export type UpdatePortalControllBody = {
-  /** @nullable */
-  id?: string | null;
   /** @nullable */
   enterprise?: string | null;
   /** @nullable */
@@ -698,9 +672,12 @@ export type UpdatePortalControllBody = {
   /** @nullable */
   tax?: number | null;
   /** @nullable */
+  tj?: number | null;
+  /** @nullable */
   value?: number | null;
   /** @nullable */
   situation?: string | null;
+  partnerId?: string;
 };
 
 export type UpdatePortalControll200 = {
@@ -872,6 +849,21 @@ export type CreateClient400 = {
   message: string;
 };
 
+export type GetClient200Item = {
+  /** @nullable */
+  enterprise: string | null;
+  /** @nullable */
+  competenceMonth: string | null;
+  /** @nullable */
+  cnpj: string | null;
+  /** @nullable */
+  contestation: string | null;
+  /** @nullable */
+  returned: string | null;
+  /** @nullable */
+  product: string | null;
+};
+
 export type ListCredentialClient200ItemCredentials = {
   id: string;
   /** @nullable */
@@ -901,6 +893,159 @@ export type ListCredentialClient200Item = {
 
 export type ListCredentialClient400 = {
   message: string;
+};
+
+export type UpdateCredentialBody = {
+  /** @nullable */
+  channelHead?: string | null;
+  /** @nullable */
+  cnpj?: string | null;
+  /** @nullable */
+  agentIndicator?: string | null;
+  /** @nullable */
+  partner?: string | null;
+};
+
+export type UpdateCredential200 = {
+  message: string;
+};
+
+export type UpdateCredential404 = {
+  message: string;
+};
+
+export type DeleteCredential200 = {
+  message: string;
+};
+
+export type DeleteCredential404 = {
+  message: string;
+};
+
+export type UpdateClientBody = {
+  /** @nullable */
+  enterprise?: string | null;
+  /** @nullable */
+  competenceMonth?: string | null;
+  /** @nullable */
+  cnpj?: string | null;
+  /** @nullable */
+  contestation?: string | null;
+  /** @nullable */
+  returned?: string | null;
+  /** @nullable */
+  product?: string | null;
+};
+
+export type UpdateClient200 = {
+  message: string;
+};
+
+export type UpdateClient404 = {
+  message: string;
+};
+
+export type DeleteClient200 = {
+  message: string;
+};
+
+export type DeleteClient404 = {
+  message: string;
+};
+
+export type UploadJsonPortalControllsBodySheetsItemDataItem = {
+  'Mês Apuração'?: unknown;
+  'Mês Competência'?: unknown;
+  Contrato?: unknown;
+  Empresa?: unknown;
+  Produto?: unknown;
+  '% Honorario'?: unknown;
+  Compensação?: unknown;
+  Honorários?: unknown;
+  Imposto?: unknown;
+  'Valor R$'?: unknown;
+};
+
+export type UploadJsonPortalControllsBodySheetsItem = {
+  name: string;
+  data: UploadJsonPortalControllsBodySheetsItemDataItem[];
+};
+
+export type UploadJsonPortalControllsBody = {
+  sheets: UploadJsonPortalControllsBodySheetsItem[];
+};
+
+export type GetPortalControllsParams = {
+partnerId: string;
+};
+
+export type GetPortalControlls200Item = {
+  /** @nullable */
+  id: string | null;
+  /** @nullable */
+  monthOfCalculation: string | null;
+  /** @nullable */
+  competenceMonth: string | null;
+  /** @nullable */
+  contract: number | null;
+  /** @nullable */
+  enterprise: string | null;
+  /** @nullable */
+  product: string | null;
+  /** @nullable */
+  percentageHonorary: number | null;
+  /** @nullable */
+  compensation: number | null;
+  /** @nullable */
+  honorary: number | null;
+  /** @nullable */
+  tax: number | null;
+  /** @nullable */
+  tj: number | null;
+  /** @nullable */
+  value: number | null;
+  /** @nullable */
+  situation: string | null;
+  partnerId: string;
+};
+
+export type GetPortalControlls500 = {
+  error: string;
+};
+
+export type ImportPortalControllsBodyItem = {
+  id?: string;
+  /** @nullable */
+  monthOfCalculation?: string | null;
+  /** @nullable */
+  competenceMonth?: string | null;
+  /** @nullable */
+  contract?: number | null;
+  /** @nullable */
+  enterprise?: string | null;
+  /** @nullable */
+  product?: string | null;
+  /** @nullable */
+  percentageHonorary?: number | null;
+  /** @nullable */
+  compensation?: number | null;
+  /** @nullable */
+  honorary?: number | null;
+  /** @nullable */
+  tax?: number | null;
+  /** @nullable */
+  value?: number | null;
+  /** @nullable */
+  situation?: string | null;
+  partnerId: string;
+};
+
+export type ImportPortalControlls200 = {
+  imported: number;
+};
+
+export type ImportPortalControlls400 = {
+  error: string;
 };
 
 /**
@@ -2391,91 +2536,6 @@ const {mutation: mutationOptions} = options ?
     }
     
 /**
- * Get a list of portalcontrolls
- */
-export const getPortalControlls = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return http<GetPortalControlls200Item[]>(
-      {url: `http://localhost:3333/portalcontrolls`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-export const getGetPortalControllsQueryKey = () => {
-    return [`http://localhost:3333/portalcontrolls`] as const;
-    }
-
-    
-export const getGetPortalControllsQueryOptions = <TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPortalControllsQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPortalControlls>>> = ({ signal }) => getPortalControlls(signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetPortalControllsQueryResult = NonNullable<Awaited<ReturnType<typeof getPortalControlls>>>
-export type GetPortalControllsQueryError = unknown
-
-
-export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getPortalControlls>>,
-          TError,
-          Awaited<ReturnType<typeof getPortalControlls>>
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getPortalControlls>>,
-          TError,
-          Awaited<ReturnType<typeof getPortalControlls>>
-        > , 'initialData'
-      >, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetPortalControllsQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-/**
  * Delete a portalcontroll
  */
 export const deletePortalControll = (
@@ -3015,6 +3075,91 @@ const {mutation: mutationOptions} = options ?
     }
     
 /**
+ * Get a list of client
+ */
+export const getClient = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetClient200Item[]>(
+      {url: `http://localhost:3333/client`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetClientQueryKey = () => {
+    return [`http://localhost:3333/client`] as const;
+    }
+
+    
+export const getGetClientQueryOptions = <TData = Awaited<ReturnType<typeof getClient>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClient>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetClientQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getClient>>> = ({ signal }) => getClient(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getClient>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetClientQueryResult = NonNullable<Awaited<ReturnType<typeof getClient>>>
+export type GetClientQueryError = unknown
+
+
+export function useGetClient<TData = Awaited<ReturnType<typeof getClient>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClient>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getClient>>,
+          TError,
+          Awaited<ReturnType<typeof getClient>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetClient<TData = Awaited<ReturnType<typeof getClient>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClient>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getClient>>,
+          TError,
+          Awaited<ReturnType<typeof getClient>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetClient<TData = Awaited<ReturnType<typeof getClient>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClient>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetClient<TData = Awaited<ReturnType<typeof getClient>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClient>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetClientQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
  * Lista os pares de credential e client agregados em um array JSON, com um novo id para cada objeto
  */
 export const listCredentialClient = (
@@ -3095,3 +3240,459 @@ export function useListCredentialClient<TData = Awaited<ReturnType<typeof listCr
 
   return query;
 }
+
+
+
+
+/**
+ * Update a credential
+ */
+export const updateCredential = (
+    id: string,
+    updateCredentialBody: UpdateCredentialBody,
+ ) => {
+      
+      
+      return http<UpdateCredential200>(
+      {url: `http://localhost:3333/credential/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateCredentialBody
+    },
+      );
+    }
+  
+
+
+export const getUpdateCredentialMutationOptions = <TError = UpdateCredential404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCredential>>, TError,{id: string;data: UpdateCredentialBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateCredential>>, TError,{id: string;data: UpdateCredentialBody}, TContext> => {
+    
+const mutationKey = ['updateCredential'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCredential>>, {id: string;data: UpdateCredentialBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateCredential(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateCredentialMutationResult = NonNullable<Awaited<ReturnType<typeof updateCredential>>>
+    export type UpdateCredentialMutationBody = UpdateCredentialBody
+    export type UpdateCredentialMutationError = UpdateCredential404
+
+    export const useUpdateCredential = <TError = UpdateCredential404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCredential>>, TError,{id: string;data: UpdateCredentialBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateCredential>>,
+        TError,
+        {id: string;data: UpdateCredentialBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateCredentialMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Delete a credential
+ */
+export const deleteCredential = (
+    id: string,
+ ) => {
+      
+      
+      return http<DeleteCredential200>(
+      {url: `http://localhost:3333/credential/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteCredentialMutationOptions = <TError = DeleteCredential404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCredential>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteCredential>>, TError,{id: string}, TContext> => {
+    
+const mutationKey = ['deleteCredential'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteCredential>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteCredential(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteCredentialMutationResult = NonNullable<Awaited<ReturnType<typeof deleteCredential>>>
+    
+    export type DeleteCredentialMutationError = DeleteCredential404
+
+    export const useDeleteCredential = <TError = DeleteCredential404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCredential>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteCredential>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteCredentialMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Update a client
+ */
+export const updateClient = (
+    id: string,
+    updateClientBody: UpdateClientBody,
+ ) => {
+      
+      
+      return http<UpdateClient200>(
+      {url: `http://localhost:3333/client/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateClientBody
+    },
+      );
+    }
+  
+
+
+export const getUpdateClientMutationOptions = <TError = UpdateClient404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateClient>>, TError,{id: string;data: UpdateClientBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateClient>>, TError,{id: string;data: UpdateClientBody}, TContext> => {
+    
+const mutationKey = ['updateClient'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateClient>>, {id: string;data: UpdateClientBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateClient(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateClientMutationResult = NonNullable<Awaited<ReturnType<typeof updateClient>>>
+    export type UpdateClientMutationBody = UpdateClientBody
+    export type UpdateClientMutationError = UpdateClient404
+
+    export const useUpdateClient = <TError = UpdateClient404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateClient>>, TError,{id: string;data: UpdateClientBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateClient>>,
+        TError,
+        {id: string;data: UpdateClientBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateClientMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Delete a client
+ */
+export const deleteClient = (
+    id: string,
+ ) => {
+      
+      
+      return http<DeleteClient200>(
+      {url: `http://localhost:3333/client/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteClientMutationOptions = <TError = DeleteClient404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteClient>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteClient>>, TError,{id: string}, TContext> => {
+    
+const mutationKey = ['deleteClient'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteClient>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteClient(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteClientMutationResult = NonNullable<Awaited<ReturnType<typeof deleteClient>>>
+    
+    export type DeleteClientMutationError = DeleteClient404
+
+    export const useDeleteClient = <TError = DeleteClient404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteClient>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteClient>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteClientMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Recebe JSON com múltiplas abas. Realiza full load na primeira vez e incremental (última aba) depois.
+ */
+export const uploadJsonPortalControlls = (
+    partnerId: string,
+    uploadJsonPortalControllsBody: UploadJsonPortalControllsBody,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<void>(
+      {url: `http://localhost:3333/portalcontrolls/${partnerId}/upload-json`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: uploadJsonPortalControllsBody, signal
+    },
+      );
+    }
+  
+
+
+export const getUploadJsonPortalControllsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, TError,{partnerId: string;data: UploadJsonPortalControllsBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, TError,{partnerId: string;data: UploadJsonPortalControllsBody}, TContext> => {
+    
+const mutationKey = ['uploadJsonPortalControlls'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, {partnerId: string;data: UploadJsonPortalControllsBody}> = (props) => {
+          const {partnerId,data} = props ?? {};
+
+          return  uploadJsonPortalControlls(partnerId,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UploadJsonPortalControllsMutationResult = NonNullable<Awaited<ReturnType<typeof uploadJsonPortalControlls>>>
+    export type UploadJsonPortalControllsMutationBody = UploadJsonPortalControllsBody
+    export type UploadJsonPortalControllsMutationError = unknown
+
+    export const useUploadJsonPortalControlls = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, TError,{partnerId: string;data: UploadJsonPortalControllsBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof uploadJsonPortalControlls>>,
+        TError,
+        {partnerId: string;data: UploadJsonPortalControllsBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUploadJsonPortalControllsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Retorna todos os registros de PortalControlls para o parceiro informado via querystring
+ */
+export const getPortalControlls = (
+    params: GetPortalControllsParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetPortalControlls200Item[]>(
+      {url: `http://localhost:3333/portal/portalcontrolls`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetPortalControllsQueryKey = (params: GetPortalControllsParams,) => {
+    return [`http://localhost:3333/portal/portalcontrolls`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetPortalControllsQueryOptions = <TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = GetPortalControlls500>(params: GetPortalControllsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPortalControllsQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPortalControlls>>> = ({ signal }) => getPortalControlls(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPortalControllsQueryResult = NonNullable<Awaited<ReturnType<typeof getPortalControlls>>>
+export type GetPortalControllsQueryError = GetPortalControlls500
+
+
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = GetPortalControlls500>(
+ params: GetPortalControllsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPortalControlls>>,
+          TError,
+          Awaited<ReturnType<typeof getPortalControlls>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = GetPortalControlls500>(
+ params: GetPortalControllsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPortalControlls>>,
+          TError,
+          Awaited<ReturnType<typeof getPortalControlls>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = GetPortalControlls500>(
+ params: GetPortalControllsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetPortalControlls<TData = Awaited<ReturnType<typeof getPortalControlls>>, TError = GetPortalControlls500>(
+ params: GetPortalControllsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControlls>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPortalControllsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * Importa registros de PortalControll via upload CSV/JSON e faz upsert no banco
+ */
+export const importPortalControlls = (
+    importPortalControllsBodyItem: ImportPortalControllsBodyItem[],
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<ImportPortalControlls200>(
+      {url: `http://localhost:3333/portalcontrolls/import`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: importPortalControllsBodyItem, signal
+    },
+      );
+    }
+  
+
+
+export const getImportPortalControllsMutationOptions = <TError = ImportPortalControlls400,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importPortalControlls>>, TError,{data: ImportPortalControllsBodyItem[]}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof importPortalControlls>>, TError,{data: ImportPortalControllsBodyItem[]}, TContext> => {
+    
+const mutationKey = ['importPortalControlls'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof importPortalControlls>>, {data: ImportPortalControllsBodyItem[]}> = (props) => {
+          const {data} = props ?? {};
+
+          return  importPortalControlls(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ImportPortalControllsMutationResult = NonNullable<Awaited<ReturnType<typeof importPortalControlls>>>
+    export type ImportPortalControllsMutationBody = ImportPortalControllsBodyItem[]
+    export type ImportPortalControllsMutationError = ImportPortalControlls400
+
+    export const useImportPortalControlls = <TError = ImportPortalControlls400,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importPortalControlls>>, TError,{data: ImportPortalControllsBodyItem[]}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof importPortalControlls>>,
+        TError,
+        {data: ImportPortalControllsBodyItem[]},
+        TContext
+      > => {
+
+      const mutationOptions = getImportPortalControllsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }

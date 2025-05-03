@@ -1,211 +1,196 @@
-import { useState, useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, Menu } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 import { Sidebar } from '@/components/sidebar';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from '@/components/ui/select';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
   ResponsiveContainer,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip as RechartsTooltip,
-  Legend,
   LineChart,
   Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from 'recharts';
-import { useGetPortalControlls } from '@/http/generated/api';
-
-interface InformationHonorary {
-  monthOfCalculation: string | null;
-  competenceMonth: string | null;
-  contract: number | null;
-  enterprise: string | null;
-  product: string | null;
-  percentageHonorary: number | null;
-  compensation: number | null;
-  honorary: number | null;
-  tax: number | null;
-  value: number | null;
-  situation: string | null;
-}
-
-const filterSchema = z.object({
-  month: z.string(),
-});
-type FilterForm = z.infer<typeof filterSchema>;
 
 export function InformationHonorary() {
+  const { partnerId = '' } = useParams<{ partnerId: string }>();
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { data } = useGetPortalControlls<InformationHonorary[]>();
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filterMonth, setFilterMonth] = useState<'all' | string>('all');
 
-  const months = useMemo(() => {
-    if (!data) return [];
-    return Array.from(
-      new Set(
-        data.map(item => item.competenceMonth).filter((m): m is string => !!m)
-      )
-    ).sort();
+  useEffect(() => {
+    if (!partnerId) {
+      toast.error('Parâmetro partnerId ausente.');
+      setLoading(false);
+      return;
+    }
+    fetch(`http://localhost:3333/portal/portalcontrolls?partnerId=${partnerId}`)
+      .then(res => {
+        if (!res.ok) throw new Error(res.statusText);
+        return res.json();
+      })
+      .then(records => setData(records))
+      .catch(() => toast.error('Erro ao buscar dados'))
+      .finally(() => setLoading(false));
+  }, [partnerId]);
+
+  // lista de meses únicos ordenados (MM/YYYY)
+  const monthsAvailable = useMemo(() => {
+    const setM = new Set<string>();
+    data.forEach(d => {
+      if (typeof d.competenceMonth === 'string') {
+        setM.add(d.competenceMonth);
+      }
+    });
+    return Array.from(setM).sort((a, b) => {
+      const [am, ay] = a.split('/');
+      const [bm, by] = b.split('/');
+      return Number(ay) - Number(by) || Number(am) - Number(bm);
+    });
   }, [data]);
 
-  const { control, watch } = useForm<FilterForm>({
-    resolver: zodResolver(filterSchema),
-    defaultValues: { month: 'all' },
-  });
-  const selectedMonth = watch('month');
-
-  const filteredData = useMemo(() => {
-    if (!data) return [];
-    if (selectedMonth === 'all') return data;
-    return data.filter(d => d.competenceMonth === selectedMonth);
-  }, [data, selectedMonth]);
-
-  const formatter = useMemo(
-    () =>
-      new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      }),
-    []
-  );
-  const totalValue = useMemo(
-    () => filteredData.reduce((sum, cur) => sum + (cur.value || 0), 0),
-    [filteredData]
-  );
-  const totalHonorary = useMemo(
-    () => filteredData.reduce((sum, cur) => sum + (cur.honorary || 0), 0),
-    [filteredData]
-  );
-  const totalCompensation = useMemo(
-    () => filteredData.reduce((sum, cur) => sum + (cur.compensation || 0), 0),
-    [filteredData]
-  );
-
+  // dados do chart: soma value/honorary/compensation por month
   const chartData = useMemo(() => {
-    const grouping: Record<
-      string,
-      { month: string; total: number; honorary: number; compensation: number }
-    > = {};
-    filteredData.forEach(item => {
+    const grouping: Record<string, any> = {};
+    data.forEach(item => {
       const m = item.competenceMonth || 'Sem mês';
-      if (!grouping[m]) {
+      if (!grouping[m])
         grouping[m] = { month: m, total: 0, honorary: 0, compensation: 0 };
-      }
-      grouping[m].total += item.value || 0;
-      grouping[m].honorary += item.honorary || 0;
-      grouping[m].compensation += item.compensation || 0;
+      grouping[m].total += item.value ?? 0;
+      grouping[m].honorary += item.honorary ?? 0;
+      grouping[m].compensation += item.compensation ?? 0;
     });
-    return Object.values(grouping).sort((a, b) =>
-      a.month.localeCompare(b.month)
+    return monthsAvailable.map(
+      m => grouping[m] || { month: m, total: 0, honorary: 0, compensation: 0 }
     );
-  }, [filteredData]);
+  }, [data, monthsAvailable]);
+
+  // dados filtrados para o mês selecionado (ou todos)
+  const filteredForCard = useMemo(() => {
+    if (filterMonth === 'all') return data;
+    return data.filter(d => d.competenceMonth === filterMonth);
+  }, [data, filterMonth]);
+
+  const totals = useMemo(() => {
+    return filteredForCard.reduce(
+      (acc, cur) => ({
+        total: acc.total + (cur.value ?? 0),
+        honorary: acc.honorary + (cur.honorary ?? 0),
+        compensation: acc.compensation + (cur.compensation ?? 0),
+      }),
+      { total: 0, honorary: 0, compensation: 0 }
+    );
+  }, [filteredForCard]);
+
+  if (loading) return <p className="text-center py-8">Carregando...</p>;
 
   return (
     <div className="flex h-screen bg-gray-50">
-      <div className="hidden md:block md:flex-shrink-0">
+      <aside className="hidden md:block md:w-64">
         <Sidebar />
-      </div>
-      {isSidebarOpen && (
-        <div className="fixed inset-0 z-40 flex md:hidden">
-          <div
-            className="fixed inset-0 bg-black opacity-50"
-            onClick={() => setIsSidebarOpen(false)}
-          />
-          <div className="relative flex flex-col w-64 bg-white shadow-lg">
-            <Sidebar />
-            <Button
-              variant="ghost"
-              className="m-4"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              Fechar
-            </Button>
-          </div>
-        </div>
-      )}
-      <main className="flex flex-1 flex-col overflow-auto p-4 md:p-6">
-        <header className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              className="p-2 rounded hover:bg-gray-200"
-            >
-              <ArrowLeft size={24} className="text-gray-700" />
-            </button>
-            <h1 className="ml-4 text-2xl font-semibold text-gray-800">
-              Dashboard de Honorários
-            </h1>
-          </div>
-          <Button
-            variant="outline"
-            className="md:hidden"
-            onClick={() => setIsSidebarOpen(true)}
-          >
-            <Menu />
+      </aside>
+      <main className="flex-1 p-6 overflow-auto">
+        <header className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">Dashboard Honorários</h1>
+          <Button variant="outline" onClick={() => navigate(-1)}>
+            Voltar
           </Button>
         </header>
 
-        <div className="mb-6 w-full max-w-xs">
-          <Label htmlFor="month-select">Filtrar por mês:</Label>
-          <Controller
-            control={control}
-            name="month"
-            render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
-                <SelectTrigger id="month-select" className="w-full">
-                  <SelectValue placeholder="Todos meses" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos meses</SelectItem>
-                  {months.map(m => (
-                    <SelectItem key={m} value={m}>
-                      {m}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
+        <div className="flex items-center mb-6 space-x-4">
+          <Label>Filtrar mês:</Label>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                {filterMonth === 'all' ? 'Todos os meses' : filterMonth}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Meses disponíveis</DropdownMenuLabel>
+              <DropdownMenuItem onSelect={() => setFilterMonth('all')}>
+                Todos os meses
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {monthsAvailable.map(m => (
+                <DropdownMenuItem key={m} onSelect={() => setFilterMonth(m)}>
+                  {m}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          {[
-            { title: 'Valor Total', value: totalValue },
-            { title: 'Honorários', value: totalHonorary },
-            { title: 'Compensação', value: totalCompensation },
-          ].map(({ title, value }) => (
-            <Card key={title} className="shadow hover:shadow-lg transition">
-              <CardHeader>
-                <CardTitle>{title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xl font-bold">{formatter.format(value)}</p>
-              </CardContent>
-            </Card>
-          ))}
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+          <Card className="shadow hover:shadow-lg transition">
+            <CardHeader>
+              <CardTitle>Valor Total</CardTitle>
+            </CardHeader>
+            <CardContent className="text-2xl font-semibold">
+              {totals.total.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              })}
+            </CardContent>
+          </Card>
+          <Card className="shadow hover:shadow-lg transition">
+            <CardHeader>
+              <CardTitle>Honorários</CardTitle>
+            </CardHeader>
+            <CardContent className="text-2xl font-semibold">
+              {totals.honorary.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              })}
+            </CardContent>
+          </Card>
+          <Card className="shadow hover:shadow-lg transition">
+            <CardHeader>
+              <CardTitle>Compensação</CardTitle>
+            </CardHeader>
+            <CardContent className="text-2xl font-semibold">
+              {totals.compensation.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              })}
+            </CardContent>
+          </Card>
         </section>
 
-        <section className="bg-white p-4 rounded-lg shadow">
+        <section className="bg-white rounded-lg shadow p-4">
           <h2 className="text-xl font-semibold mb-4">Evolução Mensal</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
-              <YAxis tickFormatter={v => formatter.format(v)} />
-              <RechartsTooltip formatter={v => formatter.format(Number(v))} />
+              <YAxis
+                tickFormatter={v =>
+                  v.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  })
+                }
+              />
+              <Tooltip
+                formatter={v =>
+                  v.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  })
+                }
+              />
               <Legend verticalAlign="top" height={36} />
               <Line
                 type="monotone"
@@ -213,6 +198,7 @@ export function InformationHonorary() {
                 name="Valor"
                 stroke="#4F46E5"
                 strokeWidth={2}
+                dot
               />
               <Line
                 type="monotone"
@@ -220,6 +206,7 @@ export function InformationHonorary() {
                 name="Honorários"
                 stroke="#10B981"
                 strokeWidth={2}
+                dot
               />
               <Line
                 type="monotone"
@@ -227,6 +214,7 @@ export function InformationHonorary() {
                 name="Compensação"
                 stroke="#F59E0B"
                 strokeWidth={2}
+                dot
               />
             </LineChart>
           </ResponsiveContainer>

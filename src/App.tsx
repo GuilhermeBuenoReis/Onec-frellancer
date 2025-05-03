@@ -34,8 +34,11 @@ export function App() {
         <Route path="/create-negotiation" element={<CreateNegotiation />} />
         <Route path="/rh/parceiros/create" element={<CreatePartner />} />
         <Route path="/create-contract" element={<CreateContract />} />
-        <Route path="/upload-honorary" element={<UploadHonorary />} />
-        <Route path="/information-honorary" element={<InformationHonorary />} />
+        <Route path="/portal/:partnerId/upload" element={<UploadHonorary />} />
+        <Route
+          path="/portal/:partnerId/information-honorary"
+          element={<InformationHonorary />}
+        />
       </Routes>
     </Router>
   );

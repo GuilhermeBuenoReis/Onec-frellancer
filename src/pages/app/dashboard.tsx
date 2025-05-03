@@ -43,7 +43,8 @@ export function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
   const { data, isLoading } = useGetContract({
-    query: { params: { page: page, pageSize: 10 } },
+    page,
+    pageSize: 10,
   });
 
   const contracts = data || [];

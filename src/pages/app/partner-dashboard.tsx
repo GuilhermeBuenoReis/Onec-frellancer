@@ -351,13 +351,13 @@ export function PartnerDashboard() {
                   </div>
                   <div className="flex gap-4">
                     <Button className="cursor-pointer">
-                      <Link to="/upload-honorary">
+                      <Link to={`/portal/${partnerData.id}/upload`}>
                         Adicionar novo honorário
                       </Link>
                     </Button>
 
                     <Button className="cursor-pointer">
-                      <Link to="/information-honorary">
+                      <Link to={`/portal/${partner.id}/information-honorary`}>
                         Consultar os honorários
                       </Link>
                     </Button>
