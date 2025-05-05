@@ -100,44 +100,8 @@ export function Sidebar() {
                     <span>Pendências</span>
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink
-                    to="/controle-portal"
-                    className="flex items-center p-2 rounded hover:bg-gray-300"
-                  >
-                    <span className="mr-2">
-                      <SlidersHorizontal />
-                    </span>
-                    <span>Portal de controle</span>
-                  </NavLink>
-                </li>
               </ul>
             </div>
-            {/* <div>
-              <h4 className="uppercase text-xs md:text-sm font-semibold border-b border-gray-300 pb-2 mb-2">
-                Outros
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <NavLink
-                    to="/calendario"
-                    className="flex items-center p-2 rounded hover:bg-gray-300"
-                  >
-                    <span className="mr-2">📅</span>
-                    <span>Calendário</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/notificacoes"
-                    className="flex items-center p-2 rounded hover:bg-gray-300"
-                  >
-                    <span className="mr-2">🔔</span>
-                    <span>Notificações</span>
-                  </NavLink>
-                </li>
-              </ul>
-            </div> */}
           </nav>
         </div>
       </aside>

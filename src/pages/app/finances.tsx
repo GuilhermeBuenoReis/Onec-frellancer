@@ -1,4 +1,3 @@
-// Financas.tsx
 import { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import dayjs from 'dayjs';

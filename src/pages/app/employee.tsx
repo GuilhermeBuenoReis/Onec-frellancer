@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
-import { usePartnerStore } from '@/store/partner-store';
 import { Helmet } from 'react-helmet';
 import { useGetPartners } from '@/http/generated/api';
 import { Button } from '@/components/ui/button';

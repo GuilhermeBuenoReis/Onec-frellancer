@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Card } from '@/components/ui/card';
@@ -40,19 +41,17 @@ const CONTRACT_COLORS: Record<string, string> = {
 };
 
 export function Dashboard() {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useGetContract({
-    page,
-    pageSize: 10,
-  });
+  const { data, isLoading } = useGetContract();
 
-  const contracts = data || [];
-  const totalPages = data?.totalPages || 1;
+  const contracts = data ?? [];
+  const totalPages = 1; // Atualize se sua API retornar paginação
 
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
-  if (isLoading || !data) return <div>Loading...</div>;
+  if (isLoading || !contracts) return <div>Loading...</div>;
 
   const statusCounts = contracts.reduce(
     (acc, c) => {
@@ -62,6 +61,7 @@ export function Dashboard() {
     },
     {} as Record<string, number>
   );
+
   const pieData = Object.entries(statusCounts).map(([name, value]) => ({
     name,
     value,
@@ -76,6 +76,7 @@ export function Dashboard() {
     },
     {} as Record<string, number>
   );
+
   const barData = Object.entries(yearCounts).map(([year, count]) => ({
     year,
     count,
@@ -163,6 +164,7 @@ export function Dashboard() {
                         <Bar dataKey="count">
                           {barData.map((entry, idx) => (
                             <Cell
+                              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                               key={idx}
                               fill={CONTRACT_COLORS[entry.year] || '#8884d8'}
                             />
@@ -181,61 +183,68 @@ export function Dashboard() {
               </TabsContent>
               <TabsContent value="table">
                 <div className="overflow-x-auto">
-                  <Table>
+                  <Table className="min-w-full text-sm">
                     <TableHead>
                       <TableRow>
                         {[
-                          'City',
-                          'State',
-                          'Client',
+                          'Cidade',
+                          'Estado',
+                          'Cliente',
                           'CNPJ',
-                          'Sindic',
-                          'Year',
-                          'Matter',
-                          'Forecast',
-                          'Total',
-                          'Percentage',
-                          'Signed',
+                          'Ano',
                           'Status',
-                          'Avg Guide',
-                          'Partner',
-                          'Commission',
-                          'Counter',
-                          'Email',
+                          'Ações',
                         ].map(header => (
-                          <TableCell key={header}>{header}</TableCell>
+                          <TableCell
+                            key={header}
+                            className="font-semibold text-gray-600 whitespace-nowrap"
+                          >
+                            {header}
+                          </TableCell>
                         ))}
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {contracts.map(c => (
-                        <TableRow key={c.id} className="hover:bg-gray-50">
-                          <TableCell>{c.city}</TableCell>
-                          <TableCell>{c.state}</TableCell>
-                          <TableCell>{c.client}</TableCell>
-                          <TableCell>{c.cnpj}</TableCell>
-                          <TableCell>{c.sindic}</TableCell>
-                          <TableCell>{c.year}</TableCell>
-                          <TableCell>{c.matter}</TableCell>
-                          <TableCell>{c.forecast}</TableCell>
-                          <TableCell>{c.contractTotal}</TableCell>
-                          <TableCell>{c.percentage}%</TableCell>
-                          <TableCell>{c.signedContract}</TableCell>
-                          <TableCell>{c.status}</TableCell>
-                          <TableCell>{c.averageGuide}</TableCell>
-                          <TableCell>{c.partner}</TableCell>
-                          <TableCell>{c.partnerCommission}</TableCell>
-                          <TableCell>{c.counter}</TableCell>
-                          <TableCell>{c.email}</TableCell>
+                      {contracts.map(contract => (
+                        <TableRow
+                          key={contract.id}
+                          className="hover:bg-gray-50"
+                        >
+                          <TableCell className="max-w-[120px] truncate">
+                            {contract.city}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {contract.state}
+                          </TableCell>
+                          <TableCell className="max-w-[150px] truncate">
+                            {contract.client}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {contract.cnpj}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {contract.year}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {contract.status}
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              size="sm"
+                              onClick={() =>
+                                navigate(`/contract/${contract.id}`)
+                              }
+                            >
+                              Ver
+                            </Button>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
-                  currentPage={page}
-                  totalPages={totalPages}
                   <Pagination
-                    currentPage={contracts.page}
-                    totalPages={contracts.totalPages}
+                    currentPage={page}
+                    totalPages={totalPages}
                     onPageChange={setPage}
                   />
                 </div>
