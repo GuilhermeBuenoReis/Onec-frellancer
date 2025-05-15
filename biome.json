@@ -36,7 +36,8 @@
       },
       "suspicious": {
         "noExplicitAny": "off",
-        "noMisleadingCharacterClass": "off"
+        "noMisleadingCharacterClass": "off",
+        "noArrayIndexKey": "off"
       },
       "correctness": {
         "useJsxKeyInIterable": "off"

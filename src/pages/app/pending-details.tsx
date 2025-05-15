@@ -20,7 +20,10 @@ export function PendingDetails() {
       <Helmet title="Detalhes da Pendência" />
       {/* Desktop Sidebar */}
       <div className="hidden md:flex">
-        <Sidebar />
+        <Sidebar
+          isOpen={sidebarOpen}
+          toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
       {/* Mobile Sidebar */}
@@ -31,7 +34,10 @@ export function PendingDetails() {
             onClick={() => setSidebarOpen(false)}
           />
           <div className="relative bg-white w-64 h-full shadow-lg">
-            <Sidebar />
+            <Sidebar
+              isOpen={sidebarOpen}
+              toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+            />
             <div className="p-2">
               <Button onClick={() => setSidebarOpen(false)} variant="outline">
                 Fechar
@@ -41,7 +47,7 @@ export function PendingDetails() {
         </div>
       )}
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
-        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto">
           <div className="max-w-4xl mx-auto">
             <Link to="/pendencias">

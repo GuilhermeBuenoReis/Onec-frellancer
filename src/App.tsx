@@ -4,9 +4,7 @@ import { Upload } from './pages/app/upload';
 import { Employee } from './pages/app/employee';
 import { PartnerDashboard } from './pages/app/partner-dashboard';
 import { Pending } from './pages/app/pending';
-import { Calendario } from './pages/app/calendar';
-import { NotificationsPage } from './pages/app/notifications';
-import { Financas } from './pages/app/finances';
+import { Negotiation } from './pages/app/negotiation';
 import { Login } from './pages/auth/login';
 import { PendingDetails } from './pages/app/pending-details';
 import { CreateNegotiation } from './pages/app/create-negotiation';
@@ -14,6 +12,10 @@ import { CreatePartner } from './pages/app/create-partner';
 import { CreateContract } from './pages/app/create-contract';
 import { UploadHonorary } from './components/upload-honorary';
 import { InformationHonorary } from './components/information-hononary';
+import { FilteredContracts } from './pages/app/filtered-contract';
+import { ContractDetail } from './pages/app/contract-details';
+import { Contestation } from './pages/app/contestation-by-partner';
+import { ActiveContracts } from './pages/app/active-contracts';
 
 export function App() {
   return (
@@ -26,9 +28,7 @@ export function App() {
         <Route path="/rh/parceiros/:id" element={<PartnerDashboard />} />
         <Route path="/pendencias" element={<Pending />} />
         <Route path="/pendencias/:id" element={<PendingDetails />} />
-        <Route path="/calendario" element={<Calendario />} />
-        <Route path="/notificacoes" element={<NotificationsPage />} />
-        <Route path="/financas" element={<Financas />} />
+        <Route path="/financas" element={<Negotiation />} />
         <Route path="/create-negotiation" element={<CreateNegotiation />} />
         <Route path="/rh/parceiros/create" element={<CreatePartner />} />
         <Route path="/create-contract" element={<CreateContract />} />
@@ -37,6 +37,10 @@ export function App() {
           path="/portal/:partnerId/information-honorary"
           element={<InformationHonorary />}
         />
+        <Route path="/tels" element={<FilteredContracts />} />
+        <Route path="/contract/:id" element={<ContractDetail />} />
+        <Route path="/contestation" element={<Contestation />} />
+        <Route path="/get-contracts" element={<ActiveContracts />} />
       </Routes>
     </Router>
   );

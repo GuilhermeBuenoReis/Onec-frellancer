@@ -361,6 +361,9 @@ export function PartnerDashboard() {
                         Consultar os honorários
                       </Link>
                     </Button>
+                    <Button className="cursor-pointer">
+                      <Link to="/contestation">Contestação</Link>
+                    </Button>
                   </div>
                 </div>
               </div>

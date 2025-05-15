@@ -412,6 +412,48 @@ export type DeleteContract404 = {
   message: string;
 };
 
+export type GetContractById200 = {
+  id: string;
+  /** @nullable */
+  city: string | null;
+  /** @nullable */
+  client: string | null;
+  /** @nullable */
+  state: string | null;
+  /** @nullable */
+  cnpj: string | null;
+  /** @nullable */
+  sindic: string | null;
+  /** @nullable */
+  year: string | null;
+  /** @nullable */
+  matter: string | null;
+  /** @nullable */
+  forecast: string | null;
+  /** @nullable */
+  contractTotal: string | null;
+  /** @nullable */
+  percentage: number | null;
+  /** @nullable */
+  signedContract: string | null;
+  /** @nullable */
+  status: string | null;
+  /** @nullable */
+  averageGuide: number | null;
+  /** @nullable */
+  partner: string | null;
+  /** @nullable */
+  partnerCommission: number | null;
+  /** @nullable */
+  counter: string | null;
+  /** @nullable */
+  email: string | null;
+};
+
+export type GetContractById404 = {
+  message: string;
+};
+
 export type AuthenticateUserBody = {
   email: string;
   password: string;
@@ -1867,6 +1909,91 @@ const {mutation: mutationOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+/**
+ * Get contract by id
+ */
+export const getContractById = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetContractById200>(
+      {url: `http://localhost:3333/contract/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetContractByIdQueryKey = (id: string,) => {
+    return [`http://localhost:3333/contract/${id}`] as const;
+    }
+
+    
+export const getGetContractByIdQueryOptions = <TData = Awaited<ReturnType<typeof getContractById>>, TError = GetContractById404>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractById>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetContractByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getContractById>>> = ({ signal }) => getContractById(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getContractById>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetContractByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getContractById>>>
+export type GetContractByIdQueryError = GetContractById404
+
+
+export function useGetContractById<TData = Awaited<ReturnType<typeof getContractById>>, TError = GetContractById404>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContractById>>,
+          TError,
+          Awaited<ReturnType<typeof getContractById>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContractById<TData = Awaited<ReturnType<typeof getContractById>>, TError = GetContractById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getContractById>>,
+          TError,
+          Awaited<ReturnType<typeof getContractById>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetContractById<TData = Awaited<ReturnType<typeof getContractById>>, TError = GetContractById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetContractById<TData = Awaited<ReturnType<typeof getContractById>>, TError = GetContractById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getContractById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetContractByIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 /**
  * Realiza o login do usuário e retorna o token JWT com validade de 60 dias
  */

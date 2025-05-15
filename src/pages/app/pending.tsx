@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Link } from 'react-router-dom';
-import { Eye } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Eye } from 'lucide-react';
 import {
   Table,
   TableHeader,
@@ -15,23 +15,42 @@ import {
 import { PendingForm } from '@/components/pending-form';
 import { useGetPendings } from '@/http/generated/api';
 import dayjs from 'dayjs';
-import { Pagination } from '@/components/ui/pagination';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationEllipsis,
+} from '@/components/ui/pagination';
+import { Button } from '@/components/ui/button';
 
 export function Pending() {
-  const { data: pending } = useGetPendings();
+  const { data: pending = [] } = useGetPendings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const recordsPerPage = 10;
 
   const totalPages = useMemo(() => {
-    return pending ? Math.ceil(pending.length / recordsPerPage) : 0;
+    return Math.max(1, Math.ceil(pending.length / recordsPerPage));
   }, [pending]);
 
   const paginatedPendings = useMemo(() => {
-    if (!pending) return [];
     const startIndex = (currentPage - 1) * recordsPerPage;
     return pending.slice(startIndex, startIndex + recordsPerPage);
   }, [pending, currentPage]);
+
+  const pageNumbers = useMemo(() => {
+    const maxButtons = 10;
+    const half = Math.floor(maxButtons / 2);
+    let start = Math.max(1, currentPage - half);
+    const end = Math.min(totalPages, start + maxButtons - 1);
+    if (end - start + 1 < maxButtons) {
+      start = Math.max(1, end - maxButtons + 1);
+    }
+    const pages = [];
+    for (let i = start; i <= end; i++) pages.push(i);
+    return pages;
+  }, [currentPage, totalPages]);
 
   if (!pending) return null;
 
@@ -39,7 +58,10 @@ export function Pending() {
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Painel de Pendências" />
       <div className="hidden md:flex">
-        <Sidebar />
+        <Sidebar
+          isOpen={sidebarOpen}
+          toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
       {sidebarOpen && (
@@ -49,33 +71,33 @@ export function Pending() {
             onClick={() => setSidebarOpen(false)}
           />
           <div className="relative bg-white w-64 h-full shadow-lg">
-            <Sidebar />
+            <Sidebar
+              isOpen={sidebarOpen}
+              toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+            />
             <div className="p-2">
               <Link to="/pendencias">
-                <button
-                  type="submit"
-                  onClick={() => setSidebarOpen(false)}
-                  className="p-2 border rounded"
-                >
-                  Fechar
-                </button>
+                <Button onClick={() => setSidebarOpen(false)}>Fechar</Button>
               </Link>
             </div>
           </div>
         </div>
       )}
+
       <div className="flex-1 flex flex-col overflow-y-auto w-full">
-        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto space-y-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
             Painel de Pendências
           </h1>
+
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Adicionar Nova Pendência
             </h2>
             <PendingForm />
           </div>
+
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Lista de Pendências
@@ -85,7 +107,7 @@ export function Pending() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Cliente</TableHead>
-                    <TableHead>Motivo do Chamado</TableHead>
+                    <TableHead>Motivo</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Prioridade</TableHead>
                     <TableHead>Criado em</TableHead>
@@ -121,13 +143,57 @@ export function Pending() {
               </Table>
             </div>
 
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center mt-4">
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={page => setCurrentPage(page)}
-                className="mt-4 "
-              />
+                onPageChange={setCurrentPage}
+              >
+                <PaginationContent>
+                  <PaginationItem>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentPage(prev => Math.max(prev - 1, 1))
+                      }
+                      disabled={currentPage === 1}
+                    >
+                      <ArrowLeft />
+                    </Button>
+                  </PaginationItem>
+
+                  {pageNumbers.map(num => (
+                    <PaginationItem key={num}>
+                      <PaginationLink
+                        isActive={num === currentPage}
+                        onClick={() => setCurrentPage(num)}
+                      >
+                        {num}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+
+                  {totalPages > pageNumbers[pageNumbers.length - 1] && (
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )}
+
+                  <PaginationItem>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentPage(prev => Math.min(prev + 1, totalPages))
+                      }
+                      disabled={currentPage === totalPages}
+                    >
+                      <ArrowRight />
+                    </Button>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </div>
           </div>
         </main>
