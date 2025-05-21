@@ -134,7 +134,8 @@ export type UpdatePartnerBody = {
 
 export type UpdatePartner200 = {
   id: string;
-  name: string;
+  /** @nullable */
+  name: string | null;
 };
 
 export type UpdatePartner404 = {
@@ -261,7 +262,8 @@ export type UpdateNegotiationBody = {
 };
 
 export type UpdateNegotiation200 = {
-  title: string;
+  /** @nullable */
+  title: string | null;
 };
 
 export type UpdateNegotiation404 = {
@@ -960,28 +962,6 @@ export type DeleteClient404 = {
   message: string;
 };
 
-export type UploadJsonPortalControllsBodySheetsItemDataItem = {
-  'Mês Apuração'?: unknown;
-  'Mês Competência'?: unknown;
-  Contrato?: unknown;
-  Empresa?: unknown;
-  Produto?: unknown;
-  '% Honorario'?: unknown;
-  Compensação?: unknown;
-  Honorários?: unknown;
-  Imposto?: unknown;
-  'Valor R$'?: unknown;
-};
-
-export type UploadJsonPortalControllsBodySheetsItem = {
-  name: string;
-  data: UploadJsonPortalControllsBodySheetsItemDataItem[];
-};
-
-export type UploadJsonPortalControllsBody = {
-  sheets: UploadJsonPortalControllsBodySheetsItem[];
-};
-
 export type GetPortalControllsBySelectParternRouteParams = {
 partnerId: string;
 };
@@ -1018,6 +998,100 @@ export type GetPortalControllsBySelectParternRoute200Item = {
 
 export type GetPortalControllsBySelectParternRoute500 = {
   error: string;
+};
+
+export type CreateClientReceiptBody = {
+  /** @nullable */
+  receiptDate: string | null;
+  /** @nullable */
+  competence: string | null;
+  /** @nullable */
+  cnpj: string | null;
+  /** @nullable */
+  clientName: string | null;
+  /** @nullable */
+  percentage: number | null;
+  /** @nullable */
+  compensationMonth: string | null;
+  /** @nullable */
+  honorary: number | null;
+  /** @nullable */
+  tax: number | null;
+  /** @nullable */
+  status: string | null;
+};
+
+/**
+ * @nullable
+ */
+export type CreateClientReceipt201 = typeof CreateClientReceipt201[keyof typeof CreateClientReceipt201] | null;
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateClientReceipt201 = {
+  null: 'null',
+} as const;
+
+export type CreateClientReceipt400 = {
+  message: string;
+};
+
+export type GetClientReceipt200Item = {
+  /** @nullable */
+  receiptDate: string | null;
+  /** @nullable */
+  competence: string | null;
+  /** @nullable */
+  cnpj: string | null;
+  /** @nullable */
+  clientName: string | null;
+  /** @nullable */
+  percentage: number | null;
+  /** @nullable */
+  compensationMonth: string | null;
+  /** @nullable */
+  honorary: number | null;
+  /** @nullable */
+  tax: number | null;
+  /** @nullable */
+  status: string | null;
+};
+
+export type DeleteClientReceipt200 = {
+  message: string;
+};
+
+export type DeleteClientReceipt404 = {
+  message: string;
+};
+
+export type UpdateClientReceiptBody = {
+  /** @nullable */
+  receiptDate?: string | null;
+  /** @nullable */
+  competence?: string | null;
+  /** @nullable */
+  cnpj?: string | null;
+  /** @nullable */
+  clientName?: string | null;
+  /** @nullable */
+  percentage?: number | null;
+  /** @nullable */
+  compensationMonth?: string | null;
+  /** @nullable */
+  honorary?: number | null;
+  /** @nullable */
+  tax?: number | null;
+  /** @nullable */
+  status?: string | null;
+};
+
+export type UpdateClientReceipt200 = {
+  message: string;
+};
+
+export type UpdateClientReceipt404 = {
+  message: string;
 };
 
 /**
@@ -3482,69 +3556,6 @@ const {mutation: mutationOptions} = options ?
     }
     
 /**
- * Recebe JSON com múltiplas abas. Realiza full load na primeira vez e incremental (última aba) depois.
- */
-export const uploadJsonPortalControlls = (
-    partnerId: string,
-    uploadJsonPortalControllsBody: UploadJsonPortalControllsBody,
- signal?: AbortSignal
-) => {
-      
-      
-      return http<void>(
-      {url: `http://localhost:3333/portalcontrolls/${partnerId}/upload-json`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: uploadJsonPortalControllsBody, signal
-    },
-      );
-    }
-  
-
-
-export const getUploadJsonPortalControllsMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, TError,{partnerId: string;data: UploadJsonPortalControllsBody}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, TError,{partnerId: string;data: UploadJsonPortalControllsBody}, TContext> => {
-    
-const mutationKey = ['uploadJsonPortalControlls'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, {partnerId: string;data: UploadJsonPortalControllsBody}> = (props) => {
-          const {partnerId,data} = props ?? {};
-
-          return  uploadJsonPortalControlls(partnerId,data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UploadJsonPortalControllsMutationResult = NonNullable<Awaited<ReturnType<typeof uploadJsonPortalControlls>>>
-    export type UploadJsonPortalControllsMutationBody = UploadJsonPortalControllsBody
-    export type UploadJsonPortalControllsMutationError = unknown
-
-    export const useUploadJsonPortalControlls = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadJsonPortalControlls>>, TError,{partnerId: string;data: UploadJsonPortalControllsBody}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof uploadJsonPortalControlls>>,
-        TError,
-        {partnerId: string;data: UploadJsonPortalControllsBody},
-        TContext
-      > => {
-
-      const mutationOptions = getUploadJsonPortalControllsMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
-/**
  * Retorna todos os registros de PortalControlls para o parceiro informado via querystring
  */
 export const getPortalControllsBySelectParternRoute = (
@@ -3626,3 +3637,274 @@ export function useGetPortalControllsBySelectParternRoute<TData = Awaited<Return
 
   return query;
 }
+
+
+
+
+/**
+ * Create a new Client Receipt
+ */
+export const createClientReceipt = (
+    createClientReceiptBody: CreateClientReceiptBody,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<CreateClientReceipt201>(
+      {url: `http://localhost:3333/client-receipt`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createClientReceiptBody, signal
+    },
+      );
+    }
+  
+
+
+export const getCreateClientReceiptMutationOptions = <TError = CreateClientReceipt400,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createClientReceipt>>, TError,{data: CreateClientReceiptBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createClientReceipt>>, TError,{data: CreateClientReceiptBody}, TContext> => {
+    
+const mutationKey = ['createClientReceipt'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createClientReceipt>>, {data: CreateClientReceiptBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createClientReceipt(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateClientReceiptMutationResult = NonNullable<Awaited<ReturnType<typeof createClientReceipt>>>
+    export type CreateClientReceiptMutationBody = CreateClientReceiptBody
+    export type CreateClientReceiptMutationError = CreateClientReceipt400
+
+    export const useCreateClientReceipt = <TError = CreateClientReceipt400,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createClientReceipt>>, TError,{data: CreateClientReceiptBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createClientReceipt>>,
+        TError,
+        {data: CreateClientReceiptBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateClientReceiptMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Get a list of client Receipt
+ */
+export const getClientReceipt = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetClientReceipt200Item[]>(
+      {url: `http://localhost:3333/client-receipt`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetClientReceiptQueryKey = () => {
+    return [`http://localhost:3333/client-receipt`] as const;
+    }
+
+    
+export const getGetClientReceiptQueryOptions = <TData = Awaited<ReturnType<typeof getClientReceipt>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClientReceipt>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetClientReceiptQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getClientReceipt>>> = ({ signal }) => getClientReceipt(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getClientReceipt>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetClientReceiptQueryResult = NonNullable<Awaited<ReturnType<typeof getClientReceipt>>>
+export type GetClientReceiptQueryError = unknown
+
+
+export function useGetClientReceipt<TData = Awaited<ReturnType<typeof getClientReceipt>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClientReceipt>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getClientReceipt>>,
+          TError,
+          Awaited<ReturnType<typeof getClientReceipt>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetClientReceipt<TData = Awaited<ReturnType<typeof getClientReceipt>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClientReceipt>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getClientReceipt>>,
+          TError,
+          Awaited<ReturnType<typeof getClientReceipt>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetClientReceipt<TData = Awaited<ReturnType<typeof getClientReceipt>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClientReceipt>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetClientReceipt<TData = Awaited<ReturnType<typeof getClientReceipt>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getClientReceipt>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetClientReceiptQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * Delete a client receipt
+ */
+export const deleteClientReceipt = (
+    id: string,
+ ) => {
+      
+      
+      return http<DeleteClientReceipt200>(
+      {url: `http://localhost:3333/client-receipt/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteClientReceiptMutationOptions = <TError = DeleteClientReceipt404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteClientReceipt>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteClientReceipt>>, TError,{id: string}, TContext> => {
+    
+const mutationKey = ['deleteClientReceipt'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteClientReceipt>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteClientReceipt(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteClientReceiptMutationResult = NonNullable<Awaited<ReturnType<typeof deleteClientReceipt>>>
+    
+    export type DeleteClientReceiptMutationError = DeleteClientReceipt404
+
+    export const useDeleteClientReceipt = <TError = DeleteClientReceipt404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteClientReceipt>>, TError,{id: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteClientReceipt>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteClientReceiptMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+/**
+ * Update a client Receipt
+ */
+export const updateClientReceipt = (
+    id: string,
+    updateClientReceiptBody: UpdateClientReceiptBody,
+ ) => {
+      
+      
+      return http<UpdateClientReceipt200>(
+      {url: `http://localhost:3333/client-receipt/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateClientReceiptBody
+    },
+      );
+    }
+  
+
+
+export const getUpdateClientReceiptMutationOptions = <TError = UpdateClientReceipt404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateClientReceipt>>, TError,{id: string;data: UpdateClientReceiptBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateClientReceipt>>, TError,{id: string;data: UpdateClientReceiptBody}, TContext> => {
+    
+const mutationKey = ['updateClientReceipt'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateClientReceipt>>, {id: string;data: UpdateClientReceiptBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateClientReceipt(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateClientReceiptMutationResult = NonNullable<Awaited<ReturnType<typeof updateClientReceipt>>>
+    export type UpdateClientReceiptMutationBody = UpdateClientReceiptBody
+    export type UpdateClientReceiptMutationError = UpdateClientReceipt404
+
+    export const useUpdateClientReceipt = <TError = UpdateClientReceipt404,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateClientReceipt>>, TError,{id: string;data: UpdateClientReceiptBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateClientReceipt>>,
+        TError,
+        {id: string;data: UpdateClientReceiptBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateClientReceiptMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }

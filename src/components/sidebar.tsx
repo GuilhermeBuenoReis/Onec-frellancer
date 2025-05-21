@@ -114,6 +114,17 @@ export function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
                     <span>Pendências</span>
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    to="/client-dashboard"
+                    className="flex items-center p-2 rounded hover:bg-gray-300"
+                  >
+                    <span className="mr-2">
+                      <ListTodo />
+                    </span>
+                    <span>Dashboard de Clientes</span>
+                  </NavLink>
+                </li>
               </ul>
             </div>
           </nav>

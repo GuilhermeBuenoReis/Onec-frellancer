@@ -68,7 +68,6 @@ export function ActiveContracts() {
       }, []);
   }, [activeNegotiations]);
 
-  // Paginação
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
   const totalPages = Math.max(

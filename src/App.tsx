@@ -16,6 +16,7 @@ import { FilteredContracts } from './pages/app/filtered-contract';
 import { ContractDetail } from './pages/app/contract-details';
 import { Contestation } from './pages/app/contestation-by-partner';
 import { ActiveContracts } from './pages/app/active-contracts';
+import { ClientsDashboard } from './pages/app/client-dashboard';
 
 export function App() {
   return (
@@ -41,6 +42,7 @@ export function App() {
         <Route path="/contract/:id" element={<ContractDetail />} />
         <Route path="/contestation" element={<Contestation />} />
         <Route path="/get-contracts" element={<ActiveContracts />} />
+        <Route path="/client-dashboard" element={<ClientsDashboard />} />
       </Routes>
     </Router>
   );

@@ -19,70 +19,33 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { ArrowLeft } from 'lucide-react';
+import { useListCredentialClient } from '@/http/generated/api';
+import { CredentialEmptyView } from '@/components/credential-empty-view';
 
 export function Contestation() {
   const navigate = useNavigate();
+  const {
+    data: credentialClient,
+    isLoading,
+    error,
+  } = useListCredentialClient();
 
-  // Mock data for layout demonstration
-  const credentials = {
-    id: '12345',
-    channelHead: 'João Silva',
-    partner: 'Parceiro Exemplo',
-    cnpj: '00.000.000/0001-00',
-    agentIndicator: 'Indicador X',
-  };
+  if (isLoading) return <div>Carregando…</div>;
+  if (error) return <div>Erro ao buscar credenciais.</div>;
+  if (!credentialClient || credentialClient.length === 0) {
+    return <CredentialEmptyView />;
+  }
+  const { credentials, clients, id: credentialClientId } = credentialClient[0];
 
-  const clients = [
-    {
-      id: 'c1',
-      enterprise: 'Empresa A',
-      competenceMonth: 'Jan',
-      cnpj: '11.111.111/1111-11',
-      contestation: '5',
-      returned: '2',
-    },
-    {
-      id: 'c2',
-      enterprise: 'Empresa B',
-      competenceMonth: 'Feb',
-      cnpj: '22.222.222/2222-22',
-      contestation: '8',
-      returned: '4',
-    },
-    {
-      id: 'c3',
-      enterprise: 'Empresa C',
-      competenceMonth: 'Mar',
-      cnpj: '33.333.333/3333-33',
-      contestation: '3',
-      returned: '1',
-    },
-  ];
-
-  const contestations = [
-    {
-      id: 'ct1',
-      date: '2025-04-01',
-      description: 'Contestação fatura Abril',
-      status: 'Pendente',
-    },
-    {
-      id: 'ct2',
-      date: '2025-04-15',
-      description: 'Contestação taxa extra',
-      status: 'Resolvida',
-    },
-  ];
-
-  // Prepare chart data
-  const chartData = clients.map(c => ({
-    month: c.competenceMonth,
-    returned: Number(c.returned),
-  }));
+  const chartData = Array.isArray(clients)
+    ? clients.map(c => ({
+        month: c.competenceMonth,
+        returned: c.returned,
+      }))
+    : [];
 
   return (
     <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Back Button */}
       <div className="lg:col-span-3">
         <Button variant="default" onClick={() => navigate(-1)}>
           <ArrowLeft />
@@ -97,7 +60,7 @@ export function Contestation() {
         <CardContent>
           <div className="space-y-2">
             <div>
-              <strong>ID:</strong> {credentials.id}
+              <strong>ID:</strong> {credentialClientId}
             </div>
             <div>
               <strong>Chefe de Canal:</strong> {credentials.channelHead}
@@ -116,7 +79,7 @@ export function Contestation() {
       </Card>
 
       {/* Contestações do Partner */}
-      <Card className="lg:col-span-2">
+      {/* <Card className="lg:col-span-2">
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Contestações de {credentials.partner}</CardTitle>
           <Button>Nova Contestação</Button>
@@ -132,7 +95,7 @@ export function Contestation() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {contestations.map(ct => (
+              {credentials.map(ct => (
                 <TableRow key={ct.id} className="hover:bg-muted">
                   <TableCell>{ct.id}</TableCell>
                   <TableCell>{ct.date}</TableCell>
@@ -143,9 +106,8 @@ export function Contestation() {
             </TableBody>
           </Table>
         </CardContent>
-      </Card>
+      </Card> */}
 
-      {/* Tabela de Clientes */}
       <Card className="lg:col-span-3">
         <CardHeader>
           <CardTitle>Detalhes dos Clientes</CardTitle>
@@ -162,15 +124,17 @@ export function Contestation() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {clients.map(c => (
-                <TableRow key={c.id} className="hover:bg-muted">
-                  <TableCell>{c.enterprise}</TableCell>
-                  <TableCell>{c.competenceMonth}</TableCell>
-                  <TableCell>{c.cnpj}</TableCell>
-                  <TableCell>{c.contestation}</TableCell>
-                  <TableCell>{c.returned}</TableCell>
-                </TableRow>
-              ))}
+              {Array.isArray(clients)
+                ? clients.map(c => (
+                    <TableRow key={c.id} className="hover:bg-muted">
+                      <TableCell>{c.enterprise}</TableCell>
+                      <TableCell>{c.competenceMonth}</TableCell>
+                      <TableCell>{c.cnpj}</TableCell>
+                      <TableCell>{c.contestation}</TableCell>
+                      <TableCell>{c.returned}</TableCell>
+                    </TableRow>
+                  ))
+                : null}
             </TableBody>
           </Table>
         </CardContent>
