@@ -33,7 +33,7 @@ export function Employee() {
       )}
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header onToggleSidebar={handleToggleSidebar} />
+        <Header toggleSidebar={handleToggleSidebar} />
         <main className="p-4 md:p-6 bg-gray-50 overflow-y-auto">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-semibold mb-6 text-gray-800">

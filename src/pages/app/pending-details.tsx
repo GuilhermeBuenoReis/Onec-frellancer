@@ -85,12 +85,14 @@ export function PendingDetails() {
                   </h2>
                   <p className="text-gray-600">{pending.callReason}</p>
                 </div>
+
                 <div>
                   <h2 className="text-lg font-medium text-gray-700">
                     Prioridade
                   </h2>
                   <p className="text-gray-600">{pending.priority}</p>
                 </div>
+
                 <div>
                   <h2 className="text-lg font-medium text-gray-700">
                     Responsável

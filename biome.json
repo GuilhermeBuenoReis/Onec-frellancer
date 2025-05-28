@@ -32,7 +32,8 @@
       },
       "complexity": {
         "noForEach": "off",
-        "useLiteralKeys": "off"
+        "useLiteralKeys": "off",
+        "noThisInStatic": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",
@@ -45,6 +46,8 @@
     }
   },
   "files": {
-    "ignore": ["node_modules"]
+    "ignore": [
+      "node_modules"
+    ]
   }
 }

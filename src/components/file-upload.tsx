@@ -1,110 +1,172 @@
 import type React from 'react';
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
 import * as XLSX from 'xlsx';
 import { toast } from 'sonner';
 
-// Converte números Excel (serial), objetos Date e strings para data em formato BR
-export const formatDateBR = (value?: any): string => {
-  if (value === undefined || value === null) {
-    return 'Data não informada';
-  }
-
-  // Se já for Date (usando cellDates:true e raw:true)
-  if (value instanceof Date) {
-    return value.toLocaleDateString('pt-BR');
-  }
-
-  // Se vier como número (serial Excel)
-  if (typeof value === 'number') {
-    const offset = value < 61 ? 1 : 2; // ajuste bug de 1900
-    const jsTime = (value - offset) * 86400 * 1000;
-    const date = new Date(jsTime);
-    if (!Number.isNaN(date.getTime())) {
-      return date.toLocaleDateString('pt-BR');
-    }
-    return 'Data não informada';
-  }
-
-  // Outros tipos: tenta parsear como string ISO ou dd/mm/yyyy
-  const str = String(value).trim();
-  if (!str) return 'Data não informada';
-
-  // dd/mm/yyyy
-  const parts = str.split('/');
-  if (parts.length === 3) {
-    const [d, m, y] = parts.map(part => Number(part));
-    if (
-      Number.isInteger(d) &&
-      d >= 1 &&
-      d <= 31 &&
-      Number.isInteger(m) &&
-      m >= 1 &&
-      m <= 12 &&
-      Number.isInteger(y)
-    ) {
-      const date = new Date(y, m - 1, d);
-      if (!Number.isNaN(date.getTime())) {
-        return date.toLocaleDateString('pt-BR');
-      }
-    }
-  }
-
-  // Fallback para ISO ou outros formatos
-  const timestamp = Date.parse(str);
-  if (!Number.isNaN(timestamp)) {
-    return new Date(timestamp).toLocaleDateString('pt-BR');
-  }
-
-  return 'Data não informada';
-};
-
-const normalizeNumber = (value: any): number | null =>
-  value === undefined || value === null
-    ? null
-    : Number(String(value).replace(',', '.')) || null;
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { Button } from './ui/button';
 
 export type DataType =
   | 'Contratos'
   | 'Dados'
   | 'Parceiros'
   | 'Pendencias'
-  | 'Controle'
-  | 'ClientReceipt';
+  | 'Controle';
 
 export interface FileUploadProps {
   onFileUpload: (file: File, fileName: string) => void;
 }
 
+const normalizeString = (value: unknown): string | null => {
+  const str = value != null ? String(value).trim() : '';
+  return str === '' ? null : str;
+};
+
+const normalizeNumber = (value: unknown): number | null => {
+  if (value == null) return null;
+  const num =
+    typeof value === 'number' ? value : Number(String(value).replace(',', '.'));
+  return Number.isNaN(num) ? null : num;
+};
+
+const PENDING_CATEGORIES = [
+  'SAC',
+  'Atendimento',
+  'Financeiro',
+  'Diretoria',
+  'Comercial',
+  'Auditoria',
+] as const;
+type PendingCategory = (typeof PENDING_CATEGORIES)[number];
+
+const normalizeHeader = (header: string): string =>
+  header
+    .trim()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/\s+/g, '_')
+    .replace(/[^\w]/g, '')
+    .toLowerCase();
+
+const parseExcelDate = (d: any): string | null => {
+  if (d instanceof Date) return d.toISOString();
+  if (typeof d === 'number') {
+    const utcDays = d - 25569;
+    const ms = utcDays * 86400 * 1000;
+    return new Date(ms).toISOString();
+  }
+  return null;
+};
+
 const transformExcelData = (rawData: any[], dataType: DataType) => {
+  console.log('Raw columns:', Object.keys(rawData[0] || {}));
+
+  const rows = rawData.map(row => {
+    const out: Record<string, any> = {};
+    Object.entries(row).forEach(([key, val]) => {
+      out[normalizeHeader(key)] = val;
+    });
+    return out;
+  });
+
+  console.log('Normalized columns:', Object.keys(rows[0] || {}));
+
   switch (dataType) {
     case 'Contratos':
-    case 'Dados':
-    case 'Parceiros':
-    case 'Pendencias':
-    case 'Controle':
-      return rawData;
-    case 'ClientReceipt':
-      return rawData.map((row: any) => ({
-        receiptDate: formatDateBR(row['data']),
-        competence: formatDateBR(row['COMP']),
-        cnpj: String(row['CNPJ']),
-        clientName: String(row['CLIENTE']),
-        percentage: normalizeNumber(row['PERCENTUAL']),
-        compensationMonth: String(row[' COMPENSAÇÃO MÊS ']),
-        honorary: normalizeNumber(row[' HONORÁRIOS ']),
-        tax: normalizeNumber(row[' IMPOSTO ']),
-        status: String(row[' STATUS ']),
+      return rows.map(r => ({
+        city: normalizeString(r['cidade']),
+        client: normalizeString(r['cliente']),
+        state: normalizeString(r['estado']),
+        cnpj: normalizeString(r['cnpj']),
+        sindic: normalizeString(r['sindic']),
+        year: normalizeString(r['ano']),
+        matter: normalizeString(r['materia']),
+        forecast: normalizeString(r['previsao']),
+        contractTotal: normalizeString(r['contrato_total']),
+        percentage: normalizeNumber(r['percentual']) ?? 0,
+        signedContract: normalizeString(r['contrato_assinado']),
+        status: normalizeString(r['status']),
+        averageGuide: normalizeNumber(r['media_de_guia']) ?? 0,
+        partner: normalizeString(r['parceiro']),
+        partnerCommission: normalizeNumber(r['comissao_parceiro']) ?? 0,
+        counter: normalizeString(r['contador']),
+        email: normalizeString(r['email_responsavel']),
       }));
+
+    case 'Dados':
+      return rows.map(r => ({
+        title: normalizeString(r['titulo']),
+        client: normalizeString(r['cliente']),
+        user: normalizeString(r['ususario']),
+        tags: normalizeString(r['tags']),
+        step: normalizeString(r['etapa']),
+        status: normalizeString(r['status']),
+        value: normalizeNumber(r['valor']),
+        partnerId: normalizeString(r['parceiro']),
+        startsDate: parseExcelDate(r['data_inicio']),
+        observation: normalizeString(r['obs']),
+        averageGuide: normalizeNumber(r['media_guia']),
+      }));
+
+    case 'Parceiros':
+      return rows.map(r => ({
+        name: normalizeString(r['nome']),
+        cpfOrCnpj: normalizeString(r['cpf_cnpj']),
+        city: normalizeString(r['cidade']),
+        state: normalizeString(r['estado']),
+        commission: normalizeNumber(r['comissao']) ?? 0,
+        portal: normalizeString(r['portal']),
+        channelHead: normalizeString(r['head_de_canal']),
+        regional: normalizeString(r['regional']),
+        coordinator: normalizeString(r['coordenador']),
+        agent: normalizeString(r['agente']),
+        indicator: normalizeString(r['indicador']),
+        contract: normalizeString(r['contrato']),
+        phone: normalizeString(r['telefone']),
+        email: normalizeString(r['email']),
+        responsible: normalizeString(r['responsavel']),
+      }));
+
+    case 'Pendencias':
+      return rows.map(r => {
+        const rawCat = normalizeString(r['categoria']) || '';
+        const found = PENDING_CATEGORIES.find(
+          c => c.toLowerCase() === rawCat.toLowerCase()
+        );
+        const category: PendingCategory = found ?? 'SAC';
+        return {
+          client: normalizeString(r['cliente']),
+          callReason: normalizeString(r['motivo_do_chamado']),
+          status: normalizeString(r['status']),
+          priority: normalizeString(r['prioridade']),
+          responsible: normalizeString(r['responsavel']),
+          category,
+          description: normalizeString(r['descricao']),
+        };
+      });
+
+    case 'Controle':
+      return rows.map(r => ({
+        monthOfCalculation: normalizeString(r['mes_apuracao']),
+        competenceMonth: normalizeString(r['mes_competencia']),
+        contract: normalizeNumber(r['contrato']),
+        enterprise: normalizeString(r['empresa']),
+        product: normalizeString(r['produto']),
+        percentageHonorary: normalizeNumber(r['percentual_honorario']),
+        compensation: normalizeNumber(r['compensacao']),
+        honorary: normalizeNumber(r['honorarios']),
+        tax: normalizeNumber(r['imposto']),
+        value: normalizeNumber(r['valor_r']),
+        situation: null,
+      }));
+
     default:
-      return rawData;
+      return rows;
   }
 };
 
-const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
+export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
   const [fileName, setFileName] = useState('');
   const [progress, setProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -112,54 +174,75 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
   const [sending, setSending] = useState(false);
   const [dataType, setDataType] = useState<DataType>('Contratos');
 
-  const handleFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const file = event.target.files?.[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
+
     setFileName(file.name);
     setIsUploading(true);
+    setProgress(0);
+
+    const interval = setInterval(() => {
+      setProgress(p => {
+        const next = p + 5;
+        if (next >= 100) {
+          clearInterval(interval);
+          setIsUploading(false);
+        }
+        return next;
+      });
+    }, 200);
+
     const reader = new FileReader();
-    reader.onload = e => {
-      const data = new Uint8Array(e.target?.result as ArrayBuffer);
-      const workbook = XLSX.read(data, { cellDates: true, type: 'array' });
+    reader.onload = ev => {
+      const data = new Uint8Array(ev.target?.result as ArrayBuffer);
+      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const jsonData = XLSX.utils.sheet_to_json(sheet, {
+
+      const raw = XLSX.utils.sheet_to_json(sheet, {
         defval: null,
         raw: true,
+        range: sheet['!ref'],
+        blankrows: true,
       });
-      setTransformedData(transformExcelData(jsonData, dataType));
-      setIsUploading(false);
-      setProgress(100);
+
+      const transformed = transformExcelData(raw, dataType);
+      setTransformedData(transformed);
+      onFileUpload(file, file.name);
     };
     reader.readAsArrayBuffer(file);
   };
 
-  const handleSubmitUploadFile = async (): Promise<void> => {
+  const handleSubmit = async () => {
+    if (!transformedData.length) {
+      toast.error('Nenhum registro para enviar.');
+      return;
+    }
+
     setSending(true);
-    const endpointMap: Record<DataType, string> = {
+    const endpoints: Record<DataType, string> = {
       Contratos: 'http://localhost:3333/contract',
       Dados: 'http://localhost:3333/negotiation',
       Parceiros: 'http://localhost:3333/partners',
       Pendencias: 'http://localhost:3333/pendings',
       Controle: 'http://localhost:3333/portalcontrolls',
-      ClientReceipt: 'http://localhost:3333/client-receipt',
     };
-    const endpoint = endpointMap[dataType];
-    let sent = 0;
+
     try {
-      for (const record of transformedData) {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(record),
-        });
-        if (response.ok) sent++;
-      }
-      toast.success(`${sent} registros enviados com sucesso!`);
-    } catch (error) {
+      await Promise.all(
+        transformedData.map(rec =>
+          fetch(endpoints[dataType], {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(rec),
+          })
+        )
+      );
+      toast.success(`${transformedData.length} registros enviados!`);
+    } catch (err) {
+      console.error(err);
       toast.error('Erro ao enviar dados');
-      console.error('Upload error:', error);
     } finally {
       setSending(false);
     }
@@ -168,7 +251,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
   return (
     <div className="w-full flex flex-col items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md flex flex-col gap-3">
-        <Label htmlFor="data-type" className="block mb-2">
+        <Label htmlFor="data-type">
           <span className="text-lg text-gray-700">Tipo de dados:</span>
         </Label>
         <select
@@ -182,41 +265,32 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
           <option value="Parceiros">Parceiros</option>
           <option value="Pendencias">Pendências</option>
           <option value="Controle">Controle</option>
-          <option value="ClientReceipt">Client Receipt</option>
         </select>
-        <Label htmlFor="file-upload" className="w-full cursor-pointer">
+
+        <Label htmlFor="file-upload" className="cursor-pointer">
           <div className="w-full border-2 border-dashed border-gray-300 rounded-md p-8 bg-gray-50 hover:bg-gray-100 transition-colors">
             <p className="text-gray-600 text-center text-lg">
-              Clique ou arraste o arquivo aqui
+              Clique ou arraste para selecionar o arquivo
             </p>
           </div>
         </Label>
-        <Input
+        <input
           id="file-upload"
           type="file"
-          onChange={handleFileChange}
-          className="hidden"
           accept=".xls,.xlsx"
+          className="hidden"
+          onChange={handleFileChange}
         />
-        <Button onClick={handleSubmitUploadFile} disabled={sending}>
+
+        <Button
+          onClick={handleSubmit}
+          disabled={sending || !transformedData.length}
+        >
           {sending ? 'Enviando...' : 'Enviar dados'}
         </Button>
-        {isUploading && (
-          <div className="w-full mt-4">
-            <Progress value={progress} className="rounded-full" />
-            <p className="text-center text-gray-500 mt-2">
-              {progress}% carregado
-            </p>
-          </div>
-        )}
-        {fileName && !isUploading && (
-          <div className="mt-4 text-center">
-            <p className="text-xl font-bold text-blue-600">{fileName}</p>
-          </div>
-        )}
+
+        {isUploading && <Progress value={progress} className="mt-4 w-full" />}
       </div>
     </div>
   );
 };
-
-export { FileUpload };

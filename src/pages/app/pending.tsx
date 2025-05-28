@@ -125,7 +125,7 @@ export function Pending() {
                       <TableCell>{item.status}</TableCell>
                       <TableCell>{item.priority}</TableCell>
                       <TableCell>
-                        {dayjs(item.createdAt).format('YYYY-MM-DD')}
+                        {dayjs(item.updatedAt).format('YYYY-MM-DD')}
                       </TableCell>
                       <TableCell>{item.responsible}</TableCell>
                       <TableCell>{item.category}</TableCell>

@@ -129,7 +129,7 @@ export function PartnerDashboard() {
         </div>
       )}
       <div className="flex-1 flex flex-col overflow-auto bg-gray-50">
-        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="p-4 md:p-8">
           <Card className="mb-6">
             <CardContent>

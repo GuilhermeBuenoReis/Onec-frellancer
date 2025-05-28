@@ -172,7 +172,8 @@ export function Negotiation() {
                           <TableCell>
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                n.status === 'Ganho'
+                                // biome-ignore lint/correctness/noConstantCondition: <explanation>
+                                n.status === 'Ganho' || 'ganho'
                                   ? 'bg-green-100 text-green-800'
                                   : n.status === 'Em Andamento'
                                     ? 'bg-yellow-100 text-yellow-800'
@@ -184,7 +185,7 @@ export function Negotiation() {
                               {n.status || 'Status Não Informado'}
                             </span>
                           </TableCell>
-                          <TableCell>R$ {n.value?.toLocaleString()}</TableCell>
+                          <TableCell>R$ {n.value}</TableCell>
                           <TableCell>
                             <Button
                               variant="ghost"

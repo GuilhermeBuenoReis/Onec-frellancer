@@ -118,7 +118,7 @@ export function CreateContract() {
         <Sidebar />
       </div>
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
-        <Header onToggleSidebar={() => console.log('Sidebar toggled')} />
+        <Header toggleSidebar={() => console.log('Sidebar toggled')} />
         <main className="w-full p-4 md:p-8 overflow-y-auto">
           <Helmet title="Criar Contrato" />
           <div className="bg-white p-6 md:p-10 rounded-2xl shadow-lg max-w-4xl mx-auto">
