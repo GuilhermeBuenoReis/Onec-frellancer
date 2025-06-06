@@ -9,6 +9,8 @@
     }
   ],
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -17,8 +19,8 @@
     },
     "noUnusedLocals": false,
     "lib": [
-      "dom",
-      "esnext"
+      "ESNext",
+      "DOM"
     ]
   }
 }

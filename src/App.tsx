@@ -7,7 +7,7 @@ import { Pending } from './pages/app/pending';
 import { Negotiation } from './pages/app/negotiation';
 import { Login } from './pages/auth/login';
 import { PendingDetails } from './pages/app/pending-details';
-import { CreateNegotiation } from './pages/app/create-negotiation';
+import { CreateNegotiation } from './components/create-negotiation';
 import { CreatePartner } from './pages/app/create-partner';
 import { CreateContract } from './pages/app/create-contract';
 import { UploadHonorary } from './components/upload-honorary';
@@ -17,6 +17,7 @@ import { ContractDetail } from './pages/app/contract-details';
 import { Contestation } from './pages/app/contestation-by-partner';
 import { ActiveContracts } from './pages/app/active-contracts';
 import { ClientsDashboard } from './pages/app/client-dashboard';
+import { NegotiationDetails } from './pages/app/negotiation-datails';
 
 export function App() {
   return (
@@ -29,13 +30,13 @@ export function App() {
         <Route path="/rh/parceiros/:id" element={<PartnerDashboard />} />
         <Route path="/pendencias" element={<Pending />} />
         <Route path="/pendencias/:id" element={<PendingDetails />} />
-        <Route path="/financas" element={<Negotiation />} />
+        <Route path="/negotiation" element={<Negotiation />} />
         <Route path="/create-negotiation" element={<CreateNegotiation />} />
         <Route path="/rh/parceiros/create" element={<CreatePartner />} />
         <Route path="/create-contract" element={<CreateContract />} />
         <Route path="/portal/:partnerId/upload" element={<UploadHonorary />} />
         <Route
-          path="/portal/:partnerId/information-honorary"
+          path="/portal/information-honorary/:partnerId"
           element={<InformationHonorary />}
         />
         <Route path="/tels" element={<FilteredContracts />} />
@@ -43,6 +44,7 @@ export function App() {
         <Route path="/contestation" element={<Contestation />} />
         <Route path="/get-contracts" element={<ActiveContracts />} />
         <Route path="/client-dashboard" element={<ClientsDashboard />} />
+        <Route path="/negotiation/:id" element={<NegotiationDetails />} />
       </Routes>
     </Router>
   );

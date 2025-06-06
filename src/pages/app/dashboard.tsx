@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Search, Eye } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 import { Sidebar } from '@/components/sidebar';
@@ -35,25 +34,41 @@ import {
 } from 'recharts';
 import { useGetContract } from '@/http/generated/api';
 import { CreateContractSheet } from '@/components/create-contract';
+import * as XLSX from 'xlsx';
 
 export function Dashboard() {
-  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
   const { data, isLoading } = useGetContract();
-  const contracts = [...(data ?? [])].reverse();
-  const totalPages = Math.max(1, Math.ceil(contracts.length / itemsPerPage));
+  const contracts = useMemo(() => [...(data ?? [])].reverse(), [data]);
+
+  const filteredContracts = useMemo(() => {
+    if (!search.trim()) return contracts;
+    const termo = search.trim().toLowerCase();
+    return contracts.filter(
+      c =>
+        c.client?.toLowerCase().includes(termo) ||
+        c.status?.toLowerCase().includes(termo) ||
+        c.city?.toLowerCase().includes(termo) ||
+        c.state?.toLowerCase().includes(termo)
+    );
+  }, [contracts, search]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredContracts.length / itemsPerPage)
+  );
 
   const statusCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    contracts.forEach(c => {
+    filteredContracts.forEach(c => {
       const key = c.status?.trim() || 'Status não informado';
       counts[key] = (counts[key] || 0) + 1;
     });
     return Object.entries(counts).map(([name, value]) => ({ name, value }));
-  }, [contracts]);
+  }, [filteredContracts]);
 
   const COLORS = [
     '#EF4444',
@@ -66,17 +81,15 @@ export function Dashboard() {
 
   const currentContracts = useMemo(() => {
     const start = (page - 1) * itemsPerPage;
-    return contracts.slice(start, start + itemsPerPage);
-  }, [contracts, page]);
+    return filteredContracts.slice(start, start + itemsPerPage);
+  }, [filteredContracts, page]);
 
   useEffect(() => {
     if (page > totalPages) setPage(1);
   }, [page, totalPages]);
 
   const handleSearch = () => {
-    if (search.trim()) {
-      navigate(`/tels?query=${encodeURIComponent(search.trim())}`);
-    }
+    setPage(1);
   };
 
   const maxPageButtons = 10;
@@ -90,6 +103,36 @@ export function Dashboard() {
   const pageNumbers: number[] = [];
   for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
   const remainingPages = totalPages - endPage;
+
+  const formatDateString = (value: string | null | undefined) => {
+    if (!value) return '-';
+    const v = value.trim();
+    if (/^\d+$/.test(v)) {
+      const num = Number(v);
+      const offset = num > 59 ? num - 1 : num;
+      const excelEpoch = new Date(Date.UTC(1899, 11, 31));
+      excelEpoch.setUTCDate(excelEpoch.getUTCDate() + offset);
+      return excelEpoch.toLocaleDateString('pt-BR');
+    }
+    return v;
+  };
+
+  const exportToExcel = () => {
+    const exportData = filteredContracts.map(c => ({
+      Data: formatDateString(c.year),
+      Cidade: c.city ?? '',
+      Estado: c.state ?? '',
+      Cliente: c.client ?? '',
+      CNPJ: c.cnpj ?? '',
+      Status: c.status ?? '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Contratos');
+    // A extensão .xlsx é gerada automaticamente
+    XLSX.writeFile(workbook, 'contratos_filtrados.xlsx');
+  };
 
   if (isLoading) {
     return (
@@ -111,6 +154,8 @@ export function Dashboard() {
           <Helmet>
             <title>Dashboard</title>
           </Helmet>
+
+          {/* ===== CABEÇALHO COM BUSCA E BOTÕES ===== */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 space-y-4 md:space-y-0">
             <h1 className="text-3xl font-bold text-gray-800">
               Controle de Contratos
@@ -118,7 +163,7 @@ export function Dashboard() {
             <div className="flex items-center gap-3">
               <div className="flex border border-gray-300 rounded-md overflow-hidden">
                 <Input
-                  placeholder="Buscar empresa ou status..."
+                  placeholder="Buscar empresa, status, cidade ou estado..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   className="px-3 py-2 border-none focus:ring-0 w-60"
@@ -132,8 +177,13 @@ export function Dashboard() {
                 </Button>
               </div>
               <CreateContractSheet />
+              <Button onClick={exportToExcel} variant="outline">
+                Exportar para Excel
+              </Button>
             </div>
           </div>
+
+          {/* ===== GRÁFICO DE DISTRIBUIÇÃO DE STATUS ===== */}
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Distribuição de Status</CardTitle>
@@ -160,7 +210,9 @@ export function Dashboard() {
               </ResponsiveContainer>
             </CardContent>
           </Card>
-          <Card>
+
+          {/* ===== TABELA DE CONTRATOS ===== */}
+          <Card className="p-8">
             <Tabs defaultValue="table">
               <TabsList>
                 <TabsTrigger value="table">Tabela</TabsTrigger>
@@ -170,11 +222,11 @@ export function Dashboard() {
                   <Table className="min-w-full text-sm">
                     <TableHeader>
                       <TableRow>
+                        <TableHead>Data</TableHead>
                         <TableHead>Cidade</TableHead>
                         <TableHead>Estado</TableHead>
                         <TableHead>Cliente</TableHead>
                         <TableHead>CNPJ</TableHead>
-                        <TableHead>Ano</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Ações</TableHead>
                       </TableRow>
@@ -182,13 +234,13 @@ export function Dashboard() {
                     <TableBody>
                       {currentContracts.map(c => (
                         <TableRow key={c.id} className="hover:bg-gray-50">
+                          <TableCell>{formatDateString(c.year)}</TableCell>
                           <TableCell>{c.city}</TableCell>
                           <TableCell>{c.state}</TableCell>
                           <TableCell className="truncate max-w-xs">
                             {c.client}
                           </TableCell>
                           <TableCell>{c.cnpj}</TableCell>
-                          <TableCell>{c.year}</TableCell>
                           <TableCell>
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -210,7 +262,9 @@ export function Dashboard() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => navigate(`/contract/${c.id}`)}
+                              onClick={() =>
+                                window.location.assign(`/contract/${c.id}`)
+                              }
                               aria-label="Ver contrato"
                             >
                               <Eye className="w-5 h-5" />
@@ -220,7 +274,9 @@ export function Dashboard() {
                       ))}
                     </TableBody>
                   </Table>
-                  <div className="mt-4 flex justify-end">
+
+                  {/* ===== PAGINAÇÃO ===== */}
+                  <footer className="mt-4 flex justify-center">
                     <Pagination
                       currentPage={page}
                       totalPages={totalPages}
@@ -258,7 +314,7 @@ export function Dashboard() {
                         </PaginationItem>
                       </PaginationContent>
                     </Pagination>
-                  </div>
+                  </footer>
                 </div>
               </TabsContent>
             </Tabs>

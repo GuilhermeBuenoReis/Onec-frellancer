@@ -115,7 +115,12 @@ export function CreateContract() {
   return (
     <div className="flex h-screen overflow-hidden">
       <div className="hidden md:flex">
-        <Sidebar />
+        <Sidebar
+          isOpen={false}
+          toggleSidebar={(): void => {
+            throw new Error('Function not implemented.');
+          }}
+        />
       </div>
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
         <Header toggleSidebar={() => console.log('Sidebar toggled')} />

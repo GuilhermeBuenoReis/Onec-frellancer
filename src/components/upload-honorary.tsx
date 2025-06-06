@@ -15,7 +15,6 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
-// formata MM/YYYY de número, Date ou string
 function formatMonth(value: any): string | null {
   if (value == null) return null;
   if (typeof value === 'number') {
@@ -34,7 +33,6 @@ function formatMonth(value: any): string | null {
   return null;
 }
 
-// converte moeda/porcentagem em número
 function parseNumber(value: any): number | null {
   if (value == null || value === '') return null;
   if (typeof value === 'number') return Number.isNaN(value) ? null : value;
@@ -48,18 +46,18 @@ function parseNumber(value: any): number | null {
 }
 
 const monthToIndex: Record<string, number> = {
-  Janeiro: 0,
-  Fevereiro: 1,
-  Março: 2,
-  Abril: 3,
-  Maio: 4,
-  Junho: 5,
-  Julho: 6,
-  Agosto: 7,
-  Setembro: 8,
-  Outubro: 9,
-  Novembro: 10,
-  Dezembro: 11,
+  Janeiro: 1,
+  Fevereiro: 2,
+  Março: 3,
+  Abril: 4,
+  Maio: 5,
+  Junho: 6,
+  Julho: 7,
+  Agosto: 8,
+  Setembro: 9,
+  Outubro: 10,
+  Novembro: 11,
+  Dezembro: 12,
 };
 
 export function UploadHonorary() {
@@ -89,11 +87,17 @@ export function UploadHonorary() {
 
   const handleUpload = async () => {
     if (!workbook || !partnerId) {
-      toast.error('Arquivo ou partnerId ausente.');
+      toast.error('Arquivo ou parceiro ausente.');
       return;
     }
-    const idx = monthToIndex[selectedMonth];
-    const sheetName = workbook.SheetNames[idx] || workbook.SheetNames[0];
+
+    const monthIndex = monthToIndex[selectedMonth];
+    const year = new Date().getFullYear();
+    const padMonth = String(monthIndex).padStart(2, '0');
+    const formattedMonth = `${padMonth}/${year}`;
+
+    const sheetName =
+      workbook.SheetNames[monthIndex - 1] || workbook.SheetNames[0];
     const rows: any[] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
       defval: null,
     });
@@ -105,11 +109,10 @@ export function UploadHonorary() {
     for (let i = 0; i < total; i++) {
       const row = rows[i];
 
-      // envia cada campo individualmente
       await createPortal({
         data: {
-          monthOfCalculation: formatMonth(row['Mês Apuração']),
-          competenceMonth: formatMonth(row['Mês Competência']),
+          monthOfCalculation: formattedMonth,
+          competenceMonth: formattedMonth,
           contract:
             row['Contrato'] != null ? parseNumber(row['Contrato']) : null,
           enterprise:
@@ -165,7 +168,7 @@ export function UploadHonorary() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuLabel>Selecione mês/aba</DropdownMenuLabel>
+                <DropdownMenuLabel>Selecione mês</DropdownMenuLabel>
                 {Object.keys(monthToIndex).map(m => (
                   <DropdownMenuItem
                     key={m}

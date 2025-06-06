@@ -86,7 +86,7 @@ export function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
               <ul className="space-y-2">
                 <li>
                   <NavLink
-                    to="/financas"
+                    to="/negotiation"
                     className="flex items-center p-2 rounded hover:bg-gray-300"
                   >
                     <span className="mr-2">🤝</span>

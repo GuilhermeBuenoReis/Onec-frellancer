@@ -1,30 +1,24 @@
 import type * as React from 'react';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { type Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 
 export interface PaginationProps extends React.ComponentProps<'nav'> {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  children: React.ReactNode;
+  className?: string;
+  children?: React.ReactNode;
 }
 
-export function Pagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-  className,
-  children,
-  ...props
-}: PaginationProps) {
+export function Pagination({ className, children, ...props }: PaginationProps) {
   return (
     <nav
-      // biome-ignore lint/a11y/noRedundantRoles: <explanation>
-      // biome-ignore lint/a11y/useSemanticElements: <explanation>
-      role="navigation"
       aria-label="pagination"
-      className={cn('mx-auto flex w-full justify-center', className)}
+      className={cn(
+        'flex items-center justify-center space-x-2 py-2',
+        className
+      )}
       {...props}
     >
       {children}
@@ -39,7 +33,7 @@ export function PaginationContent({
   return (
     <ul
       data-slot="pagination-content"
-      className={cn('flex flex-row items-center gap-1', className)}
+      className={cn('inline-flex items-center space-x-1', className)}
       {...props}
     />
   );
@@ -49,29 +43,32 @@ export function PaginationItem(props: React.ComponentProps<'li'>) {
   return <li data-slot="pagination-item" {...props} />;
 }
 
-type PaginationLinkProps = { isActive?: boolean } & Pick<
+type PaginationLinkProps = { isActive?: boolean } & Omit<
   React.ComponentProps<typeof Button>,
-  'size'
+  'children'
 > &
-  React.ComponentProps<'a'>;
+  React.ComponentProps<'button'>;
 
 export function PaginationLink({
-  className,
   isActive,
-  size = 'icon',
+  className,
+  children,
   ...props
 }: PaginationLinkProps) {
   return (
-    <a
-      aria-current={isActive ? 'page' : undefined}
-      data-slot="pagination-link"
-      data-active={isActive}
+    <Button
+      variant={isActive ? 'default' : 'ghost'}
+      size="sm"
+      onClick={props.onClick}
       className={cn(
-        buttonVariants({ variant: isActive ? 'outline' : 'ghost', size }),
+        'px-3 py-1 rounded-md min-w-[2rem] transition-colors',
+        isActive ? 'bg-primary text-white' : 'hover:bg-secondary',
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </Button>
   );
 }
 
@@ -80,19 +77,19 @@ export function PaginationPrevious({
   disabled,
 }: { onClick?: () => void; disabled?: boolean }) {
   return (
-    <a
-      // biome-ignore lint/a11y/useSemanticElements: <explanation>
-      role="button"
-      // biome-ignore lint/a11y/useValidAnchor: <explanation>
+    <Button
+      variant="ghost"
+      size="sm"
       onClick={() => !disabled && onClick?.()}
-      aria-label="previous"
+      disabled={disabled}
+      aria-label="previous page"
       className={cn(
-        buttonVariants({ variant: 'ghost', size: 'default' }),
+        'p-2 rounded-md',
         disabled && 'opacity-50 pointer-events-none'
       )}
     >
       <ChevronLeft className="w-5 h-5" />
-    </a>
+    </Button>
   );
 }
 
@@ -101,19 +98,19 @@ export function PaginationNext({
   disabled,
 }: { onClick?: () => void; disabled?: boolean }) {
   return (
-    <a
-      // biome-ignore lint/a11y/useSemanticElements: <explanation>
-      role="button"
-      // biome-ignore lint/a11y/useValidAnchor: <explanation>
+    <Button
+      variant="ghost"
+      size="sm"
       onClick={() => !disabled && onClick?.()}
-      aria-label="next"
+      disabled={disabled}
+      aria-label="next page"
       className={cn(
-        buttonVariants({ variant: 'ghost', size: 'default' }),
+        'p-2 rounded-md',
         disabled && 'opacity-50 pointer-events-none'
       )}
     >
       <ChevronRight className="w-5 h-5" />
-    </a>
+    </Button>
   );
 }
 
@@ -122,10 +119,10 @@ export function PaginationEllipsis(props: React.ComponentProps<'span'>) {
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
-      className={cn('flex items-center justify-center', props.className)}
+      className={cn('px-3 py-1 rounded-md', props.className)}
       {...props}
     >
-      <MoreHorizontal className="w-4 h-4" />
+      <MoreHorizontal className="w-5 h-5" />
     </span>
   );
 }

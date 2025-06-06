@@ -2,7 +2,6 @@ import type React from 'react';
 import { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { toast } from 'sonner';
-
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Button } from './ui/button';
@@ -12,7 +11,8 @@ export type DataType =
   | 'Dados'
   | 'Parceiros'
   | 'Pendencias'
-  | 'Controle';
+  | 'Controle'
+  | 'ClientReceipt';
 
 export interface FileUploadProps {
   onFileUpload: (file: File, fileName: string) => void;
@@ -49,28 +49,60 @@ const normalizeHeader = (header: string): string =>
     .replace(/[^\w]/g, '')
     .toLowerCase();
 
-const parseExcelDate = (d: any): string | null => {
-  if (d instanceof Date) return d.toISOString();
-  if (typeof d === 'number') {
-    const utcDays = d - 25569;
-    const ms = utcDays * 86400 * 1000;
-    return new Date(ms).toISOString();
+const parseExcelDate = (serial: number): Date => {
+  const utc_days = Math.floor(serial - 25569);
+  const utc_value = utc_days * 86400;
+  const date_info = new Date(utc_value * 1000);
+
+  const fractional_day = serial - Math.floor(serial) + 0.0000001;
+  const total_seconds = Math.floor(86400 * fractional_day);
+
+  const seconds = total_seconds % 60;
+  const hours = Math.floor(total_seconds / 3600);
+  const minutes = Math.floor(total_seconds / 60) % 60;
+
+  return new Date(
+    date_info.getFullYear(),
+    date_info.getMonth(),
+    date_info.getDate(),
+    hours,
+    minutes,
+    seconds
+  );
+};
+
+const formatDateBR = (value: unknown): string | null => {
+  if (value == null) return null;
+
+  let dateObj: Date;
+  if (typeof value === 'number') {
+    dateObj = parseExcelDate(value);
+  } else {
+    const parsed = new Date(String(value));
+    if (Number.isNaN(parsed.getTime())) {
+      return null;
+    }
+    dateObj = parsed;
   }
-  return null;
+
+  const dd = String(dateObj.getDate()).padStart(2, '0');
+  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const yyyy = dateObj.getFullYear();
+
+  return `${dd}/${mm}/${yyyy}`;
 };
 
 const transformExcelData = (rawData: any[], dataType: DataType) => {
-  console.log('Raw columns:', Object.keys(rawData[0] || {}));
-
-  const rows = rawData.map(row => {
+  const nonEmptyRaw = rawData.filter(row =>
+    Object.values(row).some(v => v != null && String(v).trim() !== '')
+  );
+  const rows = nonEmptyRaw.map(row => {
     const out: Record<string, any> = {};
     Object.entries(row).forEach(([key, val]) => {
       out[normalizeHeader(key)] = val;
     });
     return out;
   });
-
-  console.log('Normalized columns:', Object.keys(rows[0] || {}));
 
   switch (dataType) {
     case 'Contratos':
@@ -80,7 +112,7 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
         state: normalizeString(r['estado']),
         cnpj: normalizeString(r['cnpj']),
         sindic: normalizeString(r['sindic']),
-        year: normalizeString(r['ano']),
+        year: formatDateBR(r['ano']),
         matter: normalizeString(r['materia']),
         forecast: normalizeString(r['previsao']),
         contractTotal: normalizeString(r['contrato_total']),
@@ -93,7 +125,6 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
         counter: normalizeString(r['contador']),
         email: normalizeString(r['email_responsavel']),
       }));
-
     case 'Dados':
       return rows.map(r => ({
         title: normalizeString(r['titulo']),
@@ -104,11 +135,10 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
         status: normalizeString(r['status']),
         value: normalizeNumber(r['valor']),
         partnerId: normalizeString(r['parceiro']),
-        startsDate: parseExcelDate(r['data_inicio']),
+        startsDate: formatDateBR(r['data_inicio']),
         observation: normalizeString(r['obs']),
         averageGuide: normalizeNumber(r['media_guia']),
       }));
-
     case 'Parceiros':
       return rows.map(r => ({
         name: normalizeString(r['nome']),
@@ -127,7 +157,6 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
         email: normalizeString(r['email']),
         responsible: normalizeString(r['responsavel']),
       }));
-
     case 'Pendencias':
       return rows.map(r => {
         const rawCat = normalizeString(r['categoria']) || '';
@@ -145,7 +174,6 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
           description: normalizeString(r['descricao']),
         };
       });
-
     case 'Controle':
       return rows.map(r => ({
         monthOfCalculation: normalizeString(r['mes_apuracao']),
@@ -160,7 +188,18 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
         value: normalizeNumber(r['valor_r']),
         situation: null,
       }));
-
+    case 'ClientReceipt':
+      return rows.map(r => ({
+        receiptDate: formatDateBR(r['data']),
+        competence: formatDateBR(r['comp']),
+        cnpj: normalizeString(r['cnpj']),
+        clientName: normalizeString(r['cliente']),
+        percentage: normalizeNumber(r['percentual']),
+        compensationMonth: normalizeString(r['compensacao_mes']),
+        honorary: normalizeNumber(r['honorarios']),
+        tax: normalizeNumber(r['imposto']),
+        status: normalizeString(r['status']),
+      }));
     default:
       return rows;
   }
@@ -197,16 +236,14 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
     reader.onload = ev => {
       const data = new Uint8Array(ev.target?.result as ArrayBuffer);
       const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
       const raw = XLSX.utils.sheet_to_json(sheet, {
         defval: null,
         raw: true,
         range: sheet['!ref'],
-        blankrows: true,
+        blankrows: false,
       });
-
       const transformed = transformExcelData(raw, dataType);
       setTransformedData(transformed);
       onFileUpload(file, file.name);
@@ -227,18 +264,17 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
       Parceiros: 'http://localhost:3333/partners',
       Pendencias: 'http://localhost:3333/pendings',
       Controle: 'http://localhost:3333/portalcontrolls',
+      ClientReceipt: 'http://localhost:3333/client-receipt',
     };
 
     try {
-      await Promise.all(
-        transformedData.map(rec =>
-          fetch(endpoints[dataType], {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(rec),
-          })
-        )
-      );
+      for (const rec of transformedData) {
+        await fetch(endpoints[dataType], {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rec),
+        });
+      }
       toast.success(`${transformedData.length} registros enviados!`);
     } catch (err) {
       console.error(err);
@@ -265,6 +301,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
           <option value="Parceiros">Parceiros</option>
           <option value="Pendencias">Pendências</option>
           <option value="Controle">Controle</option>
+          <option value="ClientReceipt">Recebimentos de Cliente</option>
         </select>
 
         <Label htmlFor="file-upload" className="cursor-pointer">

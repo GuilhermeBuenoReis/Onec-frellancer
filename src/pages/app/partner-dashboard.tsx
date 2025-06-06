@@ -109,7 +109,12 @@ export function PartnerDashboard() {
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Dashboard de Parceiro" />
       <aside className="hidden md:flex">
-        <Sidebar />
+        <Sidebar
+          isOpen={false}
+          toggleSidebar={(): void => {
+            throw new Error('Function not implemented.');
+          }}
+        />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </aside>
       {sidebarOpen && (
@@ -119,7 +124,12 @@ export function PartnerDashboard() {
             onClick={() => setSidebarOpen(false)}
           />
           <div className="relative bg-white w-64 h-full shadow-lg">
-            <Sidebar />
+            <Sidebar
+              isOpen={false}
+              toggleSidebar={(): void => {
+                throw new Error('Function not implemented.');
+              }}
+            />
             <div className="p-2">
               <Button onClick={() => setSidebarOpen(false)} variant="outline">
                 Fechar
@@ -357,7 +367,7 @@ export function PartnerDashboard() {
                     </Button>
 
                     <Button className="cursor-pointer">
-                      <Link to={`/portal/${partner.id}/information-honorary`}>
+                      <Link to={`/portal/information-honorary/${partner.id}`}>
                         Consultar os honorários
                       </Link>
                     </Button>

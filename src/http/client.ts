@@ -1,47 +1,18 @@
-export interface HttpRequestInit extends RequestInit {
-  url: string;
-  data?: unknown;
-}
+import axios, { type AxiosRequestConfig } from 'axios';
 
-export async function http<T>({
-  url,
-  data,
-  ...init
-}: HttpRequestInit): Promise<T> {
+export async function http<T>(config: AxiosRequestConfig): Promise<T> {
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3333';
-  const fullUrl = new URL(url, baseUrl);
+  const instance = axios.create({
+    baseURL: baseUrl,
+    withCredentials: true,
+  });
 
-  const requestInit: RequestInit = {
-    ...init,
-    headers: {
-      ...init.headers,
-      ...(data ? { 'Content-Type': 'application/json' } : {}),
-    },
-    credentials: 'include',
-  };
-
-  if (data && init.method?.toUpperCase() !== 'GET') {
-    requestInit.body = JSON.stringify(data);
-  } else if (data && (!init.method || init.method.toUpperCase() === 'GET')) {
-    console.warn(
-      'Requisições GET não devem enviar body; os dados foram ignorados.'
-    );
+  try {
+    const response = await instance.request<T>(config);
+    return response.data;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || 'Unknown error';
+    return Promise.reject(new Error(message));
   }
-
-  const response = await fetch(fullUrl.toString(), requestInit);
-  if (!response.ok) {
-    let errorMessage = `HTTP error! Status: ${response.status}`;
-    try {
-      const errorData = await response.json();
-      errorMessage = errorData.message || errorMessage;
-    } catch (e) {}
-    return Promise.reject(new Error(errorMessage));
-  }
-
-  const contentType = response.headers.get('content-type');
-  if (contentType?.includes('application/json')) {
-    return response.json() as Promise<T>;
-  }
-
-  return response.text() as unknown as T;
 }

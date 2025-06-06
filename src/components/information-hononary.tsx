@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Sidebar } from '@/components/sidebar';
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 import {
   ResponsiveContainer,
   LineChart,
@@ -23,202 +23,290 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+import {
+  DollarSign,
+  Users,
+  Award,
+  FileText,
+  Scale,
+  Percent,
+} from 'lucide-react';
+import { useGetPortalControllsBySelectParternRoute } from '@/http/generated/api';
 
 export function InformationHonorary() {
-  const { partnerId = '' } = useParams<{ partnerId: string }>();
+  const { partnerId } = useParams<{ partnerId: string }>();
   const navigate = useNavigate();
-  const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filterMonth, setFilterMonth] = useState<'all' | string>('all');
+  const [mes, setMes] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (!partnerId) {
-      toast.error('Parâmetro partnerId ausente.');
-      setLoading(false);
-      return;
-    }
-    fetch(`http://localhost:3333/portal/portalcontrolls?partnerId=${partnerId}`)
-      .then(res => {
-        if (!res.ok) throw new Error(res.statusText);
-        return res.json();
-      })
-      .then(records => setData(records))
-      .catch(() => toast.error('Erro ao buscar dados'))
-      .finally(() => setLoading(false));
-  }, [partnerId]);
+  const {
+    data: portal,
+    isLoading,
+    isError,
+  } = useGetPortalControllsBySelectParternRoute({ partnerId: partnerId ?? '' });
 
-  // lista de meses únicos ordenados (MM/YYYY)
-  const monthsAvailable = useMemo(() => {
-    const setM = new Set<string>();
-    data.forEach(d => {
-      if (typeof d.competenceMonth === 'string') {
-        setM.add(d.competenceMonth);
-      }
-    });
-    return Array.from(setM).sort((a, b) => {
-      const [am, ay] = a.split('/');
-      const [bm, by] = b.split('/');
-      return Number(ay) - Number(by) || Number(am) - Number(bm);
-    });
-  }, [data]);
+  const registros = (portal ?? [])
+    .map(item => {
+      const raw = item.competenceMonth ?? '';
+      const [mm, yy] = raw.split('/');
+      const mesNum = mm ? Number(mm) : 0;
+      return {
+        competenceMonth: raw,
+        mes: mesNum,
+        valor: item.value ?? 0,
+        honorario: item.honorary ?? 0,
+        compensacao: item.compensation ?? 0,
+        imposto: item.tax ?? 0,
+        tj: item.tj ?? 0,
+        percHonorario: item.percentageHonorary ?? 0,
+      };
+    })
+    .reverse();
 
-  // dados do chart: soma value/honorary/compensation por month
-  const chartData = useMemo(() => {
-    const grouping: Record<string, any> = {};
-    data.forEach(item => {
-      const m = item.competenceMonth || 'Sem mês';
-      if (!grouping[m])
-        grouping[m] = { month: m, total: 0, honorary: 0, compensation: 0 };
-      grouping[m].total += item.value ?? 0;
-      grouping[m].honorary += item.honorary ?? 0;
-      grouping[m].compensation += item.compensation ?? 0;
-    });
-    return monthsAvailable.map(
-      m => grouping[m] || { month: m, total: 0, honorary: 0, compensation: 0 }
-    );
-  }, [data, monthsAvailable]);
+  const filtrados = mes ? registros.filter(r => r.mes === mes) : registros;
 
-  // dados filtrados para o mês selecionado (ou todos)
-  const filteredForCard = useMemo(() => {
-    if (filterMonth === 'all') return data;
-    return data.filter(d => d.competenceMonth === filterMonth);
-  }, [data, filterMonth]);
+  const totals = useMemo(
+    () => ({
+      valor: filtrados.reduce((a, c) => a + c.valor, 0),
+      honorario: filtrados.reduce((a, c) => a + c.honorario, 0),
+      compensacao: filtrados.reduce((a, c) => a + c.compensacao, 0),
+      imposto: filtrados.reduce((a, c) => a + c.imposto, 0),
+      tj: filtrados.reduce((a, c) => a + c.tj, 0),
+      percHonorario: filtrados.reduce((a, c) => a + c.percHonorario, 0),
+    }),
+    [filtrados]
+  );
 
-  const totals = useMemo(() => {
-    return filteredForCard.reduce(
-      (acc, cur) => ({
-        total: acc.total + (cur.value ?? 0),
-        honorary: acc.honorary + (cur.honorary ?? 0),
-        compensation: acc.compensation + (cur.compensation ?? 0),
-      }),
-      { total: 0, honorary: 0, compensation: 0 }
-    );
-  }, [filteredForCard]);
+  const monthNames = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ];
 
-  if (loading) return <p className="text-center py-8">Carregando...</p>;
+  const colorMap: Record<string, string> = {
+    valor: '#3b82f6',
+    honorario: '#10b981',
+    compensacao: '#f59e0b',
+    imposto: '#ef4444',
+    tj: '#8b5cf6',
+  };
+
+  if (!partnerId) {
+    toast.error('Parceiro não encontrado');
+  }
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <aside className="hidden md:block md:w-64">
-        <Sidebar />
-      </aside>
-      <main className="flex-1 p-6 overflow-auto">
-        <header className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold">Dashboard Honorários</h1>
-          <Button variant="outline" onClick={() => navigate(-1)}>
+    <div className="flex h-screen">
+      <Sidebar
+        isOpen={false}
+        toggleSidebar={(): void => {
+          throw new Error('Function not implemented.');
+        }}
+      />
+      <main className="flex-1 flex flex-col bg-gray-100">
+        <header className="flex items-center justify-between p-6 bg-white shadow">
+          <h1 className="text-2xl font-semibold">Painel de Honorários</h1>
+          <Button variant="ghost" onClick={() => navigate(-1)}>
             Voltar
           </Button>
         </header>
 
-        <div className="flex items-center mb-6 space-x-4">
-          <Label>Filtrar mês:</Label>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                {filterMonth === 'all' ? 'Todos os meses' : filterMonth}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Meses disponíveis</DropdownMenuLabel>
-              <DropdownMenuItem onSelect={() => setFilterMonth('all')}>
-                Todos os meses
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {monthsAvailable.map(m => (
-                <DropdownMenuItem key={m} onSelect={() => setFilterMonth(m)}>
-                  {m}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="p-6 space-y-6 flex-1 overflow-auto">
+          {isLoading ? (
+            <p className="text-center mt-10">Carregando...</p>
+          ) : isError ? (
+            <p className="text-center mt-10">Erro ao carregar dados.</p>
+          ) : (
+            <Tabs defaultValue="dashboard" className="w-full space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <TabsList>
+                  <TabsTrigger value="dashboard">Resumo</TabsTrigger>
+                  <TabsTrigger value="grafico">Gráfico</TabsTrigger>
+                </TabsList>
+                <Select
+                  value={mes !== null ? mes.toString() : 'all'}
+                  onValueChange={value =>
+                    setMes(value === 'all' ? null : Number(value))
+                  }
+                >
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Filtrar mês" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {monthNames.map((name, index) => (
+                      <SelectItem key={name} value={(index + 1).toString()}>
+                        {name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <TabsContent value="dashboard">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+                  <Card className="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
+                    <CardHeader className="flex items-center space-x-2">
+                      <DollarSign className="h-6 w-6 text-blue-500" />
+                      <CardTitle className="text-lg font-medium text-gray-700">
+                        Valor
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-2">
+                      <p className="text-2xl font-bold text-gray-900">
+                        {totals.valor.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
+                    <CardHeader className="flex items-center space-x-2">
+                      <Users className="h-6 w-6 text-green-500" />
+                      <CardTitle className="text-lg font-medium text-gray-700">
+                        Honorários
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-2">
+                      <p className="text-2xl font-bold text-gray-900">
+                        {totals.honorario.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
+                    <CardHeader className="flex items-center space-x-2">
+                      <Award className="h-6 w-6 text-yellow-500" />
+                      <CardTitle className="text-lg font-medium text-gray-700">
+                        Compensação
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-2">
+                      <p className="text-2xl font-bold text-gray-900">
+                        {totals.compensacao.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
+                    <CardHeader className="flex items-center space-x-2">
+                      <FileText className="h-6 w-6 text-red-500" />
+                      <CardTitle className="text-lg font-medium text-gray-700">
+                        Imposto
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-2">
+                      <p className="text-2xl font-bold text-gray-900">
+                        {totals.imposto.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
+                    <CardHeader className="flex items-center space-x-2">
+                      <Scale className="h-6 w-6 text-purple-500" />
+                      <CardTitle className="text-lg font-medium text-gray-700">
+                        TJ
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-2">
+                      <p className="text-2xl font-bold text-gray-900">
+                        {totals.tj.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
+                    <CardHeader className="flex items-center space-x-2">
+                      <Percent className="h-6 w-6 text-indigo-500" />
+                      <CardTitle className="text-lg font-medium text-gray-700">
+                        % Honorário
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-2">
+                      <p className="text-2xl font-bold text-gray-900">
+                        {totals.percHonorario.toFixed(2)}%
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="grafico">
+                <div className="bg-white rounded-lg shadow p-6">
+                  <ResponsiveContainer width="100%" height={400}>
+                    <LineChart
+                      data={filtrados}
+                      margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="competenceMonth" />
+                      <YAxis />
+                      <Tooltip
+                        formatter={val =>
+                          typeof val === 'number'
+                            ? val.toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL',
+                              })
+                            : val
+                        }
+                      />
+                      <Legend verticalAlign="top" height={36} />
+                      {[
+                        'valor',
+                        'honorario',
+                        'compensacao',
+                        'imposto',
+                        'tj',
+                      ].map(key => (
+                        <Line
+                          key={key}
+                          type="monotone"
+                          dataKey={key}
+                          name={
+                            key === 'valor'
+                              ? 'Valor'
+                              : key === 'honorario'
+                                ? 'Honorários'
+                                : key === 'compensacao'
+                                  ? 'Compensação'
+                                  : key.charAt(0).toUpperCase() + key.slice(1)
+                          }
+                          stroke={colorMap[key]}
+                          strokeWidth={3}
+                          dot={false}
+                        />
+                      ))}
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </TabsContent>
+            </Tabs>
+          )}
         </div>
-
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-          <Card className="shadow hover:shadow-lg transition">
-            <CardHeader>
-              <CardTitle>Valor Total</CardTitle>
-            </CardHeader>
-            <CardContent className="text-2xl font-semibold">
-              {totals.total.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              })}
-            </CardContent>
-          </Card>
-          <Card className="shadow hover:shadow-lg transition">
-            <CardHeader>
-              <CardTitle>Honorários</CardTitle>
-            </CardHeader>
-            <CardContent className="text-2xl font-semibold">
-              {totals.honorary.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              })}
-            </CardContent>
-          </Card>
-          <Card className="shadow hover:shadow-lg transition">
-            <CardHeader>
-              <CardTitle>Compensação</CardTitle>
-            </CardHeader>
-            <CardContent className="text-2xl font-semibold">
-              {totals.compensation.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              })}
-            </CardContent>
-          </Card>
-        </section>
-
-        <section className="bg-white rounded-lg shadow p-4">
-          <h2 className="text-xl font-semibold mb-4">Evolução Mensal</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis
-                tickFormatter={v =>
-                  v.toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  })
-                }
-              />
-              <Tooltip
-                formatter={v =>
-                  v.toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  })
-                }
-              />
-              <Legend verticalAlign="top" height={36} />
-              <Line
-                type="monotone"
-                dataKey="total"
-                name="Valor"
-                stroke="#4F46E5"
-                strokeWidth={2}
-                dot
-              />
-              <Line
-                type="monotone"
-                dataKey="honorary"
-                name="Honorários"
-                stroke="#10B981"
-                strokeWidth={2}
-                dot
-              />
-              <Line
-                type="monotone"
-                dataKey="compensation"
-                name="Compensação"
-                stroke="#F59E0B"
-                strokeWidth={2}
-                dot
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </section>
       </main>
     </div>
   );

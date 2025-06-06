@@ -243,6 +243,8 @@ export type GetNegotiation200Item = {
   observation: string | null;
   /** @nullable */
   averageGuide: number | null;
+  /** @nullable */
+  partnerId: string | null;
 };
 
 export type UpdateNegotiationBody = {
@@ -255,6 +257,8 @@ export type UpdateNegotiationBody = {
   value?: number;
   /** @nullable */
   startsDate?: string | null;
+  /** @nullable */
+  partnerId?: string | null;
   /** @nullable */
   observation?: string | null;
   /** @nullable */
@@ -276,6 +280,31 @@ export type DeleteNegotiation200 = {
 
 export type DeleteNegotiation404 = {
   message: string;
+};
+
+export type GetNegotiationById200Item = {
+  id: string;
+  /** @nullable */
+  title: string | null;
+  /** @nullable */
+  client: string | null;
+  /** @nullable */
+  user: string | null;
+  /** @nullable */
+  tags: string | null;
+  /** @nullable */
+  step: string | null;
+  status: string;
+  /** @nullable */
+  value: number | null;
+  /** @nullable */
+  startsDate: string | null;
+  /** @nullable */
+  observation: string | null;
+  /** @nullable */
+  averageGuide: number | null;
+  /** @nullable */
+  partnerId: string | null;
 };
 
 export type CreateContractBody = {
@@ -1037,6 +1066,7 @@ export type CreateClientReceipt400 = {
 };
 
 export type GetClientReceipt200Item = {
+  id: string;
   /** @nullable */
   receiptDate: string | null;
   /** @nullable */
@@ -1715,6 +1745,91 @@ const {mutation: mutationOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+/**
+ * Get a list of Negotiation by id
+ */
+export const getNegotiationById = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetNegotiationById200Item[]>(
+      {url: `http://localhost:3333/negotiation/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetNegotiationByIdQueryKey = (id: string,) => {
+    return [`http://localhost:3333/negotiation/${id}`] as const;
+    }
+
+    
+export const getGetNegotiationByIdQueryOptions = <TData = Awaited<ReturnType<typeof getNegotiationById>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiationById>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetNegotiationByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNegotiationById>>> = ({ signal }) => getNegotiationById(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getNegotiationById>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetNegotiationByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getNegotiationById>>>
+export type GetNegotiationByIdQueryError = unknown
+
+
+export function useGetNegotiationById<TData = Awaited<ReturnType<typeof getNegotiationById>>, TError = unknown>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiationById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNegotiationById>>,
+          TError,
+          Awaited<ReturnType<typeof getNegotiationById>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetNegotiationById<TData = Awaited<ReturnType<typeof getNegotiationById>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiationById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNegotiationById>>,
+          TError,
+          Awaited<ReturnType<typeof getNegotiationById>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetNegotiationById<TData = Awaited<ReturnType<typeof getNegotiationById>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiationById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetNegotiationById<TData = Awaited<ReturnType<typeof getNegotiationById>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getNegotiationById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetNegotiationByIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 /**
  * Create a new Datacontract
  */

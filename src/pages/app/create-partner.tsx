@@ -95,7 +95,12 @@ export function CreatePartner() {
 
   return (
     <div className="min-h-screen flex">
-      <Sidebar />
+      <Sidebar
+        isOpen={false}
+        toggleSidebar={(): void => {
+          throw new Error('Function not implemented.');
+        }}
+      />
 
       <main className="flex-1 bg-gray-50 p-8">
         <div className="max-w-5xl mx-auto bg-white rounded-xl shadow p-8">

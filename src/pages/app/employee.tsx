@@ -18,7 +18,12 @@ export function Employee() {
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Parceiros" />
       <div className="hidden md:flex">
-        <Sidebar />
+        <Sidebar
+          isOpen={false}
+          toggleSidebar={(): void => {
+            throw new Error('Function not implemented.');
+          }}
+        />
       </div>
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
@@ -27,7 +32,12 @@ export function Employee() {
             onClick={handleToggleSidebar}
           />
           <div className="relative bg-white w-64 h-full shadow-lg">
-            <Sidebar />
+            <Sidebar
+              isOpen={false}
+              toggleSidebar={(): void => {
+                throw new Error('Function not implemented.');
+              }}
+            />
           </div>
         </div>
       )}

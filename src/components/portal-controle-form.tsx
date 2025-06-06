@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import {
-  getGetPortalControllsQueryKey,
+  getGetPartnersQueryKey,
   useCreatePortalControll,
 } from '@/http/generated/api';
 import { QueryClient } from '@tanstack/react-query';
@@ -63,11 +63,16 @@ export function PortalControleForm({ onCreate }: PortalControleFormProps) {
         situation,
         tax,
         value,
+        monthOfCalculation: null,
+        competenceMonth: null,
+        contract: null,
+        tj: null,
+        partnerId: '',
       },
     });
 
     queryClient.invalidateQueries({
-      queryKey: getGetPortalControllsQueryKey(),
+      queryKey: getGetPartnersQueryKey(),
     });
 
     reset();

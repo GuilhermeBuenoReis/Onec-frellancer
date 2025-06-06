@@ -21,28 +21,51 @@ function isNonNull<T>(v: T): v is NonNullable<T> {
 
 export function ContractDetail() {
   const { id } = useParams<{ id: string }>();
+  console.log('[ContractDetail] parâmetro id recebido:', id);
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   const {
     data: contract,
     isLoading,
     isError,
-  } = useGetContractById(id ?? '', { query: { enabled: Boolean(id) } });
-  const [formData, setFormData] = useState<Partial<GetContract200Item>>({});
+    error,
+  } = useGetContractById(id ?? '', {
+    query: { enabled: Boolean(id) },
+  });
+
   useEffect(() => {
-    if (contract) setFormData(contract);
+    if (isError) {
+      console.error('[ContractDetail] erro ao buscar contrato:', error);
+    }
+  }, [isError, error]);
+
+  const [formData, setFormData] = useState<Partial<GetContract200Item>>({});
+
+  useEffect(() => {
+    if (contract) {
+      console.log('[ContractDetail] contrato recebido do hook:', contract);
+      setFormData(contract);
+    }
   }, [contract]);
+
   const updateMutation = useUpdateContract();
   const deleteMutation = useDeleteContract();
   const isUpdating = updateMutation.status === 'pending';
   const isDeleting = deleteMutation.status === 'pending';
+
   const handleChange = <K extends keyof GetContract200Item>(
     field: K,
     value: GetContract200Item[K]
-  ) => setFormData(prev => ({ ...prev, [field]: value }));
+  ) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!contract) return;
+
     const entries = Object.entries(formData)
       .filter(([, v]) => isNonNull(v))
       .map(
@@ -52,10 +75,12 @@ export function ContractDetail() {
             NonNullable<GetContract200Item[keyof GetContract200Item]>,
           ]
       );
+
     const payload = entries.reduce<UpdateContractBody>(
       (acc, [key, value]) => Object.assign(acc, { [key]: value }),
       {}
     );
+
     await updateMutation.mutateAsync(
       { id: contract.id, data: payload },
       {
@@ -68,9 +93,11 @@ export function ContractDetail() {
       }
     );
   };
+
   const handleDelete = async () => {
     if (!contract || !window.confirm('Deseja realmente deletar este contrato?'))
       return;
+
     await deleteMutation.mutateAsync(
       { id: contract.id },
       {
@@ -79,17 +106,20 @@ export function ContractDetail() {
           queryClient.invalidateQueries({
             queryKey: getGetContractByIdQueryKey(contract.id),
           });
+          navigate(-1); // volta à página anterior
         },
       }
     );
   };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        Carregando...
+        Carregando contrato...
       </div>
     );
   }
+
   if (isError || !contract) {
     return (
       <div className="text-center mt-8">
@@ -97,6 +127,8 @@ export function ContractDetail() {
       </div>
     );
   }
+
+  // 11. Renderiza detalhes do contrato
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       <Sidebar isOpen={false} toggleSidebar={() => {}} />
@@ -109,6 +141,9 @@ export function ContractDetail() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <strong>Id</strong> {contract.id}
+                </div>
                 <div>
                   <strong>Cidade:</strong> {contract.city}
                 </div>

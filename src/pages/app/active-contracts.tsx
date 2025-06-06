@@ -12,7 +12,7 @@ import {
   Bar,
   Legend,
 } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -30,20 +30,49 @@ import {
   PaginationEllipsis,
 } from '@/components/ui/pagination';
 import { useGetNegotiation } from '@/http/generated/api';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Input } from '@/components/ui/input';
+import * as XLSX from 'xlsx';
 
 export function ActiveContracts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: allNegotiations = [], isLoading } = useGetNegotiation();
 
-  // Normalize status for case-insensitive matching
-  const activeNegotiations = allNegotiations.filter(item => {
-    const status = item.status?.toLowerCase();
-    return status === 'ativo' || status === 'ganho';
-  });
+  // Estados para os filtros:
+  const [filterClient, setFilterClient] = useState<string>('');
+  const [filterStartsDate, setFilterStartsDate] = useState<string>('');
 
+  // 1) Filtrar somente negociações cujo status seja "ativo" ou "ganho"
+  const activeNegotiations = useMemo(() => {
+    return allNegotiations.filter(item => {
+      const status = item.status?.toLowerCase();
+      return status === 'ativo' || status === 'ganho';
+    });
+  }, [allNegotiations]);
+
+  // 2) Filtrar por Cliente e por Data (YYYY-MM-DD)
+  const filteredNegotiations = useMemo(() => {
+    return activeNegotiations.filter(item => {
+      const matchesClient = filterClient
+        ? item.client?.toLowerCase().includes(filterClient.toLowerCase())
+        : true;
+
+      const matchesDate = filterStartsDate
+        ? item.startsDate
+          ? new Date(item.startsDate).toISOString().slice(0, 10) ===
+            filterStartsDate
+          : false
+        : true;
+
+      return matchesClient && matchesDate;
+    });
+  }, [activeNegotiations, filterClient, filterStartsDate]);
+
+  // Dados para os gráficos (Total por mês)
   const chartData = useMemo(() => {
-    return activeNegotiations
+    // Mapeia cada item para { month, amount } e depois agrupa
+    const agrupado = filteredNegotiations
       .filter((item): item is typeof item & { startsDate: string } =>
         Boolean(item.startsDate)
       )
@@ -58,27 +87,31 @@ export function ActiveContracts() {
         };
       })
       .reduce((acc: { month: string; amount: number }[], curr) => {
-        const found = acc.find(d => d.month === curr.month);
-        if (found) {
-          found.amount += curr.amount;
+        const encontrado = acc.find(d => d.month === curr.month);
+        if (encontrado) {
+          encontrado.amount += curr.amount;
         } else {
           acc.push({ month: curr.month, amount: curr.amount });
         }
         return acc;
       }, []);
-  }, [activeNegotiations]);
 
+    return agrupado;
+  }, [filteredNegotiations]);
+
+  // Paginação
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
   const totalPages = Math.max(
     1,
-    Math.ceil(activeNegotiations.length / itemsPerPage)
+    Math.ceil(filteredNegotiations.length / itemsPerPage)
   );
   const currentItems = useMemo(() => {
     const start = (page - 1) * itemsPerPage;
-    return activeNegotiations.slice(start, start + itemsPerPage);
-  }, [activeNegotiations, page]);
+    return filteredNegotiations.slice(start, start + itemsPerPage);
+  }, [filteredNegotiations, page]);
 
+  // Cálculo dos botões de página (mostrar no máximo 5 de cada vez)
   const maxButtons = 5;
   const half = Math.floor(maxButtons / 2);
   let startPage = Math.max(1, page - half);
@@ -89,13 +122,37 @@ export function ActiveContracts() {
   const pageNumbers: number[] = [];
   for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
 
+  // 3) Função para exportar o Excel
+  function exportToExcel() {
+    // Monta um array de objetos com as colunas que você quer no Excel
+    // Ajuste aqui os campos se quiser mais/menos colunas:
+    const exportData = filteredNegotiations.map(item => ({
+      ID: item.id,
+      Cliente: item.client,
+      Status: item.status,
+      'Data Início': item.startsDate
+        ? new Date(item.startsDate).toLocaleDateString('pt-BR')
+        : '',
+      Valor: item.value != null ? item.value : 0,
+    }));
+
+    // Cria uma "worksheet" e adiciona os dados
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    // Cria um "workbook" e insere a planilha
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Contratos');
+
+    // Gera o binary e dispara o download
+    XLSX.writeFile(workbook, 'contratos_filtrados.xlsx');
+  }
+
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       <Sidebar
         isOpen={sidebarOpen}
         toggleSidebar={() => setSidebarOpen(o => !o)}
       />
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-x-hidden p-8">
         <header className="flex items-center justify-between mb-8">
           <Button
             variant="outline"
@@ -106,7 +163,7 @@ export function ActiveContracts() {
             <span className="text-xl">☰</span>
           </Button>
           <h1 className="text-3xl font-bold text-gray-800">
-            Contratos Ativos & Ganhos
+            Contratos Ativos &amp; Ganhos
           </h1>
         </header>
 
@@ -114,7 +171,47 @@ export function ActiveContracts() {
           <p>Carregando contratos...</p>
         ) : (
           <>
-            {/* Gráficos */}
+            {/* ===== FILTROS ===== */}
+            <Card className="shadow-lg mb-6">
+              <CardHeader>
+                <CardTitle>Filtrar Contratos</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+                {/* Filtro por Cliente */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-600">
+                    Cliente
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="Pesquisar cliente"
+                    value={filterClient}
+                    onChange={e => setFilterClient(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2"
+                  />
+                </div>
+                {/* Filtro por Data */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-600">
+                    Data Início
+                  </label>
+                  <Input
+                    type="date"
+                    value={filterStartsDate}
+                    onChange={e => setFilterStartsDate(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2"
+                  />
+                </div>
+                {/* Botão de Exportar */}
+                <div className="flex items-end">
+                  <Button onClick={exportToExcel} className="w-full">
+                    Transformar para Excel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* ===== GRÁFICOS ===== */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
               <Card>
                 <CardHeader>
@@ -173,7 +270,7 @@ export function ActiveContracts() {
               </Card>
             </section>
 
-            {/* Tabela com paginação */}
+            {/* ===== TABELA E PAGINAÇÃO ===== */}
             <Card>
               <CardHeader>
                 <CardTitle>Lista de Contratos Ativos</CardTitle>
@@ -186,6 +283,7 @@ export function ActiveContracts() {
                       <TableHead className="text-right">Status</TableHead>
                       <TableHead className="text-right">Data</TableHead>
                       <TableHead className="text-right">Valor (R$)</TableHead>
+                      <TableHead className="text-right">Ver detalhes</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -208,12 +306,17 @@ export function ActiveContracts() {
                             currency: 'BRL',
                           })}
                         </TableCell>
+                        <TableCell className="text-right">
+                          <Link to={`/negotiation/${item.id}`}>
+                            <Eye />
+                          </Link>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
 
-                <div className="mt-4 flex justify-end">
+                <footer className="mt-4 flex justify-center">
                   <Pagination
                     currentPage={page}
                     totalPages={totalPages}
@@ -231,6 +334,7 @@ export function ActiveContracts() {
                           <ArrowLeft />
                         </Button>
                       </PaginationItem>
+
                       {pageNumbers.map(num => (
                         <PaginationItem key={num}>
                           <PaginationLink
@@ -241,11 +345,13 @@ export function ActiveContracts() {
                           </PaginationLink>
                         </PaginationItem>
                       ))}
+
                       {totalPages > endPage && (
                         <PaginationItem>
                           <PaginationEllipsis>...</PaginationEllipsis>
                         </PaginationItem>
                       )}
+
                       <PaginationItem>
                         <Button
                           variant="ghost"
@@ -259,7 +365,7 @@ export function ActiveContracts() {
                       </PaginationItem>
                     </PaginationContent>
                   </Pagination>
-                </div>
+                </footer>
               </CardContent>
             </Card>
           </>
