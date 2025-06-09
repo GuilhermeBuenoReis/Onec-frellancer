@@ -13,11 +13,12 @@ import { CreateContract } from './pages/app/create-contract';
 import { UploadHonorary } from './components/upload-honorary';
 import { InformationHonorary } from './components/information-hononary';
 import { FilteredContracts } from './pages/app/filtered-contract';
-import { ContractDetail } from './pages/app/contract-details';
-import { Contestation } from './pages/app/contestation-by-partner';
+
+import { ContestationPage } from './pages/app/contestation/index';
 import { ActiveNegotiationPage } from './pages/app/Negotiation/active-negoation';
 import { ClientReceiptDashboardPage } from './pages/app/Client-receipt/client-dashboard/';
 import { NegotiationDetails } from './pages/app/negotiation-datails';
+import { ContractDetailPage } from './pages/app/Contract-details/';
 
 export function App() {
   return (
@@ -40,8 +41,8 @@ export function App() {
           element={<InformationHonorary />}
         />
         <Route path="/tels" element={<FilteredContracts />} />
-        <Route path="/contract/:id" element={<ContractDetail />} />
-        <Route path="/contestation" element={<Contestation />} />
+        <Route path="/contract/:id" element={<ContractDetailPage />} />
+        <Route path="/contestation" element={<ContestationPage />} />
         <Route path="/get-contracts" element={<ActiveNegotiationPage />} />
         <Route
           path="/client-dashboard"
