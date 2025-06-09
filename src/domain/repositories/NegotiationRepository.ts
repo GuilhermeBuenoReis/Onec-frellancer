@@ -1,4 +1,4 @@
-import type { Negotiation } from '../entities/Negotiation';
+import type { Negotiation } from '../entities/negotiation/Negotiation';
 
 export interface NegotiationRepository {
   create(data: Partial<Negotiation>): Promise<Negotiation | null>;

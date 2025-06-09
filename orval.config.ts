@@ -5,8 +5,10 @@ export default defineConfig({
   api: {
     input: '../onec-backend/swagger.json',
     output: {
+      mode: 'split',
       baseUrl: 'http://localhost:3333',
       target: './src/http/generated/api.ts',
+      schemas: './src/http/models/',
       client: 'react-query',
       httpClient: 'axios',
       clean: true,
