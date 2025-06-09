@@ -1,4 +1,4 @@
-import type { ClientReceipt } from '../entities/ClientReceipt';
+import type { ClientReceipt } from '../entities/client-receipt/ClientReceipt';
 
 export interface ClientReceiptRepository {
   create(data: ClientReceipt): Promise<ClientReceipt | null>;

@@ -40,7 +40,7 @@ export function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         style={{ width }}
         className="hidden md:flex h-screen bg-gradient-to-br from-white to-gray-200 text-gray-800 flex-col justify-between p-6 md:p-8"
       >
-        <div>
+        <div className="h-full">
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-2xl font-bold">Onec</h2>
           </div>

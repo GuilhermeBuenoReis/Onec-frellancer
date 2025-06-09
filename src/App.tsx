@@ -16,7 +16,7 @@ import { FilteredContracts } from './pages/app/filtered-contract';
 import { ContractDetail } from './pages/app/contract-details';
 import { Contestation } from './pages/app/contestation-by-partner';
 import { ActiveNegotiationPage } from './pages/app/Negotiation/active-negoation';
-import { ClientsDashboard } from './pages/app/client-dashboard';
+import { ClientReceiptDashboardPage } from './pages/app/Client-receipt/client-dashboard/';
 import { NegotiationDetails } from './pages/app/negotiation-datails';
 
 export function App() {
@@ -43,7 +43,10 @@ export function App() {
         <Route path="/contract/:id" element={<ContractDetail />} />
         <Route path="/contestation" element={<Contestation />} />
         <Route path="/get-contracts" element={<ActiveNegotiationPage />} />
-        <Route path="/client-dashboard" element={<ClientsDashboard />} />
+        <Route
+          path="/client-dashboard"
+          element={<ClientReceiptDashboardPage />}
+        />
         <Route path="/negotiation/:id" element={<NegotiationDetails />} />
       </Routes>
     </Router>
