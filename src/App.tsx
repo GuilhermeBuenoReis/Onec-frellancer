@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DashboardPage } from './pages/app/Dashboard/index';
 import { Upload } from './pages/app/upload';
-import { Employee } from './pages/app/employee';
+import { PartnerPage } from './pages/app/Partner/index';
 import { PartnerDashboard } from './pages/app/partner-dashboard';
 import { Pending } from './pages/app/pending';
 import { Negotiation } from './pages/app/negotiation';
@@ -12,7 +12,7 @@ import { UploadHonorary } from './components/upload-honorary';
 import { InformationHonorary } from './components/information-hononary';
 import { FilteredContracts } from './pages/app/filtered-contract';
 
-import { ContestationPage } from './pages/app/contestation/index';
+import { ContestationPage } from './pages/app/Contestation/index';
 import { ActiveNegotiationPage } from './pages/app/Negotiation/active-negoation';
 import { ClientReceiptDashboardPage } from './pages/app/Client-receipt/client-dashboard/';
 import { NegotiationDetails } from './pages/app/negotiation-datails';
@@ -27,7 +27,7 @@ export function App() {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/upload" element={<Upload />} />
-        <Route path="/rh" element={<Employee />} />
+        <Route path="/rh" element={<PartnerPage />} />
         <Route path="/rh/parceiros/:id" element={<PartnerDashboard />} />
         <Route path="/pendencias" element={<Pending />} />
         <Route path="/pendencias/:id" element={<PendingDetails />} />

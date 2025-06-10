@@ -1,4 +1,4 @@
-import type { IClientReceipt } from '@/domain/entities/client-receipt/IClientReceipt';
+import type { IClientReceipt } from '@/domain/client-receipt/IClientReceipt';
 import type { GetClientReceipt200Item as ClientReceiptDto } from '@/http/models';
 
 export function dtoToEntity(dto: ClientReceiptDto): IClientReceipt {
