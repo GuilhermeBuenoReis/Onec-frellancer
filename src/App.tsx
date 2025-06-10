@@ -10,7 +10,7 @@ import { PendingDetails } from './pages/app/pending-details';
 import { CreateNegotiation } from './components/create-negotiation';
 import { UploadHonorary } from './components/upload-honorary';
 import { InformationHonorary } from './components/information-hononary';
-import { FilteredContracts } from './pages/app/filtered-contract';
+import { FilteredContractsPage } from './pages/app/Filtered-contract/index';
 
 import { ContestationPage } from './pages/app/Contestation/index';
 import { ActiveNegotiationPage } from './pages/app/Negotiation/active-negoation';
@@ -40,7 +40,7 @@ export function App() {
           path="/portal/information-honorary/:partnerId"
           element={<InformationHonorary />}
         />
-        <Route path="/tels" element={<FilteredContracts />} />
+        <Route path="/tels" element={<FilteredContractsPage />} />
         <Route path="/contract/:id" element={<ContractDetailPage />} />
         <Route path="/contestation" element={<ContestationPage />} />
         <Route path="/get-contracts" element={<ActiveNegotiationPage />} />

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,6 @@ import { Search } from 'lucide-react';
 import { PartnerGrid } from './ui/partner-grid';
 
 export function PartnerPage() {
-  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isLoading, search, setSearch, partners } = usePartnerList();
 
