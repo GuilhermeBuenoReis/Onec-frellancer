@@ -1,5 +1,5 @@
 export interface IContract {
-  id: string;
+  id?: string;
   city: string | null;
   state: string | null;
   client: string | null;

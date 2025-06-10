@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import type { ICredentialInfo } from '@/domain/entities/contestation/IContestation';
+import type { ICredentialInfo } from '@/domain/contestation/IContestation';
 
 export function CredentialCard({ info }: { info: ICredentialInfo }) {
   return (

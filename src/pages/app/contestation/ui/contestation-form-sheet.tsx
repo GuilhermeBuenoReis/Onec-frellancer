@@ -15,7 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   contestationSchema,
   type ContestationForm,
-} from '@/domain/entities/contestation/formSchema';
+} from '@/domain/contestation/formSchema';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Calendar } from '@/components/ui/calendar';

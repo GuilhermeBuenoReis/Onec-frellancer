@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/table';
 import { Link } from 'react-router-dom';
 import { Eye } from 'lucide-react';
-import type { INegotiation } from '@/domain/entities/negotiation/INegotiation';
+import type { INegotiation } from '@/domain/negotiation/INegotiation';
 
 export function TableSection({ items }: { items: INegotiation[] }) {
   return (

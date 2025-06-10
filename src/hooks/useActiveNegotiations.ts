@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useNegotiations } from '@/data/negotiation/negotiationApi';
-import { listActiveOrWon } from '@/domain/entities/negotiation/use-cases/listActive';
-import type { INegotiation } from '@/domain/entities/negotiation/INegotiation';
+import { listActiveOrWon } from '@/domain/negotiation/use-cases/listActive';
+import type { INegotiation } from '@/domain/negotiation/INegotiation';
 
 export function useActiveNegotiations() {
   const { negotiations, isLoading } = useNegotiations();

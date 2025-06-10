@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import type { IContract } from '@/domain/entities/contract/IContract';
+import type { IContract } from '@/domain/contract/IContract';
 
 export function ContractInfoCard({ contract }: { contract: IContract }) {
   return (

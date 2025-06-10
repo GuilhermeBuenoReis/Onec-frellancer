@@ -16,7 +16,7 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from '@/components/ui/pagination';
-import type { IClientReceipt } from '@/domain/entities/client-receipt/IClientReceipt';
+import type { IClientReceipt } from '@/domain/client-receipt/IClientReceipt';
 
 interface Props {
   items: IClientReceipt[];

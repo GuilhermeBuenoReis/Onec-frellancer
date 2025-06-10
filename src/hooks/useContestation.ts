@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useContestationApi } from '@/data/contestation/contestationApi';
-import { filterByDate } from '@/domain/entities/contestation/use-cases/filter-by-date';
-import type { IClientContestation } from '@/domain/entities/contestation/IContestation';
+import { filterByDate } from '@/domain/contestation/use-cases/filter-by-date';
+import type { IClientContestation } from '@/domain/contestation/IContestation';
 
 export function useContestation() {
   const { data, isLoading, error } = useContestationApi();

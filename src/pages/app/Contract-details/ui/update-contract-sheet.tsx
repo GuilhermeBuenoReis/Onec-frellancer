@@ -8,7 +8,7 @@ import {
   SheetClose,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import type { IContract } from '@/domain/entities/contract/IContract';
+import type { IContract } from '@/domain/contract/IContract';
 
 export function UpdateContractSheet({
   formData,

@@ -7,7 +7,7 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import type { IClientContestation } from '@/domain/entities/contestation/IContestation';
+import type { IClientContestation } from '@/domain/contestation/IContestation';
 
 export function ContestationTable({
   data,

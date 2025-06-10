@@ -6,7 +6,6 @@
  */
 
 export type ListCredentialClient200ItemClients = {
-  [x: string]: any;
   id: string;
   enterprise: string;
   competenceMonth: string;

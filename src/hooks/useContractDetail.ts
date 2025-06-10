@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getGetContractByIdQueryKey } from '@/http/generated/api';
-import { prepareUpdatePayload } from '@/domain/entities/contract/use-case/prepare-update-payload';
+import { prepareUpdatePayload } from '@/domain/contract/use-case/prepare-update-payload';
 import { useContractApi } from '@/data/contract/contractApi';
-import type { IContract } from '@/domain/entities/contract/IContract';
+import type { IContract } from '@/domain/contract/IContract';
 
 export function useContractDetail(id: string) {
   const queryClient = useQueryClient();
@@ -16,18 +16,14 @@ export function useContractDetail(id: string) {
     deleteMutation,
   } = useContractApi(id);
 
-  // Form state
   const [formData, setFormData] = useState<Partial<IContract>>({});
 
-  // Preenche o formData apenas na primeira vez que contract chega
   useEffect(() => {
-    // só inicializa caso ainda não tenha um id em formData
     if (contract && !formData.id) {
       setFormData(contract);
     }
   }, [contract, formData.id]);
 
-  // restante do hook permanece igual...
   const handleChange = <K extends keyof IContract>(
     field: K,
     value: IContract[K]
@@ -38,10 +34,17 @@ export function useContractDetail(id: string) {
   const handleUpdate = async () => {
     if (!contract) return;
     const payload = prepareUpdatePayload(formData);
+
+    if (!contract.id) {
+      return 'Id, não encontrado!';
+    }
     await updateMutation.mutateAsync(
       { id: contract.id, data: payload },
       {
         onSuccess: () => {
+          if (!contract.id) {
+            return 'Id, não encontrado!';
+          }
           queryClient.invalidateQueries({
             queryKey: getGetContractByIdQueryKey(contract.id),
           });
@@ -52,10 +55,16 @@ export function useContractDetail(id: string) {
 
   const handleDelete = async () => {
     if (!contract) return;
+    if (!contract.id) {
+      return 'Id, não encontrado!';
+    }
     await deleteMutation.mutateAsync(
       { id: contract.id },
       {
         onSuccess: () => {
+          if (!contract.id) {
+            return 'Id, não encontrado!';
+          }
           queryClient.invalidateQueries({
             queryKey: getGetContractByIdQueryKey(contract.id),
           });

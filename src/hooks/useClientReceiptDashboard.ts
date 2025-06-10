@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useClientReceipts } from '@/data/client-receipt/clientReceiptApi';
-import { filterReceipts } from '@/domain/entities/client-receipt/use-case/filter-receipts';
+import { filterReceipts } from '@/domain/client-receipt/use-case/filter-receipts';
 
 export function useClientReceiptDashboard() {
   const { receipts, isLoading } = useClientReceipts();
