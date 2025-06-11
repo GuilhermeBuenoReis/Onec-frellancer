@@ -1,18 +1,34 @@
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { useCreatePartnerForm } from '@/hooks/useCreatePartnerForm';
-import type { PartnerFormValues } from '@/domain/Partner/form-schema';
+import {
+  partnerSchema,
+  type PartnerFormValues,
+} from '@/domain/Partner/form-schema';
 
-export function CreatePartnerForm() {
+export function EditPartnerForm({
+  defaultValues,
+  onSubmit,
+}: {
+  defaultValues: PartnerFormValues;
+  onSubmit: (data: PartnerFormValues) => void;
+}) {
   const {
-    form: {
-      register,
-      formState: { errors },
-    },
-    onSubmit,
-    isSubmitting,
-  } = useCreatePartnerForm();
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<PartnerFormValues>({
+    resolver: zodResolver(partnerSchema),
+    defaultValues,
+  });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   const fields: (keyof PartnerFormValues)[] = [
     'name',
@@ -33,7 +49,7 @@ export function CreatePartnerForm() {
   ];
 
   return (
-    <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
       {fields.map(field => (
         <div key={field} className="flex flex-col">
           <Label htmlFor={field}>{field}</Label>
@@ -46,9 +62,9 @@ export function CreatePartnerForm() {
             placeholder={field}
             className="mt-1"
             {...(field === 'phone'
-              ? { type: 'tel', placeholder: '(XX) XXXXX-XXXX' }
+              ? { type: 'tel' }
               : field === 'email'
-                ? { type: 'email', placeholder: 'email@exemplo.com' }
+                ? { type: 'email' }
                 : field === 'commission'
                   ? { type: 'number', step: '0.01' }
                   : {})}
@@ -61,9 +77,16 @@ export function CreatePartnerForm() {
         </div>
       ))}
 
-      <div className="sm:col-span-2 flex justify-end mt-4">
+      <div className="flex justify-end gap-2 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => reset(defaultValues)}
+          disabled={isSubmitting}
+        >
+          Cancelar
+        </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Criando...' : 'Criar Parceiro'}
+          {isSubmitting ? 'Salvando...' : 'Salvar'}
         </Button>
       </div>
     </form>

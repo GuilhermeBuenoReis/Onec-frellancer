@@ -15,4 +15,7 @@ export interface IPartner {
   phone: string | null;
   email: string | null;
   responsible: string | null;
+
+  commissionEvolution?: { month: string; commission: number }[];
+  contractDistribution?: { name: string; value: number }[];
 }

@@ -4,24 +4,23 @@ import {
   partnerSchema,
   type PartnerFormValues,
 } from '@/domain/Partner/form-schema';
-import { usePartnerApi } from '@/data/partner/partnerApi';
-import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { usePartnerApi } from '@/data/partner/partnerApi';
 
 export function useCreatePartnerForm() {
   const navigate = useNavigate();
   const { createPartner, status } = usePartnerApi();
 
-  const form = useForm<PartnerFormValues>({
-    resolver: zodResolver(partnerSchema),
-    defaultValues: partnerSchema.parse({}),
+  const form = useForm<Partial<PartnerFormValues>>({
+    resolver: zodResolver(partnerSchema.partial()),
+    defaultValues: partnerSchema.partial().parse({}),
   });
 
   const onSubmit = form.handleSubmit(async values => {
     try {
-      await createPartner(values);
+      await createPartner(values as PartnerFormValues);
       toast.success('Parceiro criado com sucesso!');
-      form.reset();
       navigate('/rh');
     } catch {
       toast.error('Erro ao criar parceiro!');

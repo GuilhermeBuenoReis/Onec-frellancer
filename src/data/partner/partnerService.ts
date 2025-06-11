@@ -1,30 +1,14 @@
-import type { CreatePartnerBody } from '@/http/models';
-import type { PartnerFormValues } from '@/domain/Partner/form-schema';
-import type { GetPartners200Item as PartnerDto } from '@/http/models/';
+import type {
+  GetPartners200Item as PartnerListDto,
+  CreatePartnerBody,
+  UpdatePartnerBody,
+} from '@/http/models';
 import type { IPartner } from '@/domain/Partner/IPartner';
+import type { PartnerFormValues } from '@/domain/Partner/form-schema';
 
-export function formToDto(form: PartnerFormValues): CreatePartnerBody {
+export function listDtoToEntity(dto: PartnerListDto): IPartner {
   return {
-    name: form.name,
-    cpfOrCnpj: form.cpfOrCnpj,
-    city: form.city,
-    state: form.state,
-    commission: form.commission,
-    portal: form.portal,
-    channelHead: form.channelHead,
-    regional: form.regional,
-    coordinator: form.coordinator,
-    agent: form.agent,
-    indicator: form.indicator,
-    contract: form.contract,
-    phone: form.phone,
-    email: form.email,
-    responsible: form.responsible,
-  };
-}
-
-export function dtoToEntity(dto: PartnerDto): IPartner {
-  return {
+    id: dto.id,
     name: dto.name,
     cpfOrCnpj: dto.cpfOrCnpj,
     city: dto.city,
@@ -41,4 +25,17 @@ export function dtoToEntity(dto: PartnerDto): IPartner {
     email: dto.email,
     responsible: dto.responsible,
   };
+}
+
+export function formToCreateDto(form: PartnerFormValues): CreatePartnerBody {
+  return { ...form };
+}
+
+export function formToUpdateDto(form: PartnerFormValues): UpdatePartnerBody {
+  const payload: UpdatePartnerBody = {};
+  (Object.keys(form) as (keyof PartnerFormValues)[]).forEach(key => {
+    const value = form[key];
+    if (value != null) payload[key] = value;
+  });
+  return payload;
 }

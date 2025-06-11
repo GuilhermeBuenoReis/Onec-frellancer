@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DashboardPage } from './pages/app/Dashboard/index';
 import { Upload } from './pages/app/upload';
 import { PartnerPage } from './pages/app/Partner/index';
-import { PartnerDashboard } from './pages/app/partner-dashboard';
 import { Pending } from './pages/app/pending';
 import { Login } from './pages/auth/login';
 import { PendingDetails } from './pages/app/pending-details';
@@ -19,6 +18,7 @@ import { CreateContractPage } from './pages/app/Create-contract/';
 import { CreatePartnerPage } from './pages/app/Create-partner/';
 import { NegotiationDetailPage } from './pages/app/Negotiation-datails/index';
 import { NegotiationDashboardPage } from './pages/app/Negotiation-dashboard';
+import { PartnerDashboardPage } from './pages/app/Partner-dashboard/';
 
 export function App() {
   return (
@@ -28,7 +28,7 @@ export function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/rh" element={<PartnerPage />} />
-        <Route path="/rh/parceiros/:id" element={<PartnerDashboard />} />
+        <Route path="/rh/parceiros/:id" element={<PartnerDashboardPage />} />
         <Route path="/pendencias" element={<Pending />} />
         <Route path="/pendencias/:id" element={<PendingDetails />} />
         <Route path="/negotiation" element={<NegotiationDashboardPage />} />
