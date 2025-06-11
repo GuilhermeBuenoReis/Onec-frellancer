@@ -1,24 +1,21 @@
 import { useState, useMemo } from 'react';
-import { useNegotiations } from '@/data/negotiation/negotiationApi';
-import { listActiveOrWon } from '@/domain/negotiation/use-cases/listActive';
+import { useNegotiationsApi } from '@/data/negotiation/negotiationApi';
+import { listActiveOrWon } from '@/domain/negotiation/use-cases/list-active';
 import type { INegotiation } from '@/domain/negotiation/INegotiation';
 
 export function useActiveNegotiations() {
-  const { negotiations, isLoading } = useNegotiations();
+  const { list, isLoading } = useNegotiationsApi();
   const [filterClient, setFilterClient] = useState('');
   const [filterDate, setFilterDate] = useState('');
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
 
-  const active = useMemo<INegotiation[]>(
-    () => listActiveOrWon(negotiations),
-    [negotiations]
-  );
+  const active = useMemo<INegotiation[]>(() => listActiveOrWon(list), [list]);
 
   const filtered = useMemo<INegotiation[]>(() => {
     return active.filter(n => {
       const matchesClient = filterClient
-        ? n.client.toLowerCase().includes(filterClient.toLowerCase())
+        ? n.client?.toLowerCase().includes(filterClient.toLowerCase())
         : true;
       const matchesDate = filterDate
         ? n.startsDate?.slice(0, 10) === filterDate

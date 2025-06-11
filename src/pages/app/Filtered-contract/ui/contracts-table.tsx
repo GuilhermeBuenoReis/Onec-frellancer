@@ -7,7 +7,7 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { Pagination } from '@/components/ui/pagination';
-import { HighlightText } from './highlight-text';
+import { HighlightText } from '@/utils/highlight-text';
 import type { IContract } from '@/domain/contract/IContract';
 
 export function ContractsTable({
