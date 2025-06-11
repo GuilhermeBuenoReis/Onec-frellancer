@@ -1,5 +1,5 @@
 export interface INegotiation {
-  id: string;
+  id?: string;
   title: string | null;
   client: string | null;
   user: string | null;

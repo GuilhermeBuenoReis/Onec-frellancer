@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const negotiationSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   title: z.string().nullable(),
   client: z.string().nullable(),
   user: z.string().nullable(),
