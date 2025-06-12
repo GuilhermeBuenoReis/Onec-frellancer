@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Sidebar } from '@/components/sidebar';
 import { Header } from '@/components/header';
@@ -17,7 +17,6 @@ import {
 import { usePartnerDetail } from '@/hooks/usePartnerDetail';
 import { PartnerDetailsDisplay } from './ui/partner-details-display';
 import { EditPartnerForm } from './ui/edit-partner-form';
-import { DeletePartnerButton } from './ui/delete-partner-button';
 
 export function PartnerDashboardPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -25,15 +24,8 @@ export function PartnerDashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  const {
-    isLoading,
-    error,
-    partner,
-    handleUpdate,
-    handleDelete,
-    isUpdating,
-    isDeleting,
-  } = usePartnerDetail(id);
+  const { isLoading, error, partner, handleUpdate, handleDelete } =
+    usePartnerDetail(id);
 
   if (isLoading) return <p className="p-4">Carregando...</p>;
   if (error)
@@ -87,6 +79,7 @@ export function PartnerDashboardPage() {
 
               <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                 <SheetTrigger asChild>
+                  {/* biome-ignore lint/complexity/noUselessFragments: <explanation> */}
                   <></>
                 </SheetTrigger>
                 <SheetContent

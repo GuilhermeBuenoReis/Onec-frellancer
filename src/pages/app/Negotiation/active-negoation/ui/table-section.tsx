@@ -38,7 +38,7 @@ export function TableSection({ items }: { items: INegotiation[] }) {
                 currency: 'BRL',
               })}
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className="object-right">
               <Link to={`/negotiation/${item.id}`}>
                 <Eye />
               </Link>

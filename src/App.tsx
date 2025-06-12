@@ -1,24 +1,24 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { DashboardPage } from './pages/app/Dashboard/index';
 import { Upload } from './pages/app/upload';
-import { PartnerPage } from './pages/app/Partner/index';
-import { Pending } from './pages/app/pending';
 import { Login } from './pages/auth/login';
-import { PendingDetails } from './pages/app/pending-details';
 import { CreateNegotiation } from './components/create-negotiation';
 import { UploadHonorary } from './components/upload-honorary';
 import { InformationHonorary } from './components/information-hononary';
-import { FilteredContractsPage } from './pages/app/Filtered-contract/index';
+import { FilteredContractsPage } from './pages/app/Filtered-contract/';
 
-import { ContestationPage } from './pages/app/Contestation/index';
+import { DashboardPage } from './pages/app/Dashboard/';
+import { PartnerPage } from './pages/app/Partner/';
+import { ContestationPage } from './pages/app/Contestation/';
 import { ActiveNegotiationPage } from './pages/app/Negotiation/active-negoation';
 import { ClientReceiptDashboardPage } from './pages/app/Client-receipt/client-dashboard/';
 import { ContractDetailPage } from './pages/app/Contract-details/';
 import { CreateContractPage } from './pages/app/Create-contract/';
 import { CreatePartnerPage } from './pages/app/Create-partner/';
-import { NegotiationDetailPage } from './pages/app/Negotiation-datails/index';
+import { NegotiationDetailPage } from './pages/app/Negotiation-datails/';
 import { NegotiationDashboardPage } from './pages/app/Negotiation-dashboard';
 import { PartnerDashboardPage } from './pages/app/Partner-dashboard/';
+import { PendingDetailsPage } from './pages/app/Pending-details/';
+import { PendingPage } from './pages/app/Pending/index';
 
 export function App() {
   return (
@@ -29,8 +29,8 @@ export function App() {
         <Route path="/upload" element={<Upload />} />
         <Route path="/rh" element={<PartnerPage />} />
         <Route path="/rh/parceiros/:id" element={<PartnerDashboardPage />} />
-        <Route path="/pendencias" element={<Pending />} />
-        <Route path="/pendencias/:id" element={<PendingDetails />} />
+        <Route path="/pendencias" element={<PendingPage />} />
+        <Route path="/pendencias/:id" element={<PendingDetailsPage />} />
         <Route path="/negotiation" element={<NegotiationDashboardPage />} />
         <Route path="/create-negotiation" element={<CreateNegotiation />} />
         <Route path="/rh/parceiros/create" element={<CreatePartnerPage />} />

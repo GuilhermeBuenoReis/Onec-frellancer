@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import type { IPartner } from '@/domain/Partner/IPartner';
+import { Link } from 'react-router-dom';
 
 export function PartnerDetailsDisplay({
   partner,
@@ -43,14 +44,30 @@ export function PartnerDetailsDisplay({
           </p>
         ))}
 
-        <div className="flex gap-2 pt-4">
-          <Button onClick={onEdit}>Editar</Button>
-          <Button variant="destructive" onClick={onDelete}>
-            Deletar
-          </Button>
-          <Button variant="outline" onClick={onClose}>
-            Fechar
-          </Button>
+        <div className="flex gap-2 pt-4 justify-between">
+          <div className="flex gap-2">
+            <Button onClick={onEdit}>Editar</Button>
+            <Button variant="destructive" onClick={onDelete}>
+              Deletar
+            </Button>
+            <Button variant="outline" onClick={onClose}>
+              Fechar
+            </Button>
+          </div>
+
+          <div className="flex gap-2">
+            <Button asChild variant={'link'}>
+              <Link to={`/portal/information-honorary/${partner.id}`}>
+                Consultar Honorário
+              </Link>
+            </Button>
+
+            <Button asChild variant={'link'}>
+              <Link to={`/portal/${partner.id}/upload`}>
+                Upload do honorário
+              </Link>
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
