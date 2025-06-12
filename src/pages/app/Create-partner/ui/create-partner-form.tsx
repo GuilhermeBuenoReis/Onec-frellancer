@@ -43,7 +43,6 @@ export function CreatePartnerForm() {
               field,
               field === 'commission' ? { valueAsNumber: true } : {}
             )}
-            placeholder={field}
             className="mt-1"
             {...(field === 'phone'
               ? { type: 'tel', placeholder: '(XX) XXXXX-XXXX' }

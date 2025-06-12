@@ -4,11 +4,7 @@ import {
   useUpdatePartner,
   useDeletePartner,
 } from '@/http/generated/api';
-import {
-  listDtoToEntity,
-  formToCreateDto,
-  formToUpdateDto,
-} from './partnerService';
+import { listDtoToEntity, formToCreateDto } from './partnerService';
 import type { IPartner } from '@/domain/Partner/IPartner';
 import type { PartnerFormValues } from '@/domain/Partner/form-schema';
 

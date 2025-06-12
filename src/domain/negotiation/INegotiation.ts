@@ -5,7 +5,7 @@ export interface INegotiation {
   user: string | null;
   tags: string | null;
   step: string | null;
-  status: string; // não é nullable no DTO
+  status: string;
   value: number | null;
   startsDate: string | null;
   observation: string | null;

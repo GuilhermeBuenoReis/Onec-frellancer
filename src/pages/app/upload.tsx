@@ -17,7 +17,10 @@ export function Upload() {
     <div className="flex h-screen overflow-hidden">
       <Helmet title="Upload" />
       <div className="hidden md:flex">
-        <Sidebar />
+        <Sidebar
+          isOpen={sidebarOpen}
+          toggleSidebar={() => setSidebarOpen(o => !o)}
+        />
         <div className="w-2 cursor-col-resize bg-gray-300" />
       </div>
       {sidebarOpen && (
@@ -27,7 +30,10 @@ export function Upload() {
             onClick={() => setSidebarOpen(false)}
           />
           <div className="relative bg-white w-64 h-full shadow-md">
-            <Sidebar />
+            <Sidebar
+              isOpen={sidebarOpen}
+              toggleSidebar={() => setSidebarOpen(o => !o)}
+            />
             <div className="p-2">
               <button
                 type="button"

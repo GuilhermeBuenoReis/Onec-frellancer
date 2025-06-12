@@ -17,7 +17,6 @@ export function ContestationPage() {
     error,
     credential,
     clients,
-    rawClients,
     startDate,
     endDate,
     setStartDate,
@@ -48,7 +47,9 @@ export function ContestationPage() {
           <ContestationFormSheet
             open={false}
             setOpen={() => {}}
-            onSubmit={async data => {}}
+            onSubmit={async data => {
+              console.log(data);
+            }}
           />
         </div>
 

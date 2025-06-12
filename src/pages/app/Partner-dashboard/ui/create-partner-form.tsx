@@ -19,7 +19,7 @@ export function CreatePartnerForm() {
       handleSubmit,
       formState: { errors },
     },
-    onSubmit,
+    onSubmit: handleSubmitCreatePartner,
     isSubmitting,
   } = useCreatePartnerForm();
 
@@ -48,7 +48,7 @@ export function CreatePartnerForm() {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleSubmitCreatePartner)}
       className="grid grid-cols-1 sm:grid-cols-2 gap-4"
     >
       {fields.map(({ field, label, inputProps, registerOptions }) => (

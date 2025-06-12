@@ -15,23 +15,23 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
-function formatMonth(value: any): string | null {
-  if (value == null) return null;
-  if (typeof value === 'number') {
-    const d = XLSX.SSF.parse_date_code(value);
-    if (d?.y && d?.m) return `${String(d.m).padStart(2, '0')}/${d.y}`;
-  }
-  if (value instanceof Date) {
-    return `${String(value.getMonth() + 1).padStart(2, '0')}/${value.getFullYear()}`;
-  }
-  const s = String(value).trim();
-  const m = s.match(/^(\d{1,2})\/(\d{4})$/);
-  if (m) return `${m[1].padStart(2, '0')}/${m[2]}`;
-  const dt = new Date(s);
-  if (!Number.isNaN(dt.getTime()))
-    return `${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
-  return null;
-}
+// function formatMonth(value: any): string | null {
+//   if (value == null) return null;
+//   if (typeof value === 'number') {
+//     const d = XLSX.SSF.parse_date_code(value);
+//     if (d?.y && d?.m) return `${String(d.m).padStart(2, '0')}/${d.y}`;
+//   }
+//   if (value instanceof Date) {
+//     return `${String(value.getMonth() + 1).padStart(2, '0')}/${value.getFullYear()}`;
+//   }
+//   const s = String(value).trim();
+//   const m = s.match(/^(\d{1,2})\/(\d{4})$/);
+//   if (m) return `${m[1].padStart(2, '0')}/${m[2]}`;
+//   const dt = new Date(s);
+//   if (!Number.isNaN(dt.getTime()))
+//     return `${String(dt.getMonth() + 1).padStart(2, '0')}/${dt.getFullYear()}`;
+//   return null;
+// }
 
 function parseNumber(value: any): number | null {
   if (value == null || value === '') return null;

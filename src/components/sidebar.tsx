@@ -1,4 +1,3 @@
-// Sidebar.tsx
 import { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ListTodo } from 'lucide-react';

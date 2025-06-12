@@ -216,6 +216,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (!fileName) return;
 
     setFileName(file.name);
     setIsUploading(true);

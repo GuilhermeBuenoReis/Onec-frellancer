@@ -9,13 +9,13 @@ export type PendingCategory =
 
 export interface IPending {
   id: string;
-  client: string | null;
-  callReason: string | null;
-  status: PendingStatus | null;
-  priority: string | null;
-  responsible: string | null;
-  category: PendingCategory | null;
-  description: string | null;
+  client: string;
+  callReason: string;
+  status: PendingStatus;
+  priority: string;
+  responsible: string;
+  category: PendingCategory;
+  description: string;
   createdAt?: string;
   updatedAt?: string;
 }

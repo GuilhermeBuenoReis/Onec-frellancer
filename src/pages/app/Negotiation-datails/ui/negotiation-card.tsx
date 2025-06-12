@@ -27,7 +27,12 @@ export function NegotiationCard({
             ? new Date(nego.startsDate).toLocaleDateString()
             : '—'}
         </p>
-        <Button variant="outline" onClick={() => onView(nego.id)}>
+        <Button
+          variant="outline"
+          onClick={() =>
+            onView(nego.id === undefined ? 'Erro ao encontrar o id' : nego.id)
+          }
+        >
           Ver detalhes
         </Button>
       </CardContent>

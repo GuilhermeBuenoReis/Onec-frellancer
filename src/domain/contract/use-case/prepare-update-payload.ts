@@ -1,5 +1,5 @@
 import type { UpdateContractBody } from '@/http/models';
-import type { IContract } from '@/domain/entities/contract/IContract';
+import type { IContract } from '@/domain/contract/IContract';
 
 export function prepareUpdatePayload(
   formData: Partial<IContract>

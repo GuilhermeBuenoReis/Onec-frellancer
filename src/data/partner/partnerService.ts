@@ -35,7 +35,9 @@ export function formToUpdateDto(form: PartnerFormValues): UpdatePartnerBody {
   const payload: UpdatePartnerBody = {};
   (Object.keys(form) as (keyof PartnerFormValues)[]).forEach(key => {
     const value = form[key];
-    if (value != null) payload[key] = value;
+    if (value != null) {
+      (payload as any)[key] = value;
+    }
   });
   return payload;
 }

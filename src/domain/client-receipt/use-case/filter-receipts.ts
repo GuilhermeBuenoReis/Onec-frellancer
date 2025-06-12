@@ -15,15 +15,23 @@ export function filterReceipts(
   function parseDMY(str?: string) {
     if (!str) return null;
     const [d, m, y] = str.split('/').map(Number);
+    if ([d, m, y].some(n => Number.isNaN(n))) return null;
+    return new Date(y, m - 1, d);
+  }
+
+  function parseYMD(str?: string) {
+    if (!str) return null;
+    const [y, m, d] = str.split('-').map(Number);
+    if ([y, m, d].some(n => Number.isNaN(n))) return null;
     return new Date(y, m - 1, d);
   }
 
   return receipts.filter(r => {
     const { clientName = '', cnpj: rc = '', status: st = '', receiptDate } = r;
+
     const dateObj = parseDMY(receiptDate);
-    const from =
-      dateFrom && new Date(...dateFrom.split('-').map(Number).reverse());
-    const to = dateTo && new Date(...dateTo.split('-').map(Number).reverse());
+    const from = parseYMD(dateFrom);
+    const to = parseYMD(dateTo);
 
     const matchName = name
       ? clientName.toLowerCase().includes(name.toLowerCase())

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Sidebar } from '@/components/sidebar';
@@ -12,7 +12,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
 import {
   ResponsiveContainer,
   LineChart,
@@ -47,7 +46,7 @@ export function InformationHonorary() {
   const registros = (portal ?? [])
     .map(item => {
       const raw = item.competenceMonth ?? '';
-      const [mm, yy] = raw.split('/');
+      const [mm] = raw.split('/');
       const mesNum = mm ? Number(mm) : 0;
       return {
         competenceMonth: raw,
