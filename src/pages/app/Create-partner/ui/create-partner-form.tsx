@@ -9,6 +9,7 @@ export function CreatePartnerForm() {
     form: {
       register,
       formState: { errors },
+      handleSubmit,
     },
     onSubmit,
     isSubmitting,
@@ -33,7 +34,10 @@ export function CreatePartnerForm() {
   ];
 
   return (
-    <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    >
       {fields.map(field => (
         <div key={field} className="flex flex-col">
           <Label htmlFor={field}>{field}</Label>

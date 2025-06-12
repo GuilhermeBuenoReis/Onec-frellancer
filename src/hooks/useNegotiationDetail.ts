@@ -12,24 +12,32 @@ export function useNegotiationDetail(id: string) {
   const [formData, setFormData] = useState<Partial<INegotiation>>({});
 
   useEffect(() => {
-    if (negotiation && !formData.id) setFormData(negotiation);
-  }, [negotiation, formData.id]);
+    if (negotiation) {
+      setFormData(negotiation);
+    }
+  }, [negotiation]);
 
   const handleChange = <K extends keyof INegotiation>(
     field: K,
     value: INegotiation[K]
-  ) => setFormData(f => ({ ...f, [field]: value }));
+  ) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleUpdate = async () => {
     if (!negotiation) return;
     const payload = prepareUpdatePayload(formData);
     await update.mutateAsync(
-      { id: negotiation.id, data: payload },
       {
-        onSuccess: () =>
+        id: negotiation.id!,
+        data: payload,
+      },
+      {
+        onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: getGetNegotiationByIdQueryKey(negotiation.id),
-          }),
+            queryKey: getGetNegotiationByIdQueryKey(negotiation.id!),
+          });
+        },
       }
     );
   };
@@ -37,11 +45,13 @@ export function useNegotiationDetail(id: string) {
   const handleDelete = async () => {
     if (!negotiation) return;
     await remove.mutateAsync(
-      { id: negotiation.id },
+      {
+        id: negotiation.id!,
+      },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: getGetNegotiationByIdQueryKey(negotiation.id),
+            queryKey: getGetNegotiationByIdQueryKey(negotiation.id!),
           });
         },
       }

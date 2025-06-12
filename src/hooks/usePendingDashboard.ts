@@ -1,34 +1,37 @@
 import { useState, useMemo } from 'react';
-import type { IPending } from '@/domain/pending/IPending';
 import { useGetPendings } from '@/http/generated/api';
+import type { IPending } from '@/domain/pending/IPending';
 
-export function usePendingDashboard(recordsPerPage = 10) {
+export function usePendingDashboard(itemsPerPage = 10, maxPageButtons = 10) {
   const { data = [] } = useGetPendings();
+  const pendings: IPending[] = data as IPending[];
+
   const [page, setPage] = useState(1);
 
-  const totalPages = useMemo(
-    () => Math.max(1, Math.ceil(data.length / recordsPerPage)),
-    [data.length, recordsPerPage]
-  );
+  const totalPages = Math.max(1, Math.ceil(pendings.length / itemsPerPage));
 
-  const current = useMemo<IPending[]>(() => {
-    const start = (page - 1) * recordsPerPage;
-    return data.slice(start, start + recordsPerPage);
-  }, [data, page, recordsPerPage]);
+  const current = useMemo(() => {
+    const start = (page - 1) * itemsPerPage;
+    return pendings.slice(start, start + itemsPerPage);
+  }, [pendings, page, itemsPerPage]);
 
-  const pageNumbers = useMemo<number[]>(() => {
-    const maxButtons = 10;
-    const half = Math.floor(maxButtons / 2);
+  const pageNumbers = useMemo(() => {
+    const half = Math.floor(maxPageButtons / 2);
     let start = Math.max(1, page - half);
-    const end = Math.min(totalPages, start + maxButtons - 1);
-    if (end - start + 1 < maxButtons) {
-      start = Math.max(1, end - maxButtons + 1);
+    const end = Math.min(totalPages, start + maxPageButtons - 1);
+    if (end - start + 1 < maxPageButtons) {
+      start = Math.max(1, end - maxPageButtons + 1);
     }
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  }, [page, totalPages]);
+    const pages: number[] = [];
+    for (let i = start; i <= end; i++) pages.push(i);
+    return pages;
+  }, [page, totalPages, maxPageButtons]);
+
+  if (page > totalPages) {
+    setPage(1);
+  }
 
   return {
-    pending: data as IPending[],
     current,
     page,
     setPage,

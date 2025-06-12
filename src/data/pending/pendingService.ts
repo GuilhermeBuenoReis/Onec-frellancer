@@ -9,15 +9,14 @@ import type { PendingFormValues } from '@/domain/pending/form-schema';
 export function dtoToEntity(dto: GetOnePending200): IPending {
   return {
     id: dto.id,
-    client: dto.client!,
-    callReason: dto.callReason!,
-    priority: dto.priority!,
-    responsible: dto.responsible!,
-    category: dto.category as IPending['category'],
-    description: dto.description!,
-    status: dto.status as IPending['status'],
-    createdAt: dto.createdAt!,
-    updatedAt: dto.updatedAt!,
+    client: dto.client ?? '',
+    callReason: dto.callReason ?? '',
+    priority: dto.priority ?? '',
+    responsible: dto.responsible ?? '',
+    category: dto.category ?? 'SAC',
+    description: dto.description ?? '',
+    status: dto.status ?? 'Pendente',
+    updatedAt: dto.updatedAt,
   };
 }
 

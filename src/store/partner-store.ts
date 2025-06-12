@@ -1,4 +1,3 @@
-// src/store/partnerStore.ts
 import { create } from 'zustand';
 
 export interface Partner {

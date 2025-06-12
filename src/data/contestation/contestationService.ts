@@ -3,17 +3,34 @@ import type {
   IContestationData,
   ICredentialInfo,
   IClientContestation,
-} from '@/domain/entities/contestation/IContestation';
+} from '@/domain/contestation/IContestation';
 
 export function dtoToEntity(dto: ContDto): IContestationData {
-  const cred: ICredentialInfo = {
+  const credential: ICredentialInfo = {
     id: dto.id,
     channelHead: dto.credentials.channelHead,
     partner: dto.credentials.partner,
     cnpj: dto.credentials.cnpj,
     agentIndicator: dto.credentials.agentIndicator,
   };
-  const clients: IClientContestation[] = dto.clients.map((c: any) => ({
+
+  const rawClients = (() => {
+    if (Array.isArray(dto.clients)) {
+      return dto.clients;
+    }
+    if (
+      (dto.clients as any).items &&
+      Array.isArray((dto.clients as any).items)
+    ) {
+      return (dto.clients as any).items;
+    }
+    if ((dto.clients as any).data && Array.isArray((dto.clients as any).data)) {
+      return (dto.clients as any).data;
+    }
+    return [];
+  })();
+
+  const clients: IClientContestation[] = rawClients.map((c: any) => ({
     id: c.id,
     enterprise: c.enterprise,
     competenceMonth: c.competenceMonth,
@@ -22,5 +39,6 @@ export function dtoToEntity(dto: ContDto): IContestationData {
     contestation: c.contestation,
     returned: c.returned,
   }));
-  return { credential: cred, clients };
+
+  return { credential, clients };
 }

@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Upload } from './pages/app/upload';
 import { Login } from './pages/auth/login';
-import { CreateNegotiation } from './components/create-negotiation';
 import { UploadHonorary } from './components/upload-honorary';
 import { InformationHonorary } from './components/information-hononary';
 import { FilteredContractsPage } from './pages/app/Filtered-contract/';
@@ -32,7 +31,6 @@ export function App() {
         <Route path="/pendencias" element={<PendingPage />} />
         <Route path="/pendencias/:id" element={<PendingDetailsPage />} />
         <Route path="/negotiation" element={<NegotiationDashboardPage />} />
-        <Route path="/create-negotiation" element={<CreateNegotiation />} />
         <Route path="/rh/parceiros/create" element={<CreatePartnerPage />} />
         <Route path="/create-contract" element={<CreateContractPage />} />
         <Route path="/portal/:partnerId/upload" element={<UploadHonorary />} />
