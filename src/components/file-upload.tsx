@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Button } from './ui/button';
+import { env } from '@/env';
 
 export type DataType =
   | 'Contratos'
@@ -260,12 +261,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
 
     setSending(true);
     const endpoints: Record<DataType, string> = {
-      Contratos: 'http://localhost:3333/contract',
-      Dados: 'http://localhost:3333/negotiation',
-      Parceiros: 'http://localhost:3333/partners',
-      Pendencias: 'http://localhost:3333/pendings',
-      Controle: 'http://localhost:3333/portalcontrolls',
-      ClientReceipt: 'http://localhost:3333/client-receipt',
+      Contratos: `${env.VITE_API_URL}/contract`,
+      Dados: `${env.VITE_API_URL}negotiation`,
+      Parceiros: `${env.VITE_API_URL}partners`,
+      Pendencias: `${env.VITE_API_URL}pendings`,
+      Controle: `${env.VITE_API_URL}portalcontrolls`,
+      ClientReceipt: `${env.VITE_API_URL}client-receipt`,
     };
 
     try {

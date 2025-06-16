@@ -1,7 +1,8 @@
+import { env } from '@/env';
 import axios, { type AxiosRequestConfig } from 'axios';
 
 export async function http<T>(config: AxiosRequestConfig): Promise<T> {
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3333';
+  const baseUrl = env.VITE_API_URL || `${env.VITE_API_URL}`;
   const instance = axios.create({
     baseURL: baseUrl,
     withCredentials: true,
