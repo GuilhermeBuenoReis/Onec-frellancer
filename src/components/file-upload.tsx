@@ -39,13 +39,14 @@ const PENDING_CATEGORIES = [
   'Comercial',
   'Auditoria',
 ] as const;
+
 type PendingCategory = (typeof PENDING_CATEGORIES)[number];
 
 const normalizeHeader = (header: string): string =>
   header
     .trim()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, '_')
     .replace(/[^\w]/g, '')
     .toLowerCase();
@@ -97,6 +98,7 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
   const nonEmptyRaw = rawData.filter(row =>
     Object.values(row).some(v => v != null && String(v).trim() !== '')
   );
+
   const rows = nonEmptyRaw.map(row => {
     const out: Record<string, any> = {};
     Object.entries(row).forEach(([key, val]) => {
@@ -207,7 +209,7 @@ const transformExcelData = (rawData: any[], dataType: DataType) => {
 };
 
 export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [transformedData, setTransformedData] = useState<any[]>([]);
@@ -217,15 +219,14 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (!fileName) return;
 
     setFileName(file.name);
     setIsUploading(true);
     setProgress(0);
 
     const interval = setInterval(() => {
-      setProgress(p => {
-        const next = p + 5;
+      setProgress(prev => {
+        const next = prev + 5;
         if (next >= 100) {
           clearInterval(interval);
           setIsUploading(false);
@@ -246,9 +247,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
         range: sheet['!ref'],
         blankrows: false,
       });
+
       const transformed = transformExcelData(raw, dataType);
       setTransformedData(transformed);
       onFileUpload(file, file.name);
+      console.log('📁 Arquivo carregado:', file.name);
     };
     reader.readAsArrayBuffer(file);
   };
@@ -262,11 +265,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
     setSending(true);
     const endpoints: Record<DataType, string> = {
       Contratos: `${env.VITE_API_URL}/contract`,
-      Dados: `${env.VITE_API_URL}negotiation`,
-      Parceiros: `${env.VITE_API_URL}partners`,
-      Pendencias: `${env.VITE_API_URL}pendings`,
-      Controle: `${env.VITE_API_URL}portalcontrolls`,
-      ClientReceipt: `${env.VITE_API_URL}client-receipt`,
+      Dados: `${env.VITE_API_URL}/negotiation`,
+      Parceiros: `${env.VITE_API_URL}/partners`,
+      Pendencias: `${env.VITE_API_URL}/pendings`,
+      Controle: `${env.VITE_API_URL}/portalcontrolls`,
+      ClientReceipt: `${env.VITE_API_URL}/client-receipt`,
     };
 
     try {
@@ -277,10 +280,10 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
           body: JSON.stringify(rec),
         });
       }
-      toast.success(`${transformedData.length} registros enviados!`);
+      toast.success(`${transformedData.length} registros enviados com sucesso!`);
     } catch (err) {
       console.error(err);
-      toast.error('Erro ao enviar dados');
+      toast.error('Erro ao enviar os dados.');
     } finally {
       setSending(false);
     }
@@ -288,7 +291,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
 
   return (
     <div className="w-full flex flex-col items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md flex flex-col gap-3">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md flex flex-col gap-4">
         <Label htmlFor="data-type">
           <span className="text-lg text-gray-700">Tipo de dados:</span>
         </Label>
@@ -307,9 +310,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
         </select>
 
         <Label htmlFor="file-upload" className="cursor-pointer">
-          <div className="w-full border-2 border-dashed border-gray-300 rounded-md p-8 bg-gray-50 hover:bg-gray-100 transition-colors">
-            <p className="text-gray-600 text-center text-lg">
-              Clique ou arraste para selecionar o arquivo
+          <div className="w-full border-2 border-dashed border-gray-300 rounded-md p-8 bg-gray-50 hover:bg-gray-100 transition-colors text-center">
+            <p className="text-gray-600 text-lg">
+              {fileName ? `📄 ${fileName}` : 'Clique ou arraste para selecionar o arquivo'}
             </p>
           </div>
         </Label>
@@ -328,7 +331,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
           {sending ? 'Enviando...' : 'Enviar dados'}
         </Button>
 
-        {isUploading && <Progress value={progress} className="mt-4 w-full" />}
+        {isUploading && <Progress value={progress} className="mt-2 w-full" />}
       </div>
     </div>
   );

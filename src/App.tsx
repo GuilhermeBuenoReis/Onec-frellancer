@@ -7,7 +7,7 @@ import { FilteredContractsPage } from './pages/app/Filtered-contract/';
 
 import { DashboardPage } from './pages/app/Dashboard/';
 import { PartnerPage } from './pages/app/Partner/';
-import { ContestationPage } from './pages/app/Contestation/';
+import { ContestationPage } from './pages/app/contestation/index';
 import { ActiveNegotiationPage } from './pages/app/Negotiation/active-negoation';
 import { ClientReceiptDashboardPage } from './pages/app/Client-receipt/client-dashboard/';
 import { ContractDetailPage } from './pages/app/Contract-details/';

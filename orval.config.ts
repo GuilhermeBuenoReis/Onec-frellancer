@@ -1,5 +1,5 @@
 import { defineConfig } from 'orval';
-import { env } from './src/env/index';
+import { env } from './src/env/node';
 
 export default defineConfig({
   api: {
@@ -9,6 +9,7 @@ export default defineConfig({
       baseUrl: `${env.VITE_API_URL}`,
       target: './src/http/generated/api.ts',
       schemas: './src/http/models/',
+      
       client: 'react-query',
       httpClient: 'axios',
       clean: true,

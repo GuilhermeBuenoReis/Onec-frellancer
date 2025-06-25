@@ -132,7 +132,7 @@ export const createPartner = (
       
       
       return http<CreatePartner201>(
-      {url: `http://localhost:3333/partners`, method: 'POST',
+      {url: `https://api.onecsis.com.br/partners`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createPartnerBody, signal
     },
@@ -194,14 +194,14 @@ export const getPartners = (
       
       
       return http<GetPartners200Item[]>(
-      {url: `http://localhost:3333/partners`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/partners`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetPartnersQueryKey = () => {
-    return [`http://localhost:3333/partners`] as const;
+    return [`https://api.onecsis.com.br/partners`] as const;
     }
 
     
@@ -279,7 +279,7 @@ export const updatePartner = (
       
       
       return http<UpdatePartner200>(
-      {url: `http://localhost:3333/partners/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/partners/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updatePartnerBody
     },
@@ -340,7 +340,7 @@ export const deletePartner = (
       
       
       return http<DeletePartner200>(
-      {url: `http://localhost:3333/partners/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/partners/${id}`, method: 'DELETE'
     },
       );
     }
@@ -400,14 +400,14 @@ export const getOnePartner = (
       
       
       return http<GetOnePartner200>(
-      {url: `http://localhost:3333/partners/${id}`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/partners/${id}`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetOnePartnerQueryKey = (id: string,) => {
-    return [`http://localhost:3333/partners/${id}`] as const;
+    return [`https://api.onecsis.com.br/partners/${id}`] as const;
     }
 
     
@@ -485,7 +485,7 @@ export const createDataNegotiation = (
       
       
       return http<CreateDataNegotiation201>(
-      {url: `http://localhost:3333/negotiation`, method: 'POST',
+      {url: `https://api.onecsis.com.br/negotiation`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createDataNegotiationBody, signal
     },
@@ -547,14 +547,14 @@ export const getNegotiation = (
       
       
       return http<GetNegotiation200Item[]>(
-      {url: `http://localhost:3333/negotiation`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/negotiation`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetNegotiationQueryKey = () => {
-    return [`http://localhost:3333/negotiation`] as const;
+    return [`https://api.onecsis.com.br/negotiation`] as const;
     }
 
     
@@ -632,7 +632,7 @@ export const updateNegotiation = (
       
       
       return http<UpdateNegotiation200>(
-      {url: `http://localhost:3333/negotiation/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/negotiation/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateNegotiationBody
     },
@@ -693,7 +693,7 @@ export const deleteNegotiation = (
       
       
       return http<DeleteNegotiation200>(
-      {url: `http://localhost:3333/negotiation/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/negotiation/${id}`, method: 'DELETE'
     },
       );
     }
@@ -753,14 +753,14 @@ export const getNegotiationById = (
       
       
       return http<GetNegotiationById200Item[]>(
-      {url: `http://localhost:3333/negotiation/${id}`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/negotiation/${id}`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetNegotiationByIdQueryKey = (id: string,) => {
-    return [`http://localhost:3333/negotiation/${id}`] as const;
+    return [`https://api.onecsis.com.br/negotiation/${id}`] as const;
     }
 
     
@@ -838,7 +838,7 @@ export const createContract = (
       
       
       return http<CreateContract201>(
-      {url: `http://localhost:3333/contract`, method: 'POST',
+      {url: `https://api.onecsis.com.br/contract`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createContractBody, signal
     },
@@ -900,14 +900,14 @@ export const getContract = (
       
       
       return http<GetContract200Item[]>(
-      {url: `http://localhost:3333/contract`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/contract`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetContractQueryKey = () => {
-    return [`http://localhost:3333/contract`] as const;
+    return [`https://api.onecsis.com.br/contract`] as const;
     }
 
     
@@ -985,7 +985,7 @@ export const updateContract = (
       
       
       return http<UpdateContract200>(
-      {url: `http://localhost:3333/contract/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/contract/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateContractBody
     },
@@ -1046,7 +1046,7 @@ export const deleteContract = (
       
       
       return http<DeleteContract200>(
-      {url: `http://localhost:3333/contract/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/contract/${id}`, method: 'DELETE'
     },
       );
     }
@@ -1106,14 +1106,14 @@ export const getContractById = (
       
       
       return http<GetContractById200>(
-      {url: `http://localhost:3333/contract/${id}`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/contract/${id}`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetContractByIdQueryKey = (id: string,) => {
-    return [`http://localhost:3333/contract/${id}`] as const;
+    return [`https://api.onecsis.com.br/contract/${id}`] as const;
     }
 
     
@@ -1191,7 +1191,7 @@ export const authenticateUser = (
       
       
       return http<AuthenticateUser200>(
-      {url: `http://localhost:3333/login`, method: 'POST',
+      {url: `https://api.onecsis.com.br/login`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: authenticateUserBody, signal
     },
@@ -1253,14 +1253,14 @@ export const getProfileUser = (
       
       
       return http<GetProfileUser200Item[]>(
-      {url: `http://localhost:3333/users`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/users`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetProfileUserQueryKey = () => {
-    return [`http://localhost:3333/users`] as const;
+    return [`https://api.onecsis.com.br/users`] as const;
     }
 
     
@@ -1338,7 +1338,7 @@ export const updateUser = (
       
       
       return http<UpdateUser200>(
-      {url: `http://localhost:3333/users/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/users/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateUserBody
     },
@@ -1399,7 +1399,7 @@ export const deleteUser = (
       
       
       return http<DeleteUser200>(
-      {url: `http://localhost:3333/users/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/users/${id}`, method: 'DELETE'
     },
       );
     }
@@ -1459,7 +1459,7 @@ export const createPending = (
       
       
       return http<CreatePending201>(
-      {url: `http://localhost:3333/pendings`, method: 'POST',
+      {url: `https://api.onecsis.com.br/pendings`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createPendingBody, signal
     },
@@ -1521,14 +1521,14 @@ export const getPendings = (
       
       
       return http<GetPendings200Item[]>(
-      {url: `http://localhost:3333/pendings`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/pendings`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetPendingsQueryKey = () => {
-    return [`http://localhost:3333/pendings`] as const;
+    return [`https://api.onecsis.com.br/pendings`] as const;
     }
 
     
@@ -1605,7 +1605,7 @@ export const deletePending = (
       
       
       return http<DeletePending200>(
-      {url: `http://localhost:3333/pendings/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/pendings/${id}`, method: 'DELETE'
     },
       );
     }
@@ -1665,7 +1665,7 @@ export const updatePending = (
       
       
       return http<UpdatePending200>(
-      {url: `http://localhost:3333/pendings/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/pendings/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updatePendingBody
     },
@@ -1727,7 +1727,7 @@ export const createPortalControll = (
       
       
       return http<CreatePortalControll201>(
-      {url: `http://localhost:3333/portalcontrolls`, method: 'POST',
+      {url: `https://api.onecsis.com.br/portalcontrolls`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createPortalControllBody, signal
     },
@@ -1788,7 +1788,7 @@ export const deletePortalControll = (
       
       
       return http<DeletePortalControll200>(
-      {url: `http://localhost:3333/portalcontrolls/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/portalcontrolls/${id}`, method: 'DELETE'
     },
       );
     }
@@ -1848,7 +1848,7 @@ export const updatePortalControll = (
       
       
       return http<UpdatePortalControll200>(
-      {url: `http://localhost:3333/portalcontrolls/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/portalcontrolls/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updatePortalControllBody
     },
@@ -1910,14 +1910,14 @@ export const getContractStatusCount = (
       
       
       return http<GetContractStatusCount200Item[]>(
-      {url: `http://localhost:3333/contract/status-count`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/contract/status-count`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetContractStatusCountQueryKey = () => {
-    return [`http://localhost:3333/contract/status-count`] as const;
+    return [`https://api.onecsis.com.br/contract/status-count`] as const;
     }
 
     
@@ -1995,7 +1995,7 @@ export const getContractStatusCountByFilter = (
       
       
       return http<GetContractStatusCountByFilter200Item[]>(
-      {url: `http://localhost:3333/contract/status-count/filter`, method: 'POST',
+      {url: `https://api.onecsis.com.br/contract/status-count/filter`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: getContractStatusCountByFilterBody, signal
     },
@@ -2057,14 +2057,14 @@ export const getOnePending = (
       
       
       return http<GetOnePending200>(
-      {url: `http://localhost:3333/pending/${id}`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/pending/${id}`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetOnePendingQueryKey = (id: string,) => {
-    return [`http://localhost:3333/pending/${id}`] as const;
+    return [`https://api.onecsis.com.br/pending/${id}`] as const;
     }
 
     
@@ -2142,7 +2142,7 @@ export const createCredential = (
       
       
       return http<CreateCredential201>(
-      {url: `http://localhost:3333/credential`, method: 'POST',
+      {url: `https://api.onecsis.com.br/credential`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createCredentialBody, signal
     },
@@ -2204,7 +2204,7 @@ export const createClient = (
       
       
       return http<CreateClient201>(
-      {url: `http://localhost:3333/client`, method: 'POST',
+      {url: `https://api.onecsis.com.br/client`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createClientBody, signal
     },
@@ -2266,14 +2266,14 @@ export const getClient = (
       
       
       return http<GetClient200Item[]>(
-      {url: `http://localhost:3333/client`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/client`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetClientQueryKey = () => {
-    return [`http://localhost:3333/client`] as const;
+    return [`https://api.onecsis.com.br/client`] as const;
     }
 
     
@@ -2351,14 +2351,14 @@ export const listCredentialClient = (
       
       
       return http<ListCredentialClient200Item[]>(
-      {url: `http://localhost:3333/credential-client`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/credential-client`, method: 'GET', signal
     },
       );
     }
   
 
 export const getListCredentialClientQueryKey = () => {
-    return [`http://localhost:3333/credential-client`] as const;
+    return [`https://api.onecsis.com.br/credential-client`] as const;
     }
 
     
@@ -2436,7 +2436,7 @@ export const updateCredential = (
       
       
       return http<UpdateCredential200>(
-      {url: `http://localhost:3333/credential/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/credential/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateCredentialBody
     },
@@ -2497,7 +2497,7 @@ export const deleteCredential = (
       
       
       return http<DeleteCredential200>(
-      {url: `http://localhost:3333/credential/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/credential/${id}`, method: 'DELETE'
     },
       );
     }
@@ -2557,7 +2557,7 @@ export const updateClient = (
       
       
       return http<UpdateClient200>(
-      {url: `http://localhost:3333/client/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/client/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateClientBody
     },
@@ -2618,7 +2618,7 @@ export const deleteClient = (
       
       
       return http<DeleteClient200>(
-      {url: `http://localhost:3333/client/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/client/${id}`, method: 'DELETE'
     },
       );
     }
@@ -2678,7 +2678,7 @@ export const getPortalControllsBySelectParternRoute = (
       
       
       return http<GetPortalControllsBySelectParternRoute200Item[]>(
-      {url: `http://localhost:3333/portal/portalcontrolls`, method: 'GET',
+      {url: `https://api.onecsis.com.br/portal/portalcontrolls`, method: 'GET',
         params, signal
     },
       );
@@ -2686,7 +2686,7 @@ export const getPortalControllsBySelectParternRoute = (
   
 
 export const getGetPortalControllsBySelectParternRouteQueryKey = (params: GetPortalControllsBySelectParternRouteParams,) => {
-    return [`http://localhost:3333/portal/portalcontrolls`, ...(params ? [params]: [])] as const;
+    return [`https://api.onecsis.com.br/portal/portalcontrolls`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -2764,7 +2764,7 @@ export const createClientReceipt = (
       
       
       return http<CreateClientReceipt201>(
-      {url: `http://localhost:3333/client-receipt`, method: 'POST',
+      {url: `https://api.onecsis.com.br/client-receipt`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createClientReceiptBody, signal
     },
@@ -2826,14 +2826,14 @@ export const getClientReceipt = (
       
       
       return http<GetClientReceipt200Item[]>(
-      {url: `http://localhost:3333/client-receipt`, method: 'GET', signal
+      {url: `https://api.onecsis.com.br/client-receipt`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetClientReceiptQueryKey = () => {
-    return [`http://localhost:3333/client-receipt`] as const;
+    return [`https://api.onecsis.com.br/client-receipt`] as const;
     }
 
     
@@ -2910,7 +2910,7 @@ export const deleteClientReceipt = (
       
       
       return http<DeleteClientReceipt200>(
-      {url: `http://localhost:3333/client-receipt/${id}`, method: 'DELETE'
+      {url: `https://api.onecsis.com.br/client-receipt/${id}`, method: 'DELETE'
     },
       );
     }
@@ -2970,7 +2970,7 @@ export const updateClientReceipt = (
       
       
       return http<UpdateClientReceipt200>(
-      {url: `http://localhost:3333/client-receipt/${id}`, method: 'PUT',
+      {url: `https://api.onecsis.com.br/client-receipt/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateClientReceiptBody
     },
