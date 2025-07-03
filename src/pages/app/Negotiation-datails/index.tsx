@@ -5,11 +5,9 @@ import { Header } from '@/components/header';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useNegotiationDetail } from '@/hooks/useNegotiationDetail';
-import { NegotiationDetailsDisplay } from './ui/negotiation-details-display';
-import { EditNegotiationForm } from './ui/edit-negotiation-form';
+import { UpdateNegotiationSheet } from './ui/edit-negotiation-form';
 import { DeleteNegotiationButton } from './ui/delete-negotiation-button';
-import type { NegotiationFormValues } from '@/domain/negotiation/form-schema';
-import type { INegotiation } from '@/domain/negotiation/INegotiation';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 export function NegotiationDetailPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -23,6 +21,7 @@ export function NegotiationDetailPage() {
     handleChange,
     handleUpdate,
     handleDelete,
+    isUpdating,
     isDeleting,
   } = useNegotiationDetail(id);
 
@@ -38,7 +37,7 @@ export function NegotiationDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-red-600">
         <p>Negociação não encontrada.</p>
-        <Button className="mt-4" onClick={() => navigate('/negotiation')}>
+        <Button onClick={() => navigate('/negotiation')} className="mt-4">
           ← Voltar ao Dashboard
         </Button>
       </div>
@@ -61,27 +60,41 @@ export function NegotiationDetailPage() {
             Voltar
           </Button>
 
-          <NegotiationDetailsDisplay
-            nego={negotiation}
-            onEdit={() => {}}
-            onDelete={handleDelete}
-            onClose={() => navigate('/negotiation')}
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Detalhes da Negociação</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div><strong>ID:</strong> {negotiation.id}</div>
+              <div><strong>Título:</strong> {negotiation.title ?? '—'}</div>
+              <div><strong>Cliente:</strong> {negotiation.client ?? '—'}</div>
+              <div><strong>Usuário:</strong> {negotiation.user ?? '—'}</div>
+              <div><strong>Tags:</strong> {negotiation.tags ?? '—'}</div>
+              <div><strong>Etapa:</strong> {negotiation.step ?? '—'}</div>
+              <div><strong>Status:</strong> {negotiation.status ?? '—'}</div>
+              <div><strong>Valor:</strong> {negotiation.value != null ? negotiation.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—'}</div>
+              <div><strong>Data Início:</strong> {negotiation.startsDate ? new Date(negotiation.startsDate).toLocaleDateString('pt-BR') : '—'}</div>
+              <div><strong>Observação:</strong> {negotiation.observation ?? '—'}</div>
+              <div><strong>Guia Média:</strong> {negotiation.averageGuide != null ? negotiation.averageGuide : '—'}</div>
+              <div><strong>Parceiro ID:</strong> {negotiation.partnerId ?? '—'}</div>
+            </CardContent>
+          </Card>
 
-          <EditNegotiationForm
-            defaultValues={formData as NegotiationFormValues}
-            onSubmit={(data: any) => {
-              (Object.keys(data) as (keyof INegotiation)[]).forEach(key => {
-                handleChange(key, data[key]);
-              });
-              handleUpdate();
-            }}
-          />
-
-          <DeleteNegotiationButton
-            onDelete={handleDelete}
-            isDeleting={isDeleting}
-          />
+          <div className="flex gap-2 justify-end">
+            <UpdateNegotiationSheet
+              formData={formData}
+              onChange={handleChange}
+              onSubmit={() => handleUpdate()}
+              isLoading={isUpdating}
+            />
+            <DeleteNegotiationButton
+              onDelete={handleDelete}
+              isDeleting={isDeleting}
+            />
+            <Button variant="outline" onClick={() => navigate('/negotiation')}>
+              Fechar
+            </Button>
+          </div>
         </main>
       </div>
     </div>

@@ -7,7 +7,7 @@ export const negotiationSchema = z.object({
   user: z.string().nullable(),
   tags: z.string().nullable(),
   step: z.string().nullable(),
-  status: z.enum(['Ganho', 'Em Andamento', 'Perdido'], {
+  status: z.enum(['Ganho', 'Em Andamento', 'Perdido', 'ganho', 'em andamento', 'perdido'], {
     errorMap: () => ({ message: 'Status inválido' }),
   }),
   value: z.number().nullable(),

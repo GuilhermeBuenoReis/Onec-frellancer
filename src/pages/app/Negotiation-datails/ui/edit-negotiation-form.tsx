@@ -1,156 +1,153 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+// Novo componente: UpdateNegotiationSheet, mesma lógica do UpdateContractSheet
+
 import {
-  negotiationSchema,
-  type NegotiationFormValues,
-} from '@/domain/negotiation/form-schema';
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+  SheetClose,
+} from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import type { INegotiation } from '@/domain/negotiation/INegotiation';
 
-export function EditNegotiationForm({
-  defaultValues,
+export function UpdateNegotiationSheet({
+  formData,
+  onChange,
   onSubmit,
+  isLoading,
 }: {
-  defaultValues: NegotiationFormValues;
-  onSubmit: (data: NegotiationFormValues) => void;
+  formData: Partial<INegotiation>;
+  onChange: <K extends keyof INegotiation>(field: K, value: INegotiation[K]) => void;
+  onSubmit: () => void;
+  isLoading: boolean;
 }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<NegotiationFormValues>({
-    resolver: zodResolver(negotiationSchema),
-    defaultValues,
-  });
-
-  useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues, reset]);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
-      <div>
-        <label className="block text-sm font-medium">Título</label>
-        <Input {...register('title')} />
-        {errors.title && (
-          <p className="text-red-500 text-sm">{errors.title.message}</p>
-        )}
-      </div>
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Editar</Button>
+      </SheetTrigger>
+      <SheetContent side="right" size="lg" className="p-4 overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle className="text-xl font-semibold text-center">
+            Editar Negociação
+          </SheetTitle>
+        </SheetHeader>
 
-      <div>
-        <label className="block text-sm font-medium">Cliente</label>
-        <Input {...register('client')} />
-        {errors.client && (
-          <p className="text-red-500 text-sm">{errors.client.message}</p>
-        )}
-      </div>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium">Título</label>
+            <Input
+              value={formData.title ?? ''}
+              onChange={e => onChange('title', e.target.value)}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Usuário</label>
-        <Input {...register('user')} />
-        {errors.user && (
-          <p className="text-red-500 text-sm">{errors.user.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Cliente</label>
+            <Input
+              value={formData.client ?? ''}
+              onChange={e => onChange('client', e.target.value)}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Tags</label>
-        <Input {...register('tags')} />
-        {errors.tags && (
-          <p className="text-red-500 text-sm">{errors.tags.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Usuário</label>
+            <Input
+              value={formData.user ?? ''}
+              onChange={e => onChange('user', e.target.value)}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Etapa</label>
-        <Input {...register('step')} />
-        {errors.step && (
-          <p className="text-red-500 text-sm">{errors.step.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Tags</label>
+            <Input
+              value={formData.tags ?? ''}
+              onChange={e => onChange('tags', e.target.value)}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Status</label>
-        <select
-          {...register('status')}
-          className="w-full border rounded px-2 py-1"
-        >
-          <option value="">Selecione um status</option>
-          <option value="Ganho">Ganho</option>
-          <option value="Em Andamento">Em Andamento</option>
-          <option value="Perdido">Perdido</option>
-        </select>
-        {errors.status && (
-          <p className="text-red-500 text-sm">{errors.status.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Etapa</label>
+            <Input
+              value={formData.step ?? ''}
+              onChange={e => onChange('step', e.target.value)}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Valor</label>
-        <Input
-          type="number"
-          step="0.01"
-          {...register('value', { valueAsNumber: true })}
-        />
-        {errors.value && (
-          <p className="text-red-500 text-sm">{errors.value.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Status</label>
+            <select
+              value={formData.status ?? ''}
+              onChange={e => onChange('status', e.target.value as any)}
+              className="w-full border rounded px-2 py-1"
+            >
+              <option value="">Selecione um status</option>
+              <option value="Ganho">Ganho</option>
+              <option value="Em Andamento">Em Andamento</option>
+              <option value="Perdido">Perdido</option>
+            </select>
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Data Início</label>
-        <Input type="date" {...register('startsDate')} />
-        {errors.startsDate && (
-          <p className="text-red-500 text-sm">{errors.startsDate.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Valor (R$)</label>
+            <Input
+              type="number"
+              step="0.01"
+              value={formData.value ?? ''}
+              onChange={e => onChange('value', Number(e.target.value))}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Observação</label>
-        <textarea
-          {...register('observation')}
-          className="w-full border rounded px-2 py-1"
-          rows={3}
-        />
-        {errors.observation && (
-          <p className="text-red-500 text-sm">{errors.observation.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Data Início</label>
+            <Input
+              type="date"
+              value={formData.startsDate?.slice(0, 10) ?? ''}
+              onChange={e => onChange('startsDate', e.target.value)}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Guia Média</label>
-        <Input
-          type="number"
-          step="0.01"
-          {...register('averageGuide', { valueAsNumber: true })}
-        />
-        {errors.averageGuide && (
-          <p className="text-red-500 text-sm">{errors.averageGuide.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Observação</label>
+            <Textarea
+              rows={4}
+              value={formData.observation ?? ''}
+              onChange={e => onChange('observation', e.target.value)}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium">Parceiro</label>
-        <Input {...register('partnerId')} />
-        {errors.partnerId && (
-          <p className="text-red-500 text-sm">{errors.partnerId.message}</p>
-        )}
-      </div>
+          <div>
+            <label className="block text-sm font-medium">Guia Média</label>
+            <Input
+              type="number"
+              step="0.01"
+              value={formData.averageGuide ?? ''}
+              onChange={e => onChange('averageGuide', Number(e.target.value))}
+            />
+          </div>
 
-      <div className="flex gap-2 pt-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => reset(defaultValues)}
-        >
-          Cancelar
-        </Button>
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Salvando...' : 'Salvar'}
-        </Button>
-      </div>
-    </form>
+          <div>
+            <label className="block text-sm font-medium">Parceiro ID</label>
+            <Input
+              value={formData.partnerId ?? ''}
+              onChange={e => onChange('partnerId', e.target.value)}
+            />
+          </div>
+        </div>
+
+        <SheetFooter className="flex justify-end gap-2 mt-4">
+          <Button onClick={onSubmit} disabled={isLoading}>
+            {isLoading ? 'Salvando...' : 'Salvar'}
+          </Button>
+          <SheetClose asChild>
+            <Button variant="ghost">Cancelar</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }

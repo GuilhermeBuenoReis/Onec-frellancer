@@ -66,6 +66,7 @@ export function useContractDetail(id: string) {
             queryKey: ['https://api.onecsis.com.br/contract'],
           });
 
+          // Redireciona para o dashboard
           navigate('/dashboard');
         },
       }

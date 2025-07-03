@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   useGetNegotiation,
   useCreateDataNegotiation,
@@ -16,14 +17,13 @@ import {
 } from '@/domain/negotiation/form-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { QueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 export function useNegotiationsDashboard() {
   const navigate = useNavigate();
-  const queryClient = new QueryClient();
-
+  const queryClient = useQueryClient();
   const { data = [], isLoading } = useGetNegotiation();
+
   const list: INegotiation[] = data.map(dtoToEntity).reverse();
 
   const { mutateAsync: createNegotiation, status: createStatus } =
@@ -36,7 +36,7 @@ export function useNegotiationsDashboard() {
     formState: { errors, isSubmitting },
   } = useForm<Partial<NegotiationFormData>>({
     resolver: zodResolver(negotiationSchema.partial()),
-    defaultValues: negotiationSchema.partial().parse({}),
+    defaultValues: {},
   });
 
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -46,10 +46,10 @@ export function useNegotiationsDashboard() {
         data: formToDto(values as NegotiationFormData),
       });
       toast.success('Negociação criada com sucesso!');
-      queryClient.invalidateQueries({ queryKey: getGetNegotiationQueryKey() });
+      await queryClient.invalidateQueries({ queryKey: getGetNegotiationQueryKey() });
       setSheetOpen(false);
       reset();
-    } catch {
+    } catch (err) {
       toast.error('Erro ao criar negociação!');
     }
   });
@@ -63,11 +63,8 @@ export function useNegotiationsDashboard() {
   const filtered = useMemo<INegotiation[]>(
     () =>
       list.filter(n => {
-        const statusMatch =
-          !filterStatus ||
-          n.status?.toLowerCase() === filterStatus.toLowerCase();
-        const searchMatch =
-          !search ||
+        const statusMatch = !filterStatus || n.status?.toLowerCase() === filterStatus.toLowerCase();
+        const searchMatch = !search ||
           n.client?.toLowerCase().includes(search.toLowerCase()) ||
           n.status?.toLowerCase().includes(search.toLowerCase());
         return statusMatch && searchMatch;
@@ -76,6 +73,7 @@ export function useNegotiationsDashboard() {
   );
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
+
   useEffect(() => {
     if (page > totalPages) setPage(1);
   }, [page, totalPages]);
@@ -87,8 +85,7 @@ export function useNegotiationsDashboard() {
 
   const totalProjects = filtered.length;
   const totalValue = filtered.reduce((sum, n) => sum + (n.value || 0), 0);
-  const averageValue =
-    totalProjects > 0 ? (totalValue / totalProjects).toFixed(2) : '0.00';
+  const averageValue = totalProjects > 0 ? (totalValue / totalProjects).toFixed(2) : '0.00';
 
   const half = Math.floor(maxButtons / 2);
   let startPage = Math.max(1, page - half);
@@ -102,14 +99,10 @@ export function useNegotiationsDashboard() {
   const handleSearch = () => setPage(1);
   function getStatusClasses(s?: string) {
     switch (s?.toLowerCase()) {
-      case 'ganho':
-        return 'bg-green-100 text-green-800';
-      case 'em andamento':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'perdido':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-600';
+      case 'ganho': return 'bg-green-100 text-green-800';
+      case 'em andamento': return 'bg-yellow-100 text-yellow-800';
+      case 'perdido': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-600';
     }
   }
 
