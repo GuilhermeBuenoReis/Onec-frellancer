@@ -1,5 +1,6 @@
 import { defineConfig } from 'orval';
 import { env } from './src/env/node';
+import {} from '../onec-backend/swagger.json'
 
 export default defineConfig({
   api: {

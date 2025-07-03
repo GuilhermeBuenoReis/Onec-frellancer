@@ -81,6 +81,8 @@ import type {
   GetOnePending404,
   GetPartners200Item,
   GetPendings200Item,
+  GetPortalControllsBySelectById200Item,
+  GetPortalControllsBySelectById500,
   GetPortalControllsBySelectParternRoute200Item,
   GetPortalControllsBySelectParternRoute500,
   GetPortalControllsBySelectParternRouteParams,
@@ -3022,3 +3024,88 @@ const {mutation: mutationOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+/**
+ * Retorna todos os registros de PortalControlls para o parceiro informado via querystring
+ */
+export const getPortalControllsBySelectById = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return http<GetPortalControllsBySelectById200Item[]>(
+      {url: `https://api.onecsis.com.br/portal/portalcontrolls/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetPortalControllsBySelectByIdQueryKey = (id: string,) => {
+    return [`https://api.onecsis.com.br/portal/portalcontrolls/${id}`] as const;
+    }
+
+    
+export const getGetPortalControllsBySelectByIdQueryOptions = <TData = Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError = GetPortalControllsBySelectById500>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPortalControllsBySelectByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPortalControllsBySelectById>>> = ({ signal }) => getPortalControllsBySelectById(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPortalControllsBySelectByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getPortalControllsBySelectById>>>
+export type GetPortalControllsBySelectByIdQueryError = GetPortalControllsBySelectById500
+
+
+export function useGetPortalControllsBySelectById<TData = Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError = GetPortalControllsBySelectById500>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPortalControllsBySelectById>>,
+          TError,
+          Awaited<ReturnType<typeof getPortalControllsBySelectById>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPortalControllsBySelectById<TData = Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError = GetPortalControllsBySelectById500>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPortalControllsBySelectById>>,
+          TError,
+          Awaited<ReturnType<typeof getPortalControllsBySelectById>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPortalControllsBySelectById<TData = Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError = GetPortalControllsBySelectById500>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetPortalControllsBySelectById<TData = Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError = GetPortalControllsBySelectById500>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPortalControllsBySelectById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPortalControllsBySelectByIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+

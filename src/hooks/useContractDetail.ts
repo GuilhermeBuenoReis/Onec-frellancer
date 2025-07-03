@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
 import { getGetContractByIdQueryKey } from '@/http/generated/api';
 import { prepareUpdatePayload } from '@/domain/contract/use-case/prepare-update-payload';
 import { useContractApi } from '@/data/contract/contractApi';
@@ -7,6 +9,8 @@ import type { IContract } from '@/domain/contract/IContract';
 
 export function useContractDetail(id: string) {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const {
     isLoading,
     isError,
@@ -32,21 +36,15 @@ export function useContractDetail(id: string) {
   };
 
   const handleUpdate = async () => {
-    if (!contract) return;
+    if (!contract?.id) return 'Id não encontrado!';
     const payload = prepareUpdatePayload(formData);
 
-    if (!contract.id) {
-      return 'Id, não encontrado!';
-    }
     await updateMutation.mutateAsync(
       { id: contract.id, data: payload },
       {
         onSuccess: () => {
-          if (!contract.id) {
-            return 'Id, não encontrado!';
-          }
           queryClient.invalidateQueries({
-            queryKey: getGetContractByIdQueryKey(contract.id),
+            queryKey: getGetContractByIdQueryKey(contract.id!),
           });
         },
       }
@@ -54,20 +52,21 @@ export function useContractDetail(id: string) {
   };
 
   const handleDelete = async () => {
-    if (!contract) return;
-    if (!contract.id) {
-      return 'Id, não encontrado!';
-    }
+    if (!contract?.id) return 'Id não encontrado!';
+
     await deleteMutation.mutateAsync(
       { id: contract.id },
       {
         onSuccess: () => {
-          if (!contract.id) {
-            return 'Id, não encontrado!';
-          }
           queryClient.invalidateQueries({
-            queryKey: getGetContractByIdQueryKey(contract.id),
+            queryKey: getGetContractByIdQueryKey(contract.id!),
           });
+
+          queryClient.invalidateQueries({
+            queryKey: ['https://api.onecsis.com.br/contract'],
+          });
+
+          navigate('/dashboard');
         },
       }
     );

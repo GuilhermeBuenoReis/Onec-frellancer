@@ -69,6 +69,8 @@ export * from './getPartners200Item';
 export * from './getPendings200Item';
 export * from './getPendings200ItemCategory';
 export * from './getPendings200ItemStatus';
+export * from './getPortalControllsBySelectById200Item';
+export * from './getPortalControllsBySelectById500';
 export * from './getPortalControllsBySelectParternRoute200Item';
 export * from './getPortalControllsBySelectParternRoute500';
 export * from './getPortalControllsBySelectParternRouteParams';

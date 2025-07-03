@@ -239,8 +239,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
     reader.onload = ev => {
       const data = new Uint8Array(ev.target?.result as ArrayBuffer);
       const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-      const sheetName = workbook.SheetNames[0];
+      
+      const sheetIndex = dataType === 'Parceiros' ? 3 : 0;
+      const sheetName = workbook.SheetNames[sheetIndex];
       const sheet = workbook.Sheets[sheetName];
+
       const raw = XLSX.utils.sheet_to_json(sheet, {
         defval: null,
         raw: true,

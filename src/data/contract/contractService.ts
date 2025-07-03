@@ -7,6 +7,7 @@ import type { ContractFormValues } from '@/domain/contract/formSchema';
 
 export function dtoToEntity(dto: ContractDto): IContract {
   return {
+    id: dto.id,
     city: dto.city,
     state: dto.state,
     client: dto.client,
