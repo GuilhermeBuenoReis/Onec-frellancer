@@ -1,6 +1,6 @@
-import { Dashboard } from '../features/application/pages/dashboard/dashboard';
-import { Partner } from '../features/application/pages/partner/partner';
-import { Pending } from '../features/application/pages/pending/pending';
+import { Negotiation } from '../features/app/pages/negotiation/negotiation';
+import { Partner } from '../features/app/pages/partner/partner';
+import { Pending } from '../features/app/pages/pending/pending';
 import { _AppLayout } from '../layouts/_app_layout';
 
 export const protectedRoutes = [
@@ -10,7 +10,7 @@ export const protectedRoutes = [
     children: [
       {
         path: 'negotiation',
-        element: <Dashboard />,
+        element: <Negotiation />,
       },
       {
         path: 'partner',

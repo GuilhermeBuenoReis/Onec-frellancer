@@ -12,12 +12,12 @@ export function _AppLayout() {
         <AppSidebar />
       </div>
 
-      <main className="flex flex-col w-full min-h-screen bg-background text-foreground">
-        <header className="hidden md:flex w-full px-6 py-4">
+      <main className="flex flex-col w-full min-h-screen bg-background text-foreground px-6 py-4 gap-12">
+        <div className="hidden md:flex w-full">
           <AppHeader />
-        </header>
+        </div>
 
-        <div className="flex-1 px-4 py-2 sm:px-6">
+        <div className="flex-1 sm:px-6">
           <Outlet />
         </div>
       </main>
