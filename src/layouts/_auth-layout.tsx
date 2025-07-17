@@ -2,7 +2,7 @@ import { Outlet } from 'react-router';
 import onecLogo from '../assets/onec_logo_redonda.svg';
 import { Separator } from '../components/ui/separator';
 
-export function AuthLayout() {
+export function _AuthLayout() {
   const year = new Date().getFullYear();
 
   return (
