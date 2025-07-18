@@ -33,50 +33,57 @@ export function SimpleLineChart() {
   const tickColor = isDark ? '#e5e7eb' : '#111827';
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart
-        data={rendimentoPorMes}
-        margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
-      >
-        <CartesianGrid
-          strokeDasharray="3 3"
-          stroke={isDark ? '#4b5563' : '#d1d5db'}
-        />
-        <XAxis tick={{ fill: tickColor, fontSize: 12 }} dataKey="mes" />
-        <YAxis
-          tick={{ fill: tickColor, fontSize: 12 }}
-          tickCount={5}
-          domain={[0, 'auto']}
-          tickFormatter={value =>
-            `R$ ${value.toLocaleString('pt-BR', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}`
-          }
-        />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: isDark ? '#1f2937' : '#fff',
-            border: '1px solid #ccc',
-            borderRadius: 4,
-            color: isDark ? '#f9fafb' : '#111827',
-            fontSize: '0.875rem',
-          }}
-          formatter={(value: number) =>
-            `R$ ${value.toLocaleString('pt-BR', {
-              minimumFractionDigits: 2,
-            })}`
-          }
-        />
-        <Line
-          type="monotone"
-          dataKey="valor"
-          stroke="#3b82f6"
-          strokeWidth={2}
-          dot={{ r: 4, fill: '#3b82f6' }}
-          activeDot={{ r: 6 }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <div className="w-full max-w-5xl mx-auto p-4 sm:p-6 md:p-8">
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart
+          data={rendimentoPorMes}
+          margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke={isDark ? '#4b5563' : '#d1d5db'}
+          />
+          <XAxis
+            dataKey="mes"
+            tick={{ fill: tickColor, fontSize: 12 }}
+            interval="preserveStartEnd"
+            minTickGap={20}
+          />
+          <YAxis
+            tick={{ fill: tickColor, fontSize: 12 }}
+            tickCount={5}
+            domain={[0, 'auto']}
+            tickFormatter={value =>
+              `R$ ${value.toLocaleString('pt-BR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}`
+            }
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: isDark ? '#1f2937' : '#fff',
+              border: '1px solid #ccc',
+              borderRadius: 4,
+              color: isDark ? '#f9fafb' : '#111827',
+              fontSize: '0.875rem',
+            }}
+            formatter={(value: number) =>
+              `R$ ${value.toLocaleString('pt-BR', {
+                minimumFractionDigits: 2,
+              })}`
+            }
+          />
+          <Line
+            type="monotone"
+            dataKey="valor"
+            stroke="#3b82f6"
+            strokeWidth={2}
+            dot={{ r: 4, fill: '#3b82f6' }}
+            activeDot={{ r: 6 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 }

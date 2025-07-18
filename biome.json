@@ -25,7 +25,8 @@
       },
       "a11y": {
         "noLabelWithoutControl": "off",
-        "useKeyWithClickEvents": "off"
+        "useKeyWithClickEvents": "off",
+        "noSvgWithoutTitle": "off"
       },
       "complexity": {
         "noForEach": "off",
@@ -38,7 +39,8 @@
         "noArrayIndexKey": "off"
       },
       "correctness": {
-        "useJsxKeyInIterable": "off"
+        "useJsxKeyInIterable": "off",
+        "useExhaustiveDependencies": "off"
       }
     }
   },

@@ -15,27 +15,35 @@ export function SectionCards() {
     }).format(value);
 
   return (
-    <div className="w-full grid grid-cols-3 items-center gap-6">
-      <Card>
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Contratos</CardTitle>
           <CardDescription>Total de contratos da empresa!</CardDescription>
         </CardHeader>
-        <CardContent className="text-xl">478</CardContent>
+        <CardContent className="text-xl font-semibold text-primary">
+          478
+        </CardContent>
       </Card>
-      <Card>
+
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Total</CardTitle>
           <CardDescription>Total de ganhos da empresa!</CardDescription>
         </CardHeader>
-        <CardContent>{formatCurrency(123456.78)}</CardContent>
+        <CardContent className="text-xl font-semibold text-primary">
+          {formatCurrency(123456.78)}
+        </CardContent>
       </Card>
-      <Card>
+
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Valor Médio</CardTitle>
           <CardDescription>Total de Lucro da empresa!</CardDescription>
         </CardHeader>
-        <CardContent>{formatCurrency(152946.12)}</CardContent>
+        <CardContent className="text-xl font-semibold text-primary">
+          {formatCurrency(152946.12)}
+        </CardContent>
       </Card>
     </div>
   );

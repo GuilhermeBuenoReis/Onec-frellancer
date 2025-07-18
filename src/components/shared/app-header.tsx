@@ -1,9 +1,8 @@
-import { FileSpreadsheet } from 'lucide-react';
 import onec_logo from '../../assets/onec_logo_redonda.svg';
-import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { ActiveNavLink } from './active-nav-link';
 import { ModeToggle } from './mode-toggle';
+import { ChatIa } from './chat-ia';
 
 export function AppHeader() {
   return (
@@ -27,10 +26,7 @@ export function AppHeader() {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button className="cursor-pointer">
-          <FileSpreadsheet className="size-4" />
-          Explorar dados com IA
-        </Button>
+        <ChatIa />
         <ModeToggle />
       </div>
     </header>

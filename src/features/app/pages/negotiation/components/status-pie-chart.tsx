@@ -30,7 +30,6 @@ type GeometrySector = {
 
 type PieLabelProps = PieSectorData & GeometrySector;
 
-// Exemplo de dados mockados
 const data = [
   { name: 'FINALIZADO', value: 66 },
   { name: 'ATIVO', value: 44 },
@@ -38,12 +37,10 @@ const data = [
   { name: 'CONCLUIDO', value: 33 },
 ];
 
-// Paleta de cores (pode expandir ou personalizar)
 const COLORS = ['#ef4444', '#3b82f6', '#f59e0b', '#ec4899'];
 
 const RADIAN = Math.PI / 180;
 
-// Label com valor bruto
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -60,10 +57,11 @@ const renderCustomizedLabel = ({
     <text
       x={x}
       y={y}
-      fill="white"
-      textAnchor={x > cx ? 'start' : 'end'}
+      fill="#fff"
+      textAnchor="middle"
       dominantBaseline="central"
-      fontSize={14}
+      fontSize={12}
+      className="pointer-events-none"
     >
       {value}
     </text>
@@ -72,26 +70,27 @@ const renderCustomizedLabel = ({
 
 export function StatusPieChart() {
   return (
-    <ResponsiveContainer width="100%" height={320}>
-      <PieChart>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          label={renderCustomizedLabel}
-          outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
-        >
-          {data.map((entry, index) => (
-            <Cell
-              key={`cell-${entry.name}`}
-              fill={COLORS[index % COLORS.length]}
-            />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto p-4 sm:p-6 md:p-8">
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius="80%"
+            dataKey="value"
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${entry.name}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
