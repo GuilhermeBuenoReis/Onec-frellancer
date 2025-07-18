@@ -79,10 +79,12 @@ export function ChatIa() {
       <SheetTrigger asChild>
         <Button
           variant="secondary"
-          className="flex items-center gap-2 h-10 px-4 text-sm cursor-pointer sm:text-base"
+          className="flex justify-center items-center gap-2 h-10 px-4 text-sm cursor-pointer sm:text-base"
         >
-          <FileSpreadsheet className="size-4" />
-          <span className="hidden sm:inline">Subir planilhas via IA</span>
+          <FileSpreadsheet className="size-3" />
+          <span className="hidden text-sm sm:inline">
+            Subir planilhas via IA
+          </span>
         </Button>
       </SheetTrigger>
 
