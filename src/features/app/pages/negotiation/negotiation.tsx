@@ -16,6 +16,10 @@ export function Negotiation() {
      flex flex-col items-center gap-6 lg:gap-10"
     >
       <div className="w-full max-w-7xl flex flex-col gap-6">
+        <h1 className="text-center text-3xl font-semibold">
+          One<span className="text-cyan-600">c</span> - Gestão de clínicas
+        </h1>
+
         <SectionCards />
 
         <NegotiationTabAction />
