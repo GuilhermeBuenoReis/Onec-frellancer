@@ -4,12 +4,14 @@ import {
   CardContent,
   CardHeader,
 } from '../../../../../../components/ui/card';
+import { Separator } from '../../../../../../components/ui/separator';
 import { useDashboardData } from '../../hooks/useDashboardData';
 import { dashboardParamsSchema } from '../../schemas/deashboard-params-schema';
 import { DashboardChart } from './partner-dashboard-chart';
 import { DashboardHeader } from './partner-dashboard-header';
 import { DashboardStat } from './partner-dashboard-stats';
 import { DashboardTotals } from './partner-dashboard-totals';
+import { PartnerTablePage } from './table/page';
 
 interface PartnerDashboardProps {
   name: string;
@@ -39,9 +41,6 @@ export function PartnerDashboard({ name }: PartnerDashboardProps) {
     navigate({ search: `?${newParams.toString()}` }, { replace: true });
   }
 
-  console.log('✅ showTotals?', showTotals);
-  console.log('📊 selectedData for totals:', selectedData);
-
   return (
     <Card className="w-full rounded-lg flex-1">
       <CardHeader>
@@ -56,7 +55,7 @@ export function PartnerDashboard({ name }: PartnerDashboardProps) {
         />
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-6 mt-4">
+      <CardContent className="flex flex-col gap-12 mt-4">
         <DashboardStat
           current={current.value}
           previous={previous.value}
@@ -66,7 +65,10 @@ export function PartnerDashboard({ name }: PartnerDashboardProps) {
         {showTotals && (
           <DashboardTotals data={selectedData} infoType={infoType} />
         )}
+
+        <Separator />
       </CardContent>
+      <PartnerTablePage />
     </Card>
   );
 }

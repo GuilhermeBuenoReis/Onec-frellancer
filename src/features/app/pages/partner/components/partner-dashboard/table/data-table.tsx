@@ -12,16 +12,14 @@ import {
   useReactTable,
   type VisibilityState,
 } from '@tanstack/react-table';
-import { Search } from 'lucide-react';
 import { useState } from 'react';
-import { Button } from '../../../../../../components/ui/button';
+import { Button } from '../../../../../../../components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '../../../../../../components/ui/dropdown-menu';
-import { Input } from '../../../../../../components/ui/input';
+} from '../../../../../../../components/ui/dropdown-menu';
 import {
   Pagination,
   PaginationContent,
@@ -29,7 +27,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '../../../../../../components/ui/pagination';
+} from '../../../../../../../components/ui/pagination';
 import {
   Table,
   TableBody,
@@ -37,7 +35,29 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../../../../../../components/ui/table';
+} from '../../../../../../../components/ui/table';
+import { ExportDialog } from './export-dialog';
+import { FilterDialog } from './filter-dialog';
+
+const columnLabels: Record<string, string> = {
+  month: 'Mês',
+  monthOfCalculation: 'Mês de Cálculo',
+  competenceMonth: 'Competência',
+  contract: 'Contrato',
+  enterprise: 'Empresa',
+  product: 'Produto',
+  percentageHonorary: '% Honorário',
+  compensation: 'Compensação',
+  honorary: 'Honorário',
+  tax: 'Imposto',
+  tj: 'TJ',
+  value: 'Valor',
+  fee: 'Fee',
+  feePercentage: '% Fee',
+  courtFee: 'Taxa Judicial',
+  situation: 'Situação',
+  partnerId: 'ID do Parceiro',
+};
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -52,6 +72,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const [exportOpen, setExportOpen] = useState(false);
 
   const table = useReactTable({
     data,
@@ -72,44 +93,57 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  function handleAdvancedFilters(filters: {
+    contract?: string;
+    enterprise?: string;
+    product?: string;
+    date?: string;
+  }) {
+    table.getColumn('contract')?.setFilterValue(filters.contract ?? '');
+    table.getColumn('enterprise')?.setFilterValue(filters.enterprise ?? '');
+    table.getColumn('product')?.setFilterValue(filters.product ?? '');
+    table.getColumn('monthOfCalculation')?.setFilterValue(filters.date ?? '');
+  }
+
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="relative w-full max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4" />
-          <Input
-            placeholder="Filtrar cliente..."
-            value={
-              (table.getColumn('cliente')?.getFilterValue() as string) ?? ''
-            }
-            onChange={event =>
-              table.getColumn('cliente')?.setFilterValue(event.target.value)
-            }
-            className="pl-9"
-          />
+      <div className="flex gap-4 justify-between items-center">
+        <FilterDialog onApply={handleAdvancedFilters} />
+
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={() => setExportOpen(true)}
+            variant="secondary"
+            className="cursor-pointer"
+          >
+            Exportar com IA
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="h-10 whitespace-nowrap cursor-pointer"
+              >
+                Colunas
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter(col => col.getCanHide())
+                .map(column => (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={value => column.toggleVisibility(!!value)}
+                    className="cursor-pointer"
+                  >
+                    {columnLabels[column.id] ?? column.id}
+                  </DropdownMenuCheckboxItem>
+                ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-10 whitespace-nowrap">
-              Colunas
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(col => col.getCanHide())
-              .map(column => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  checked={column.getIsVisible()}
-                  onCheckedChange={value => column.toggleVisibility(!!value)}
-                  className="capitalize"
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
 
       <div className="rounded-md border overflow-x-auto">
@@ -201,6 +235,7 @@ export function DataTable<TData, TValue>({
           </PaginationContent>
         </Pagination>
       </div>
+      <ExportDialog open={exportOpen} onOpenChange={setExportOpen} />
     </div>
   );
 }

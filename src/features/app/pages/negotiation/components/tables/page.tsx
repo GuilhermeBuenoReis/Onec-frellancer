@@ -1,8 +1,8 @@
 'use client';
 
+import { negociacoesContratos } from '../../../../../../constants/negotiation-data';
 import { columns } from './columns';
 import { DataTable } from './data-table';
-import { negociacoesContratos } from '../../../../../../constants/negotiation-data';
 
 export default function DemoPage() {
   return (

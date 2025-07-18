@@ -45,7 +45,7 @@ export function DashboardStat({
         ) : (
           <ArrowDownRight className="w-4 h-4" />
         )}
-        {Math.abs(variation).toFixed(2)}% compared to last month
+        {Math.abs(variation).toFixed(2)}% Comparado ao mês passado!
       </p>
     </motion.div>
   );

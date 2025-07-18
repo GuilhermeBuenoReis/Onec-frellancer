@@ -15,7 +15,6 @@ interface DashboardChartProps {
 }
 
 export function DashboardChart({ data }: DashboardChartProps) {
-  console.log('🚀 DashboardChart data:', data);
   return (
     <motion.div
       key={JSON.stringify(data)}
