@@ -36,6 +36,8 @@ import {
   TableHeader,
   TableRow,
 } from '../../../../../../components/ui/table';
+import { ExportDialog } from './export-dialog';
+import { FilterDialog } from './filter-dialog';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -50,6 +52,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const [exportOpen, setExportOpen] = useState(false);
 
   const table = useReactTable({
     data,
@@ -72,7 +75,21 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-end gap-3">
+        <FilterDialog
+          onApply={filters => {
+            // Aqui futuramente aplicar filtros ao estado
+            console.log('Filtros aplicados:', filters);
+          }}
+        />
+        <Button
+          variant="secondary"
+          onClick={() => setExportOpen(true)}
+          className="cursor-pointer"
+        >
+          Exportar com IA
+        </Button>
+        <ExportDialog open={exportOpen} onOpenChange={setExportOpen} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="h-10">
