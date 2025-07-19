@@ -7,7 +7,7 @@ import { createPartnerColumns } from './columns';
 import { DataTable } from './data-table';
 
 export function PartnerTablePage() {
-  const [partners, setPartners] = useState<PartnerFormData[]>(statsByMonth);
+  const [_, setPartners] = useState<PartnerFormData[]>(statsByMonth);
 
   function handleEdit(updated: PartnerFormData) {
     setPartners(prev =>
