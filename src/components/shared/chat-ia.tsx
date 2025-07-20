@@ -1,5 +1,11 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
+import { FileSpreadsheet, Send } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Button } from '../ui/button';
+import { ScrollArea } from '../ui/scroll-area';
+import { Separator } from '../ui/separator';
 import {
   Sheet,
   SheetContent,
@@ -8,28 +14,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '../ui/sheet';
-import { Button } from '../ui/button';
-import { ScrollArea } from '../ui/scroll-area';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
-import { FileSpreadsheet, Send } from 'lucide-react';
-import { Separator } from '../ui/separator';
-import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { UploadSpreadsheet } from './upload-spreadsheet';
 
 export function ChatIa() {
-  const [messages, setMessages] = useState<any[]>([
+  const [messages, setMessages] = useState([
     { from: 'bot', text: 'Olá! Como posso te ajudar hoje?' },
   ]);
   const [newMessage, setNewMessage] = useState('');
-  const [showSelect, setShowSelect] = useState(false);
-  const [selectedType, setSelectedType] = useState('');
+  const [showUploader, setShowUploader] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -44,34 +36,19 @@ export function ChatIa() {
     setMessages(prev => [...prev, { from: 'user', text: content }]);
     setNewMessage('');
 
+    // Se falar "planilha", mostra uploader
     if (content.toLowerCase().includes('planilha')) {
       setTimeout(() => {
         setMessages(prev => [
           ...prev,
           {
             from: 'bot',
-            text: 'Qual tipo de planilha você deseja subir?',
-            isSelect: true,
+            text: 'Ótimo! Envie a planilha no botão abaixo.',
           },
         ]);
-        setShowSelect(true);
+        setShowUploader(true);
       }, 500);
     }
-  }
-
-  function handleSelect(value: string) {
-    setSelectedType(value);
-    setShowSelect(false);
-
-    setMessages(prev => [
-      ...prev,
-      { from: 'user', text: `Planilha: ${value}` },
-      {
-        from: 'bot',
-        text: `Perfeito! Agora envie sua planilha de ${value.toLowerCase()}.`,
-        isUploader: true,
-      },
-    ]);
   }
 
   return (
@@ -122,29 +99,22 @@ export function ChatIa() {
                     >
                       {msg.text}
                     </div>
-
-                    {msg.isSelect && showSelect && (
-                      <div className="mt-2 ml-2">
-                        <Select onValueChange={handleSelect}>
-                          <SelectTrigger className="w-[240px]">
-                            <SelectValue placeholder="Selecione a planilha" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="Negociações">
-                              Negociações
-                            </SelectItem>
-                            <SelectItem value="Contratos">Contratos</SelectItem>
-                            <SelectItem value="Parceiros">Parceiros</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    )}
-
-                    {msg.isUploader && selectedType && <UploadSpreadsheet />}
                   </motion.div>
                 ))}
               </AnimatePresence>
               <div ref={messagesEndRef} aria-hidden="true" />
+
+              {showUploader && (
+                <motion.div
+                  key="uploader"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <UploadSpreadsheet />
+                </motion.div>
+              )}
             </div>
           </ScrollArea>
         </section>

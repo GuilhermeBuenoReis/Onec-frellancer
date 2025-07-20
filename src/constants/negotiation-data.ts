@@ -1,5 +1,5 @@
 export interface NegociacaoContrato {
-  id: string;
+  id?: string;
   cliente: string;
   cnpj: string;
   cidade: string;

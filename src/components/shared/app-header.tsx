@@ -1,8 +1,8 @@
 import onec_logo from '../../assets/onec_logo_redonda.svg';
 import { Separator } from '../ui/separator';
 import { ActiveNavLink } from './active-nav-link';
-import { ModeToggle } from './mode-toggle';
 import { ChatIa } from './chat-ia';
+import { ModeToggle } from './mode-toggle';
 
 export function AppHeader() {
   return (
