@@ -7,45 +7,37 @@ import type { GetOnePartnerPathParams, GetOnePartner200, GetOnePartner404, GetOn
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const getOnePartnerPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePartnerPathParams>
+export const getOnePartnerPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<GetOnePartnerPathParams>
 
 /**
  * @description Default Response
  */
-export const getOnePartner200Schema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-    name: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    cpfOrCnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    city: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    state: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    commission: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-    portal: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    channelHead: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    regional: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    coordinator: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    agent: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    indicator: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    contract: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    phone: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    email: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    responsible: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePartner200>
+export const getOnePartner200Schema = z.object({
+  id: z.string(),
+  name: z.string().nullable(),
+  cpfOrCnpj: z.string().nullable(),
+  city: z.string().nullable(),
+  state: z.string().nullable(),
+  commission: z.number().nullable(),
+  portal: z.string().nullable(),
+  channelHead: z.string().nullable(),
+  regional: z.string().nullable(),
+  coordinator: z.string().nullable(),
+  agent: z.string().nullable(),
+  indicator: z.string().nullable(),
+  contract: z.string().nullable(),
+  phone: z.string().nullable(),
+  email: z.string().nullable(),
+  responsible: z.string().nullable(),
+}) as unknown as ToZod<GetOnePartner200>
 
 /**
  * @description Default Response
  */
-export const getOnePartner404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePartner404>
+export const getOnePartner404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<GetOnePartner404>
 
-export const getOnePartnerQueryResponseSchema = z
-  .lazy(() => getOnePartner200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePartnerQueryResponse>
+export const getOnePartnerQueryResponseSchema = z.lazy(() => getOnePartner200Schema) as unknown as ToZod<GetOnePartnerQueryResponse>

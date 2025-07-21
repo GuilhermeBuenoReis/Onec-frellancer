@@ -14,21 +14,17 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getContractStatusCountByFilter200Schema = z
-  .array(
-    z.object({
-      status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      count: z.number().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractStatusCountByFilter200>
+export const getContractStatusCountByFilter200Schema = z.array(
+  z.object({
+    status: z.string().nullable(),
+    count: z.number(),
+  }),
+) as unknown as ToZod<GetContractStatusCountByFilter200>
 
-export const getContractStatusCountByFilterMutationRequestSchema = z
-  .object({
-    filter: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractStatusCountByFilterMutationRequest>
+export const getContractStatusCountByFilterMutationRequestSchema = z.object({
+  filter: z.string(),
+}) as unknown as ToZod<GetContractStatusCountByFilterMutationRequest>
 
-export const getContractStatusCountByFilterMutationResponseSchema = z
-  .lazy(() => getContractStatusCountByFilter200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractStatusCountByFilterMutationResponse>
+export const getContractStatusCountByFilterMutationResponseSchema = z.lazy(
+  () => getContractStatusCountByFilter200Schema,
+) as unknown as ToZod<GetContractStatusCountByFilterMutationResponse>

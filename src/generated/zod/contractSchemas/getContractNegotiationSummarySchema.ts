@@ -14,60 +14,54 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getContractNegotiationSummary200Schema = z
-  .object({
-    result: z
-      .array(
-        z.object({
-          negotiationId: z.string().openapi({ description: 'This is a custom extension' }),
-          title: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          negotiationClient: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          user: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          tags: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          step: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          negotiationStatus: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          value: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-          startsDate: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          observation: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          partnerId: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          negotiationAverageGuide: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-          negotiationCreatedAt: z.string().datetime({ offset: true }).openapi({ description: 'This is a custom extension' }),
-          negotiationUpdatedAt: z.string().datetime({ offset: true }).openapi({ description: 'This is a custom extension' }),
-          contractId: z.string().openapi({ description: 'This is a custom extension' }),
-          contractClient: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          city: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          state: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          cnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          sindic: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          year: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          matter: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          forecast: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          contractTotal: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-          percentage: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-          signedContract: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          contractStatus: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          contractAverageGuide: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-          partner: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          partnerCommission: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-          counter: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          email: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          contractCreatedAt: z.string().datetime({ offset: true }).openapi({ description: 'This is a custom extension' }),
-          contractUpdatedAt: z.string().datetime({ offset: true }).openapi({ description: 'This is a custom extension' }),
-        }),
-      )
-      .openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractNegotiationSummary200>
+export const getContractNegotiationSummary200Schema = z.object({
+  result: z.array(
+    z.object({
+      negotiationId: z.string(),
+      title: z.string().nullable(),
+      negotiationClient: z.string().nullable(),
+      user: z.string().nullable(),
+      tags: z.string().nullable(),
+      step: z.string().nullable(),
+      negotiationStatus: z.string().nullable(),
+      value: z.number().nullable(),
+      startsDate: z.string().nullable(),
+      observation: z.string().nullable(),
+      partnerId: z.string().nullable(),
+      negotiationAverageGuide: z.number().nullable(),
+      negotiationCreatedAt: z.string().datetime({ offset: true }),
+      negotiationUpdatedAt: z.string().datetime({ offset: true }),
+      contractId: z.string(),
+      contractClient: z.string().nullable(),
+      city: z.string().nullable(),
+      state: z.string().nullable(),
+      cnpj: z.string().nullable(),
+      sindic: z.string().nullable(),
+      year: z.string().nullable(),
+      matter: z.string().nullable(),
+      forecast: z.string().nullable(),
+      contractTotal: z.number().nullable(),
+      percentage: z.number().nullable(),
+      signedContract: z.string().nullable(),
+      contractStatus: z.string().nullable(),
+      contractAverageGuide: z.number().nullable(),
+      partner: z.string().nullable(),
+      partnerCommission: z.number().nullable(),
+      counter: z.string().nullable(),
+      email: z.string().nullable(),
+      contractCreatedAt: z.string().datetime({ offset: true }),
+      contractUpdatedAt: z.string().datetime({ offset: true }),
+    }),
+  ),
+}) as unknown as ToZod<GetContractNegotiationSummary200>
 
 /**
  * @description Default Response
  */
-export const getContractNegotiationSummary500Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractNegotiationSummary500>
+export const getContractNegotiationSummary500Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<GetContractNegotiationSummary500>
 
-export const getContractNegotiationSummaryQueryResponseSchema = z
-  .lazy(() => getContractNegotiationSummary200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractNegotiationSummaryQueryResponse>
+export const getContractNegotiationSummaryQueryResponseSchema = z.lazy(
+  () => getContractNegotiationSummary200Schema,
+) as unknown as ToZod<GetContractNegotiationSummaryQueryResponse>

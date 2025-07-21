@@ -3,13 +3,13 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../http/client-kubb.ts'
+import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
 import type {
   GetPortalControllsBySelectParternRouteQueryResponse,
   GetPortalControllsBySelectParternRouteQueryParams,
   GetPortalControllsBySelectParternRoute500,
 } from '../../types/GetPortalControllsBySelectParternRoute.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '@kubb/plugin-client/clients/axios'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 

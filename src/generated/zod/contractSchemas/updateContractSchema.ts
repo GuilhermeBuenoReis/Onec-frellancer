@@ -13,52 +13,42 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const updateContractPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateContractPathParams>
+export const updateContractPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdateContractPathParams>
 
 /**
  * @description Default Response
  */
-export const updateContract200Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateContract200>
+export const updateContract200Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdateContract200>
 
 /**
  * @description Default Response
  */
-export const updateContract404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateContract404>
+export const updateContract404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdateContract404>
 
-export const updateContractMutationRequestSchema = z
-  .object({
-    city: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    client: z.string().optional().openapi({ description: 'This is a custom extension' }),
-    state: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    cnpj: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    sindic: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    year: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    matter: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    forecast: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    contractTotal: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    percentage: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    signedContract: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    status: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    averageGuide: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    partner: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    partnerCommission: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    counter: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    email: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateContractMutationRequest>
+export const updateContractMutationRequestSchema = z.object({
+  city: z.string().nullable().nullish(),
+  client: z.string().optional(),
+  state: z.string().nullable().nullish(),
+  cnpj: z.string().nullable().nullish(),
+  sindic: z.string().nullable().nullish(),
+  year: z.string().nullable().nullish(),
+  matter: z.string().nullable().nullish(),
+  forecast: z.string().nullable().nullish(),
+  contractTotal: z.string().nullable().nullish(),
+  percentage: z.number().nullable().nullish(),
+  signedContract: z.string().nullable().nullish(),
+  status: z.string().nullable().nullish(),
+  averageGuide: z.number().nullable().nullish(),
+  partner: z.string().nullable().nullish(),
+  partnerCommission: z.number().nullable().nullish(),
+  counter: z.string().nullable().nullish(),
+  email: z.string().nullable().nullish(),
+}) as unknown as ToZod<UpdateContractMutationRequest>
 
-export const updateContractMutationResponseSchema = z
-  .lazy(() => updateContract200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateContractMutationResponse>
+export const updateContractMutationResponseSchema = z.lazy(() => updateContract200Schema) as unknown as ToZod<UpdateContractMutationResponse>

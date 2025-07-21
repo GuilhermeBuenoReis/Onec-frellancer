@@ -10,8 +10,6 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const postUploadXlsx200Schema = z.unknown().openapi({ description: 'This is a custom extension' }) as unknown as ToZod<PostUploadXlsx200>
+export const postUploadXlsx200Schema = z.unknown() as unknown as ToZod<PostUploadXlsx200>
 
-export const postUploadXlsxMutationResponseSchema = z
-  .lazy(() => postUploadXlsx200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<PostUploadXlsxMutationResponse>
+export const postUploadXlsxMutationResponseSchema = z.lazy(() => postUploadXlsx200Schema) as unknown as ToZod<PostUploadXlsxMutationResponse>

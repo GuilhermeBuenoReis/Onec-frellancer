@@ -15,38 +15,32 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const createDataNegotiation201Schema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-    name: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateDataNegotiation201>
+export const createDataNegotiation201Schema = z.object({
+  id: z.string(),
+  name: z.string(),
+}) as unknown as ToZod<CreateDataNegotiation201>
 
 /**
  * @description Default Response
  */
-export const createDataNegotiation400Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateDataNegotiation400>
+export const createDataNegotiation400Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<CreateDataNegotiation400>
 
-export const createDataNegotiationMutationRequestSchema = z
-  .object({
-    title: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    client: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    user: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    tags: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    step: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    value: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-    partnerId: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    startsDate: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    observation: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    averageGuide: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateDataNegotiationMutationRequest>
+export const createDataNegotiationMutationRequestSchema = z.object({
+  title: z.string().nullable(),
+  client: z.string().nullable(),
+  user: z.string().nullable(),
+  tags: z.string().nullable(),
+  step: z.string().nullable(),
+  status: z.string().nullable(),
+  value: z.number().nullable(),
+  partnerId: z.string().nullable(),
+  startsDate: z.string().nullable(),
+  observation: z.string().nullable(),
+  averageGuide: z.number().nullable(),
+}) as unknown as ToZod<CreateDataNegotiationMutationRequest>
 
-export const createDataNegotiationMutationResponseSchema = z
-  .lazy(() => createDataNegotiation201Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateDataNegotiationMutationResponse>
+export const createDataNegotiationMutationResponseSchema = z.lazy(
+  () => createDataNegotiation201Schema,
+) as unknown as ToZod<CreateDataNegotiationMutationResponse>

@@ -13,41 +13,31 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const updateClientPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateClientPathParams>
+export const updateClientPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdateClientPathParams>
 
 /**
  * @description Default Response
  */
-export const updateClient200Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateClient200>
+export const updateClient200Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdateClient200>
 
 /**
  * @description Default Response
  */
-export const updateClient404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateClient404>
+export const updateClient404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdateClient404>
 
-export const updateClientMutationRequestSchema = z
-  .object({
-    enterprise: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    competenceMonth: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    cnpj: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    contestation: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    returned: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    product: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateClientMutationRequest>
+export const updateClientMutationRequestSchema = z.object({
+  enterprise: z.string().nullable().nullish(),
+  competenceMonth: z.string().nullable().nullish(),
+  cnpj: z.string().nullable().nullish(),
+  contestation: z.string().nullable().nullish(),
+  returned: z.string().nullable().nullish(),
+  product: z.string().nullable().nullish(),
+}) as unknown as ToZod<UpdateClientMutationRequest>
 
-export const updateClientMutationResponseSchema = z
-  .lazy(() => updateClient200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateClientMutationResponse>
+export const updateClientMutationResponseSchema = z.lazy(() => updateClient200Schema) as unknown as ToZod<UpdateClientMutationResponse>

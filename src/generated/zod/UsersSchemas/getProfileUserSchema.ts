@@ -10,25 +10,19 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getProfileUser200Schema = z
-  .array(
-    z.object({
-      id: z.string().openapi({ description: 'This is a custom extension' }),
-      email: z.string().email().openapi({ description: 'This is a custom extension' }),
-      role: z.string().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetProfileUser200>
+export const getProfileUser200Schema = z.array(
+  z.object({
+    id: z.string(),
+    email: z.string().email(),
+    role: z.string(),
+  }),
+) as unknown as ToZod<GetProfileUser200>
 
 /**
  * @description Default Response
  */
-export const getProfileUser400Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetProfileUser400>
+export const getProfileUser400Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<GetProfileUser400>
 
-export const getProfileUserQueryResponseSchema = z
-  .lazy(() => getProfileUser200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetProfileUserQueryResponse>
+export const getProfileUserQueryResponseSchema = z.lazy(() => getProfileUser200Schema) as unknown as ToZod<GetProfileUserQueryResponse>

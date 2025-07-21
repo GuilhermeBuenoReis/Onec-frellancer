@@ -12,45 +12,39 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const getPortalControllsBySelectParternRouteQueryParamsSchema = z
-  .object({
-    partnerId: z.string().min(1).openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetPortalControllsBySelectParternRouteQueryParams>
+export const getPortalControllsBySelectParternRouteQueryParamsSchema = z.object({
+  partnerId: z.string().min(1),
+}) as unknown as ToZod<GetPortalControllsBySelectParternRouteQueryParams>
 
 /**
  * @description Default Response
  */
-export const getPortalControllsBySelectParternRoute200Schema = z
-  .array(
-    z.object({
-      id: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      monthOfCalculation: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      competenceMonth: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      contract: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      enterprise: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      product: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      percentageHonorary: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      compensation: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      honorary: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      tax: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      tj: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      value: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      situation: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      partnerId: z.string().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetPortalControllsBySelectParternRoute200>
+export const getPortalControllsBySelectParternRoute200Schema = z.array(
+  z.object({
+    id: z.string().nullable(),
+    monthOfCalculation: z.string().nullable(),
+    competenceMonth: z.string().nullable(),
+    contract: z.number().nullable(),
+    enterprise: z.string().nullable(),
+    product: z.string().nullable(),
+    percentageHonorary: z.number().nullable(),
+    compensation: z.number().nullable(),
+    honorary: z.number().nullable(),
+    tax: z.number().nullable(),
+    tj: z.number().nullable(),
+    value: z.number().nullable(),
+    situation: z.string().nullable(),
+    partnerId: z.string(),
+  }),
+) as unknown as ToZod<GetPortalControllsBySelectParternRoute200>
 
 /**
  * @description Default Response
  */
-export const getPortalControllsBySelectParternRoute500Schema = z
-  .object({
-    error: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetPortalControllsBySelectParternRoute500>
+export const getPortalControllsBySelectParternRoute500Schema = z.object({
+  error: z.string(),
+}) as unknown as ToZod<GetPortalControllsBySelectParternRoute500>
 
-export const getPortalControllsBySelectParternRouteQueryResponseSchema = z
-  .lazy(() => getPortalControllsBySelectParternRoute200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetPortalControllsBySelectParternRouteQueryResponse>
+export const getPortalControllsBySelectParternRouteQueryResponseSchema = z.lazy(
+  () => getPortalControllsBySelectParternRoute200Schema,
+) as unknown as ToZod<GetPortalControllsBySelectParternRouteQueryResponse>

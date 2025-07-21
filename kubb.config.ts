@@ -1,4 +1,5 @@
 import { defineConfig } from '@kubb/core';
+import { pluginClient } from '@kubb/plugin-client';
 import { pluginOas } from '@kubb/plugin-oas';
 import { pluginReactQuery } from '@kubb/plugin-react-query';
 import { pluginTs } from '@kubb/plugin-ts';
@@ -10,6 +11,7 @@ export default defineConfig({
   },
   output: {
     path: 'src/generated',
+    clean: true,
   },
   plugins: [
     pluginOas(),
@@ -24,6 +26,7 @@ export default defineConfig({
       },
       client: {
         dataReturnType: 'full',
+        importPath: '../../../http/client-kubb.ts',
       },
       mutation: {
         methods: ['post', 'delete', 'put'],
@@ -47,8 +50,6 @@ export default defineConfig({
       dateType: 'stringOffset',
       unknownType: 'unknown',
       importPath: 'zod',
-      wrapOutput: ({ output }) =>
-        `${output}.openapi({ description: 'This is a custom extension' })`,
     }),
   ],
 });

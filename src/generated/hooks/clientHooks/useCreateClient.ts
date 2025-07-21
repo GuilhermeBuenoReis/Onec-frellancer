@@ -3,9 +3,9 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../http/client-kubb.ts'
+import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
 import type { CreateClientMutationRequest, CreateClientMutationResponse, CreateClient400 } from '../../types/CreateClient.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
 import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
 import { useMutation } from '@tanstack/react-query'
 

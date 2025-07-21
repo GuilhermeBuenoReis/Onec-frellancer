@@ -3,9 +3,9 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../http/client-kubb.ts'
+import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
 import type { GetNegotiationQueryResponse } from '../../types/GetNegotiation.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '@kubb/plugin-client/clients/axios'
 import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
 

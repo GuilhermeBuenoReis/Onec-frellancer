@@ -10,23 +10,19 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getClientReceipt200Schema = z
-  .array(
-    z.object({
-      id: z.string().openapi({ description: 'This is a custom extension' }),
-      receiptDate: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      competence: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      cnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      clientName: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      percentage: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      compensationMonth: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      honorary: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      tax: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetClientReceipt200>
+export const getClientReceipt200Schema = z.array(
+  z.object({
+    id: z.string(),
+    receiptDate: z.string().nullable(),
+    competence: z.string().nullable(),
+    cnpj: z.string().nullable(),
+    clientName: z.string().nullable(),
+    percentage: z.number().nullable(),
+    compensationMonth: z.string().nullable(),
+    honorary: z.number().nullable(),
+    tax: z.number().nullable(),
+    status: z.string().nullable(),
+  }),
+) as unknown as ToZod<GetClientReceipt200>
 
-export const getClientReceiptQueryResponseSchema = z
-  .lazy(() => getClientReceipt200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetClientReceiptQueryResponse>
+export const getClientReceiptQueryResponseSchema = z.lazy(() => getClientReceipt200Schema) as unknown as ToZod<GetClientReceiptQueryResponse>

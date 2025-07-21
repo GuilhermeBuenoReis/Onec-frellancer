@@ -15,28 +15,21 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const authenticateUser200Schema = z
-  .object({
-    token: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<AuthenticateUser200>
+export const authenticateUser200Schema = z.object({
+  success: z.boolean(),
+  token: z.string(),
+}) as unknown as ToZod<AuthenticateUser200>
 
 /**
  * @description Default Response
  */
-export const authenticateUser401Schema = z
-  .object({
-    error: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<AuthenticateUser401>
+export const authenticateUser401Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<AuthenticateUser401>
 
-export const authenticateUserMutationRequestSchema = z
-  .object({
-    email: z.string().email().openapi({ description: 'This is a custom extension' }),
-    password: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<AuthenticateUserMutationRequest>
+export const authenticateUserMutationRequestSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+}) as unknown as ToZod<AuthenticateUserMutationRequest>
 
-export const authenticateUserMutationResponseSchema = z
-  .lazy(() => authenticateUser200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<AuthenticateUserMutationResponse>
+export const authenticateUserMutationResponseSchema = z.lazy(() => authenticateUser200Schema) as unknown as ToZod<AuthenticateUserMutationResponse>

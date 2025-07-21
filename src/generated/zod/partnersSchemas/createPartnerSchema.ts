@@ -10,28 +10,24 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const createPartner201Schema = z.unknown().openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreatePartner201>
+export const createPartner201Schema = z.unknown() as unknown as ToZod<CreatePartner201>
 
-export const createPartnerMutationRequestSchema = z
-  .object({
-    name: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    cpfOrCnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    city: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    state: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    commission: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-    portal: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    channelHead: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    regional: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    coordinator: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    agent: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    indicator: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    contract: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    phone: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    email: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    responsible: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreatePartnerMutationRequest>
+export const createPartnerMutationRequestSchema = z.object({
+  name: z.string().nullable(),
+  cpfOrCnpj: z.string().nullable(),
+  city: z.string().nullable(),
+  state: z.string().nullable(),
+  commission: z.number().nullable(),
+  portal: z.string().nullable(),
+  channelHead: z.string().nullable(),
+  regional: z.string().nullable(),
+  coordinator: z.string().nullable(),
+  agent: z.string().nullable(),
+  indicator: z.string().nullable(),
+  contract: z.string().nullable(),
+  phone: z.string().nullable(),
+  email: z.string().nullable(),
+  responsible: z.string().nullable(),
+}) as unknown as ToZod<CreatePartnerMutationRequest>
 
-export const createPartnerMutationResponseSchema = z
-  .lazy(() => createPartner201Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreatePartnerMutationResponse>
+export const createPartnerMutationResponseSchema = z.lazy(() => createPartner201Schema) as unknown as ToZod<CreatePartnerMutationResponse>

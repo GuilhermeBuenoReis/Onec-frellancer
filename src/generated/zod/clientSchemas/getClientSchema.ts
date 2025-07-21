@@ -10,19 +10,15 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getClient200Schema = z
-  .array(
-    z.object({
-      enterprise: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      competenceMonth: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      cnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      contestation: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      returned: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      product: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetClient200>
+export const getClient200Schema = z.array(
+  z.object({
+    enterprise: z.string().nullable(),
+    competenceMonth: z.string().nullable(),
+    cnpj: z.string().nullable(),
+    contestation: z.string().nullable(),
+    returned: z.string().nullable(),
+    product: z.string().nullable(),
+  }),
+) as unknown as ToZod<GetClient200>
 
-export const getClientQueryResponseSchema = z
-  .lazy(() => getClient200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetClientQueryResponse>
+export const getClientQueryResponseSchema = z.lazy(() => getClient200Schema) as unknown as ToZod<GetClientQueryResponse>

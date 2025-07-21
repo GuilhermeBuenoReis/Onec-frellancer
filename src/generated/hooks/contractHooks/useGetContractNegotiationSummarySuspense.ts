@@ -3,9 +3,9 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../http/client-kubb.ts'
+import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
 import type { GetContractNegotiationSummaryQueryResponse, GetContractNegotiationSummary500 } from '../../types/GetContractNegotiationSummary.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '@kubb/plugin-client/clients/axios'
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 

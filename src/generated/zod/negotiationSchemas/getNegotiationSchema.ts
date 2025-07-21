@@ -10,25 +10,21 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getNegotiation200Schema = z
-  .array(
-    z.object({
-      id: z.string().openapi({ description: 'This is a custom extension' }),
-      title: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      client: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      user: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      tags: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      step: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      status: z.string().openapi({ description: 'This is a custom extension' }),
-      value: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      startsDate: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      observation: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      averageGuide: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-      partnerId: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetNegotiation200>
+export const getNegotiation200Schema = z.array(
+  z.object({
+    id: z.string(),
+    title: z.string().nullable(),
+    client: z.string().nullable(),
+    user: z.string().nullable(),
+    tags: z.string().nullable(),
+    step: z.string().nullable(),
+    status: z.string(),
+    value: z.number().nullable(),
+    startsDate: z.string().nullable(),
+    observation: z.string().nullable(),
+    averageGuide: z.number().nullable(),
+    partnerId: z.string().nullable(),
+  }),
+) as unknown as ToZod<GetNegotiation200>
 
-export const getNegotiationQueryResponseSchema = z
-  .lazy(() => getNegotiation200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetNegotiationQueryResponse>
+export const getNegotiationQueryResponseSchema = z.lazy(() => getNegotiation200Schema) as unknown as ToZod<GetNegotiationQueryResponse>

@@ -14,21 +14,17 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const processNegotiationStaging200Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<ProcessNegotiationStaging200>
+export const processNegotiationStaging200Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<ProcessNegotiationStaging200>
 
 /**
  * @description Default Response
  */
-export const processNegotiationStaging500Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<ProcessNegotiationStaging500>
+export const processNegotiationStaging500Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<ProcessNegotiationStaging500>
 
-export const processNegotiationStagingMutationResponseSchema = z
-  .lazy(() => processNegotiationStaging200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<ProcessNegotiationStagingMutationResponse>
+export const processNegotiationStagingMutationResponseSchema = z.lazy(
+  () => processNegotiationStaging200Schema,
+) as unknown as ToZod<ProcessNegotiationStagingMutationResponse>

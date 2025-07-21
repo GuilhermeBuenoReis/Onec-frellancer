@@ -12,30 +12,22 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const deleteNegotiationPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteNegotiationPathParams>
+export const deleteNegotiationPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<DeleteNegotiationPathParams>
 
 /**
  * @description Default Response
  */
-export const deleteNegotiation200Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteNegotiation200>
+export const deleteNegotiation200Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<DeleteNegotiation200>
 
 /**
  * @description Default Response
  */
-export const deleteNegotiation404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteNegotiation404>
+export const deleteNegotiation404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<DeleteNegotiation404>
 
-export const deleteNegotiationMutationResponseSchema = z
-  .lazy(() => deleteNegotiation200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteNegotiationMutationResponse>
+export const deleteNegotiationMutationResponseSchema = z.lazy(() => deleteNegotiation200Schema) as unknown as ToZod<DeleteNegotiationMutationResponse>

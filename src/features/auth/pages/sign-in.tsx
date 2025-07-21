@@ -1,34 +1,51 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@radix-ui/react-label';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
+import type { z } from 'zod/v4';
 import { Button } from '../../../components/ui/button';
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from '../../../components/ui/card';
 import { Input } from '../../../components/ui/input';
-import { z } from 'zod/v4';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthenticateUser } from '../../../generated';
+import { authenticateUserMutationRequestSchema } from '../../../generated/zod/AuthenticationSchemas/authenticateUserSchema';
 
-export const signInSchema = z.object({
-  email: z.email(),
-  password: z.string().min(1),
-});
-
-type SignInSchemaFormData = z.infer<typeof signInSchema>;
+type authenticateUserMutationRequestSchemaType = z.infer<
+  typeof authenticateUserMutationRequestSchema
+>;
 
 export function SignIn() {
-  const { register, handleSubmit } = useForm<SignInSchemaFormData>({
-    resolver: zodResolver(signInSchema),
-  });
+  const { mutateAsync: authenticate } = useAuthenticateUser();
+  const navigate = useNavigate();
 
-  async function handleSubmitSignInData({
-    email,
-    password,
-  }: SignInSchemaFormData) {
-    console.log({ email, password });
+  const { register, handleSubmit } =
+    useForm<authenticateUserMutationRequestSchemaType>({
+      resolver: zodResolver(authenticateUserMutationRequestSchema),
+    });
+
+  async function handleSubmitSignInData(
+    values: authenticateUserMutationRequestSchemaType
+  ) {
+    try {
+      toast.promise(authenticate({ data: values }), {
+        loading: 'Carregando...',
+        success: 'Você foi logado, redirecionando...',
+        error: err =>
+          err?.response?.data?.message ||
+          err?.message ||
+          'Erro ao fazer login!',
+      });
+      navigate('/app/negotiation');
+    } catch (err) {
+      toast.error('Erro inesperado ao logar!');
+      console.error(err);
+    }
   }
 
   return (

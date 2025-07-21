@@ -13,51 +13,41 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const updatePartnerPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePartnerPathParams>
+export const updatePartnerPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdatePartnerPathParams>
 
 /**
  * @description Default Response
  */
-export const updatePartner200Schema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-    name: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePartner200>
+export const updatePartner200Schema = z.object({
+  id: z.string(),
+  name: z.string().nullable(),
+}) as unknown as ToZod<UpdatePartner200>
 
 /**
  * @description Default Response
  */
-export const updatePartner404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePartner404>
+export const updatePartner404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdatePartner404>
 
-export const updatePartnerMutationRequestSchema = z
-  .object({
-    name: z.string().optional().openapi({ description: 'This is a custom extension' }),
-    cpfOrCnpj: z.string().optional().openapi({ description: 'This is a custom extension' }),
-    city: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    state: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    commission: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    portal: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    channelHead: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    regional: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    coordinator: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    agent: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    indicator: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    contract: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    phone: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    email: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    responsible: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePartnerMutationRequest>
+export const updatePartnerMutationRequestSchema = z.object({
+  name: z.string().optional(),
+  cpfOrCnpj: z.string().optional(),
+  city: z.string().nullable().nullish(),
+  state: z.string().nullable().nullish(),
+  commission: z.number().nullable().nullish(),
+  portal: z.string().nullable().nullish(),
+  channelHead: z.string().nullable().nullish(),
+  regional: z.string().nullable().nullish(),
+  coordinator: z.string().nullable().nullish(),
+  agent: z.string().nullable().nullish(),
+  indicator: z.string().nullable().nullish(),
+  contract: z.string().nullable().nullish(),
+  phone: z.string().nullable().nullish(),
+  email: z.string().nullable().nullish(),
+  responsible: z.string().nullable().nullish(),
+}) as unknown as ToZod<UpdatePartnerMutationRequest>
 
-export const updatePartnerMutationResponseSchema = z
-  .lazy(() => updatePartner200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePartnerMutationResponse>
+export const updatePartnerMutationResponseSchema = z.lazy(() => updatePartner200Schema) as unknown as ToZod<UpdatePartnerMutationResponse>

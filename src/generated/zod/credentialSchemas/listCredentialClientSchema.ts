@@ -10,42 +10,32 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const listCredentialClient200Schema = z
-  .array(
-    z.object({
-      id: z.string().openapi({ description: 'This is a custom extension' }),
-      credentials: z
-        .object({
-          id: z.string().openapi({ description: 'This is a custom extension' }),
-          channelHead: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          partner: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          cnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-          agentIndicator: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-        })
-        .openapi({ description: 'This is a custom extension' }),
-      clients: z
-        .object({
-          id: z.string().openapi({ description: 'This is a custom extension' }),
-          enterprise: z.string().openapi({ description: 'This is a custom extension' }),
-          competenceMonth: z.string().openapi({ description: 'This is a custom extension' }),
-          cnpj: z.string().openapi({ description: 'This is a custom extension' }),
-          contestation: z.string().openapi({ description: 'This is a custom extension' }),
-          returned: z.string().openapi({ description: 'This is a custom extension' }),
-        })
-        .openapi({ description: 'This is a custom extension' }),
+export const listCredentialClient200Schema = z.array(
+  z.object({
+    id: z.string(),
+    credentials: z.object({
+      id: z.string(),
+      channelHead: z.string().nullable(),
+      partner: z.string().nullable(),
+      cnpj: z.string().nullable(),
+      agentIndicator: z.string().nullable(),
     }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<ListCredentialClient200>
+    clients: z.object({
+      id: z.string(),
+      enterprise: z.string(),
+      competenceMonth: z.string(),
+      cnpj: z.string(),
+      contestation: z.string(),
+      returned: z.string(),
+    }),
+  }),
+) as unknown as ToZod<ListCredentialClient200>
 
 /**
  * @description Default Response
  */
-export const listCredentialClient400Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<ListCredentialClient400>
+export const listCredentialClient400Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<ListCredentialClient400>
 
-export const listCredentialClientQueryResponseSchema = z
-  .lazy(() => listCredentialClient200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<ListCredentialClientQueryResponse>
+export const listCredentialClientQueryResponseSchema = z.lazy(() => listCredentialClient200Schema) as unknown as ToZod<ListCredentialClientQueryResponse>

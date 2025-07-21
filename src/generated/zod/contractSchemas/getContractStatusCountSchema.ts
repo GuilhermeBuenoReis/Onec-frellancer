@@ -10,15 +10,11 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getContractStatusCount200Schema = z
-  .array(
-    z.object({
-      status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      count: z.number().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractStatusCount200>
+export const getContractStatusCount200Schema = z.array(
+  z.object({
+    status: z.string().nullable(),
+    count: z.number(),
+  }),
+) as unknown as ToZod<GetContractStatusCount200>
 
-export const getContractStatusCountQueryResponseSchema = z
-  .lazy(() => getContractStatusCount200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetContractStatusCountQueryResponse>
+export const getContractStatusCountQueryResponseSchema = z.lazy(() => getContractStatusCount200Schema) as unknown as ToZod<GetContractStatusCountQueryResponse>

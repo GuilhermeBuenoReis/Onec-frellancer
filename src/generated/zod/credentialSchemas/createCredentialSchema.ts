@@ -15,26 +15,20 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const createCredential201Schema = z.unknown().openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateCredential201>
+export const createCredential201Schema = z.unknown() as unknown as ToZod<CreateCredential201>
 
 /**
  * @description Default Response
  */
-export const createCredential400Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateCredential400>
+export const createCredential400Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<CreateCredential400>
 
-export const createCredentialMutationRequestSchema = z
-  .object({
-    channelHead: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    cnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    agentIndicator: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    partner: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateCredentialMutationRequest>
+export const createCredentialMutationRequestSchema = z.object({
+  channelHead: z.string().nullable(),
+  cnpj: z.string().nullable(),
+  agentIndicator: z.string().nullable(),
+  partner: z.string().nullable(),
+}) as unknown as ToZod<CreateCredentialMutationRequest>
 
-export const createCredentialMutationResponseSchema = z
-  .lazy(() => createCredential201Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateCredentialMutationResponse>
+export const createCredentialMutationResponseSchema = z.lazy(() => createCredential201Schema) as unknown as ToZod<CreateCredentialMutationResponse>

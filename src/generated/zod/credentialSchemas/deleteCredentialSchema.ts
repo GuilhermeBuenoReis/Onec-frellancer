@@ -7,30 +7,22 @@ import type { DeleteCredentialPathParams, DeleteCredential200, DeleteCredential4
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const deleteCredentialPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteCredentialPathParams>
+export const deleteCredentialPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<DeleteCredentialPathParams>
 
 /**
  * @description Default Response
  */
-export const deleteCredential200Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteCredential200>
+export const deleteCredential200Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<DeleteCredential200>
 
 /**
  * @description Default Response
  */
-export const deleteCredential404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteCredential404>
+export const deleteCredential404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<DeleteCredential404>
 
-export const deleteCredentialMutationResponseSchema = z
-  .lazy(() => deleteCredential200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeleteCredentialMutationResponse>
+export const deleteCredentialMutationResponseSchema = z.lazy(() => deleteCredential200Schema) as unknown as ToZod<DeleteCredentialMutationResponse>

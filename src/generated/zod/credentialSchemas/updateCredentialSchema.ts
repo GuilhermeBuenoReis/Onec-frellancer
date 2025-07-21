@@ -13,39 +13,29 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const updateCredentialPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateCredentialPathParams>
+export const updateCredentialPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdateCredentialPathParams>
 
 /**
  * @description Default Response
  */
-export const updateCredential200Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateCredential200>
+export const updateCredential200Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdateCredential200>
 
 /**
  * @description Default Response
  */
-export const updateCredential404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateCredential404>
+export const updateCredential404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdateCredential404>
 
-export const updateCredentialMutationRequestSchema = z
-  .object({
-    channelHead: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    cnpj: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    agentIndicator: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    partner: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateCredentialMutationRequest>
+export const updateCredentialMutationRequestSchema = z.object({
+  channelHead: z.string().nullable().nullish(),
+  cnpj: z.string().nullable().nullish(),
+  agentIndicator: z.string().nullable().nullish(),
+  partner: z.string().nullable().nullish(),
+}) as unknown as ToZod<UpdateCredentialMutationRequest>
 
-export const updateCredentialMutationResponseSchema = z
-  .lazy(() => updateCredential200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdateCredentialMutationResponse>
+export const updateCredentialMutationResponseSchema = z.lazy(() => updateCredential200Schema) as unknown as ToZod<UpdateCredentialMutationResponse>

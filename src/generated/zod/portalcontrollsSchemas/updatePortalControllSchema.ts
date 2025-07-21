@@ -13,45 +13,35 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const updatePortalControllPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePortalControllPathParams>
+export const updatePortalControllPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdatePortalControllPathParams>
 
 /**
  * @description Default Response
  */
-export const updatePortalControll200Schema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePortalControll200>
+export const updatePortalControll200Schema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdatePortalControll200>
 
 /**
  * @description Default Response
  */
-export const updatePortalControll404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePortalControll404>
+export const updatePortalControll404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdatePortalControll404>
 
-export const updatePortalControllMutationRequestSchema = z
-  .object({
-    enterprise: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    product: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    percentageHonorary: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    compensation: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    honorary: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    tax: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    tj: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    value: z.number().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    situation: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    partnerId: z.string().optional().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePortalControllMutationRequest>
+export const updatePortalControllMutationRequestSchema = z.object({
+  enterprise: z.string().nullable().nullish(),
+  product: z.string().nullable().nullish(),
+  percentageHonorary: z.number().nullable().nullish(),
+  compensation: z.number().nullable().nullish(),
+  honorary: z.number().nullable().nullish(),
+  tax: z.number().nullable().nullish(),
+  tj: z.number().nullable().nullish(),
+  value: z.number().nullable().nullish(),
+  situation: z.string().nullable().nullish(),
+  partnerId: z.string().optional(),
+}) as unknown as ToZod<UpdatePortalControllMutationRequest>
 
-export const updatePortalControllMutationResponseSchema = z
-  .lazy(() => updatePortalControll200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePortalControllMutationResponse>
+export const updatePortalControllMutationResponseSchema = z.lazy(() => updatePortalControll200Schema) as unknown as ToZod<UpdatePortalControllMutationResponse>

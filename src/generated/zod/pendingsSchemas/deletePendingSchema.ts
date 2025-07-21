@@ -7,30 +7,22 @@ import type { DeletePendingPathParams, DeletePending200, DeletePending404, Delet
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const deletePendingPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeletePendingPathParams>
+export const deletePendingPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<DeletePendingPathParams>
 
 /**
  * @description Default Response
  */
-export const deletePending200Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeletePending200>
+export const deletePending200Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<DeletePending200>
 
 /**
  * @description Default Response
  */
-export const deletePending404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeletePending404>
+export const deletePending404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<DeletePending404>
 
-export const deletePendingMutationResponseSchema = z
-  .lazy(() => deletePending200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<DeletePendingMutationResponse>
+export const deletePendingMutationResponseSchema = z.lazy(() => deletePending200Schema) as unknown as ToZod<DeletePendingMutationResponse>

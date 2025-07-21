@@ -10,28 +10,22 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const createClient201Schema = z.unknown().openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClient201>
+export const createClient201Schema = z.unknown() as unknown as ToZod<CreateClient201>
 
 /**
  * @description Default Response
  */
-export const createClient400Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClient400>
+export const createClient400Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<CreateClient400>
 
-export const createClientMutationRequestSchema = z
-  .object({
-    enterprise: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    competenceMonth: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    cnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    contestation: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    returned: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    product: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClientMutationRequest>
+export const createClientMutationRequestSchema = z.object({
+  enterprise: z.string().nullable(),
+  competenceMonth: z.string().nullable(),
+  cnpj: z.string().nullable(),
+  contestation: z.string().nullable(),
+  returned: z.string().nullable(),
+  product: z.string().nullable(),
+}) as unknown as ToZod<CreateClientMutationRequest>
 
-export const createClientMutationResponseSchema = z
-  .lazy(() => createClient201Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClientMutationResponse>
+export const createClientMutationResponseSchema = z.lazy(() => createClient201Schema) as unknown as ToZod<CreateClientMutationResponse>

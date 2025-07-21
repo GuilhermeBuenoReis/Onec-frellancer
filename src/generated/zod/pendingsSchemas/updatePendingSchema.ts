@@ -13,42 +13,32 @@ import type {
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const updatePendingPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePendingPathParams>
+export const updatePendingPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdatePendingPathParams>
 
 /**
  * @description Default Response
  */
-export const updatePending200Schema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePending200>
+export const updatePending200Schema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<UpdatePending200>
 
 /**
  * @description Default Response
  */
-export const updatePending404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePending404>
+export const updatePending404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<UpdatePending404>
 
-export const updatePendingMutationRequestSchema = z
-  .object({
-    client: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    callReason: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    status: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    priority: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    responsible: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    category: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-    description: z.string().nullable().nullish().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePendingMutationRequest>
+export const updatePendingMutationRequestSchema = z.object({
+  client: z.string().nullable().nullish(),
+  callReason: z.string().nullable().nullish(),
+  status: z.string().nullable().nullish(),
+  priority: z.string().nullable().nullish(),
+  responsible: z.string().nullable().nullish(),
+  category: z.string().nullable().nullish(),
+  description: z.string().nullable().nullish(),
+}) as unknown as ToZod<UpdatePendingMutationRequest>
 
-export const updatePendingMutationResponseSchema = z
-  .lazy(() => updatePending200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<UpdatePendingMutationResponse>
+export const updatePendingMutationResponseSchema = z.lazy(() => updatePending200Schema) as unknown as ToZod<UpdatePendingMutationResponse>

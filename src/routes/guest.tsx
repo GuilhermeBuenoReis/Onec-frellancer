@@ -3,7 +3,7 @@ import { _AuthLayout } from '..//layouts/_auth-layout';
 
 export const guestRoutes = [
   {
-    path: '/sign-in',
+    path: '/',
     element: <_AuthLayout />,
     children: [
       {

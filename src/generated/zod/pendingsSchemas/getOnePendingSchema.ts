@@ -7,39 +7,31 @@ import type { GetOnePendingPathParams, GetOnePending200, GetOnePending404, GetOn
 import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
-export const getOnePendingPathParamsSchema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePendingPathParams>
+export const getOnePendingPathParamsSchema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<GetOnePendingPathParams>
 
 /**
  * @description Default Response
  */
-export const getOnePending200Schema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-    client: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    callReason: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    priority: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    responsible: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    category: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    description: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    createdAt: z.string().datetime({ offset: true }).optional().openapi({ description: 'This is a custom extension' }),
-    updatedAt: z.string().datetime({ offset: true }).optional().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePending200>
+export const getOnePending200Schema = z.object({
+  id: z.string(),
+  client: z.string().nullable(),
+  callReason: z.string().nullable(),
+  status: z.string().nullable(),
+  priority: z.string().nullable(),
+  responsible: z.string().nullable(),
+  category: z.string().nullable(),
+  description: z.string().nullable(),
+  createdAt: z.string().datetime({ offset: true }).optional(),
+  updatedAt: z.string().datetime({ offset: true }).optional(),
+}) as unknown as ToZod<GetOnePending200>
 
 /**
  * @description Default Response
  */
-export const getOnePending404Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePending404>
+export const getOnePending404Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<GetOnePending404>
 
-export const getOnePendingQueryResponseSchema = z
-  .lazy(() => getOnePending200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetOnePendingQueryResponse>
+export const getOnePendingQueryResponseSchema = z.lazy(() => getOnePending200Schema) as unknown as ToZod<GetOnePendingQueryResponse>

@@ -8,6 +8,10 @@
  */
 export type AuthenticateUser200 = {
   /**
+   * @type boolean
+   */
+  success: boolean
+  /**
    * @type string
    */
   token: string
@@ -20,7 +24,7 @@ export type AuthenticateUser401 = {
   /**
    * @type string
    */
-  error: string
+  message: string
 }
 
 export type AuthenticateUserMutationRequest = {

@@ -10,24 +10,18 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const createPending201Schema = z
-  .object({
-    id: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreatePending201>
+export const createPending201Schema = z.object({
+  id: z.string(),
+}) as unknown as ToZod<CreatePending201>
 
-export const createPendingMutationRequestSchema = z
-  .object({
-    client: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    callReason: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    priority: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    responsible: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    category: z.enum(['SAC', 'Atendimento', 'Financeiro', 'Diretoria', 'Comercial', 'Auditoria']).openapi({ description: 'This is a custom extension' }),
-    description: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreatePendingMutationRequest>
+export const createPendingMutationRequestSchema = z.object({
+  client: z.string().nullable(),
+  callReason: z.string().nullable(),
+  status: z.string().nullable(),
+  priority: z.string().nullable(),
+  responsible: z.string().nullable(),
+  category: z.enum(['SAC', 'Atendimento', 'Financeiro', 'Diretoria', 'Comercial', 'Auditoria']),
+  description: z.string().nullable(),
+}) as unknown as ToZod<CreatePendingMutationRequest>
 
-export const createPendingMutationResponseSchema = z
-  .lazy(() => createPending201Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreatePendingMutationResponse>
+export const createPendingMutationResponseSchema = z.lazy(() => createPending201Schema) as unknown as ToZod<CreatePendingMutationResponse>

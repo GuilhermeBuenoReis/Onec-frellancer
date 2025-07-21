@@ -15,31 +15,25 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const createClientReceipt201Schema = z.unknown().openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClientReceipt201>
+export const createClientReceipt201Schema = z.unknown() as unknown as ToZod<CreateClientReceipt201>
 
 /**
  * @description Default Response
  */
-export const createClientReceipt400Schema = z
-  .object({
-    message: z.string().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClientReceipt400>
+export const createClientReceipt400Schema = z.object({
+  message: z.string(),
+}) as unknown as ToZod<CreateClientReceipt400>
 
-export const createClientReceiptMutationRequestSchema = z
-  .object({
-    receiptDate: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    competence: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    cnpj: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    clientName: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    percentage: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-    compensationMonth: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-    honorary: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-    tax: z.number().nullable().openapi({ description: 'This is a custom extension' }),
-    status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-  })
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClientReceiptMutationRequest>
+export const createClientReceiptMutationRequestSchema = z.object({
+  receiptDate: z.string().nullable(),
+  competence: z.string().nullable(),
+  cnpj: z.string().nullable(),
+  clientName: z.string().nullable(),
+  percentage: z.number().nullable(),
+  compensationMonth: z.string().nullable(),
+  honorary: z.number().nullable(),
+  tax: z.number().nullable(),
+  status: z.string().nullable(),
+}) as unknown as ToZod<CreateClientReceiptMutationRequest>
 
-export const createClientReceiptMutationResponseSchema = z
-  .lazy(() => createClientReceipt201Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<CreateClientReceiptMutationResponse>
+export const createClientReceiptMutationResponseSchema = z.lazy(() => createClientReceipt201Schema) as unknown as ToZod<CreateClientReceiptMutationResponse>

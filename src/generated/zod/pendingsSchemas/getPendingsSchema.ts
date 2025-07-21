@@ -10,23 +10,19 @@ import { z } from 'zod'
 /**
  * @description Default Response
  */
-export const getPendings200Schema = z
-  .array(
-    z.object({
-      id: z.string().openapi({ description: 'This is a custom extension' }),
-      client: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      callReason: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      status: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      priority: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      responsible: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      category: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      description: z.string().nullable().openapi({ description: 'This is a custom extension' }),
-      createdAt: z.string().datetime({ offset: true }).optional().openapi({ description: 'This is a custom extension' }),
-      updatedAt: z.string().datetime({ offset: true }).optional().openapi({ description: 'This is a custom extension' }),
-    }),
-  )
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetPendings200>
+export const getPendings200Schema = z.array(
+  z.object({
+    id: z.string(),
+    client: z.string().nullable(),
+    callReason: z.string().nullable(),
+    status: z.string().nullable(),
+    priority: z.string().nullable(),
+    responsible: z.string().nullable(),
+    category: z.string().nullable(),
+    description: z.string().nullable(),
+    createdAt: z.string().datetime({ offset: true }).optional(),
+    updatedAt: z.string().datetime({ offset: true }).optional(),
+  }),
+) as unknown as ToZod<GetPendings200>
 
-export const getPendingsQueryResponseSchema = z
-  .lazy(() => getPendings200Schema)
-  .openapi({ description: 'This is a custom extension' }) as unknown as ToZod<GetPendingsQueryResponse>
+export const getPendingsQueryResponseSchema = z.lazy(() => getPendings200Schema) as unknown as ToZod<GetPendingsQueryResponse>
