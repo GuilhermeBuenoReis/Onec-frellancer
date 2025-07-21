@@ -33,18 +33,21 @@ export function SignIn() {
     values: authenticateUserMutationRequestSchemaType
   ) {
     try {
-      toast.promise(authenticate({ data: values }), {
-        loading: 'Carregando...',
-        success: 'Você foi logado, redirecionando...',
-        error: err =>
-          err?.response?.data?.message ||
-          err?.message ||
-          'Erro ao fazer login!',
-      });
-      navigate('/app/negotiation');
-    } catch (err) {
-      toast.error('Erro inesperado ao logar!');
-      console.error(err);
+      await authenticate(
+        { data: values },
+        {
+          onSuccess: () => {
+            toast.success('Login realizado com sucesso!');
+            navigate('/app/negotiation');
+          },
+          onError: err => {
+            toast.error('Error ao fazer login!');
+            console.log(err);
+          },
+        }
+      );
+    } catch (error) {
+      console.error(error);
     }
   }
 

@@ -1,5 +1,3 @@
-'use client';
-
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -38,6 +36,7 @@ import {
   TableHeader,
   TableRow,
 } from '../../../../../../components/ui/table';
+import { NegotiationFilterDialog } from '../../components/filter-dialog';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,19 +74,23 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="relative w-full max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4" />
-          <Input
-            placeholder="Filtrar cliente..."
-            value={
-              (table.getColumn('cliente')?.getFilterValue() as string) ?? ''
-            }
-            onChange={event =>
-              table.getColumn('cliente')?.setFilterValue(event.target.value)
-            }
-            className="pl-9"
-          />
+        <div className="flex gap-2 w-full max-w-2xl">
+          <div className="relative w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4" />
+            <Input
+              placeholder="Filtrar cliente..."
+              value={
+                (table.getColumn('cliente')?.getFilterValue() as string) ?? ''
+              }
+              onChange={event =>
+                table.getColumn('cliente')?.setFilterValue(event.target.value)
+              }
+              className="pl-9"
+            />
+          </div>
+          <NegotiationFilterDialog />
         </div>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="h-10 whitespace-nowrap">
@@ -174,20 +177,37 @@ export function DataTable<TData, TValue>({
               />
             </PaginationItem>
 
-            {Array.from({ length: table.getPageCount() }, (_, index) => (
-              <PaginationItem key={index}>
-                <PaginationLink
-                  href="#"
-                  isActive={table.getState().pagination.pageIndex === index}
-                  onClick={e => {
-                    e.preventDefault();
-                    table.setPageIndex(index);
-                  }}
-                >
-                  {index + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+            {(() => {
+              const currentPage = table.getState().pagination.pageIndex;
+              const totalPages = table.getPageCount();
+              const visiblePages = 5;
+
+              const half = Math.floor(visiblePages / 2);
+              let start = Math.max(0, currentPage - half);
+              const end = Math.min(totalPages, start + visiblePages);
+
+              if (end - start < visiblePages) {
+                start = Math.max(0, end - visiblePages);
+              }
+
+              return Array.from({ length: end - start }, (_, i) => {
+                const pageIndex = start + i;
+                return (
+                  <PaginationItem key={pageIndex}>
+                    <PaginationLink
+                      href="#"
+                      isActive={pageIndex === currentPage}
+                      onClick={e => {
+                        e.preventDefault();
+                        table.setPageIndex(pageIndex);
+                      }}
+                    >
+                      {pageIndex + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              });
+            })()}
 
             <PaginationItem>
               <PaginationNext

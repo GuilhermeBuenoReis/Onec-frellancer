@@ -1,6 +1,6 @@
 'use client';
 
-import { calls } from '../../../../../../constants/call';
+import { calls } from '../../../../../../iner/call';
 import { columns } from './columns';
 import { DataTable } from './data-table';
 

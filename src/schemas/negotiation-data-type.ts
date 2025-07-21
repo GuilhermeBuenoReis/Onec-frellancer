@@ -1,0 +1,36 @@
+export interface NegotiationTypeData {
+  id: string;
+  title: string | null;
+  client: string | null;
+  user: string | null;
+  tags: string | null;
+  step: string | null;
+  status: string | null;
+  value: number | null;
+  date: string | null;
+  observation: string | null;
+  partnerId: string | null;
+  averageGuide: number | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  contractId: string | null;
+  contractClient: string | null;
+  city: string | null;
+  state: string | null;
+  cnpj: string | null;
+  syndic: string | null;
+  year: string | null;
+  subject: string | null;
+  forecast: string | null;
+  contractTotal: number | null;
+  percentage: number | null;
+  signedContract: string | null;
+  contractStatus: string | null;
+  contractAverageGuide: number | null;
+  partner: string | null;
+  partnerCommission: number | null;
+  counter: string | null;
+  email: string | null;
+  contractCreatedAt: string | null;
+  contractUpdatedAt: string | null;
+}

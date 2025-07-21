@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { statsByMonth } from '../../../../../constants/stats-by-month';
+import { statsByMonth } from '../../../../../iner/stats-by-month';
 
 const monthNames = [
   '',

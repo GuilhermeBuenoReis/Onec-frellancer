@@ -4,7 +4,7 @@ import { ErrorAlert } from '../../../../../components/shared/error-alert';
 import { Button } from '../../../../../components/ui/button';
 import { ScrollArea } from '../../../../../components/ui/scroll-area';
 import { Separator } from '../../../../../components/ui/separator';
-import { partners } from '../../../../../constants/partner-data';
+import { partners } from '../../../../../iner/partner-data';
 
 interface SelectPartnerByName {
   name: string;

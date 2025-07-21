@@ -1,25 +1,14 @@
-export interface NegotiationTypeData {
-  id?: string;
-  client: string;
-  cnpj: string;
-  city: string;
-  state: string;
-  date: string;
+export interface NegotiationTableData {
+  id: string;
+  title: string | null;
+  client: string | null;
+  user: string | null;
+  tags: string | null;
+  step: string | null;
   status: string;
-  subject: string;
-  forecast: string;
-  contractTotal: number;
-  percentage: number;
-  averageGuide: number;
-  partner: string;
-  commission: number;
-  contract: string;
-  contact: string;
-  email: string;
-  title: string;
-  user: string;
-  tags: string[];
-  stage: string;
-  amount: number;
-  note: string;
+  value: number | null;
+  startsDate: string | null;
+  observation: string | null;
+  averageGuide: number | null;
+  partnerId: string | null;
 }

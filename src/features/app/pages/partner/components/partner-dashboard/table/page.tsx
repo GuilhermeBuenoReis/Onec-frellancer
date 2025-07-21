@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { statsByMonth } from '../../../../../../../constants/partner-monthly-stats';
+import { statsByMonth } from '../../../../../../../iner/partner-monthly-stats';
 import type { PartnerFormData } from '../../../types/partner-type-data';
 import { createPartnerColumns } from './columns';
 import { DataTable } from './data-table';

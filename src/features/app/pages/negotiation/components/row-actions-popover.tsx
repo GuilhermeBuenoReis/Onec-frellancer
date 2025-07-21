@@ -8,22 +8,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '../../../../../components/ui/popover';
-import type { NegotiationTypeData } from '../types/negotiation-type-data';
+import type { NegotiationTableData } from '../types/negotiation-type-data';
 import { NegotiationDeleteAlert } from './negotiation-delete-alert';
 import { NegotiationEditSheet } from './negotiation-edit-sheet';
 import { NegotiationViewDialog } from './negotiation-view-dialog';
 
 interface RowActionsPopoverProps {
-  data: NegotiationTypeData;
-  onEdit: (values: NegotiationTypeData) => void;
-  onDelete: (id: string) => void;
+  data: NegotiationTableData;
+  onEdit: (values: NegotiationTableData) => void;
 }
 
-export function RowActionsPopover({
-  data,
-  onEdit,
-  onDelete,
-}: RowActionsPopoverProps) {
+export function RowActionsPopover({ data, onEdit }: RowActionsPopoverProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -78,7 +73,7 @@ export function RowActionsPopover({
       <NegotiationDeleteAlert
         open={showDelete}
         onOpenChange={setShowDelete}
-        onConfirm={() => onDelete(data.id!)}
+        negotiationId={''}
       />
     </>
   );

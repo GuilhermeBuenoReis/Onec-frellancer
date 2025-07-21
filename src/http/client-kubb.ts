@@ -1,5 +1,4 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import Cookies from 'universal-cookie';
 
 export type RequestConfig<
   TData = unknown,
@@ -34,11 +33,7 @@ export type ResponseErrorConfig<
   status: number;
   statusText: string;
 };
-
 export function getHeaders(headers?: HeadersInit): Record<string, string> {
-  const cookies = new Cookies();
-  const token = cookies.get('onec_token');
-
   let resultHeaders: Record<string, string> = {};
 
   if (headers instanceof Headers) {
@@ -53,15 +48,11 @@ export function getHeaders(headers?: HeadersInit): Record<string, string> {
     resultHeaders = { ...headers } as Record<string, string>;
   }
 
-  if (token) {
-    resultHeaders['Authorization'] = `Bearer ${token}`;
-  }
-
   return resultHeaders;
 }
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3333',
+  baseURL: 'http://localhost:3333',
   withCredentials: true,
 });
 

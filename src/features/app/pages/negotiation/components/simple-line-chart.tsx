@@ -1,34 +1,80 @@
+'use client';
+
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { useMemo } from 'react';
 import {
-  LineChart,
+  CartesianGrid,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from 'recharts';
 import { useTheme } from '../../../../../components/shared/theme-provider';
-
-const rendimentoPorMes = [
-  { mes: 'abr/2023', valor: 150000 },
-  { mes: 'mai/2023', valor: 0 },
-  { mes: 'jun/2023', valor: 50000 },
-  { mes: 'out/2023', valor: 300000 },
-  { mes: 'dez/2023', valor: 0 },
-  { mes: 'mar/2024', valor: 120000 },
-  { mes: 'abr/2024', valor: 60000 },
-  { mes: 'jun/2024', valor: 0 },
-  { mes: 'out/2024', valor: 100000 },
-  { mes: 'mai/2025', valor: 2000000 },
-  { mes: 'jun/2025', valor: 300000 },
-  { mes: 'jul/2025', valor: 80000 },
-  { mes: 'ago/2025', valor: 0 },
-  { mes: 'nov/2025', valor: 100000 },
-];
+import { useNegotiationFilters } from '../../../../../context/negotiation-filter-context';
+import { useGetNegotiation } from '../../../../../generated';
 
 export function SimpleLineChart() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const { filters } = useNegotiationFilters();
+  const { data } = useGetNegotiation();
+
+  const negotiations = Array.isArray(data?.data) ? data.data : [];
+
+  const filteredData = useMemo(() => {
+    return negotiations.filter(item => {
+      const date = item.startsDate ? new Date(item.startsDate) : null;
+      const statusMatch =
+        Array.isArray(filters.status) && filters.status.length > 0
+          ? filters.status.includes(item.status)
+          : true;
+      const startDateMatch = filters.startDate
+        ? date && date >= filters.startDate
+        : true;
+      const endDateMatch = filters.endDate
+        ? date && date <= filters.endDate
+        : true;
+      return statusMatch && startDateMatch && endDateMatch;
+    });
+  }, [negotiations, filters]);
+
+  const chartData = useMemo(() => {
+    const monthlyTotals = new Map<
+      string,
+      { mes: string; valor: number; dataReal: Date }
+    >();
+
+    for (const item of filteredData) {
+      try {
+        const date = new Date(item.startsDate ?? '');
+        if (isNaN(date.getTime())) continue;
+
+        const key = format(date, 'yyyy-MM'); // agrupamento
+        const label = format(date, "MMM. 'de' yyyy", { locale: ptBR });
+
+        if (!monthlyTotals.has(key)) {
+          monthlyTotals.set(key, {
+            mes: label,
+            valor: item.value ?? 0,
+            dataReal: date,
+          });
+        } else {
+          const existing = monthlyTotals.get(key)!;
+          monthlyTotals.set(key, {
+            ...existing,
+            valor: existing.valor + (item.value ?? 0),
+          });
+        }
+      } catch {}
+    }
+
+    return Array.from(monthlyTotals.values()).sort(
+      (a, b) => a.dataReal.getTime() - b.dataReal.getTime()
+    );
+  }, [filteredData]);
 
   const tickColor = isDark ? '#e5e7eb' : '#111827';
 
@@ -36,7 +82,7 @@ export function SimpleLineChart() {
     <div className="w-full max-w-5xl mx-auto p-4 sm:p-6 md:p-8">
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
-          data={rendimentoPorMes}
+          data={chartData}
           margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
         >
           <CartesianGrid
@@ -73,6 +119,7 @@ export function SimpleLineChart() {
                 minimumFractionDigits: 2,
               })}`
             }
+            labelFormatter={(label: string) => `Mês: ${label}`}
           />
           <Line
             type="monotone"

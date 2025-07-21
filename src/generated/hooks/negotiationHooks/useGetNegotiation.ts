@@ -3,36 +3,58 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetNegotiationQueryResponse } from '../../types/GetNegotiation.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetNegotiationQueryResponse } from '../../types/GetNegotiation.ts';
 
-export const getNegotiationQueryKey = () => [{ url: '/negotiation' }] as const
+export const getNegotiationQueryKey = () => [{ url: '/negotiation' }] as const;
 
-export type GetNegotiationQueryKey = ReturnType<typeof getNegotiationQueryKey>
+export type GetNegotiationQueryKey = ReturnType<typeof getNegotiationQueryKey>;
 
 /**
  * @description Get a list of Negotiation
  * {@link /negotiation}
  */
-export async function getNegotiation(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getNegotiation(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetNegotiationQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/negotiation`, ...requestConfig })
-  return res
+  const res = await request<
+    GetNegotiationQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/negotiation`, ...requestConfig });
+  return res;
 }
 
-export function getNegotiationQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getNegotiationQueryKey()
-  return queryOptions<ResponseConfig<GetNegotiationQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetNegotiationQueryResponse>, typeof queryKey>({
+export function getNegotiationQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getNegotiationQueryKey();
+  return queryOptions<
+    ResponseConfig<GetNegotiationQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetNegotiationQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getNegotiation(config)
+      config.signal = signal;
+      return getNegotiation(config);
     },
-  })
+  });
 }
 
 /**
@@ -45,14 +67,25 @@ export function useGetNegotiation<
   TQueryKey extends QueryKey = GetNegotiationQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetNegotiationQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetNegotiationQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getNegotiationQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getNegotiationQueryKey();
 
   const query = useQuery(
     {
@@ -60,10 +93,12 @@ export function useGetNegotiation<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }
