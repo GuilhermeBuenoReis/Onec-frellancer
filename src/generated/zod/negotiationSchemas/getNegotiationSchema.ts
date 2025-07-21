@@ -3,12 +3,9 @@
  * Do not edit manually.
  */
 
-import type { ToZod } from '@kubb/plugin-zod/utils';
-import { z } from 'zod';
-import type {
-  GetNegotiation200,
-  GetNegotiationQueryResponse,
-} from '../../types/GetNegotiation.ts';
+import type { GetNegotiation200, GetNegotiationQueryResponse } from '../../types/GetNegotiation.ts'
+import type { ToZod } from '@kubb/plugin-zod/utils'
+import { z } from 'zod'
 
 /**
  * @description Default Response
@@ -27,9 +24,7 @@ export const getNegotiation200Schema = z.array(
     observation: z.string().nullable(),
     averageGuide: z.number().nullable(),
     partnerId: z.string().nullable(),
-  })
-) as unknown as ToZod<GetNegotiation200>;
+  }),
+) as unknown as ToZod<GetNegotiation200>
 
-export const getNegotiationQueryResponseSchema = z.lazy(
-  () => getNegotiation200Schema
-) as unknown as ToZod<GetNegotiationQueryResponse>;
+export const getNegotiationQueryResponseSchema = z.lazy(() => getNegotiation200Schema) as unknown as ToZod<GetNegotiationQueryResponse>

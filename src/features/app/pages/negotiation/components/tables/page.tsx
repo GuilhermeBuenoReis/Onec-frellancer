@@ -1,14 +1,17 @@
 'use client';
 
+import { useNegotiationFilters } from '../../../../../../context/negotiation-filter-context';
 import { useGetNegotiation } from '../../../../../../generated/hooks/negotiationHooks/useGetNegotiation';
 import type { NegotiationTableData } from '../../types/negotiation-type-data';
 import { CreateColumnsParamsNegotiation } from './columns';
 import { DataTable } from './data-table';
 
 export default function NegotiationTableFromAPI() {
+  const { filters } = useNegotiationFilters();
   const { data, isLoading } = useGetNegotiation();
   const negotiations = Array.isArray(data?.data) ? data.data : [];
 
+  // Mapeia os dados da API
   const mappedData: NegotiationTableData[] = negotiations.map(n => ({
     id: n.id ?? '',
     title: n.title ?? null,
@@ -24,6 +27,30 @@ export default function NegotiationTableFromAPI() {
     partnerId: n.partnerId ?? null,
   }));
 
+  const filteredData = mappedData.filter(n => {
+    const lower = (v?: string | null) => v?.toLowerCase() ?? '';
+    const match = {
+      title: filters.title
+        ? lower(n.title).includes(lower(filters.title))
+        : true,
+      client: filters.client
+        ? lower(n.client).includes(lower(filters.client))
+        : true,
+      user: filters.user ? lower(n.user).includes(lower(filters.user)) : true,
+      tags: filters.tags ? lower(n.tags).includes(lower(filters.tags)) : true,
+      status: filters.status ? lower(n.status) === lower(filters.status) : true,
+      step: filters.step ? lower(n.step) === lower(filters.step) : true,
+      startDate: filters.startDate
+        ? n.startsDate && new Date(n.startsDate) >= filters.startDate
+        : true,
+      endDate: filters.endDate
+        ? n.startsDate && new Date(n.startsDate) <= filters.endDate
+        : true,
+    };
+
+    return Object.values(match).every(Boolean);
+  });
+
   const columns = CreateColumnsParamsNegotiation({
     onEdit: () => {},
     onDelete: () => {},
@@ -34,7 +61,7 @@ export default function NegotiationTableFromAPI() {
   return (
     <div className="w-full overflow-x-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="min-w-[640px] max-w-7xl mx-auto">
-        <DataTable columns={columns} data={mappedData} />
+        <DataTable columns={columns} data={filteredData} />
       </div>
     </div>
   );

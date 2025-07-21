@@ -2,7 +2,21 @@
 
 import { createContext, useContext, useState } from 'react';
 
+/*
+  title: z.string(),
+  client: z.string(),
+  step: z.string(),
+  user: z.string(),
+  tags: z.string(),
+  status: z.string(),
+*/
+
 interface NegotiationFilters {
+  title?: string;
+  client?: string;
+  step?: string;
+  user?: string;
+  tags?: string;
   status?: string;
   startDate?: Date;
   endDate?: Date;
@@ -30,7 +44,16 @@ export function NegotiationFiltersProvider({
   }
 
   function resetFilters() {
-    setFiltersState({});
+    setFiltersState({
+      title: '',
+      client: '',
+      step: '',
+      user: '',
+      tags: '',
+      status: '',
+      startDate: undefined,
+      endDate: undefined,
+    });
   }
 
   return (

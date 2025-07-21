@@ -75,19 +75,6 @@ export function DataTable<TData, TValue>({
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex gap-2 w-full max-w-2xl">
-          <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4" />
-            <Input
-              placeholder="Filtrar cliente..."
-              value={
-                (table.getColumn('cliente')?.getFilterValue() as string) ?? ''
-              }
-              onChange={event =>
-                table.getColumn('cliente')?.setFilterValue(event.target.value)
-              }
-              className="pl-9"
-            />
-          </div>
           <NegotiationFilterDialog />
         </div>
 
