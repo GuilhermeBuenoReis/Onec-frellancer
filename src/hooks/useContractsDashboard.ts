@@ -1,18 +1,18 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useGetContractApi } from '@/data/contract/contractApi';
+import { useGetContractsApi } from '@/data/contract/contractApi';
 import { filterContracts } from '@/domain/contract/use-case/filter-contracts';
 import { countByStatus } from '@/domain/contract/use-case/count-by-status';
 import type { IContract } from '@/domain/contract/IContract';
 
 export function useContractsDashboard() {
-  const { contracts, isLoading } = useGetContractApi();
+  const { list, isLoading } = useGetContractsApi();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
 
   const filtered = useMemo<IContract[]>(
-    () => filterContracts(contracts, search),
-    [contracts, search]
+    () => filterContracts(list, search),
+    [list, search]
   );
 
   const statusCounts = useMemo(() => countByStatus(filtered), [filtered]);

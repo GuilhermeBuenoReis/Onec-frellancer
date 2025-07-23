@@ -16,6 +16,7 @@ import { PendingDetailsDisplay } from './ui/pending-details-display';
 import { EditPendingForm } from './ui/edit-pending-form';
 import { DeletePendingButton } from './ui/delete-pending-button';
 import { Button } from '@/components/ui/button';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function PendingDetailsPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -26,7 +27,7 @@ export function PendingDetailsPage() {
   const { isLoading, error, pending, handleUpdate, handleDelete, isDeleting } =
     usePendingDetail(id);
 
-  if (isLoading) return <p>Carregando…</p>;
+  if (isLoading) return <LoaderWithComplete />;
   if (error) return <p className="text-red-600">Erro: {String(error)}</p>;
   if (!pending) return <p>Pendência não encontrada.</p>;
 

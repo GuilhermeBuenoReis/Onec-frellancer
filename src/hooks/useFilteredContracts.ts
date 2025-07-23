@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useGetContractApi } from '@/data/contract/contractApi';
+import { useGetContractsApi } from '@/data/contract/contractApi';
 import { filterActiveContracts } from '@/domain/contract/use-case/filter-active-contracts';
 import { filterByQuery } from '@/domain/contract/use-case/filter-by-query';
 import type { IContract } from '@/domain/contract/IContract';
@@ -10,12 +10,12 @@ export function useFilteredContracts() {
   const [searchParams] = useSearchParams();
   const queryParam = searchParams.get('query')?.trim().toLowerCase() || '';
 
-  const { contracts, isLoading } = useGetContractApi();
+  const { list, isLoading } = useGetContractsApi();
 
   // 1) apenas ativos
   const active = useMemo<IContract[]>(
-    () => filterActiveContracts(contracts),
-    [contracts]
+    () => filterActiveContracts(list),
+    [list]
   );
 
   // 2) filtro por query

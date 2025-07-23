@@ -9,6 +9,7 @@ import { ContractsTable } from './ui/contracts-table';
 import { PaginationControl } from './ui/pagination-control';
 import * as XLSX from 'xlsx';
 import { useNavigate } from 'react-router-dom';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -28,9 +29,7 @@ export function DashboardPage() {
   } = useContractsDashboard();
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">Loading…</div>
-    );
+    return <LoaderWithComplete />;
   }
 
   const exportToExcel = () => {

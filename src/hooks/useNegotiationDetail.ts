@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +14,7 @@ export function useNegotiationDetail(id: string) {
 
   // Inicializa formData somente uma vez ao carregar negociação
   useEffect(() => {
+    // biome-ignore lint/complexity/useOptionalChain: <explanation>
     if (negotiation && negotiation.id && formData.id !== negotiation.id) {
       setFormData(negotiation);
     }
@@ -34,7 +34,9 @@ export function useNegotiationDetail(id: string) {
       { id: negotiation.id, data: payload },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getGetNegotiationByIdQueryKey(negotiation.id!) });
+          queryClient.invalidateQueries({
+            queryKey: getGetNegotiationByIdQueryKey(negotiation.id!),
+          });
         },
       }
     );
@@ -46,7 +48,9 @@ export function useNegotiationDetail(id: string) {
       { id: negotiation.id },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getGetNegotiationByIdQueryKey(negotiation.id!) });
+          queryClient.invalidateQueries({
+            queryKey: getGetNegotiationByIdQueryKey(negotiation.id!),
+          });
           // Após exclusão, retorna ao dashboard de negociações
           navigate('/negotiation');
         },

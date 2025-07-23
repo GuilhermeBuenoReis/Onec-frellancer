@@ -8,6 +8,7 @@ export interface IContract {
   matter: string | null;
   forecast: string | null;
   contractTotal: string | null;
+  sindic: string | null;
   percentage: number | null;
   averageGuide: number | null;
   partner: string | null;

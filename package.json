@@ -10,7 +10,7 @@
     "build": "tsc -b && vite build",
     "lint": "biome format",
     "preview": "vite preview",
-    "start": "serve -s dist -l 3000" 
+    "start": "serve -s dist -l 3000"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.0",
@@ -36,6 +36,7 @@
     "lightningcss": "^1.29.1",
     "lightningcss-win32-x64-msvc": "^1.29.1",
     "lucide-react": "^0.475.0",
+    "motion": "^12.23.6",
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-cookie": "^8.0.1",

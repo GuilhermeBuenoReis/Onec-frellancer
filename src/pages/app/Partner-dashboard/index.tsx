@@ -7,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
-  SheetTrigger,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -17,6 +16,7 @@ import {
 import { usePartnerDetail } from '@/hooks/usePartnerDetail';
 import { PartnerDetailsDisplay } from './ui/partner-details-display';
 import { EditPartnerForm } from './ui/edit-partner-form';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function PartnerDashboardPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -27,7 +27,7 @@ export function PartnerDashboardPage() {
   const { isLoading, error, partner, handleUpdate, handleDelete } =
     usePartnerDetail(id);
 
-  if (isLoading) return <p className="p-4">Carregando...</p>;
+  if (isLoading) return <LoaderWithComplete />;
   if (error)
     return <p className="p-4 text-red-600">Erro ao carregar parceiro.</p>;
   if (!partner) return <p className="p-4">Parceiro não encontrado.</p>;
@@ -78,10 +78,6 @@ export function PartnerDashboardPage() {
               />
 
               <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-                <SheetTrigger asChild>
-                  {/* biome-ignore lint/complexity/noUselessFragments: <explanation> */}
-                  <></>
-                </SheetTrigger>
                 <SheetContent
                   side="right"
                   className="w-full max-w-md overflow-auto"

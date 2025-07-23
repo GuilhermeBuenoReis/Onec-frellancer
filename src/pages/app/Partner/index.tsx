@@ -8,17 +8,14 @@ import { usePartnerList } from '@/hooks/usePartnerList';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { PartnerGrid } from './ui/partner-grid';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function PartnerPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isLoading, search, setSearch, partners } = usePartnerList();
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        Carregando parceiros...
-      </div>
-    );
+    return <LoaderWithComplete />;
   }
 
   return (

@@ -7,6 +7,7 @@ import { CreateNegotiationSheet } from './ui/create-negotiation-sheet';
 import { SummaryCards } from './ui/summary-cards';
 import { NegotiationsTable } from './ui/negotiations-table';
 import { PaginationControl } from './ui/pagination-control';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function NegotiationDashboardPage() {
   const {
@@ -32,7 +33,7 @@ export function NegotiationDashboardPage() {
     navigate,
   } = useNegotiationsDashboard();
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading) return <LoaderWithComplete />;
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">

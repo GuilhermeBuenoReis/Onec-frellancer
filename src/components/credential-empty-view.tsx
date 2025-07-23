@@ -20,7 +20,6 @@ import { Calendar } from '@/components/ui/calendar';
 import { List } from 'lucide-react';
 import { useCreateClient, useCreateCredential } from '@/http/generated/api';
 
-// Zod schemas
 const credentialSchema = z.object({
   channelHead: z.string().nullable(),
   partner: z.string().nullable(),
@@ -48,7 +47,6 @@ export function CredentialEmptyView() {
     setIsSidebarOpen(prev => !prev);
   }
 
-  // React Hook Form
   const {
     register,
     handleSubmit,
@@ -74,11 +72,9 @@ export function CredentialEmptyView() {
     },
   });
 
-  // Orval hooks
   const { mutateAsync: mutateCredential } = useCreateCredential();
   const { mutateAsync: mutateClient } = useCreateClient();
 
-  // Create credential, retornando ID como string (UUID)
   async function createCredential(
     data: ContestationForm['credential']
   ): Promise<{ id: string }> {
@@ -89,11 +85,9 @@ export function CredentialEmptyView() {
       agentIndicator: data.agentIndicator,
     };
     const res = await mutateCredential({ data: body });
-    // assume res is { id: string }
     return res as unknown as { id: string };
   }
 
-  // Create client, aceita credentialId como string
   async function createClient(
     data: ContestationForm['client'],
     credentialId: string
@@ -103,7 +97,6 @@ export function CredentialEmptyView() {
     return res;
   }
 
-  // Submit handler
   async function onSubmit(data: ContestationForm) {
     try {
       const createdCred = await createCredential(data.credential);

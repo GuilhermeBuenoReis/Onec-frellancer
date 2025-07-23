@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Sidebar } from '@/components/sidebar';
@@ -8,6 +10,7 @@ import { useContractDetail } from '@/hooks/useContractDetail';
 import { ContractInfoCard } from './ui/contract-info-card';
 import { UpdateContractSheet } from './ui/update-contract-sheet';
 import { DeleteContractButton } from './ui/delete-contract-button';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function ContractDetailPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -27,11 +30,7 @@ export function ContractDetailPage() {
   } = useContractDetail(id);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        Carregando contrato...
-      </div>
-    );
+    return <LoaderWithComplete />;
   }
 
   if (isError || !contract) {
@@ -50,11 +49,11 @@ export function ContractDetailPage() {
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
-        toggleSidebar={() => setSidebarOpen(open => !open)}
+        toggleSidebar={() => setSidebarOpen(o => !o)}
       />
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header toggleSidebar={() => setSidebarOpen(open => !open)} />
+        <Header toggleSidebar={() => setSidebarOpen(o => !o)} />
 
         <main className="p-6 overflow-y-auto space-y-6">
           <Button variant="ghost" onClick={() => navigate(-1)}>

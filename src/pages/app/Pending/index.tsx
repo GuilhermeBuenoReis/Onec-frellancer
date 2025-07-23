@@ -53,7 +53,6 @@ export function PendingPage() {
         <title>Painel de Pendências</title>
       </Helmet>
 
-      {/* Sidebar desktop */}
       <div className="hidden md:flex">
         <Sidebar
           isOpen={sidebarOpen}

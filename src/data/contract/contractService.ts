@@ -17,6 +17,7 @@ export function dtoToEntity(dto: ContractDto): IContract {
     forecast: dto.forecast,
     contractTotal: dto.contractTotal,
     percentage: dto.percentage,
+    sindic: dto.sindic,
     averageGuide: dto.averageGuide,
     partner: dto.partner,
     partnerCommission: dto.partnerCommission,

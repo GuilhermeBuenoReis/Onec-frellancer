@@ -18,7 +18,7 @@ import { NegotiationDashboardPage } from './pages/app/Negotiation-dashboard';
 import { PartnerDashboardPage } from './pages/app/Partner-dashboard/';
 import { PendingDetailsPage } from './pages/app/Pending-details/';
 import { PendingPage } from './pages/app/Pending/index';
-import { HonoraryDetailPage } from './pages/app/Honorary-detail';
+import { HonoraryDetailPage } from './pages/app/Honorary-detail/index';
 
 export function App() {
   return (

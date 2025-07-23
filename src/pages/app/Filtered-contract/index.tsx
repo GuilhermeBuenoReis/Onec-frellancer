@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import { useFilteredContracts } from '@/hooks/useFilteredContracts';
 import { SearchHeader } from './ui/search-header';
 import { ContractsTable } from './ui/contracts-table';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function FilteredContractsPage() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -12,11 +13,7 @@ export function FilteredContractsPage() {
     useFilteredContracts();
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        Carregando...
-      </div>
-    );
+    return <LoaderWithComplete />;
   }
 
   return (

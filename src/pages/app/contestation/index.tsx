@@ -8,6 +8,7 @@ import { CredentialCard } from './ui/credential-card';
 import { ContestationFormSheet } from './ui/contestation-form-sheet';
 import { ContestationTable } from './ui/contestation-table';
 import { ContestationChart } from './ui/contestation-chart';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function ContestationPage() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function ContestationPage() {
     chartData,
   } = useContestation();
 
-  if (isLoading) return <div>Carregando…</div>;
+  if (isLoading) return <LoaderWithComplete />;
   if (error) return <div className="text-red-600">Erro ao carregar dados.</div>;
   if (!credential) return <div>Nenhuma credencial encontrada.</div>;
 

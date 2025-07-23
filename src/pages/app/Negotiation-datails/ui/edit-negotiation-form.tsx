@@ -1,5 +1,3 @@
-// Novo componente: UpdateNegotiationSheet, mesma lógica do UpdateContractSheet
-
 import {
   Sheet,
   SheetTrigger,
@@ -21,7 +19,10 @@ export function UpdateNegotiationSheet({
   isLoading,
 }: {
   formData: Partial<INegotiation>;
-  onChange: <K extends keyof INegotiation>(field: K, value: INegotiation[K]) => void;
+  onChange: <K extends keyof INegotiation>(
+    field: K,
+    value: INegotiation[K]
+  ) => void;
   onSubmit: () => void;
   isLoading: boolean;
 }) {
@@ -89,6 +90,9 @@ export function UpdateNegotiationSheet({
               <option value="Ganho">Ganho</option>
               <option value="Em Andamento">Em Andamento</option>
               <option value="Perdido">Perdido</option>
+              <option value="Falta assinatura">Falta Assinatura</option>
+              <option value="Novo">Novo</option>
+              <option value="Aguardando receber">Aguardando receber</option>
             </select>
           </div>
 

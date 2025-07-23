@@ -65,18 +65,54 @@ export function NegotiationDetailPage() {
               <CardTitle>Detalhes da Negociação</CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-              <div><strong>ID:</strong> {negotiation.id}</div>
-              <div><strong>Título:</strong> {negotiation.title ?? '—'}</div>
-              <div><strong>Cliente:</strong> {negotiation.client ?? '—'}</div>
-              <div><strong>Usuário:</strong> {negotiation.user ?? '—'}</div>
-              <div><strong>Tags:</strong> {negotiation.tags ?? '—'}</div>
-              <div><strong>Etapa:</strong> {negotiation.step ?? '—'}</div>
-              <div><strong>Status:</strong> {negotiation.status ?? '—'}</div>
-              <div><strong>Valor:</strong> {negotiation.value != null ? negotiation.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—'}</div>
-              <div><strong>Data Início:</strong> {negotiation.startsDate ? new Date(negotiation.startsDate).toLocaleDateString('pt-BR') : '—'}</div>
-              <div><strong>Observação:</strong> {negotiation.observation ?? '—'}</div>
-              <div><strong>Guia Média:</strong> {negotiation.averageGuide != null ? negotiation.averageGuide : '—'}</div>
-              <div><strong>Parceiro ID:</strong> {negotiation.partnerId ?? '—'}</div>
+              <div>
+                <strong>ID:</strong> {negotiation.id}
+              </div>
+              <div>
+                <strong>Título:</strong> {negotiation.title ?? '—'}
+              </div>
+              <div>
+                <strong>Cliente:</strong> {negotiation.client ?? '—'}
+              </div>
+              <div>
+                <strong>Usuário:</strong> {negotiation.user ?? '—'}
+              </div>
+              <div>
+                <strong>Tags:</strong> {negotiation.tags ?? '—'}
+              </div>
+              <div>
+                <strong>Etapa:</strong> {negotiation.step ?? '—'}
+              </div>
+              <div>
+                <strong>Status:</strong> {negotiation.status ?? '—'}
+              </div>
+              <div>
+                <strong>Valor:</strong>{' '}
+                {negotiation.value != null
+                  ? negotiation.value.toLocaleString('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    })
+                  : '—'}
+              </div>
+              <div>
+                <strong>Data Início:</strong>{' '}
+                {negotiation.startsDate
+                  ? new Date(negotiation.startsDate).toLocaleDateString('pt-BR')
+                  : '—'}
+              </div>
+              <div>
+                <strong>Observação:</strong> {negotiation.observation ?? '—'}
+              </div>
+              <div>
+                <strong>Guia Média:</strong>{' '}
+                {negotiation.averageGuide != null
+                  ? negotiation.averageGuide
+                  : '—'}
+              </div>
+              <div>
+                <strong>Parceiro ID:</strong> {negotiation.partnerId ?? '—'}
+              </div>
             </CardContent>
           </Card>
 

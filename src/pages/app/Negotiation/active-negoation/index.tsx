@@ -6,6 +6,7 @@ import { ChartsSection } from './ui/charts-section';
 import { TableSection } from './ui/table-section';
 import { PaginationControl } from './ui/pagination-control';
 import * as XLSX from 'xlsx';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function ActiveNegotiationPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -50,7 +51,7 @@ export function ActiveNegotiationPage() {
         </header>
 
         {isLoading ? (
-          <p>Carregando negociações...</p>
+          <LoaderWithComplete />
         ) : (
           <>
             <FilterCard

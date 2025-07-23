@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function useCreateContractForm() {
   const navigate = useNavigate();
-  const { createContract, status } = useCreateContractApi();
+  const { create, status } = useCreateContractApi();
 
   const form = useForm<ContractFormValues>({
     resolver: zodResolver(contractSchema),
@@ -38,7 +38,7 @@ export function useCreateContractForm() {
 
   const onSubmit = form.handleSubmit(async values => {
     try {
-      await createContract(formToDto(values));
+      await create(formToDto(values));
       toast.success('Contrato criado com sucesso!');
       navigate('/dashboard');
     } catch {

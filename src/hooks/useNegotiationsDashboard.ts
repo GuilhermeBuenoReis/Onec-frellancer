@@ -18,13 +18,25 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { countActiveAndWon } from '@/domain/negotiation/use-cases/list-active';
 
 export function useNegotiationsDashboard() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data = [], isLoading } = useGetNegotiation();
-
   const list: INegotiation[] = data.map(dtoToEntity).reverse();
+
+  const { active: countActive, won: countWon } = useMemo(
+    () => countActiveAndWon(list),
+    [list]
+  );
+  const statusData = useMemo(
+    () => [
+      { name: 'Ativo', value: countActive },
+      { name: 'Ganho', value: countWon },
+    ],
+    [countActive, countWon]
+  );
 
   const { mutateAsync: createNegotiation, status: createStatus } =
     useCreateDataNegotiation();
@@ -46,10 +58,12 @@ export function useNegotiationsDashboard() {
         data: formToDto(values as NegotiationFormData),
       });
       toast.success('Negociação criada com sucesso!');
-      await queryClient.invalidateQueries({ queryKey: getGetNegotiationQueryKey() });
+      await queryClient.invalidateQueries({
+        queryKey: getGetNegotiationQueryKey(),
+      });
       setSheetOpen(false);
       reset();
-    } catch (err) {
+    } catch {
       toast.error('Erro ao criar negociação!');
     }
   });
@@ -63,8 +77,11 @@ export function useNegotiationsDashboard() {
   const filtered = useMemo<INegotiation[]>(
     () =>
       list.filter(n => {
-        const statusMatch = !filterStatus || n.status?.toLowerCase() === filterStatus.toLowerCase();
-        const searchMatch = !search ||
+        const statusMatch =
+          !filterStatus ||
+          n.status?.toLowerCase() === filterStatus.toLowerCase();
+        const searchMatch =
+          !search ||
           n.client?.toLowerCase().includes(search.toLowerCase()) ||
           n.status?.toLowerCase().includes(search.toLowerCase());
         return statusMatch && searchMatch;
@@ -73,7 +90,6 @@ export function useNegotiationsDashboard() {
   );
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
-
   useEffect(() => {
     if (page > totalPages) setPage(1);
   }, [page, totalPages]);
@@ -85,7 +101,8 @@ export function useNegotiationsDashboard() {
 
   const totalProjects = filtered.length;
   const totalValue = filtered.reduce((sum, n) => sum + (n.value || 0), 0);
-  const averageValue = totalProjects > 0 ? (totalValue / totalProjects).toFixed(2) : '0.00';
+  const averageValue =
+    totalProjects > 0 ? (totalValue / totalProjects).toFixed(2) : '0.00';
 
   const half = Math.floor(maxButtons / 2);
   let startPage = Math.max(1, page - half);
@@ -99,15 +116,28 @@ export function useNegotiationsDashboard() {
   const handleSearch = () => setPage(1);
   function getStatusClasses(s?: string) {
     switch (s?.toLowerCase()) {
-      case 'ganho': return 'bg-green-100 text-green-800';
-      case 'em andamento': return 'bg-yellow-100 text-yellow-800';
-      case 'perdido': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-600';
+      case 'ganho':
+        return 'bg-green-100 text-green-800';
+      case 'em andamento':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'perdido':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-600';
     }
   }
 
   return {
     isLoading,
+    list,
+    statusData,
+    sheetOpen,
+    setSheetOpen,
+    register,
+    errors,
+    onCreate,
+    isSubmitting,
+    createStatus,
     search,
     setSearch,
     filterStatus,
@@ -120,13 +150,6 @@ export function useNegotiationsDashboard() {
     totalProjects,
     totalValue,
     averageValue,
-    sheetOpen,
-    setSheetOpen,
-    register,
-    errors,
-    onCreate,
-    isSubmitting,
-    createStatus,
     handleSearch,
     getStatusClasses,
     navigate,

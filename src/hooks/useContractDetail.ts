@@ -1,33 +1,39 @@
+// src/hooks/useContractDetail.ts
 import { useState, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-
-import { getGetContractByIdQueryKey } from '@/http/generated/api';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  getGetContractByIdQueryKey,
+  getGetContractQueryKey,
+  useGetContractById,
+  useUpdateContract,
+  useDeleteContract,
+} from '@/http/generated/api';
+import { dtoToEntity } from '@/data/contract/contractService';
 import { prepareUpdatePayload } from '@/domain/contract/use-case/prepare-update-payload';
-import { useContractApi } from '@/data/contract/contractApi';
 import type { IContract } from '@/domain/contract/IContract';
+import type { UpdateContractBody } from '@/http/models';
 
 export function useContractDetail(id: string) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const {
-    isLoading,
-    isError,
-    error,
-    contract,
-    updateMutation,
-    deleteMutation,
-  } = useContractApi(id);
+  const getQuery = useGetContractById(id, { query: { enabled: Boolean(id) } });
+  const contract = getQuery.data ? dtoToEntity(getQuery.data) : null;
 
+  // Local form state initialized once
   const [formData, setFormData] = useState<Partial<IContract>>({});
-
   useEffect(() => {
-    if (contract && !formData.id) {
+    if (contract?.id && formData.id !== contract.id) {
       setFormData(contract);
     }
   }, [contract, formData.id]);
 
+  // Mutations
+  const updateMutation = useUpdateContract();
+  const deleteMutation = useDeleteContract();
+
+  // Handlers for form changes
   const handleChange = <K extends keyof IContract>(
     field: K,
     value: IContract[K]
@@ -35,38 +41,38 @@ export function useContractDetail(id: string) {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleUpdate = async () => {
-    if (!contract?.id) return 'Id não encontrado!';
-    const payload = prepareUpdatePayload(formData);
-
-    await updateMutation.mutateAsync(
-      { id: contract.id, data: payload },
+  // Update contract
+  const handleUpdate = () => {
+    if (!contract?.id) return;
+    const contractId = contract.id!;
+    const payload: UpdateContractBody = prepareUpdatePayload(formData);
+    updateMutation.mutate(
+      { id: contractId, data: payload },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: getGetContractByIdQueryKey(contract.id!),
+            queryKey: getGetContractByIdQueryKey(contractId),
           });
         },
       }
     );
   };
 
-  const handleDelete = async () => {
-    if (!contract?.id) return 'Id não encontrado!';
-
-    await deleteMutation.mutateAsync(
-      { id: contract.id },
+  // Delete contract
+  const handleDelete = () => {
+    if (!contract?.id) return;
+    const contractId = contract.id!;
+    deleteMutation.mutate(
+      { id: contractId },
       {
         onSuccess: () => {
+          // Invalidate detail query
           queryClient.invalidateQueries({
-            queryKey: getGetContractByIdQueryKey(contract.id!),
+            queryKey: getGetContractByIdQueryKey(contractId),
           });
-
-          queryClient.invalidateQueries({
-            queryKey: ['https://api.onecsis.com.br/contract'],
-          });
-
-          // Redireciona para o dashboard
+          // Invalidate list query
+          queryClient.invalidateQueries({ queryKey: getGetContractQueryKey() });
+          // Navigate away after delete
           navigate('/dashboard');
         },
       }
@@ -74,9 +80,9 @@ export function useContractDetail(id: string) {
   };
 
   return {
-    isLoading,
-    isError,
-    error,
+    isLoading: getQuery.isLoading,
+    isError: getQuery.isError,
+    error: getQuery.error,
     contract,
     formData,
     handleChange,

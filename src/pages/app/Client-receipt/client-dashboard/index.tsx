@@ -5,6 +5,7 @@ import { ClientFilterCard } from './ui/client-filter-card';
 import { ClientPieChart } from './ui/client-pie-chart';
 import { ClientSummaryTable } from './ui/client-summary-table';
 import { ClientDetailTable } from './ui/client-detail-table';
+import { LoaderWithComplete } from '@/components/loader-with-complete';
 
 export function ClientReceiptDashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -39,11 +40,7 @@ export function ClientReceiptDashboardPage() {
   const colors = ['#34D399', '#F87171'];
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen w-full">
-        <p>Carregando recebimentos...</p>
-      </div>
-    );
+    return <LoaderWithComplete />;
   }
 
   return (
