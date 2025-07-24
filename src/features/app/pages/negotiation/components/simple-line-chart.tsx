@@ -50,7 +50,7 @@ export function SimpleLineChart() {
     for (const item of filteredData) {
       try {
         const date = new Date(item.startsDate ?? '');
-        if (isNaN(date.getTime())) continue;
+        if (Number.isNaN(date.getTime())) continue;
 
         const key = format(date, 'yyyy-MM'); // agrupamento
         const label = format(date, "MMM. 'de' yyyy", { locale: ptBR });

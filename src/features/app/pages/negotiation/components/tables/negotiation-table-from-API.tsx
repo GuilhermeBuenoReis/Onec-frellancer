@@ -3,15 +3,14 @@
 import { useNegotiationFilters } from '../../../../../../context/negotiation-filter-context';
 import { useGetNegotiation } from '../../../../../../generated/hooks/negotiationHooks/useGetNegotiation';
 import type { NegotiationTableData } from '../../types/negotiation-type-data';
-import { CreateColumnsParamsNegotiation } from './columns';
-import { DataTable } from './data-table';
+import { CreateColumnsParamsNegotiation } from './columns-negotiation';
+import { DataTableNegotiation } from './data-table-negotiation';
 
-export default function NegotiationTableFromAPI() {
+export function NegotiationTableFromAPI() {
   const { filters } = useNegotiationFilters();
   const { data, isLoading } = useGetNegotiation();
   const negotiations = Array.isArray(data?.data) ? data.data : [];
 
-  // Mapeia os dados da API
   const mappedData: NegotiationTableData[] = negotiations.map(n => ({
     id: n.id ?? '',
     title: n.title ?? null,
@@ -53,7 +52,6 @@ export default function NegotiationTableFromAPI() {
 
   const columns = CreateColumnsParamsNegotiation({
     onEdit: () => {},
-    onDelete: () => {},
   });
 
   if (isLoading) return <div className="text-center py-8">Carregando...</div>;
@@ -61,7 +59,7 @@ export default function NegotiationTableFromAPI() {
   return (
     <div className="w-full overflow-x-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="min-w-[640px] max-w-7xl mx-auto">
-        <DataTable columns={columns} data={filteredData} />
+        <DataTableNegotiation columns={columns} data={filteredData} />
       </div>
     </div>
   );

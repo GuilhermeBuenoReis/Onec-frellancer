@@ -10,7 +10,6 @@ import {
   useReactTable,
   type VisibilityState,
 } from '@tanstack/react-table';
-import { Search } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '../../../../../../components/ui/button';
 import {
@@ -19,7 +18,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '../../../../../../components/ui/dropdown-menu';
-import { Input } from '../../../../../../components/ui/input';
 import {
   Pagination,
   PaginationContent,
@@ -36,14 +34,14 @@ import {
   TableHeader,
   TableRow,
 } from '../../../../../../components/ui/table';
-import { NegotiationFilterDialog } from '../../components/filter-dialog';
+import { NegotiationFilterDialog } from '../filter-dialog';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTableContract<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

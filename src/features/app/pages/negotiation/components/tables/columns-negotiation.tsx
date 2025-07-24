@@ -14,11 +14,9 @@ function formatCurrency(value: number) {
 
 interface CreateColumnsParamsNegotiationProps {
   onEdit: (values: NegotiationFormData) => void;
-  onDelete: (id: string) => void;
 }
 
 export function CreateColumnsParamsNegotiation({
-  onDelete,
   onEdit,
 }: CreateColumnsParamsNegotiationProps): ColumnDef<NegotiationTableData>[] {
   return [
@@ -104,11 +102,7 @@ export function CreateColumnsParamsNegotiation({
     {
       id: 'actions',
       cell: ({ row }) => (
-        <RowActionsPopover
-          data={row.original}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <RowActionsPopover data={row.original} onEdit={onEdit} />
       ),
     },
   ];
