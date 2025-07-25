@@ -1,36 +1,37 @@
-import { NavLink, type NavLinkProps } from 'react-router';
-import { cn } from '../../lib/utils';
+import {
+  type ActiveLinkOptions,
+  Link,
+  type LinkProps,
+} from '@tanstack/react-router';
+import { cn } from '@/lib/utils';
 
-type ActiveNavLinkProps = NavLinkProps & {
+type ActiveNavLinkProps = LinkProps & {
   className?: string;
+  asChild?: boolean;
   activeClassName?: string;
   inactiveClassName?: string;
-  asChild?: boolean;
 };
 
 export function ActiveNavLink({
   to,
   className,
-  activeClassName = 'text-foreground font-semibold',
+  activeClassName = 'text-foreground font-semibold border-b-2 border-foreground',
   inactiveClassName = 'text-muted-foreground',
   children,
-  asChild,
   ...rest
 }: ActiveNavLinkProps) {
   return (
-    <NavLink
+    <Link
       to={to}
-      {...rest}
-      className={({ isActive }) =>
-        cn(
-          'transition-colors hover:text-foreground',
-          isActive ? activeClassName : inactiveClassName,
-          className,
-          `text-lg`
-        )
-      }
+      {...(rest as ActiveLinkOptions)}
+      activeProps={{
+        className: cn(activeClassName, className, 'text-md'),
+      }}
+      inactiveProps={{
+        className: cn(inactiveClassName, className, 'text-md'),
+      }}
     >
       {children}
-    </NavLink>
+    </Link>
   );
 }

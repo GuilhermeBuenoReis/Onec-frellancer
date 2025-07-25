@@ -1,4 +1,5 @@
 export { deleteUserPathParamsSchema, deleteUser200Schema, deleteUser400Schema, deleteUserMutationResponseSchema } from './deleteUserSchema.ts'
+export { getMe200Schema, getMe401Schema, getMeQueryResponseSchema } from './getMeSchema.ts'
 export { getProfileUser200Schema, getProfileUser400Schema, getProfileUserQueryResponseSchema } from './getProfileUserSchema.ts'
 export {
   updateUserPathParamsSchema,

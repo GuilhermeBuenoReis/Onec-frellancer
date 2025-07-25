@@ -209,6 +209,7 @@ export {
 } from './StagingSchemas/processNegotiationStagingSchema.ts'
 export { postUploadXlsx200Schema, postUploadXlsxMutationResponseSchema } from './undefinedSchemas/postUploadXlsxSchema.ts'
 export { deleteUserPathParamsSchema, deleteUser200Schema, deleteUser400Schema, deleteUserMutationResponseSchema } from './UsersSchemas/deleteUserSchema.ts'
+export { getMe200Schema, getMe401Schema, getMeQueryResponseSchema } from './UsersSchemas/getMeSchema.ts'
 export { getProfileUser200Schema, getProfileUser400Schema, getProfileUserQueryResponseSchema } from './UsersSchemas/getProfileUserSchema.ts'
 export {
   updateUserPathParamsSchema,

@@ -5,12 +5,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FileIcon, Loader2, UploadCloud } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod/v4';
 import { useUploadSpreadsheet } from '../../hooks/use-upload-spreadsheet';
 import { cn } from '../../lib/utils';
-import {
-  type UploadSpreadsheetSchema,
-  uploadSpreadsheetSchema,
-} from '../../schemas/upload-spreadsheet-schema';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Progress } from '../ui/progress';
@@ -22,6 +19,17 @@ import {
   SelectValue,
 } from '../ui/select';
 import { CheckAnimated } from './check-animated';
+
+export const uploadSpreadsheetSchema = z.object({
+  type: z.enum(['negotiation', 'client', 'partner'], {
+    error: 'Selecione o tipo de planilha',
+  }),
+  file: z
+    .instanceof(File, { message: 'Arquivo obrigatório' })
+    .refine(file => file.size > 0, 'Arquivo obrigatório'),
+});
+
+export type UploadSpreadsheetSchema = z.infer<typeof uploadSpreadsheetSchema>;
 
 export function UploadSpreadsheet() {
   const [progress, setProgress] = useState(0);

@@ -17,11 +17,7 @@ export function AppHeader() {
         <Separator orientation="vertical" />
 
         <nav className="w-full flex gap-5">
-          <ActiveNavLink to="/app/negotiation">Negociações</ActiveNavLink>
-
-          <ActiveNavLink to="/app/partner">Parceiros</ActiveNavLink>
-
-          <ActiveNavLink to="/app/pending">Pendências</ActiveNavLink>
+          <ActiveNavLink to="/dashboard">Dashboard</ActiveNavLink>
         </nav>
       </div>
 
