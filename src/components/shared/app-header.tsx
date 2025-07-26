@@ -17,7 +17,7 @@ export function AppHeader() {
         <Separator orientation="vertical" />
 
         <nav className="w-full flex gap-5">
-          <ActiveNavLink to="/dashboard">Dashboard</ActiveNavLink>
+          <ActiveNavLink to="/business-dashboard">Dashboard</ActiveNavLink>
         </nav>
       </div>
 

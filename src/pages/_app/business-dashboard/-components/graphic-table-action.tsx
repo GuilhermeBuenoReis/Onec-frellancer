@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { Card, CardAction, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { SimpleLineChart } from '../../business-dashboard/-components/simple-line-chart';
-import { StatusPieChart } from '../../business-dashboard/-components/status-pie-chart';
+import { SimpleLineChart } from './simple-line-chart';
+import { StatusPieChart } from './status-pie-chart';
 
-export function NegotiationTabAction() {
+export function GraphicTableAction() {
   const [activeTab, setActiveTab] = useState('earnings-total');
 
   return (

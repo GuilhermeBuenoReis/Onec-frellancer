@@ -12,9 +12,7 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
-import { Route as AppBusinessDashboardIndexRouteImport } from './pages/_app/_business-dashboard/index'
-import { Route as AppBusinessDashboardDashboardLayoutRouteImport } from './pages/_app/_business-dashboard/dashboard/layout'
-import { Route as AppBusinessDashboardDashboardIndexRouteImport } from './pages/_app/_business-dashboard/dashboard/index'
+import { Route as AppBusinessDashboardIndexRouteImport } from './pages/_app/business-dashboard/index'
 
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
@@ -31,56 +29,37 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
 } as any)
 const AppBusinessDashboardIndexRoute =
   AppBusinessDashboardIndexRouteImport.update({
-    id: '/_business-dashboard/',
-    path: '/',
+    id: '/business-dashboard/',
+    path: '/business-dashboard/',
     getParentRoute: () => AppLayoutRoute,
-  } as any)
-const AppBusinessDashboardDashboardLayoutRoute =
-  AppBusinessDashboardDashboardLayoutRouteImport.update({
-    id: '/_business-dashboard/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AppLayoutRoute,
-  } as any)
-const AppBusinessDashboardDashboardIndexRoute =
-  AppBusinessDashboardDashboardIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AppBusinessDashboardDashboardLayoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
-  '/dashboard': typeof AppBusinessDashboardDashboardLayoutRouteWithChildren
-  '/': typeof AppBusinessDashboardIndexRoute
-  '/dashboard/': typeof AppBusinessDashboardDashboardIndexRoute
+  '/business-dashboard': typeof AppBusinessDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
-  '/': typeof AppBusinessDashboardIndexRoute
-  '/dashboard': typeof AppBusinessDashboardDashboardIndexRoute
+  '/business-dashboard': typeof AppBusinessDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
   '/_auth/sign-in': typeof AuthSignInRoute
-  '/_app/_business-dashboard/dashboard': typeof AppBusinessDashboardDashboardLayoutRouteWithChildren
-  '/_app/_business-dashboard/': typeof AppBusinessDashboardIndexRoute
-  '/_app/_business-dashboard/dashboard/': typeof AppBusinessDashboardDashboardIndexRoute
+  '/_app/business-dashboard/': typeof AppBusinessDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/sign-in' | '/dashboard' | '/' | '/dashboard/'
+  fullPaths: '/sign-in' | '/business-dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/' | '/dashboard'
+  to: '/sign-in' | '/business-dashboard'
   id:
     | '__root__'
     | '/_app'
     | '/_auth'
     | '/_auth/sign-in'
-    | '/_app/_business-dashboard/dashboard'
-    | '/_app/_business-dashboard/'
-    | '/_app/_business-dashboard/dashboard/'
+    | '/_app/business-dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -111,53 +90,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
-    '/_app/_business-dashboard/': {
-      id: '/_app/_business-dashboard/'
-      path: '/'
-      fullPath: '/'
+    '/_app/business-dashboard/': {
+      id: '/_app/business-dashboard/'
+      path: '/business-dashboard'
+      fullPath: '/business-dashboard'
       preLoaderRoute: typeof AppBusinessDashboardIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/_app/_business-dashboard/dashboard': {
-      id: '/_app/_business-dashboard/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AppBusinessDashboardDashboardLayoutRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
-    '/_app/_business-dashboard/dashboard/': {
-      id: '/_app/_business-dashboard/dashboard/'
-      path: '/'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof AppBusinessDashboardDashboardIndexRouteImport
-      parentRoute: typeof AppBusinessDashboardDashboardLayoutRoute
-    }
   }
 }
-
-interface AppBusinessDashboardDashboardLayoutRouteChildren {
-  AppBusinessDashboardDashboardIndexRoute: typeof AppBusinessDashboardDashboardIndexRoute
-}
-
-const AppBusinessDashboardDashboardLayoutRouteChildren: AppBusinessDashboardDashboardLayoutRouteChildren =
-  {
-    AppBusinessDashboardDashboardIndexRoute:
-      AppBusinessDashboardDashboardIndexRoute,
-  }
-
-const AppBusinessDashboardDashboardLayoutRouteWithChildren =
-  AppBusinessDashboardDashboardLayoutRoute._addFileChildren(
-    AppBusinessDashboardDashboardLayoutRouteChildren,
-  )
 
 interface AppLayoutRouteChildren {
-  AppBusinessDashboardDashboardLayoutRoute: typeof AppBusinessDashboardDashboardLayoutRouteWithChildren
   AppBusinessDashboardIndexRoute: typeof AppBusinessDashboardIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
-  AppBusinessDashboardDashboardLayoutRoute:
-    AppBusinessDashboardDashboardLayoutRouteWithChildren,
   AppBusinessDashboardIndexRoute: AppBusinessDashboardIndexRoute,
 }
 

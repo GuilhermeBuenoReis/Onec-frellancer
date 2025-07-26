@@ -6,9 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useGetNegotiation } from '@/generated';
+import { useGetNegotiation } from '@/generated/hooks/negotiationHooks';
 
-export function SectionCardsNegotiation() {
+export function SectionCards() {
   const { data: responseNegotiation } = useGetNegotiation();
   const negotiations = responseNegotiation?.data ?? [];
 
