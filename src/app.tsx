@@ -1,8 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@/components/shared/theme-provider';
 import { routeTree } from '@/route-tree-gen';
+import { queryClient } from './lib/query-client';
 
 export const router = createRouter({ routeTree });
 
@@ -11,7 +12,6 @@ declare module '@tanstack/react-router' {
     router: typeof router;
   }
 }
-const queryClient = new QueryClient();
 
 export function AppRouter() {
   return (

@@ -2,6 +2,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { GetContract200 } from '@/generated/types/GetContract';
+import { RowActionsPopover } from './row-actions-popover';
 
 function formatCurrency(value: number | string | null) {
   const num = typeof value === 'string' ? parseFloat(value) : value;
@@ -121,6 +122,16 @@ export function CreateColumnsParamsContract(): ColumnDef<
       accessorKey: 'email',
       header: 'Email',
       cell: ({ row }) => row.original.email ?? 'Não informado',
+    },
+    {
+      accessorKey: 'actions',
+      header: 'Ações',
+      cell: ({ row }) => (
+        <RowActionsPopover
+          contractId={row.original.id}
+          contract={row.original}
+        />
+      ),
     },
   ];
 }

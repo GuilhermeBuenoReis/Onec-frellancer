@@ -30,6 +30,8 @@ export const getContract200Schema = z.array(
     partnerCommission: z.number().nullable(),
     counter: z.string().nullable(),
     email: z.string().nullable(),
+    createdAt: z.string().nullable(),
+    updatedAt: z.string().nullable(),
   }),
 ) as unknown as ToZod<GetContract200>
 

@@ -79,6 +79,14 @@ export type GetContract200 = {
    * @type string
    */
   email: string | null
+  /**
+   * @type string
+   */
+  createdAt: string | null
+  /**
+   * @type string
+   */
+  updatedAt: string | null
 }[]
 
 export type GetContractQueryResponse = GetContract200

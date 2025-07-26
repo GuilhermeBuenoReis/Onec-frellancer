@@ -15,9 +15,90 @@ export type UpdateContractPathParams = {
  */
 export type UpdateContract200 = {
   /**
-   * @type string
+   * @type object
    */
-  message: string
+  contract: {
+    /**
+     * @type string
+     */
+    id: string
+    /**
+     * @type string
+     */
+    city: string | null
+    /**
+     * @type string
+     */
+    client: string | null
+    /**
+     * @type string
+     */
+    state: string | null
+    /**
+     * @type string
+     */
+    cnpj: string | null
+    /**
+     * @type string
+     */
+    sindic: string | null
+    /**
+     * @type string
+     */
+    year: string | null
+    /**
+     * @type string
+     */
+    matter: string | null
+    /**
+     * @type string
+     */
+    forecast: string | null
+    /**
+     * @type string
+     */
+    contractTotal: string | null
+    /**
+     * @type number
+     */
+    percentage: number | null
+    /**
+     * @type string
+     */
+    signedContract: string | null
+    /**
+     * @type string
+     */
+    status: string | null
+    /**
+     * @type number
+     */
+    averageGuide: number | null
+    /**
+     * @type string
+     */
+    partner: string | null
+    /**
+     * @type number
+     */
+    partnerCommission: number | null
+    /**
+     * @type string
+     */
+    counter: string | null
+    /**
+     * @type string
+     */
+    email: string | null
+    /**
+     * @type string
+     */
+    createdAt: string | null
+    /**
+     * @type string
+     */
+    updatedAt: string | null
+  }
 }
 
 /**
