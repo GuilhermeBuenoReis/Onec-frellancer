@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetPendings200, GetPendingsQueryResponse } from '../../types/GetPendings.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -23,6 +21,10 @@ export const getPendings200Schema = z.array(
     createdAt: z.string().datetime({ offset: true }).optional(),
     updatedAt: z.string().datetime({ offset: true }).optional(),
   }),
-) as unknown as ToZod<GetPendings200>
+)
 
-export const getPendingsQueryResponseSchema = z.lazy(() => getPendings200Schema) as unknown as ToZod<GetPendingsQueryResponse>
+export type GetPendings200Schema = z.infer<typeof getPendings200Schema>
+
+export const getPendingsQueryResponseSchema = z.lazy(() => getPendings200Schema)
+
+export type GetPendingsQueryResponseSchema = z.infer<typeof getPendingsQueryResponseSchema>

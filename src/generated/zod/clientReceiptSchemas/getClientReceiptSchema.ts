@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetClientReceipt200, GetClientReceiptQueryResponse } from '../../types/GetClientReceipt.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -23,6 +21,10 @@ export const getClientReceipt200Schema = z.array(
     tax: z.number().nullable(),
     status: z.string().nullable(),
   }),
-) as unknown as ToZod<GetClientReceipt200>
+)
 
-export const getClientReceiptQueryResponseSchema = z.lazy(() => getClientReceipt200Schema) as unknown as ToZod<GetClientReceiptQueryResponse>
+export type GetClientReceipt200Schema = z.infer<typeof getClientReceipt200Schema>
+
+export const getClientReceiptQueryResponseSchema = z.lazy(() => getClientReceipt200Schema)
+
+export type GetClientReceiptQueryResponseSchema = z.infer<typeof getClientReceiptQueryResponseSchema>

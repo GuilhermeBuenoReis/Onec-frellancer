@@ -3,12 +3,6 @@
  * Do not edit manually.
  */
 
-import type {
-  GetContractNegotiationSummary200,
-  GetContractNegotiationSummary500,
-  GetContractNegotiationSummaryQueryResponse,
-} from '../../types/GetContractNegotiationSummary.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -53,15 +47,19 @@ export const getContractNegotiationSummary200Schema = z.object({
       contractUpdatedAt: z.string().datetime({ offset: true }),
     }),
   ),
-}) as unknown as ToZod<GetContractNegotiationSummary200>
+})
+
+export type GetContractNegotiationSummary200Schema = z.infer<typeof getContractNegotiationSummary200Schema>
 
 /**
  * @description Default Response
  */
 export const getContractNegotiationSummary500Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<GetContractNegotiationSummary500>
+})
 
-export const getContractNegotiationSummaryQueryResponseSchema = z.lazy(
-  () => getContractNegotiationSummary200Schema,
-) as unknown as ToZod<GetContractNegotiationSummaryQueryResponse>
+export type GetContractNegotiationSummary500Schema = z.infer<typeof getContractNegotiationSummary500Schema>
+
+export const getContractNegotiationSummaryQueryResponseSchema = z.lazy(() => getContractNegotiationSummary200Schema)
+
+export type GetContractNegotiationSummaryQueryResponseSchema = z.infer<typeof getContractNegotiationSummaryQueryResponseSchema>

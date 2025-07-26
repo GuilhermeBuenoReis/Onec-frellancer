@@ -3,39 +3,41 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdateCredentialPathParams,
-  UpdateCredential200,
-  UpdateCredential404,
-  UpdateCredentialMutationRequest,
-  UpdateCredentialMutationResponse,
-} from '../../types/UpdateCredential.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updateCredentialPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdateCredentialPathParams>
+})
+
+export type UpdateCredentialPathParamsSchema = z.infer<typeof updateCredentialPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const updateCredential200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateCredential200>
+})
+
+export type UpdateCredential200Schema = z.infer<typeof updateCredential200Schema>
 
 /**
  * @description Default Response
  */
 export const updateCredential404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateCredential404>
+})
+
+export type UpdateCredential404Schema = z.infer<typeof updateCredential404Schema>
 
 export const updateCredentialMutationRequestSchema = z.object({
   channelHead: z.string().nullable().nullish(),
   cnpj: z.string().nullable().nullish(),
   agentIndicator: z.string().nullable().nullish(),
   partner: z.string().nullable().nullish(),
-}) as unknown as ToZod<UpdateCredentialMutationRequest>
+})
 
-export const updateCredentialMutationResponseSchema = z.lazy(() => updateCredential200Schema) as unknown as ToZod<UpdateCredentialMutationResponse>
+export type UpdateCredentialMutationRequestSchema = z.infer<typeof updateCredentialMutationRequestSchema>
+
+export const updateCredentialMutationResponseSchema = z.lazy(() => updateCredential200Schema)
+
+export type UpdateCredentialMutationResponseSchema = z.infer<typeof updateCredentialMutationResponseSchema>

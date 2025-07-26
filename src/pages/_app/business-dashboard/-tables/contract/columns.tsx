@@ -129,7 +129,7 @@ export function CreateColumnsParamsContract(): ColumnDef<
       cell: ({ row }) => (
         <RowActionsPopover
           contractId={row.original.id}
-          contract={row.original}
+          contract={{ ...row.original, contract: row.original }}
         />
       ),
     },

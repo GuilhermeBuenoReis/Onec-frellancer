@@ -3,26 +3,32 @@
  * Do not edit manually.
  */
 
-import type { DeleteCredentialPathParams, DeleteCredential200, DeleteCredential404, DeleteCredentialMutationResponse } from '../../types/DeleteCredential.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deleteCredentialPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeleteCredentialPathParams>
+})
+
+export type DeleteCredentialPathParamsSchema = z.infer<typeof deleteCredentialPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deleteCredential200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteCredential200>
+})
+
+export type DeleteCredential200Schema = z.infer<typeof deleteCredential200Schema>
 
 /**
  * @description Default Response
  */
 export const deleteCredential404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteCredential404>
+})
 
-export const deleteCredentialMutationResponseSchema = z.lazy(() => deleteCredential200Schema) as unknown as ToZod<DeleteCredentialMutationResponse>
+export type DeleteCredential404Schema = z.infer<typeof deleteCredential404Schema>
+
+export const deleteCredentialMutationResponseSchema = z.lazy(() => deleteCredential200Schema)
+
+export type DeleteCredentialMutationResponseSchema = z.infer<typeof deleteCredentialMutationResponseSchema>

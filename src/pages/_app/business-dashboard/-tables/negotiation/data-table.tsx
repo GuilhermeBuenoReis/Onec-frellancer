@@ -10,7 +10,7 @@ import {
   useReactTable,
   type VisibilityState,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -69,6 +69,10 @@ export function DataTableNegotiation<TData, TValue>({
       rowSelection,
     },
   });
+
+  useEffect(() => {
+    table.setPageIndex(0);
+  }, [data]);
 
   return (
     <div className="space-y-4">

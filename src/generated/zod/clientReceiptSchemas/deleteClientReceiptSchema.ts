@@ -3,31 +3,32 @@
  * Do not edit manually.
  */
 
-import type {
-  DeleteClientReceiptPathParams,
-  DeleteClientReceipt200,
-  DeleteClientReceipt404,
-  DeleteClientReceiptMutationResponse,
-} from '../../types/DeleteClientReceipt.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deleteClientReceiptPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeleteClientReceiptPathParams>
+})
+
+export type DeleteClientReceiptPathParamsSchema = z.infer<typeof deleteClientReceiptPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deleteClientReceipt200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteClientReceipt200>
+})
+
+export type DeleteClientReceipt200Schema = z.infer<typeof deleteClientReceipt200Schema>
 
 /**
  * @description Default Response
  */
 export const deleteClientReceipt404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteClientReceipt404>
+})
 
-export const deleteClientReceiptMutationResponseSchema = z.lazy(() => deleteClientReceipt200Schema) as unknown as ToZod<DeleteClientReceiptMutationResponse>
+export type DeleteClientReceipt404Schema = z.infer<typeof deleteClientReceipt404Schema>
+
+export const deleteClientReceiptMutationResponseSchema = z.lazy(() => deleteClientReceipt200Schema)
+
+export type DeleteClientReceiptMutationResponseSchema = z.infer<typeof deleteClientReceiptMutationResponseSchema>

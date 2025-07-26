@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useGetContractById } from '@/generated';
-import { useContractContext } from '../../-context/contract-context';
+import { useGetNegotiationById } from '@/generated';
+import { useNegotiationContext } from '../../-context/negotiation-context';
 
 const formatLabel = (key: string) => {
   return key
@@ -25,20 +25,20 @@ const formatValue = (value: unknown) => {
   return String(value);
 };
 
-interface ContractViewAllInformationDialogProps {
+interface NegotiationViewAllInformationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function ContractViewAllInformationDialog({
+export function NegotiationViewAllInformationDialog({
   open,
   onOpenChange,
-}: ContractViewAllInformationDialogProps) {
-  const { contractId } = useContractContext();
+}: NegotiationViewAllInformationDialogProps) {
+  const { negotiationId } = useNegotiationContext();
 
-  const { data: contracts } = useGetContractById(contractId);
+  const { data: negotiation } = useGetNegotiationById(negotiationId);
 
-  const allContracts = contracts?.data;
+  const allNegotiation = negotiation?.data;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -48,7 +48,7 @@ export function ContractViewAllInformationDialog({
         </DialogHeader>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto pr-1 text-sm text-muted-foreground">
-          {Object.entries(allContracts || {}).map(([key, value]) => {
+          {Object.entries(allNegotiation || {}).map(([key, value]) => {
             return (
               <div key={key} className="flex flex-col">
                 <span className="text-xs font-medium text-zinc-500">

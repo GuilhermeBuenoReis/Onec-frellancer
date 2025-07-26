@@ -3,13 +3,6 @@
  * Do not edit manually.
  */
 
-import type {
-  AuthenticateUser200,
-  AuthenticateUser401,
-  AuthenticateUserMutationRequest,
-  AuthenticateUserMutationResponse,
-} from '../../types/AuthenticateUser.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -18,18 +11,26 @@ import { z } from 'zod'
 export const authenticateUser200Schema = z.object({
   success: z.boolean(),
   token: z.string(),
-}) as unknown as ToZod<AuthenticateUser200>
+})
+
+export type AuthenticateUser200Schema = z.infer<typeof authenticateUser200Schema>
 
 /**
  * @description Default Response
  */
 export const authenticateUser401Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<AuthenticateUser401>
+})
+
+export type AuthenticateUser401Schema = z.infer<typeof authenticateUser401Schema>
 
 export const authenticateUserMutationRequestSchema = z.object({
   email: z.string().email(),
   password: z.string(),
-}) as unknown as ToZod<AuthenticateUserMutationRequest>
+})
 
-export const authenticateUserMutationResponseSchema = z.lazy(() => authenticateUser200Schema) as unknown as ToZod<AuthenticateUserMutationResponse>
+export type AuthenticateUserMutationRequestSchema = z.infer<typeof authenticateUserMutationRequestSchema>
+
+export const authenticateUserMutationResponseSchema = z.lazy(() => authenticateUser200Schema)
+
+export type AuthenticateUserMutationResponseSchema = z.infer<typeof authenticateUserMutationResponseSchema>

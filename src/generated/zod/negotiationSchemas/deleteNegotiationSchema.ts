@@ -3,31 +3,32 @@
  * Do not edit manually.
  */
 
-import type {
-  DeleteNegotiationPathParams,
-  DeleteNegotiation200,
-  DeleteNegotiation404,
-  DeleteNegotiationMutationResponse,
-} from '../../types/DeleteNegotiation.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deleteNegotiationPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeleteNegotiationPathParams>
+})
+
+export type DeleteNegotiationPathParamsSchema = z.infer<typeof deleteNegotiationPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deleteNegotiation200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteNegotiation200>
+})
+
+export type DeleteNegotiation200Schema = z.infer<typeof deleteNegotiation200Schema>
 
 /**
  * @description Default Response
  */
 export const deleteNegotiation404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteNegotiation404>
+})
 
-export const deleteNegotiationMutationResponseSchema = z.lazy(() => deleteNegotiation200Schema) as unknown as ToZod<DeleteNegotiationMutationResponse>
+export type DeleteNegotiation404Schema = z.infer<typeof deleteNegotiation404Schema>
+
+export const deleteNegotiationMutationResponseSchema = z.lazy(() => deleteNegotiation200Schema)
+
+export type DeleteNegotiationMutationResponseSchema = z.infer<typeof deleteNegotiationMutationResponseSchema>

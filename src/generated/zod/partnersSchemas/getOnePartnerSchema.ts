@@ -3,13 +3,13 @@
  * Do not edit manually.
  */
 
-import type { GetOnePartnerPathParams, GetOnePartner200, GetOnePartner404, GetOnePartnerQueryResponse } from '../../types/GetOnePartner.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const getOnePartnerPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<GetOnePartnerPathParams>
+})
+
+export type GetOnePartnerPathParamsSchema = z.infer<typeof getOnePartnerPathParamsSchema>
 
 /**
  * @description Default Response
@@ -31,13 +31,19 @@ export const getOnePartner200Schema = z.object({
   phone: z.string().nullable(),
   email: z.string().nullable(),
   responsible: z.string().nullable(),
-}) as unknown as ToZod<GetOnePartner200>
+})
+
+export type GetOnePartner200Schema = z.infer<typeof getOnePartner200Schema>
 
 /**
  * @description Default Response
  */
 export const getOnePartner404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<GetOnePartner404>
+})
 
-export const getOnePartnerQueryResponseSchema = z.lazy(() => getOnePartner200Schema) as unknown as ToZod<GetOnePartnerQueryResponse>
+export type GetOnePartner404Schema = z.infer<typeof getOnePartner404Schema>
+
+export const getOnePartnerQueryResponseSchema = z.lazy(() => getOnePartner200Schema)
+
+export type GetOnePartnerQueryResponseSchema = z.infer<typeof getOnePartnerQueryResponseSchema>

@@ -3,6 +3,7 @@
 import { useNegotiationFilters } from '@/context/dashboard-filter-context';
 import { useGetContract } from '@/generated/hooks/contractHooks/useGetContract';
 import type { GetContract200 } from '@/generated/types/GetContract';
+import { DataTableSkeleton } from '../../-components/data-table-skeleton';
 import { ContractProvider } from '../../-context/contract-context';
 import { CreateColumnsParamsContract } from './columns';
 import { DataTableContract } from './data-table';
@@ -34,7 +35,12 @@ export function ContractTableFromAPI() {
 
   const columns = CreateColumnsParamsContract();
 
-  if (isLoading) return <div className="text-center py-8">Carregando...</div>;
+  if (isLoading)
+    return (
+      <div className="text-center py-8">
+        <DataTableSkeleton />
+      </div>
+    );
 
   return (
     <ContractProvider>

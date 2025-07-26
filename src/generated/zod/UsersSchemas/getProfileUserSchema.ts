@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetProfileUser200, GetProfileUser400, GetProfileUserQueryResponse } from '../../types/GetProfileUser.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -16,13 +14,19 @@ export const getProfileUser200Schema = z.array(
     email: z.string().email(),
     role: z.string(),
   }),
-) as unknown as ToZod<GetProfileUser200>
+)
+
+export type GetProfileUser200Schema = z.infer<typeof getProfileUser200Schema>
 
 /**
  * @description Default Response
  */
 export const getProfileUser400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<GetProfileUser400>
+})
 
-export const getProfileUserQueryResponseSchema = z.lazy(() => getProfileUser200Schema) as unknown as ToZod<GetProfileUserQueryResponse>
+export type GetProfileUser400Schema = z.infer<typeof getProfileUser400Schema>
+
+export const getProfileUserQueryResponseSchema = z.lazy(() => getProfileUser200Schema)
+
+export type GetProfileUserQueryResponseSchema = z.infer<typeof getProfileUserQueryResponseSchema>

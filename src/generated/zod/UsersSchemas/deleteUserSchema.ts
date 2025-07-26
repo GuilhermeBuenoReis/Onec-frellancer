@@ -3,26 +3,32 @@
  * Do not edit manually.
  */
 
-import type { DeleteUserPathParams, DeleteUser200, DeleteUser400, DeleteUserMutationResponse } from '../../types/DeleteUser.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deleteUserPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeleteUserPathParams>
+})
+
+export type DeleteUserPathParamsSchema = z.infer<typeof deleteUserPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deleteUser200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteUser200>
+})
+
+export type DeleteUser200Schema = z.infer<typeof deleteUser200Schema>
 
 /**
  * @description Default Response
  */
 export const deleteUser400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteUser400>
+})
 
-export const deleteUserMutationResponseSchema = z.lazy(() => deleteUser200Schema) as unknown as ToZod<DeleteUserMutationResponse>
+export type DeleteUser400Schema = z.infer<typeof deleteUser400Schema>
+
+export const deleteUserMutationResponseSchema = z.lazy(() => deleteUser200Schema)
+
+export type DeleteUserMutationResponseSchema = z.infer<typeof deleteUserMutationResponseSchema>

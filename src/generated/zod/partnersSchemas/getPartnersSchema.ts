@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetPartners200, GetPartnersQueryResponse } from '../../types/GetPartners.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -29,6 +27,10 @@ export const getPartners200Schema = z.array(
     email: z.string().nullable(),
     responsible: z.string().nullable(),
   }),
-) as unknown as ToZod<GetPartners200>
+)
 
-export const getPartnersQueryResponseSchema = z.lazy(() => getPartners200Schema) as unknown as ToZod<GetPartnersQueryResponse>
+export type GetPartners200Schema = z.infer<typeof getPartners200Schema>
+
+export const getPartnersQueryResponseSchema = z.lazy(() => getPartners200Schema)
+
+export type GetPartnersQueryResponseSchema = z.infer<typeof getPartnersQueryResponseSchema>

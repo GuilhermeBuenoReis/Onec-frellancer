@@ -3,33 +3,31 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdateClientPathParams,
-  UpdateClient200,
-  UpdateClient404,
-  UpdateClientMutationRequest,
-  UpdateClientMutationResponse,
-} from '../../types/UpdateClient.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updateClientPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdateClientPathParams>
+})
+
+export type UpdateClientPathParamsSchema = z.infer<typeof updateClientPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const updateClient200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateClient200>
+})
+
+export type UpdateClient200Schema = z.infer<typeof updateClient200Schema>
 
 /**
  * @description Default Response
  */
 export const updateClient404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateClient404>
+})
+
+export type UpdateClient404Schema = z.infer<typeof updateClient404Schema>
 
 export const updateClientMutationRequestSchema = z.object({
   enterprise: z.string().nullable().nullish(),
@@ -38,6 +36,10 @@ export const updateClientMutationRequestSchema = z.object({
   contestation: z.string().nullable().nullish(),
   returned: z.string().nullable().nullish(),
   product: z.string().nullable().nullish(),
-}) as unknown as ToZod<UpdateClientMutationRequest>
+})
 
-export const updateClientMutationResponseSchema = z.lazy(() => updateClient200Schema) as unknown as ToZod<UpdateClientMutationResponse>
+export type UpdateClientMutationRequestSchema = z.infer<typeof updateClientMutationRequestSchema>
+
+export const updateClientMutationResponseSchema = z.lazy(() => updateClient200Schema)
+
+export type UpdateClientMutationResponseSchema = z.infer<typeof updateClientMutationResponseSchema>

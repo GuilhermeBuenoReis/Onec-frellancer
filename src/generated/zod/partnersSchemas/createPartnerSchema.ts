@@ -3,14 +3,14 @@
  * Do not edit manually.
  */
 
-import type { CreatePartner201, CreatePartnerMutationRequest, CreatePartnerMutationResponse } from '../../types/CreatePartner.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
  * @description Default Response
  */
-export const createPartner201Schema = z.unknown() as unknown as ToZod<CreatePartner201>
+export const createPartner201Schema = z.unknown()
+
+export type CreatePartner201Schema = z.infer<typeof createPartner201Schema>
 
 export const createPartnerMutationRequestSchema = z.object({
   name: z.string().nullable(),
@@ -28,6 +28,10 @@ export const createPartnerMutationRequestSchema = z.object({
   phone: z.string().nullable(),
   email: z.string().nullable(),
   responsible: z.string().nullable(),
-}) as unknown as ToZod<CreatePartnerMutationRequest>
+})
 
-export const createPartnerMutationResponseSchema = z.lazy(() => createPartner201Schema) as unknown as ToZod<CreatePartnerMutationResponse>
+export type CreatePartnerMutationRequestSchema = z.infer<typeof createPartnerMutationRequestSchema>
+
+export const createPartnerMutationResponseSchema = z.lazy(() => createPartner201Schema)
+
+export type CreatePartnerMutationResponseSchema = z.infer<typeof createPartnerMutationResponseSchema>

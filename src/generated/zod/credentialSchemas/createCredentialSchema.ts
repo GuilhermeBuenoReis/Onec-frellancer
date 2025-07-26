@@ -3,32 +3,33 @@
  * Do not edit manually.
  */
 
-import type {
-  CreateCredential201,
-  CreateCredential400,
-  CreateCredentialMutationRequest,
-  CreateCredentialMutationResponse,
-} from '../../types/CreateCredential.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
  * @description Default Response
  */
-export const createCredential201Schema = z.unknown() as unknown as ToZod<CreateCredential201>
+export const createCredential201Schema = z.unknown()
+
+export type CreateCredential201Schema = z.infer<typeof createCredential201Schema>
 
 /**
  * @description Default Response
  */
 export const createCredential400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<CreateCredential400>
+})
+
+export type CreateCredential400Schema = z.infer<typeof createCredential400Schema>
 
 export const createCredentialMutationRequestSchema = z.object({
   channelHead: z.string().nullable(),
   cnpj: z.string().nullable(),
   agentIndicator: z.string().nullable(),
   partner: z.string().nullable(),
-}) as unknown as ToZod<CreateCredentialMutationRequest>
+})
 
-export const createCredentialMutationResponseSchema = z.lazy(() => createCredential201Schema) as unknown as ToZod<CreateCredentialMutationResponse>
+export type CreateCredentialMutationRequestSchema = z.infer<typeof createCredentialMutationRequestSchema>
+
+export const createCredentialMutationResponseSchema = z.lazy(() => createCredential201Schema)
+
+export type CreateCredentialMutationResponseSchema = z.infer<typeof createCredentialMutationResponseSchema>

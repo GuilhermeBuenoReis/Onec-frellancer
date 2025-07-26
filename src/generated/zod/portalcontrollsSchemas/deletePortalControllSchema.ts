@@ -3,31 +3,32 @@
  * Do not edit manually.
  */
 
-import type {
-  DeletePortalControllPathParams,
-  DeletePortalControll200,
-  DeletePortalControll404,
-  DeletePortalControllMutationResponse,
-} from '../../types/DeletePortalControll.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deletePortalControllPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeletePortalControllPathParams>
+})
+
+export type DeletePortalControllPathParamsSchema = z.infer<typeof deletePortalControllPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deletePortalControll200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeletePortalControll200>
+})
+
+export type DeletePortalControll200Schema = z.infer<typeof deletePortalControll200Schema>
 
 /**
  * @description Default Response
  */
 export const deletePortalControll404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeletePortalControll404>
+})
 
-export const deletePortalControllMutationResponseSchema = z.lazy(() => deletePortalControll200Schema) as unknown as ToZod<DeletePortalControllMutationResponse>
+export type DeletePortalControll404Schema = z.infer<typeof deletePortalControll404Schema>
+
+export const deletePortalControllMutationResponseSchema = z.lazy(() => deletePortalControll200Schema)
+
+export type DeletePortalControllMutationResponseSchema = z.infer<typeof deletePortalControllMutationResponseSchema>

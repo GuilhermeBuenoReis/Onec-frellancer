@@ -3,18 +3,13 @@
  * Do not edit manually.
  */
 
-import type {
-  GetPortalControllsBySelectByIdPathParams,
-  GetPortalControllsBySelectById200,
-  GetPortalControllsBySelectById500,
-  GetPortalControllsBySelectByIdQueryResponse,
-} from '../../types/GetPortalControllsBySelectById.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const getPortalControllsBySelectByIdPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<GetPortalControllsBySelectByIdPathParams>
+})
+
+export type GetPortalControllsBySelectByIdPathParamsSchema = z.infer<typeof getPortalControllsBySelectByIdPathParamsSchema>
 
 /**
  * @description Default Response
@@ -36,15 +31,19 @@ export const getPortalControllsBySelectById200Schema = z.array(
     situation: z.string().nullable(),
     partnerId: z.string(),
   }),
-) as unknown as ToZod<GetPortalControllsBySelectById200>
+)
+
+export type GetPortalControllsBySelectById200Schema = z.infer<typeof getPortalControllsBySelectById200Schema>
 
 /**
  * @description Default Response
  */
 export const getPortalControllsBySelectById500Schema = z.object({
   error: z.string(),
-}) as unknown as ToZod<GetPortalControllsBySelectById500>
+})
 
-export const getPortalControllsBySelectByIdQueryResponseSchema = z.lazy(
-  () => getPortalControllsBySelectById200Schema,
-) as unknown as ToZod<GetPortalControllsBySelectByIdQueryResponse>
+export type GetPortalControllsBySelectById500Schema = z.infer<typeof getPortalControllsBySelectById500Schema>
+
+export const getPortalControllsBySelectByIdQueryResponseSchema = z.lazy(() => getPortalControllsBySelectById200Schema)
+
+export type GetPortalControllsBySelectByIdQueryResponseSchema = z.infer<typeof getPortalControllsBySelectByIdQueryResponseSchema>

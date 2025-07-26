@@ -3,13 +3,13 @@
  * Do not edit manually.
  */
 
-import type { GetOnePendingPathParams, GetOnePending200, GetOnePending404, GetOnePendingQueryResponse } from '../../types/GetOnePending.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const getOnePendingPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<GetOnePendingPathParams>
+})
+
+export type GetOnePendingPathParamsSchema = z.infer<typeof getOnePendingPathParamsSchema>
 
 /**
  * @description Default Response
@@ -25,13 +25,19 @@ export const getOnePending200Schema = z.object({
   description: z.string().nullable(),
   createdAt: z.string().datetime({ offset: true }).optional(),
   updatedAt: z.string().datetime({ offset: true }).optional(),
-}) as unknown as ToZod<GetOnePending200>
+})
+
+export type GetOnePending200Schema = z.infer<typeof getOnePending200Schema>
 
 /**
  * @description Default Response
  */
 export const getOnePending404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<GetOnePending404>
+})
 
-export const getOnePendingQueryResponseSchema = z.lazy(() => getOnePending200Schema) as unknown as ToZod<GetOnePendingQueryResponse>
+export type GetOnePending404Schema = z.infer<typeof getOnePending404Schema>
+
+export const getOnePendingQueryResponseSchema = z.lazy(() => getOnePending200Schema)
+
+export type GetOnePendingQueryResponseSchema = z.infer<typeof getOnePendingQueryResponseSchema>

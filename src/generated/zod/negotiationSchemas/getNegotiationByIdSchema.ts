@@ -3,13 +3,13 @@
  * Do not edit manually.
  */
 
-import type { GetNegotiationByIdPathParams, GetNegotiationById200, GetNegotiationByIdQueryResponse } from '../../types/GetNegotiationById.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const getNegotiationByIdPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<GetNegotiationByIdPathParams>
+})
+
+export type GetNegotiationByIdPathParamsSchema = z.infer<typeof getNegotiationByIdPathParamsSchema>
 
 /**
  * @description Default Response
@@ -29,6 +29,10 @@ export const getNegotiationById200Schema = z.array(
     averageGuide: z.number().nullable(),
     partnerId: z.string().nullable(),
   }),
-) as unknown as ToZod<GetNegotiationById200>
+)
 
-export const getNegotiationByIdQueryResponseSchema = z.lazy(() => getNegotiationById200Schema) as unknown as ToZod<GetNegotiationByIdQueryResponse>
+export type GetNegotiationById200Schema = z.infer<typeof getNegotiationById200Schema>
+
+export const getNegotiationByIdQueryResponseSchema = z.lazy(() => getNegotiationById200Schema)
+
+export type GetNegotiationByIdQueryResponseSchema = z.infer<typeof getNegotiationByIdQueryResponseSchema>

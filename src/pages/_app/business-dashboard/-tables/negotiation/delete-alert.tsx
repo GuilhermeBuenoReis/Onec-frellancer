@@ -13,24 +13,27 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { getContractQueryKey, useDeleteContract } from '@/generated';
+import { getNegotiationQueryKey, useDeleteNegotiation } from '@/generated';
 import { queryClient } from '@/lib/query-client';
-import { useContractContext } from '../../-context/contract-context';
+import { useNegotiationContext } from '../../-context/negotiation-context';
 
-interface DeleteAlertProps {
+interface NegotiationAlertProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function ContractDeleteAlert({ open, onOpenChange }: DeleteAlertProps) {
-  const { mutateAsync: deleteContract, isPending } = useDeleteContract();
-  const { id } = useContractContext();
+export function ContractDeleteAlert({
+  open,
+  onOpenChange,
+}: NegotiationAlertProps) {
+  const { mutateAsync: deleteNegotiation, isPending } = useDeleteNegotiation();
+  const { id } = useNegotiationContext();
 
-  async function handleDelete() {
+  async function handleDeleteNegotiation() {
     try {
-      await deleteContract({ id });
+      await deleteNegotiation({ id });
       toast.success('Contrato deletada com sucesso!');
-      queryClient.invalidateQueries({ queryKey: [getContractQueryKey()] });
+      queryClient.invalidateQueries({ queryKey: [getNegotiationQueryKey()] });
       onOpenChange(false);
     } catch (error) {
       console.error('Erro ao deletar contrato:', error);
@@ -52,7 +55,7 @@ export function ContractDeleteAlert({ open, onOpenChange }: DeleteAlertProps) {
           <AlertDialogCancel disabled={isPending}>Cancelar</AlertDialogCancel>
           <Button
             variant="destructive"
-            onClick={handleDelete}
+            onClick={handleDeleteNegotiation}
             disabled={isPending}
           >
             {isPending ? (

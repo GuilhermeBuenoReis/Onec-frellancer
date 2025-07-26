@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { CreateContract201, CreateContract400, CreateContractMutationRequest, CreateContractMutationResponse } from '../../types/CreateContract.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -13,14 +11,18 @@ import { z } from 'zod'
 export const createContract201Schema = z.object({
   id: z.string(),
   name: z.string(),
-}) as unknown as ToZod<CreateContract201>
+})
+
+export type CreateContract201Schema = z.infer<typeof createContract201Schema>
 
 /**
  * @description Default Response
  */
 export const createContract400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<CreateContract400>
+})
+
+export type CreateContract400Schema = z.infer<typeof createContract400Schema>
 
 export const createContractMutationRequestSchema = z.object({
   city: z.string().nullable(),
@@ -40,6 +42,10 @@ export const createContractMutationRequestSchema = z.object({
   partnerCommission: z.number().nullable(),
   counter: z.string().nullable(),
   email: z.string().nullable(),
-}) as unknown as ToZod<CreateContractMutationRequest>
+})
 
-export const createContractMutationResponseSchema = z.lazy(() => createContract201Schema) as unknown as ToZod<CreateContractMutationResponse>
+export type CreateContractMutationRequestSchema = z.infer<typeof createContractMutationRequestSchema>
+
+export const createContractMutationResponseSchema = z.lazy(() => createContract201Schema)
+
+export type CreateContractMutationResponseSchema = z.infer<typeof createContractMutationResponseSchema>

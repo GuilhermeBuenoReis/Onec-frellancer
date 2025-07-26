@@ -3,26 +3,32 @@
  * Do not edit manually.
  */
 
-import type { DeletePendingPathParams, DeletePending200, DeletePending404, DeletePendingMutationResponse } from '../../types/DeletePending.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deletePendingPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeletePendingPathParams>
+})
+
+export type DeletePendingPathParamsSchema = z.infer<typeof deletePendingPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deletePending200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeletePending200>
+})
+
+export type DeletePending200Schema = z.infer<typeof deletePending200Schema>
 
 /**
  * @description Default Response
  */
 export const deletePending404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeletePending404>
+})
 
-export const deletePendingMutationResponseSchema = z.lazy(() => deletePending200Schema) as unknown as ToZod<DeletePendingMutationResponse>
+export type DeletePending404Schema = z.infer<typeof deletePending404Schema>
+
+export const deletePendingMutationResponseSchema = z.lazy(() => deletePending200Schema)
+
+export type DeletePendingMutationResponseSchema = z.infer<typeof deletePendingMutationResponseSchema>

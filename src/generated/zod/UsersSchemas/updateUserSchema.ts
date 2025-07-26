@@ -3,32 +3,40 @@
  * Do not edit manually.
  */
 
-import type { UpdateUserPathParams, UpdateUser200, UpdateUser400, UpdateUserMutationRequest, UpdateUserMutationResponse } from '../../types/UpdateUser.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updateUserPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdateUserPathParams>
+})
+
+export type UpdateUserPathParamsSchema = z.infer<typeof updateUserPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const updateUser200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateUser200>
+})
+
+export type UpdateUser200Schema = z.infer<typeof updateUser200Schema>
 
 /**
  * @description Default Response
  */
 export const updateUser400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateUser400>
+})
+
+export type UpdateUser400Schema = z.infer<typeof updateUser400Schema>
 
 export const updateUserMutationRequestSchema = z.object({
   email: z.string().email().optional(),
   password: z.string().min(6).optional(),
   role: z.string().optional(),
-}) as unknown as ToZod<UpdateUserMutationRequest>
+})
 
-export const updateUserMutationResponseSchema = z.lazy(() => updateUser200Schema) as unknown as ToZod<UpdateUserMutationResponse>
+export type UpdateUserMutationRequestSchema = z.infer<typeof updateUserMutationRequestSchema>
+
+export const updateUserMutationResponseSchema = z.lazy(() => updateUser200Schema)
+
+export type UpdateUserMutationResponseSchema = z.infer<typeof updateUserMutationResponseSchema>

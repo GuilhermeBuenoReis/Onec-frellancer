@@ -3,33 +3,31 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdateClientReceiptPathParams,
-  UpdateClientReceipt200,
-  UpdateClientReceipt404,
-  UpdateClientReceiptMutationRequest,
-  UpdateClientReceiptMutationResponse,
-} from '../../types/UpdateClientReceipt.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updateClientReceiptPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdateClientReceiptPathParams>
+})
+
+export type UpdateClientReceiptPathParamsSchema = z.infer<typeof updateClientReceiptPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const updateClientReceipt200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateClientReceipt200>
+})
+
+export type UpdateClientReceipt200Schema = z.infer<typeof updateClientReceipt200Schema>
 
 /**
  * @description Default Response
  */
 export const updateClientReceipt404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateClientReceipt404>
+})
+
+export type UpdateClientReceipt404Schema = z.infer<typeof updateClientReceipt404Schema>
 
 export const updateClientReceiptMutationRequestSchema = z.object({
   receiptDate: z.string().nullable().nullish(),
@@ -41,6 +39,10 @@ export const updateClientReceiptMutationRequestSchema = z.object({
   honorary: z.number().nullable().nullish(),
   tax: z.number().nullable().nullish(),
   status: z.string().nullable().nullish(),
-}) as unknown as ToZod<UpdateClientReceiptMutationRequest>
+})
 
-export const updateClientReceiptMutationResponseSchema = z.lazy(() => updateClientReceipt200Schema) as unknown as ToZod<UpdateClientReceiptMutationResponse>
+export type UpdateClientReceiptMutationRequestSchema = z.infer<typeof updateClientReceiptMutationRequestSchema>
+
+export const updateClientReceiptMutationResponseSchema = z.lazy(() => updateClientReceipt200Schema)
+
+export type UpdateClientReceiptMutationResponseSchema = z.infer<typeof updateClientReceiptMutationResponseSchema>

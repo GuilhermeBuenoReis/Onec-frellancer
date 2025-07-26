@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetClient200, GetClientQueryResponse } from '../../types/GetClient.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -19,6 +17,10 @@ export const getClient200Schema = z.array(
     returned: z.string().nullable(),
     product: z.string().nullable(),
   }),
-) as unknown as ToZod<GetClient200>
+)
 
-export const getClientQueryResponseSchema = z.lazy(() => getClient200Schema) as unknown as ToZod<GetClientQueryResponse>
+export type GetClient200Schema = z.infer<typeof getClient200Schema>
+
+export const getClientQueryResponseSchema = z.lazy(() => getClient200Schema)
+
+export type GetClientQueryResponseSchema = z.infer<typeof getClientQueryResponseSchema>

@@ -45,10 +45,10 @@ export default defineConfig({
         path: './zod',
       },
       group: { type: 'tag', name: ({ group }) => `${group}Schemas` },
-      typed: true,
       dateType: 'stringOffset',
       unknownType: 'unknown',
       importPath: 'zod',
+      inferred: true,
     }),
   ],
 });

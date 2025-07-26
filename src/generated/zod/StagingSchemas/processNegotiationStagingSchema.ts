@@ -3,12 +3,6 @@
  * Do not edit manually.
  */
 
-import type {
-  ProcessNegotiationStaging200,
-  ProcessNegotiationStaging500,
-  ProcessNegotiationStagingMutationResponse,
-} from '../../types/ProcessNegotiationStaging.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -16,15 +10,19 @@ import { z } from 'zod'
  */
 export const processNegotiationStaging200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<ProcessNegotiationStaging200>
+})
+
+export type ProcessNegotiationStaging200Schema = z.infer<typeof processNegotiationStaging200Schema>
 
 /**
  * @description Default Response
  */
 export const processNegotiationStaging500Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<ProcessNegotiationStaging500>
+})
 
-export const processNegotiationStagingMutationResponseSchema = z.lazy(
-  () => processNegotiationStaging200Schema,
-) as unknown as ToZod<ProcessNegotiationStagingMutationResponse>
+export type ProcessNegotiationStaging500Schema = z.infer<typeof processNegotiationStaging500Schema>
+
+export const processNegotiationStagingMutationResponseSchema = z.lazy(() => processNegotiationStaging200Schema)
+
+export type ProcessNegotiationStagingMutationResponseSchema = z.infer<typeof processNegotiationStagingMutationResponseSchema>

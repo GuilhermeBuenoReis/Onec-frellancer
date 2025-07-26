@@ -3,13 +3,6 @@
  * Do not edit manually.
  */
 
-import type {
-  CreateDataNegotiation201,
-  CreateDataNegotiation400,
-  CreateDataNegotiationMutationRequest,
-  CreateDataNegotiationMutationResponse,
-} from '../../types/CreateDataNegotiation.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -18,14 +11,18 @@ import { z } from 'zod'
 export const createDataNegotiation201Schema = z.object({
   id: z.string(),
   name: z.string(),
-}) as unknown as ToZod<CreateDataNegotiation201>
+})
+
+export type CreateDataNegotiation201Schema = z.infer<typeof createDataNegotiation201Schema>
 
 /**
  * @description Default Response
  */
 export const createDataNegotiation400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<CreateDataNegotiation400>
+})
+
+export type CreateDataNegotiation400Schema = z.infer<typeof createDataNegotiation400Schema>
 
 export const createDataNegotiationMutationRequestSchema = z.object({
   title: z.string().nullable(),
@@ -39,8 +36,10 @@ export const createDataNegotiationMutationRequestSchema = z.object({
   startsDate: z.string().nullable(),
   observation: z.string().nullable(),
   averageGuide: z.number().nullable(),
-}) as unknown as ToZod<CreateDataNegotiationMutationRequest>
+})
 
-export const createDataNegotiationMutationResponseSchema = z.lazy(
-  () => createDataNegotiation201Schema,
-) as unknown as ToZod<CreateDataNegotiationMutationResponse>
+export type CreateDataNegotiationMutationRequestSchema = z.infer<typeof createDataNegotiationMutationRequestSchema>
+
+export const createDataNegotiationMutationResponseSchema = z.lazy(() => createDataNegotiation201Schema)
+
+export type CreateDataNegotiationMutationResponseSchema = z.infer<typeof createDataNegotiationMutationResponseSchema>

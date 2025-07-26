@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import type { GetContract200, UpdateContract200 } from '@/generated';
+import type { UpdateContract200 } from '@/generated';
 import { useContractContext } from '../../-context/contract-context';
 import { ContractDeleteAlert } from './delete-alert';
 import { ContractEditSheet } from './edit-form-sheet';
@@ -27,10 +27,10 @@ export function RowActionsPopover({
 }: RowActionsPopoverProps) {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
 
-  const { setId, setContractData } = useContractContext();
+  const { setContractId, setContractData } = useContractContext();
 
   function handleOpenPopover() {
-    setId(contractId);
+    setContractId(contractId);
     setContractData(contract);
   }
 

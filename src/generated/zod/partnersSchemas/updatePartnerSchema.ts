@@ -3,19 +3,13 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdatePartnerPathParams,
-  UpdatePartner200,
-  UpdatePartner404,
-  UpdatePartnerMutationRequest,
-  UpdatePartnerMutationResponse,
-} from '../../types/UpdatePartner.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updatePartnerPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdatePartnerPathParams>
+})
+
+export type UpdatePartnerPathParamsSchema = z.infer<typeof updatePartnerPathParamsSchema>
 
 /**
  * @description Default Response
@@ -23,14 +17,18 @@ export const updatePartnerPathParamsSchema = z.object({
 export const updatePartner200Schema = z.object({
   id: z.string(),
   name: z.string().nullable(),
-}) as unknown as ToZod<UpdatePartner200>
+})
+
+export type UpdatePartner200Schema = z.infer<typeof updatePartner200Schema>
 
 /**
  * @description Default Response
  */
 export const updatePartner404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdatePartner404>
+})
+
+export type UpdatePartner404Schema = z.infer<typeof updatePartner404Schema>
 
 export const updatePartnerMutationRequestSchema = z.object({
   name: z.string().optional(),
@@ -48,6 +46,10 @@ export const updatePartnerMutationRequestSchema = z.object({
   phone: z.string().nullable().nullish(),
   email: z.string().nullable().nullish(),
   responsible: z.string().nullable().nullish(),
-}) as unknown as ToZod<UpdatePartnerMutationRequest>
+})
 
-export const updatePartnerMutationResponseSchema = z.lazy(() => updatePartner200Schema) as unknown as ToZod<UpdatePartnerMutationResponse>
+export type UpdatePartnerMutationRequestSchema = z.infer<typeof updatePartnerMutationRequestSchema>
+
+export const updatePartnerMutationResponseSchema = z.lazy(() => updatePartner200Schema)
+
+export type UpdatePartnerMutationResponseSchema = z.infer<typeof updatePartnerMutationResponseSchema>

@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import type { PostUploadXlsx200, PostUploadXlsxMutationResponse } from '../../types/PostUploadXlsx.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
  * @description Default Response
  */
-export const postUploadXlsx200Schema = z.unknown() as unknown as ToZod<PostUploadXlsx200>
+export const postUploadXlsx200Schema = z.unknown()
 
-export const postUploadXlsxMutationResponseSchema = z.lazy(() => postUploadXlsx200Schema) as unknown as ToZod<PostUploadXlsxMutationResponse>
+export type PostUploadXlsx200Schema = z.infer<typeof postUploadXlsx200Schema>
+
+export const postUploadXlsxMutationResponseSchema = z.lazy(() => postUploadXlsx200Schema)
+
+export type PostUploadXlsxMutationResponseSchema = z.infer<typeof postUploadXlsxMutationResponseSchema>

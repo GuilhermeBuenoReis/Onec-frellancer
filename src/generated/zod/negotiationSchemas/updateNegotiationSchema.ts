@@ -3,46 +3,63 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdateNegotiationPathParams,
-  UpdateNegotiation200,
-  UpdateNegotiation404,
-  UpdateNegotiationMutationRequest,
-  UpdateNegotiationMutationResponse,
-} from '../../types/UpdateNegotiation.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updateNegotiationPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdateNegotiationPathParams>
+})
+
+export type UpdateNegotiationPathParamsSchema = z.infer<typeof updateNegotiationPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const updateNegotiation200Schema = z.object({
-  title: z.string().nullable(),
-}) as unknown as ToZod<UpdateNegotiation200>
+  negotiation: z.object({
+    id: z.string(),
+    title: z.string().nullable(),
+    client: z.string().nullable(),
+    user: z.string().nullable(),
+    tags: z.string().nullable(),
+    step: z.string().nullable(),
+    status: z.string().nullable(),
+    value: z.number().nullable(),
+    startsDate: z.string().nullable(),
+    observation: z.string().nullable(),
+    partnerId: z.string().nullable(),
+    averageGuide: z.number().nullable(),
+    createdAt: z.string().nullable(),
+    updatedAt: z.string().nullable(),
+  }),
+})
+
+export type UpdateNegotiation200Schema = z.infer<typeof updateNegotiation200Schema>
 
 /**
  * @description Default Response
  */
 export const updateNegotiation404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateNegotiation404>
+})
+
+export type UpdateNegotiation404Schema = z.infer<typeof updateNegotiation404Schema>
 
 export const updateNegotiationMutationRequestSchema = z.object({
-  title: z.string().optional(),
-  client: z.string().optional(),
-  user: z.string().optional(),
-  tags: z.string().optional(),
-  step: z.string().optional(),
-  status: z.string().optional(),
-  value: z.number().optional(),
+  title: z.string().nullable().nullish(),
+  client: z.string().nullable().nullish(),
+  user: z.string().nullable().nullish(),
+  tags: z.string().nullable().nullish(),
+  step: z.string().nullable().nullish(),
+  status: z.string().nullable().nullish(),
+  value: z.number().nullable().nullish(),
   startsDate: z.string().nullable().nullish(),
   partnerId: z.string().nullable().nullish(),
   observation: z.string().nullable().nullish(),
   averageGuide: z.number().nullable().nullish(),
-}) as unknown as ToZod<UpdateNegotiationMutationRequest>
+})
 
-export const updateNegotiationMutationResponseSchema = z.lazy(() => updateNegotiation200Schema) as unknown as ToZod<UpdateNegotiationMutationResponse>
+export type UpdateNegotiationMutationRequestSchema = z.infer<typeof updateNegotiationMutationRequestSchema>
+
+export const updateNegotiationMutationResponseSchema = z.lazy(() => updateNegotiation200Schema)
+
+export type UpdateNegotiationMutationResponseSchema = z.infer<typeof updateNegotiationMutationResponseSchema>

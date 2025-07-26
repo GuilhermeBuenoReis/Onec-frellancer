@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetNegotiation200, GetNegotiationQueryResponse } from '../../types/GetNegotiation.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -24,7 +22,13 @@ export const getNegotiation200Schema = z.array(
     observation: z.string().nullable(),
     averageGuide: z.number().nullable(),
     partnerId: z.string().nullable(),
+    createdAt: z.string().nullable(),
+    updatedAt: z.string().nullable(),
   }),
-) as unknown as ToZod<GetNegotiation200>
+)
 
-export const getNegotiationQueryResponseSchema = z.lazy(() => getNegotiation200Schema) as unknown as ToZod<GetNegotiationQueryResponse>
+export type GetNegotiation200Schema = z.infer<typeof getNegotiation200Schema>
+
+export const getNegotiationQueryResponseSchema = z.lazy(() => getNegotiation200Schema)
+
+export type GetNegotiationQueryResponseSchema = z.infer<typeof getNegotiationQueryResponseSchema>

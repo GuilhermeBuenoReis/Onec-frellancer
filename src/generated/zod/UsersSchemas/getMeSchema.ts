@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetMe200, GetMe401, GetMeQueryResponse } from '../../types/GetMe.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -14,13 +12,19 @@ export const getMe200Schema = z.object({
   id: z.string(),
   email: z.string().email(),
   role: z.string(),
-}) as unknown as ToZod<GetMe200>
+})
+
+export type GetMe200Schema = z.infer<typeof getMe200Schema>
 
 /**
  * @description Default Response
  */
 export const getMe401Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<GetMe401>
+})
 
-export const getMeQueryResponseSchema = z.lazy(() => getMe200Schema) as unknown as ToZod<GetMeQueryResponse>
+export type GetMe401Schema = z.infer<typeof getMe401Schema>
+
+export const getMeQueryResponseSchema = z.lazy(() => getMe200Schema)
+
+export type GetMeQueryResponseSchema = z.infer<typeof getMeQueryResponseSchema>

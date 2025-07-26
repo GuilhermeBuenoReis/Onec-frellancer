@@ -55,6 +55,14 @@ export type GetNegotiation200 = {
    * @type string
    */
   partnerId: string | null
+  /**
+   * @type string
+   */
+  createdAt: string | null
+  /**
+   * @type string
+   */
+  updatedAt: string | null
 }[]
 
 export type GetNegotiationQueryResponse = GetNegotiation200

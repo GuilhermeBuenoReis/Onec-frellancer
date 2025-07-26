@@ -3,26 +3,32 @@
  * Do not edit manually.
  */
 
-import type { DeletePartnerPathParams, DeletePartner200, DeletePartner404, DeletePartnerMutationResponse } from '../../types/DeletePartner.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deletePartnerPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeletePartnerPathParams>
+})
+
+export type DeletePartnerPathParamsSchema = z.infer<typeof deletePartnerPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deletePartner200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeletePartner200>
+})
+
+export type DeletePartner200Schema = z.infer<typeof deletePartner200Schema>
 
 /**
  * @description Default Response
  */
 export const deletePartner404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeletePartner404>
+})
 
-export const deletePartnerMutationResponseSchema = z.lazy(() => deletePartner200Schema) as unknown as ToZod<DeletePartnerMutationResponse>
+export type DeletePartner404Schema = z.infer<typeof deletePartner404Schema>
+
+export const deletePartnerMutationResponseSchema = z.lazy(() => deletePartner200Schema)
+
+export type DeletePartnerMutationResponseSchema = z.infer<typeof deletePartnerMutationResponseSchema>

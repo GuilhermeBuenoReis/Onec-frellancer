@@ -3,33 +3,31 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdatePortalControllPathParams,
-  UpdatePortalControll200,
-  UpdatePortalControll404,
-  UpdatePortalControllMutationRequest,
-  UpdatePortalControllMutationResponse,
-} from '../../types/UpdatePortalControll.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updatePortalControllPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdatePortalControllPathParams>
+})
+
+export type UpdatePortalControllPathParamsSchema = z.infer<typeof updatePortalControllPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const updatePortalControll200Schema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdatePortalControll200>
+})
+
+export type UpdatePortalControll200Schema = z.infer<typeof updatePortalControll200Schema>
 
 /**
  * @description Default Response
  */
 export const updatePortalControll404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdatePortalControll404>
+})
+
+export type UpdatePortalControll404Schema = z.infer<typeof updatePortalControll404Schema>
 
 export const updatePortalControllMutationRequestSchema = z.object({
   enterprise: z.string().nullable().nullish(),
@@ -42,6 +40,10 @@ export const updatePortalControllMutationRequestSchema = z.object({
   value: z.number().nullable().nullish(),
   situation: z.string().nullable().nullish(),
   partnerId: z.string().optional(),
-}) as unknown as ToZod<UpdatePortalControllMutationRequest>
+})
 
-export const updatePortalControllMutationResponseSchema = z.lazy(() => updatePortalControll200Schema) as unknown as ToZod<UpdatePortalControllMutationResponse>
+export type UpdatePortalControllMutationRequestSchema = z.infer<typeof updatePortalControllMutationRequestSchema>
+
+export const updatePortalControllMutationResponseSchema = z.lazy(() => updatePortalControll200Schema)
+
+export type UpdatePortalControllMutationResponseSchema = z.infer<typeof updatePortalControllMutationResponseSchema>

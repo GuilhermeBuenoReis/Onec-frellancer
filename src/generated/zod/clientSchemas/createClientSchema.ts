@@ -3,21 +3,23 @@
  * Do not edit manually.
  */
 
-import type { CreateClient201, CreateClient400, CreateClientMutationRequest, CreateClientMutationResponse } from '../../types/CreateClient.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
  * @description Default Response
  */
-export const createClient201Schema = z.unknown() as unknown as ToZod<CreateClient201>
+export const createClient201Schema = z.unknown()
+
+export type CreateClient201Schema = z.infer<typeof createClient201Schema>
 
 /**
  * @description Default Response
  */
 export const createClient400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<CreateClient400>
+})
+
+export type CreateClient400Schema = z.infer<typeof createClient400Schema>
 
 export const createClientMutationRequestSchema = z.object({
   enterprise: z.string().nullable(),
@@ -26,6 +28,10 @@ export const createClientMutationRequestSchema = z.object({
   contestation: z.string().nullable(),
   returned: z.string().nullable(),
   product: z.string().nullable(),
-}) as unknown as ToZod<CreateClientMutationRequest>
+})
 
-export const createClientMutationResponseSchema = z.lazy(() => createClient201Schema) as unknown as ToZod<CreateClientMutationResponse>
+export type CreateClientMutationRequestSchema = z.infer<typeof createClientMutationRequestSchema>
+
+export const createClientMutationResponseSchema = z.lazy(() => createClient201Schema)
+
+export type CreateClientMutationResponseSchema = z.infer<typeof createClientMutationResponseSchema>

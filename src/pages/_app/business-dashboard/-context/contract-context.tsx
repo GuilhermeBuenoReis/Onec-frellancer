@@ -1,26 +1,25 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import type { UpdateContract200 } from '@/generated';
+import type { UpdateContractMutationResponse } from '@/generated';
 
 interface ContractContextType {
-  id: string;
-  setId: (id: string) => void;
-  contractData: UpdateContract200 | null;
-  setContractData: (data: UpdateContract200 | null) => void;
+  contractId: string;
+  setContractId: (id: string) => void;
+  contractData: UpdateContractMutationResponse | null;
+  setContractData: (data: UpdateContractMutationResponse | null) => void;
 }
 
 const ContractContext = createContext<ContractContextType | null>(null);
 
 export function ContractProvider({ children }: { children: React.ReactNode }) {
-  const [id, setId] = useState<string>('');
-  const [contractData, setContractData] = useState<UpdateContract200 | null>(
-    null
-  );
+  const [contractId, setContractId] = useState<string>('');
+  const [contractData, setContractData] =
+    useState<UpdateContractMutationResponse | null>(null);
 
   return (
     <ContractContext.Provider
-      value={{ id, setId, contractData, setContractData }}
+      value={{ contractId, setContractId, contractData, setContractData }}
     >
       {children}
     </ContractContext.Provider>

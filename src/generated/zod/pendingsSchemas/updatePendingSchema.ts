@@ -3,33 +3,31 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdatePendingPathParams,
-  UpdatePending200,
-  UpdatePending404,
-  UpdatePendingMutationRequest,
-  UpdatePendingMutationResponse,
-} from '../../types/UpdatePending.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updatePendingPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdatePendingPathParams>
+})
+
+export type UpdatePendingPathParamsSchema = z.infer<typeof updatePendingPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const updatePending200Schema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdatePending200>
+})
+
+export type UpdatePending200Schema = z.infer<typeof updatePending200Schema>
 
 /**
  * @description Default Response
  */
 export const updatePending404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdatePending404>
+})
+
+export type UpdatePending404Schema = z.infer<typeof updatePending404Schema>
 
 export const updatePendingMutationRequestSchema = z.object({
   client: z.string().nullable().nullish(),
@@ -39,6 +37,10 @@ export const updatePendingMutationRequestSchema = z.object({
   responsible: z.string().nullable().nullish(),
   category: z.string().nullable().nullish(),
   description: z.string().nullable().nullish(),
-}) as unknown as ToZod<UpdatePendingMutationRequest>
+})
 
-export const updatePendingMutationResponseSchema = z.lazy(() => updatePending200Schema) as unknown as ToZod<UpdatePendingMutationResponse>
+export type UpdatePendingMutationRequestSchema = z.infer<typeof updatePendingMutationRequestSchema>
+
+export const updatePendingMutationResponseSchema = z.lazy(() => updatePending200Schema)
+
+export type UpdatePendingMutationResponseSchema = z.infer<typeof updatePendingMutationResponseSchema>

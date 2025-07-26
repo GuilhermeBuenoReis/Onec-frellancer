@@ -3,13 +3,13 @@
  * Do not edit manually.
  */
 
-import type { GetContractByIdPathParams, GetContractById200, GetContractById404, GetContractByIdQueryResponse } from '../../types/GetContractById.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const getContractByIdPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<GetContractByIdPathParams>
+})
+
+export type GetContractByIdPathParamsSchema = z.infer<typeof getContractByIdPathParamsSchema>
 
 /**
  * @description Default Response
@@ -33,13 +33,19 @@ export const getContractById200Schema = z.object({
   partnerCommission: z.number().nullable(),
   counter: z.string().nullable(),
   email: z.string().nullable(),
-}) as unknown as ToZod<GetContractById200>
+})
+
+export type GetContractById200Schema = z.infer<typeof getContractById200Schema>
 
 /**
  * @description Default Response
  */
 export const getContractById404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<GetContractById404>
+})
 
-export const getContractByIdQueryResponseSchema = z.lazy(() => getContractById200Schema) as unknown as ToZod<GetContractByIdQueryResponse>
+export type GetContractById404Schema = z.infer<typeof getContractById404Schema>
+
+export const getContractByIdQueryResponseSchema = z.lazy(() => getContractById200Schema)
+
+export type GetContractByIdQueryResponseSchema = z.infer<typeof getContractByIdQueryResponseSchema>

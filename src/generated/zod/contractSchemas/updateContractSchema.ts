@@ -3,19 +3,13 @@
  * Do not edit manually.
  */
 
-import type {
-  UpdateContractPathParams,
-  UpdateContract200,
-  UpdateContract404,
-  UpdateContractMutationRequest,
-  UpdateContractMutationResponse,
-} from '../../types/UpdateContract.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const updateContractPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<UpdateContractPathParams>
+})
+
+export type UpdateContractPathParamsSchema = z.infer<typeof updateContractPathParamsSchema>
 
 /**
  * @description Default Response
@@ -43,14 +37,18 @@ export const updateContract200Schema = z.object({
     createdAt: z.string().nullable(),
     updatedAt: z.string().nullable(),
   }),
-}) as unknown as ToZod<UpdateContract200>
+})
+
+export type UpdateContract200Schema = z.infer<typeof updateContract200Schema>
 
 /**
  * @description Default Response
  */
 export const updateContract404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<UpdateContract404>
+})
+
+export type UpdateContract404Schema = z.infer<typeof updateContract404Schema>
 
 export const updateContractMutationRequestSchema = z.object({
   city: z.string().nullable().nullish(),
@@ -70,6 +68,10 @@ export const updateContractMutationRequestSchema = z.object({
   partnerCommission: z.number().nullable().nullish(),
   counter: z.string().nullable().nullish(),
   email: z.string().nullable().nullish(),
-}) as unknown as ToZod<UpdateContractMutationRequest>
+})
 
-export const updateContractMutationResponseSchema = z.lazy(() => updateContract200Schema) as unknown as ToZod<UpdateContractMutationResponse>
+export type UpdateContractMutationRequestSchema = z.infer<typeof updateContractMutationRequestSchema>
+
+export const updateContractMutationResponseSchema = z.lazy(() => updateContract200Schema)
+
+export type UpdateContractMutationResponseSchema = z.infer<typeof updateContractMutationResponseSchema>

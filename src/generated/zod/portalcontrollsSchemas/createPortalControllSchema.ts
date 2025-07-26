@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { CreatePortalControll201, CreatePortalControllMutationRequest, CreatePortalControllMutationResponse } from '../../types/CreatePortalControll.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -12,7 +10,9 @@ import { z } from 'zod'
  */
 export const createPortalControll201Schema = z.object({
   id: z.string(),
-}) as unknown as ToZod<CreatePortalControll201>
+})
+
+export type CreatePortalControll201Schema = z.infer<typeof createPortalControll201Schema>
 
 export const createPortalControllMutationRequestSchema = z.object({
   monthOfCalculation: z.string().nullable(),
@@ -28,6 +28,10 @@ export const createPortalControllMutationRequestSchema = z.object({
   value: z.number().nullable(),
   situation: z.string().nullable(),
   partnerId: z.string(),
-}) as unknown as ToZod<CreatePortalControllMutationRequest>
+})
 
-export const createPortalControllMutationResponseSchema = z.lazy(() => createPortalControll201Schema) as unknown as ToZod<CreatePortalControllMutationResponse>
+export type CreatePortalControllMutationRequestSchema = z.infer<typeof createPortalControllMutationRequestSchema>
+
+export const createPortalControllMutationResponseSchema = z.lazy(() => createPortalControll201Schema)
+
+export type CreatePortalControllMutationResponseSchema = z.infer<typeof createPortalControllMutationResponseSchema>

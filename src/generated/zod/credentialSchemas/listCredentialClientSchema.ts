@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { ListCredentialClient200, ListCredentialClient400, ListCredentialClientQueryResponse } from '../../types/ListCredentialClient.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -29,13 +27,19 @@ export const listCredentialClient200Schema = z.array(
       returned: z.string(),
     }),
   }),
-) as unknown as ToZod<ListCredentialClient200>
+)
+
+export type ListCredentialClient200Schema = z.infer<typeof listCredentialClient200Schema>
 
 /**
  * @description Default Response
  */
 export const listCredentialClient400Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<ListCredentialClient400>
+})
 
-export const listCredentialClientQueryResponseSchema = z.lazy(() => listCredentialClient200Schema) as unknown as ToZod<ListCredentialClientQueryResponse>
+export type ListCredentialClient400Schema = z.infer<typeof listCredentialClient400Schema>
+
+export const listCredentialClientQueryResponseSchema = z.lazy(() => listCredentialClient200Schema)
+
+export type ListCredentialClientQueryResponseSchema = z.infer<typeof listCredentialClientQueryResponseSchema>

@@ -3,26 +3,32 @@
  * Do not edit manually.
  */
 
-import type { DeleteContractPathParams, DeleteContract200, DeleteContract404, DeleteContractMutationResponse } from '../../types/DeleteContract.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const deleteContractPathParamsSchema = z.object({
   id: z.string(),
-}) as unknown as ToZod<DeleteContractPathParams>
+})
+
+export type DeleteContractPathParamsSchema = z.infer<typeof deleteContractPathParamsSchema>
 
 /**
  * @description Default Response
  */
 export const deleteContract200Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteContract200>
+})
+
+export type DeleteContract200Schema = z.infer<typeof deleteContract200Schema>
 
 /**
  * @description Default Response
  */
 export const deleteContract404Schema = z.object({
   message: z.string(),
-}) as unknown as ToZod<DeleteContract404>
+})
 
-export const deleteContractMutationResponseSchema = z.lazy(() => deleteContract200Schema) as unknown as ToZod<DeleteContractMutationResponse>
+export type DeleteContract404Schema = z.infer<typeof deleteContract404Schema>
+
+export const deleteContractMutationResponseSchema = z.lazy(() => deleteContract200Schema)
+
+export type DeleteContractMutationResponseSchema = z.infer<typeof deleteContractMutationResponseSchema>

@@ -2,12 +2,15 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { GetNegotiation200 } from '@/generated/types/GetNegotiation';
+import { RowActionsPopover } from './row-actions-popover';
 
-function formatCurrency(value: number) {
+function formatCurrency(value: number | string | null) {
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+  if (!num || Number.isNaN(num)) return 'Não informado';
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-  }).format(value);
+  }).format(num);
 }
 
 export function CreateColumnsParamsNegotiation(): ColumnDef<
@@ -93,14 +96,17 @@ export function CreateColumnsParamsNegotiation(): ColumnDef<
       ),
     },
     {
-      accessorKey: 'Partner',
+      accessorKey: 'partnerId',
       header: 'Parceiro',
     },
-    // {
-    //   id: 'actions',
-    //   cell: ({ row }) => (
-    //     <RowActionsPopover data={row.original} onEdit={onEdit} />
-    //   ),
-    // },
+    {
+      id: 'actions',
+      cell: ({ row }) => (
+        <RowActionsPopover
+          negotiationId={row.original.id}
+          negotiation={{ ...row.original, negotiation: row.original }}
+        />
+      ),
+    },
   ];
 }

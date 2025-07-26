@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import type z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,13 +14,12 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { type GetContract200, useUpdateContract } from '@/generated';
-import { updateContractMutationRequestSchema } from '@/generated/zod/contractSchemas/updateContractSchema';
+import {
+  type UpdateContractMutationRequestSchema,
+  updateContractMutationRequestSchema,
+} from '@/generated/zod/contractSchemas/updateContractSchema';
 import { queryClient } from '@/lib/query-client';
 import { useContractContext } from '../../-context/contract-context';
-
-export type ContractFormData = z.infer<
-  typeof updateContractMutationRequestSchema
->;
 
 interface ContractEditSheetProps {
   open: boolean;
@@ -32,23 +30,23 @@ export function ContractEditSheet({
   open,
   onOpenChange,
 }: ContractEditSheetProps) {
-  const { id, contractData } = useContractContext();
+  const { contractId, contractData } = useContractContext();
 
-  const { mutateAsync: updateNegotiation, isPending } = useUpdateContract();
+  const { mutateAsync: updateContract, isPending } = useUpdateContract();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ContractFormData>({
+  } = useForm<UpdateContractMutationRequestSchema>({
     resolver: zodResolver(updateContractMutationRequestSchema),
     defaultValues: {},
   });
 
   useEffect(() => {
     if (contractData && open) {
-      reset(contractData);
+      reset(contractData! as UpdateContractMutationRequestSchema);
     }
   }, [contractData, open, reset]);
 
@@ -56,15 +54,16 @@ export function ContractEditSheet({
     console.log('FORM ERRORS:', errors);
   }, [errors]);
 
-  async function handleSubmitNegotiationUpdate(values: ContractFormData) {
-    values.id = id;
+  async function handleSubmitNegotiationUpdate(
+    values: UpdateContractMutationRequestSchema
+  ) {
     console.log('ENVIANDO:', values);
 
-    if (!values.id) return toast.error('Negociação não encontrada!');
+    if (!contractId) return toast.error('Negociação não encontrada!');
     try {
-      await updateNegotiation(
+      await updateContract(
         {
-          id: values.id,
+          id: contractId,
           data: values,
         },
         {

@@ -3,12 +3,6 @@
  * Do not edit manually.
  */
 
-import type {
-  GetContractStatusCountByFilter200,
-  GetContractStatusCountByFilterMutationRequest,
-  GetContractStatusCountByFilterMutationResponse,
-} from '../../types/GetContractStatusCountByFilter.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -19,12 +13,16 @@ export const getContractStatusCountByFilter200Schema = z.array(
     status: z.string().nullable(),
     count: z.number(),
   }),
-) as unknown as ToZod<GetContractStatusCountByFilter200>
+)
+
+export type GetContractStatusCountByFilter200Schema = z.infer<typeof getContractStatusCountByFilter200Schema>
 
 export const getContractStatusCountByFilterMutationRequestSchema = z.object({
   filter: z.string(),
-}) as unknown as ToZod<GetContractStatusCountByFilterMutationRequest>
+})
 
-export const getContractStatusCountByFilterMutationResponseSchema = z.lazy(
-  () => getContractStatusCountByFilter200Schema,
-) as unknown as ToZod<GetContractStatusCountByFilterMutationResponse>
+export type GetContractStatusCountByFilterMutationRequestSchema = z.infer<typeof getContractStatusCountByFilterMutationRequestSchema>
+
+export const getContractStatusCountByFilterMutationResponseSchema = z.lazy(() => getContractStatusCountByFilter200Schema)
+
+export type GetContractStatusCountByFilterMutationResponseSchema = z.infer<typeof getContractStatusCountByFilterMutationResponseSchema>

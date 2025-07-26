@@ -15,9 +15,66 @@ export type UpdateNegotiationPathParams = {
  */
 export type UpdateNegotiation200 = {
   /**
-   * @type string
+   * @type object
    */
-  title: string | null
+  negotiation: {
+    /**
+     * @type string
+     */
+    id: string
+    /**
+     * @type string
+     */
+    title: string | null
+    /**
+     * @type string
+     */
+    client: string | null
+    /**
+     * @type string
+     */
+    user: string | null
+    /**
+     * @type string
+     */
+    tags: string | null
+    /**
+     * @type string
+     */
+    step: string | null
+    /**
+     * @type string
+     */
+    status: string | null
+    /**
+     * @type number
+     */
+    value: number | null
+    /**
+     * @type string
+     */
+    startsDate: string | null
+    /**
+     * @type string
+     */
+    observation: string | null
+    /**
+     * @type string
+     */
+    partnerId: string | null
+    /**
+     * @type number
+     */
+    averageGuide: number | null
+    /**
+     * @type string
+     */
+    createdAt: string | null
+    /**
+     * @type string
+     */
+    updatedAt: string | null
+  }
 }
 
 /**
@@ -32,33 +89,33 @@ export type UpdateNegotiation404 = {
 
 export type UpdateNegotiationMutationRequest = {
   /**
-   * @type string | undefined
+   * @type string
    */
-  title?: string
+  title?: string | null
   /**
-   * @type string | undefined
+   * @type string
    */
-  client?: string
+  client?: string | null
   /**
-   * @type string | undefined
+   * @type string
    */
-  user?: string
+  user?: string | null
   /**
-   * @type string | undefined
+   * @type string
    */
-  tags?: string
+  tags?: string | null
   /**
-   * @type string | undefined
+   * @type string
    */
-  step?: string
+  step?: string | null
   /**
-   * @type string | undefined
+   * @type string
    */
-  status?: string
+  status?: string | null
   /**
-   * @type number | undefined
+   * @type number
    */
-  value?: number
+  value?: number | null
   /**
    * @type string
    */

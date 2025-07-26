@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetContract200, GetContractQueryResponse } from '../../types/GetContract.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -33,6 +31,10 @@ export const getContract200Schema = z.array(
     createdAt: z.string().nullable(),
     updatedAt: z.string().nullable(),
   }),
-) as unknown as ToZod<GetContract200>
+)
 
-export const getContractQueryResponseSchema = z.lazy(() => getContract200Schema) as unknown as ToZod<GetContractQueryResponse>
+export type GetContract200Schema = z.infer<typeof getContract200Schema>
+
+export const getContractQueryResponseSchema = z.lazy(() => getContract200Schema)
+
+export type GetContractQueryResponseSchema = z.infer<typeof getContractQueryResponseSchema>

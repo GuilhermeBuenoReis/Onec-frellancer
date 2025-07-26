@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { GetContractStatusCount200, GetContractStatusCountQueryResponse } from '../../types/GetContractStatusCount.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -15,6 +13,10 @@ export const getContractStatusCount200Schema = z.array(
     status: z.string().nullable(),
     count: z.number(),
   }),
-) as unknown as ToZod<GetContractStatusCount200>
+)
 
-export const getContractStatusCountQueryResponseSchema = z.lazy(() => getContractStatusCount200Schema) as unknown as ToZod<GetContractStatusCountQueryResponse>
+export type GetContractStatusCount200Schema = z.infer<typeof getContractStatusCount200Schema>
+
+export const getContractStatusCountQueryResponseSchema = z.lazy(() => getContractStatusCount200Schema)
+
+export type GetContractStatusCountQueryResponseSchema = z.infer<typeof getContractStatusCountQueryResponseSchema>

@@ -3,8 +3,6 @@
  * Do not edit manually.
  */
 
-import type { CreatePending201, CreatePendingMutationRequest, CreatePendingMutationResponse } from '../../types/CreatePending.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 /**
@@ -12,7 +10,9 @@ import { z } from 'zod'
  */
 export const createPending201Schema = z.object({
   id: z.string(),
-}) as unknown as ToZod<CreatePending201>
+})
+
+export type CreatePending201Schema = z.infer<typeof createPending201Schema>
 
 export const createPendingMutationRequestSchema = z.object({
   client: z.string().nullable(),
@@ -22,6 +22,10 @@ export const createPendingMutationRequestSchema = z.object({
   responsible: z.string().nullable(),
   category: z.enum(['SAC', 'Atendimento', 'Financeiro', 'Diretoria', 'Comercial', 'Auditoria']),
   description: z.string().nullable(),
-}) as unknown as ToZod<CreatePendingMutationRequest>
+})
 
-export const createPendingMutationResponseSchema = z.lazy(() => createPending201Schema) as unknown as ToZod<CreatePendingMutationResponse>
+export type CreatePendingMutationRequestSchema = z.infer<typeof createPendingMutationRequestSchema>
+
+export const createPendingMutationResponseSchema = z.lazy(() => createPending201Schema)
+
+export type CreatePendingMutationResponseSchema = z.infer<typeof createPendingMutationResponseSchema>

@@ -3,18 +3,13 @@
  * Do not edit manually.
  */
 
-import type {
-  GetPortalControllsBySelectParternRouteQueryParams,
-  GetPortalControllsBySelectParternRoute200,
-  GetPortalControllsBySelectParternRoute500,
-  GetPortalControllsBySelectParternRouteQueryResponse,
-} from '../../types/GetPortalControllsBySelectParternRoute.ts'
-import type { ToZod } from '@kubb/plugin-zod/utils'
 import { z } from 'zod'
 
 export const getPortalControllsBySelectParternRouteQueryParamsSchema = z.object({
   partnerId: z.string().min(1),
-}) as unknown as ToZod<GetPortalControllsBySelectParternRouteQueryParams>
+})
+
+export type GetPortalControllsBySelectParternRouteQueryParamsSchema = z.infer<typeof getPortalControllsBySelectParternRouteQueryParamsSchema>
 
 /**
  * @description Default Response
@@ -36,15 +31,19 @@ export const getPortalControllsBySelectParternRoute200Schema = z.array(
     situation: z.string().nullable(),
     partnerId: z.string(),
   }),
-) as unknown as ToZod<GetPortalControllsBySelectParternRoute200>
+)
+
+export type GetPortalControllsBySelectParternRoute200Schema = z.infer<typeof getPortalControllsBySelectParternRoute200Schema>
 
 /**
  * @description Default Response
  */
 export const getPortalControllsBySelectParternRoute500Schema = z.object({
   error: z.string(),
-}) as unknown as ToZod<GetPortalControllsBySelectParternRoute500>
+})
 
-export const getPortalControllsBySelectParternRouteQueryResponseSchema = z.lazy(
-  () => getPortalControllsBySelectParternRoute200Schema,
-) as unknown as ToZod<GetPortalControllsBySelectParternRouteQueryResponse>
+export type GetPortalControllsBySelectParternRoute500Schema = z.infer<typeof getPortalControllsBySelectParternRoute500Schema>
+
+export const getPortalControllsBySelectParternRouteQueryResponseSchema = z.lazy(() => getPortalControllsBySelectParternRoute200Schema)
+
+export type GetPortalControllsBySelectParternRouteQueryResponseSchema = z.infer<typeof getPortalControllsBySelectParternRouteQueryResponseSchema>
