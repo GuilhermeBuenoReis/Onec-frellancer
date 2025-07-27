@@ -1,13 +1,13 @@
 'use client';
 
-import { useNegotiationFilters } from '@/context/dashboard-filter-context';
 import { useGetNegotiation } from '@/generated/hooks/negotiationHooks/useGetNegotiation';
+import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 import type { NegotiationTableData } from '../../types/negotiation-type-data';
 import { CreateColumnsParamsNegotiation } from './columns-negotiation';
 import { DataTableNegotiation } from './data-table-negotiation';
 
 export function NegotiationTableFromAPI() {
-  const { filters } = useNegotiationFilters();
+  const { filters } = useDashboardContext();
   const { data, isLoading } = useGetNegotiation();
   const negotiations = Array.isArray(data?.data) ? data.data : [];
 

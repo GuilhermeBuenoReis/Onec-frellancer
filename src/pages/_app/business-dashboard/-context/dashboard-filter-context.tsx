@@ -92,7 +92,7 @@ export function DashboardFiltersProvider({
   );
 }
 
-export function useNegotiationFilters() {
+export function useDashboardContext() {
   const context = useContext(DashboardFiltersContext);
   if (!context) {
     throw new Error(

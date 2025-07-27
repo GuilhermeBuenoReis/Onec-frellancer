@@ -1,13 +1,13 @@
 'use client';
 
-import { useNegotiationFilters } from '@/context/dashboard-filter-context';
 import { useGetContract } from '@/generated/hooks/contractHooks/useGetContract';
 import type { GetContract200 } from '@/generated/types/GetContract';
+import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 import { CreateColumnsParamsContract } from './columns-contract';
 import { DataTableContract } from './data-table-contract';
 
 export function ContractTableFromAPI() {
-  const { filters } = useNegotiationFilters();
+  const { filters } = useDashboardContext();
   const { data, isLoading } = useGetContract();
   const contracts = Array.isArray(data?.data) ? data.data : [];
 

@@ -14,14 +14,14 @@ import {
 } from 'recharts';
 
 import { useTheme } from '@/components/shared/theme-provider';
-import { useNegotiationFilters } from '@/context/dashboard-filter-context';
 import { useGetNegotiation } from '@/generated';
+import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 
 export function SimpleLineChart() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  const { filters } = useNegotiationFilters();
+  const { filters } = useDashboardContext();
   const { data } = useGetNegotiation();
 
   const negotiations = Array.isArray(data?.data) ? data.data : [];

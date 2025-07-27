@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
-import { useNegotiationFilters } from '@/context/dashboard-filter-context';
 import { useGetNegotiation } from '@/generated';
+import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 
 const STATUS_COLORS: Record<string, string> = {
   'Em andamento': '#3b82f6',
@@ -42,7 +42,7 @@ const renderCustomizedLabel = ({
 };
 
 export function StatusPieChart() {
-  const { filters } = useNegotiationFilters();
+  const { filters } = useDashboardContext();
   const { data } = useGetNegotiation();
   const negotiations = Array.isArray(data?.data) ? data.data : [];
 

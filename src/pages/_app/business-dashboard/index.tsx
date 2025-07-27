@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { DashboardFiltersProvider } from '@/context/dashboard-filter-context';
 import { useGetMe } from '@/generated';
+import { DashboardFiltersProvider } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 import { BusinessDashboardSkeleton } from './-components/business-dashboard-skeleton';
 import { DashboardTabProvider } from './-context/data-tabs-context';
 import { BusinessDashboardContent } from './business-dashboard-content';

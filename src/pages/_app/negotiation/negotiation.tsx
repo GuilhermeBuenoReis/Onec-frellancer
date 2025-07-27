@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DashboardFiltersProvider } from '@/context/dashboard-filter-context';
+import { DashboardFiltersProvider } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 import { NegotiationTabAction } from './components/negotiation-tabs-action';
 import { NegotiationTabsContent } from './components/negotiation-tabs-content';
 import { SectionCards } from './components/section-cards';

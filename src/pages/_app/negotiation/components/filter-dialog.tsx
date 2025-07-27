@@ -24,7 +24,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-import { useNegotiationFilters } from '@/context/dashboard-filter-context';
+import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 
 const NegotiationFilterSchema = z.object({
   title: z.string().optional(),
@@ -40,7 +40,7 @@ const NegotiationFilterSchema = z.object({
 type NegotiationFilterSchemaType = z.infer<typeof NegotiationFilterSchema>;
 
 export function NegotiationFilterDialog() {
-  const { setFilters, resetFilters } = useNegotiationFilters();
+  const { setFilters, resetFilters } = useDashboardContext();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
