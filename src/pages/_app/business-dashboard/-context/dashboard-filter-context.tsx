@@ -3,10 +3,8 @@
 import { createContext, useContext, useState } from 'react';
 
 interface DashboardFiltersContextType {
-  activeTab: 'negotiation' | 'contracts';
   isWalletActive: boolean;
   toggleWallet: () => void;
-  setActiveTab: (tab: 'negotiation' | 'contracts') => void;
 }
 
 const DashboardFiltersContext = createContext<
@@ -18,9 +16,6 @@ export function DashboardFiltersProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [activeTab, setActiveTab] = useState<'negotiation' | 'contracts'>(
-    'contracts'
-  );
   const [isWalletActive, setIsWalletActive] = useState(false);
 
   function toggleWallet() {
@@ -28,9 +23,7 @@ export function DashboardFiltersProvider({
   }
 
   return (
-    <DashboardFiltersContext.Provider
-      value={{ activeTab, isWalletActive, toggleWallet, setActiveTab }}
-    >
+    <DashboardFiltersContext.Provider value={{ isWalletActive, toggleWallet }}>
       {children}
     </DashboardFiltersContext.Provider>
   );

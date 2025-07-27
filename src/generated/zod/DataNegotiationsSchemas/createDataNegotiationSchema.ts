@@ -10,7 +10,7 @@ import { z } from 'zod'
  */
 export const createDataNegotiation201Schema = z.object({
   id: z.string(),
-  name: z.string(),
+  name: z.string().optional(),
 })
 
 export type CreateDataNegotiation201Schema = z.infer<typeof createDataNegotiation201Schema>

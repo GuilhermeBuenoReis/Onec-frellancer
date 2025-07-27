@@ -2,18 +2,19 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle2, Wallet } from 'lucide-react';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useContractFilters } from '../-context/contract-filter-context';
 import { useDashboardContext } from '../-context/dashboard-filter-context';
+import { useDashboardTab } from '../-context/data-tabs-context';
 import { useNegotiationFiltersContext } from '../-context/negotiation-filter-context';
 
 export function FilterWallet() {
-  const { isWalletActive, toggleWallet, activeTab } = useDashboardContext();
-  const {
-    setFilters: setNegotiationFilters,
-    resetFilters: resetNegotiationFilters,
-  } = useNegotiationFiltersContext();
-  const { setFilters: setContractFilters, resetFilters: resetContractFilters } =
+  const { isWalletActive, toggleWallet } = useDashboardContext();
+  const { tab } = useDashboardTab(); // ← agora vem daqui
+  const { setFilters: setNegotiationFilters, resetFilters: resetNegotiation } =
+    useNegotiationFiltersContext();
+  const { setFilters: setContractFilters, resetFilters: resetContract } =
     useContractFilters();
 
   const handleClick = () => {
@@ -21,20 +22,26 @@ export function FilterWallet() {
 
     toggleWallet();
 
-    if (activeTab === 'negotiation') {
-      if (willBeActive) {
-        setNegotiationFilters({ status: ['ganho'] });
-      } else {
-        resetNegotiationFilters();
-      }
-    } else if (activeTab === 'contracts') {
-      if (willBeActive) {
-        setContractFilters({ status: ['ativo'] });
-      } else {
-        resetContractFilters();
-      }
+    if (tab === 'negotiation') {
+      willBeActive
+        ? setNegotiationFilters({ status: ['ganho'] })
+        : resetNegotiation();
+    } else if (tab === 'contracts') {
+      willBeActive
+        ? setContractFilters({ status: ['ativo'] })
+        : resetContract();
     }
   };
+
+  useEffect(() => {
+    if (!isWalletActive) return;
+
+    if (tab === 'negotiation') {
+      setNegotiationFilters({ status: ['ganho'] });
+    } else if (tab === 'contracts') {
+      setContractFilters({ status: ['ativo'] });
+    }
+  }, [tab, isWalletActive]);
 
   return (
     <Button

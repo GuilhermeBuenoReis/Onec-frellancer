@@ -12,9 +12,9 @@ export type CreateDataNegotiation201 = {
    */
   id: string
   /**
-   * @type string
+   * @type string | undefined
    */
-  name: string
+  name?: string
 }
 
 /**

@@ -30,7 +30,7 @@ export function ContractDeleteAlert({ open, onOpenChange }: DeleteAlertProps) {
     try {
       await deleteContract({ id: contractId });
       toast.success('Contrato deletada com sucesso!');
-      queryClient.invalidateQueries({ queryKey: [getContractQueryKey()] });
+      queryClient.invalidateQueries({ queryKey: getContractQueryKey() });
       onOpenChange(false);
     } catch (error) {
       console.error('Erro ao deletar contrato:', error);

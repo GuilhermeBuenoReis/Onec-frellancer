@@ -35,6 +35,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { FilterWallet } from '../../-components/filter-wallet';
+import { CreateNegotiationDialog } from './create-negotiation-dialog';
 import { NegotiationFilterDialog } from './filter-dialog';
 
 interface DataTableProps<TData, TValue> {
@@ -84,11 +85,17 @@ export function DataTableNegotiation<TData, TValue>({
         </div>
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-10 whitespace-nowrap">
-              Colunas
-            </Button>
-          </DropdownMenuTrigger>
+          <div className="flex items-center gap-3">
+            <CreateNegotiationDialog />
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="h-10 whitespace-nowrap cursor-pointer"
+              >
+                Colunas
+              </Button>
+            </DropdownMenuTrigger>
+          </div>
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()

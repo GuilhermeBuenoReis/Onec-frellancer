@@ -33,7 +33,7 @@ export function ContractDeleteAlert({
     try {
       await deleteNegotiation({ id: negotiationId });
       toast.success('Contrato deletada com sucesso!');
-      queryClient.invalidateQueries({ queryKey: [getNegotiationQueryKey()] });
+      queryClient.invalidateQueries({ queryKey: getNegotiationQueryKey() });
       onOpenChange(false);
     } catch (error) {
       console.error('Erro ao deletar contrato:', error);
