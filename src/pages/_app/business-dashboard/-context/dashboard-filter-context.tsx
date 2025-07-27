@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
-interface NegotiationFilters {
+interface DashboardFilters {
   title?: string;
   client?: string;
   step?: string;
@@ -11,13 +11,13 @@ interface NegotiationFilters {
   status?: string[];
   startDate?: Date;
   endDate?: Date;
-  activeTab?: 'negotiation' | 'contract';
+  activeTab?: 'negotiation' | 'contracts';
   isWalletActive?: boolean;
 }
 
 interface DashboardFiltersContextType {
-  filters: NegotiationFilters;
-  setFilters: (filters: NegotiationFilters) => void;
+  filters: DashboardFilters;
+  setFilters: (filters: DashboardFilters) => void;
   resetFilters: () => void;
   toggleWallet: () => void;
 }
@@ -31,13 +31,13 @@ export function DashboardFiltersProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [filters, setFiltersState] = useState<NegotiationFilters>({
-    activeTab: 'negotiation',
+  const [filters, setFiltersState] = useState<DashboardFilters>({
+    activeTab: 'contracts',
     isWalletActive: false,
     status: [],
   });
 
-  function setFilters(newFilters: NegotiationFilters) {
+  function setFilters(newFilters: DashboardFilters) {
     setFiltersState(prev => ({ ...prev, ...newFilters }));
   }
 
@@ -51,21 +51,24 @@ export function DashboardFiltersProvider({
       status: [],
       startDate: undefined,
       endDate: undefined,
-      activeTab: 'negotiation',
+      activeTab: 'contracts',
       isWalletActive: false,
     });
   }
 
   function toggleWallet() {
-    setFiltersState(prev => {
-      const isNowActive = !prev.isWalletActive;
+    setFiltersState(state => {
+      const isNowActive = !state.isWalletActive;
+
+      const isContractTab = state.activeTab === 'negotiation';
+
       return {
-        ...prev,
+        ...state,
         isWalletActive: isNowActive,
         status: isNowActive
-          ? prev.activeTab === 'negotiation'
-            ? ['ganho']
-            : ['ativo']
+          ? isContractTab
+            ? ['ativo', 'Ativo', 'ATIVO']
+            : ['ganho', 'Ganho']
           : [],
       };
     });
@@ -73,15 +76,19 @@ export function DashboardFiltersProvider({
 
   useEffect(() => {
     setFiltersState(prev => {
-      if (prev.isWalletActive) {
-        return {
-          ...prev,
-          status: prev.activeTab === 'negotiation' ? ['ganho'] : ['ativo'],
-        };
-      }
-      return prev;
+      if (!prev.isWalletActive) return prev;
+
+      const status =
+        prev.activeTab === 'negotiation'
+          ? ['ganho', 'Ganho']
+          : ['ativo', 'Ativo', 'ATIVO'];
+
+      return {
+        ...prev,
+        status,
+      };
     });
-  }, [filters.activeTab]);
+  }, [filters.activeTab, filters.isWalletActive]);
 
   return (
     <DashboardFiltersContext.Provider
@@ -96,7 +103,7 @@ export function useDashboardContext() {
   const context = useContext(DashboardFiltersContext);
   if (!context) {
     throw new Error(
-      'useNegotiationFilters must be used within a NegotiationFiltersProvider'
+      'useDashboardFilters must be used within a DashboardFiltersProvider'
     );
   }
   return context;

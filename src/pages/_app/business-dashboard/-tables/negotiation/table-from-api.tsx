@@ -4,7 +4,6 @@ import { useGetNegotiation } from '@/generated/hooks/negotiationHooks/useGetNego
 import type { GetNegotiation200 } from '@/generated/types/GetNegotiation';
 import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
 import { DataTableSkeleton } from '../../-components/data-table-skeleton';
-import { NegotiationProvider } from '../../-context/negotiation-context';
 import { CreateColumnsParamsNegotiation } from './columns';
 import { DataTableNegotiation } from './data-table';
 
@@ -58,12 +57,10 @@ export function NegotiationTableFromAPI() {
     );
 
   return (
-    <NegotiationProvider>
-      <div className="w-full overflow-x-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="min-w-[640px] max-w-7xl mx-auto">
-          <DataTableNegotiation columns={columns} data={filteredData} />
-        </div>
+    <div className="w-full overflow-x-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="min-w-[640px] max-w-7xl mx-auto">
+        <DataTableNegotiation columns={columns} data={filteredData} />
       </div>
-    </NegotiationProvider>
+    </div>
   );
 }

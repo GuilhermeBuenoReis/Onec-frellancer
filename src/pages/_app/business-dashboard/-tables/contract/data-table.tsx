@@ -34,8 +34,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { NegotiationFilterDialog } from '../../../negotiation/components/filter-dialog';
-import { FilterWallet } from '../../../negotiation/components/filter-wallet';
+import { FilterWallet } from '../../-components/filter-wallet';
+import { ContractFilterDialog } from './filter-dialog';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -78,7 +78,7 @@ export function DataTableContract<TData, TValue>({
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex gap-2 w-full max-w-2xl">
-          <NegotiationFilterDialog />
+          <ContractFilterDialog />
 
           <FilterWallet />
         </div>
