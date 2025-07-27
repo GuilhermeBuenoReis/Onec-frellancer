@@ -67,7 +67,7 @@ export function NegotiationFiltersProvider({
   );
 }
 
-export function useNegotiationFilters() {
+export function useNegotiationFiltersContext() {
   const context = useContext(NegotiationFiltersContext);
   if (!context) {
     throw new Error(

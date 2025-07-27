@@ -34,8 +34,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { NegotiationFilterDialog } from '../../../negotiation/components/filter-dialog';
-import { FilterWallet } from '../../../negotiation/components/filter-wallet';
+import { FilterWallet } from '../../-components/filter-wallet';
+import { NegotiationFilterDialog } from './filter-dialog';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

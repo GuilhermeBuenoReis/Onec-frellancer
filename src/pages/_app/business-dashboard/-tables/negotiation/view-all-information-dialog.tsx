@@ -38,7 +38,7 @@ export function NegotiationViewAllInformationDialog({
 
   const { data: negotiation } = useGetNegotiationById(negotiationId);
 
-  const allNegotiation = negotiation?.data;
+  const allNegotiation = negotiation?.data[0];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

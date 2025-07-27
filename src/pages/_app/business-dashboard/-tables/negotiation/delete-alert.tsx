@@ -27,11 +27,11 @@ export function ContractDeleteAlert({
   onOpenChange,
 }: NegotiationAlertProps) {
   const { mutateAsync: deleteNegotiation, isPending } = useDeleteNegotiation();
-  const { id } = useNegotiationContext();
+  const { negotiationId } = useNegotiationContext();
 
   async function handleDeleteNegotiation() {
     try {
-      await deleteNegotiation({ id });
+      await deleteNegotiation({ id: negotiationId });
       toast.success('Contrato deletada com sucesso!');
       queryClient.invalidateQueries({ queryKey: [getNegotiationQueryKey()] });
       onOpenChange(false);

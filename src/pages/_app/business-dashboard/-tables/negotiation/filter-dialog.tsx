@@ -24,7 +24,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
+import { useNegotiationFiltersContext } from '../../-context/negotiation-filter-context';
 
 const NegotiationFilterSchema = z.object({
   title: z.string().optional(),
@@ -32,7 +32,7 @@ const NegotiationFilterSchema = z.object({
   step: z.string().optional(),
   user: z.string().optional(),
   tags: z.string().optional(),
-  status: z.string().optional(), // ainda string no form
+  status: z.string().optional(),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
 });
@@ -40,7 +40,7 @@ const NegotiationFilterSchema = z.object({
 type NegotiationFilterSchemaType = z.infer<typeof NegotiationFilterSchema>;
 
 export function NegotiationFilterDialog() {
-  const { setFilters, resetFilters } = useDashboardContext();
+  const { setFilters, resetFilters } = useNegotiationFiltersContext();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -62,12 +62,9 @@ export function NegotiationFilterDialog() {
   function applyFilters(values: NegotiationFilterSchemaType) {
     setLoading(true);
 
-    // Aqui a gente transforma o status string pra array de status normalizado
-    const normalizedStatus = values.status ? [values.status.toLowerCase()] : [];
-
     const transformedFilters = {
       ...values,
-      status: normalizedStatus,
+      status: values.status ? [values.status.toLowerCase()] : [],
     };
 
     setTimeout(() => {

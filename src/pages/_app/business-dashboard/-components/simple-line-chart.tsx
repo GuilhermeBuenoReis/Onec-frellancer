@@ -15,13 +15,13 @@ import {
 
 import { useTheme } from '@/components/shared/theme-provider';
 import { useGetNegotiation } from '@/generated';
-import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
+import { useNegotiationFiltersContext } from '../-context/negotiation-filter-context';
 
 export function SimpleLineChart() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  const { filters } = useDashboardContext();
+  const { filters } = useNegotiationFiltersContext();
   const { data } = useGetNegotiation();
 
   const negotiations = Array.isArray(data?.data) ? data.data : [];
@@ -59,7 +59,7 @@ export function SimpleLineChart() {
         const date = new Date(item.startsDate ?? '');
         if (Number.isNaN(date.getTime())) continue;
 
-        const key = format(date, 'yyyy-MM'); // Agrupamento por mês
+        const key = format(date, 'yyyy-MM');
         const label = format(date, "MMM. 'de' yyyy", { locale: ptBR });
 
         if (!monthlyTotals.has(key)) {
@@ -75,9 +75,7 @@ export function SimpleLineChart() {
             valor: existing.valor + (item.value ?? 0),
           });
         }
-      } catch {
-        // ignora erro
-      }
+      } catch {}
     }
 
     return Array.from(monthlyTotals.values()).sort(

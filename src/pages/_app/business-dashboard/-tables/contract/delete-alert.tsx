@@ -24,11 +24,11 @@ interface DeleteAlertProps {
 
 export function ContractDeleteAlert({ open, onOpenChange }: DeleteAlertProps) {
   const { mutateAsync: deleteContract, isPending } = useDeleteContract();
-  const { id } = useContractContext();
+  const { contractId } = useContractContext();
 
   async function handleDelete() {
     try {
-      await deleteContract({ id });
+      await deleteContract({ id: contractId });
       toast.success('Contrato deletada com sucesso!');
       queryClient.invalidateQueries({ queryKey: [getContractQueryKey()] });
       onOpenChange(false);

@@ -2,13 +2,13 @@
 
 import { useGetNegotiation } from '@/generated/hooks/negotiationHooks/useGetNegotiation';
 import type { GetNegotiation200 } from '@/generated/types/GetNegotiation';
-import { useDashboardContext } from '@/pages/_app/business-dashboard/-context/dashboard-filter-context';
+import { useNegotiationFiltersContext } from '@/pages/_app/business-dashboard/-context/negotiation-filter-context';
 import { DataTableSkeleton } from '../../-components/data-table-skeleton';
 import { CreateColumnsParamsNegotiation } from './columns';
 import { DataTableNegotiation } from './data-table';
 
 export function NegotiationTableFromAPI() {
-  const { filters } = useDashboardContext();
+  const { filters } = useNegotiationFiltersContext();
   const { data, isLoading } = useGetNegotiation();
   const negotiations = Array.isArray(data?.data) ? data.data : [];
 

@@ -27,10 +27,10 @@ export function RowActionsPopover({
 }: RowActionsPopoverProps) {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
 
-  const { setnegotiationId, setNegotiationData } = useNegotiationContext();
+  const { setNegotiationId, setNegotiationData } = useNegotiationContext();
 
   function handleOpenPopover() {
-    setnegotiationId(negotiationId);
+    setNegotiationId(negotiationId);
     setNegotiationData(negotiation);
   }
 

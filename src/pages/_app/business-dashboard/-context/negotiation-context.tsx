@@ -5,7 +5,7 @@ import type { UpdateNegotiationMutationResponse } from '@/generated';
 
 interface NogotiationContextType {
   negotiationId: string;
-  setnegotiationId: (id: string) => void;
+  setNegotiationId: (id: string) => void;
   negotiationData: UpdateNegotiationMutationResponse | null;
   setNegotiationData: (data: UpdateNegotiationMutationResponse | null) => void;
 }
@@ -17,7 +17,7 @@ export function NegotiationProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [negotiationId, setnegotiationId] = useState<string>('');
+  const [negotiationId, setNegotiationId] = useState<string>('');
   const [negotiationData, setNegotiationData] =
     useState<UpdateNegotiationMutationResponse | null>(null);
 
@@ -25,7 +25,7 @@ export function NegotiationProvider({
     <NegotiationContext.Provider
       value={{
         negotiationId,
-        setnegotiationId,
+        setNegotiationId,
         negotiationData,
         setNegotiationData,
       }}
