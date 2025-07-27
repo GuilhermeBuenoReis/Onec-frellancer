@@ -1,25 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
-
-interface DashboardFilters {
-  title?: string;
-  client?: string;
-  step?: string;
-  user?: string;
-  tags?: string;
-  status?: string[];
-  startDate?: Date;
-  endDate?: Date;
-  activeTab?: 'negotiation' | 'contracts';
-  isWalletActive?: boolean;
-}
+import { createContext, useContext, useState } from 'react';
 
 interface DashboardFiltersContextType {
-  filters: DashboardFilters;
-  setFilters: (filters: DashboardFilters) => void;
-  resetFilters: () => void;
+  activeTab: 'negotiation' | 'contracts';
+  isWalletActive: boolean;
   toggleWallet: () => void;
+  setActiveTab: (tab: 'negotiation' | 'contracts') => void;
 }
 
 const DashboardFiltersContext = createContext<
@@ -31,68 +18,18 @@ export function DashboardFiltersProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [filters, setFiltersState] = useState<DashboardFilters>({
-    activeTab: 'contracts',
-    isWalletActive: false,
-    status: [],
-  });
-
-  function setFilters(newFilters: DashboardFilters) {
-    setFiltersState(prev => ({ ...prev, ...newFilters }));
-  }
-
-  function resetFilters() {
-    setFiltersState({
-      title: '',
-      client: '',
-      step: '',
-      user: '',
-      tags: '',
-      status: [],
-      startDate: undefined,
-      endDate: undefined,
-      activeTab: 'contracts',
-      isWalletActive: false,
-    });
-  }
+  const [activeTab, setActiveTab] = useState<'negotiation' | 'contracts'>(
+    'contracts'
+  );
+  const [isWalletActive, setIsWalletActive] = useState(false);
 
   function toggleWallet() {
-    setFiltersState(state => {
-      const isNowActive = !state.isWalletActive;
-
-      const isContractTab = state.activeTab === 'negotiation';
-
-      return {
-        ...state,
-        isWalletActive: isNowActive,
-        status: isNowActive
-          ? isContractTab
-            ? ['ativo', 'Ativo', 'ATIVO']
-            : ['ganho', 'Ganho']
-          : [],
-      };
-    });
+    setIsWalletActive(prev => !prev);
   }
-
-  useEffect(() => {
-    setFiltersState(prev => {
-      if (!prev.isWalletActive) return prev;
-
-      const status =
-        prev.activeTab === 'negotiation'
-          ? ['ganho', 'Ganho']
-          : ['ativo', 'Ativo', 'ATIVO'];
-
-      return {
-        ...prev,
-        status,
-      };
-    });
-  }, [filters.activeTab, filters.isWalletActive]);
 
   return (
     <DashboardFiltersContext.Provider
-      value={{ filters, setFilters, resetFilters, toggleWallet }}
+      value={{ activeTab, isWalletActive, toggleWallet, setActiveTab }}
     >
       {children}
     </DashboardFiltersContext.Provider>
@@ -103,7 +40,7 @@ export function useDashboardContext() {
   const context = useContext(DashboardFiltersContext);
   if (!context) {
     throw new Error(
-      'useDashboardFilters must be used within a DashboardFiltersProvider'
+      'useDashboardContext must be used within a DashboardFiltersProvider'
     );
   }
   return context;
