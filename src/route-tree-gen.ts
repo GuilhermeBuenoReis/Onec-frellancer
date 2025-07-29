@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
+import { Route as IndexRouteImport } from './pages/index'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
+import { Route as AppPartnerIndexRouteImport } from './pages/_app/partner/index'
 import { Route as AppBusinessDashboardIndexRouteImport } from './pages/_app/business-dashboard/index'
 
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
@@ -22,10 +24,20 @@ const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthSignInRoute = AuthSignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
   getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AppPartnerIndexRoute = AppPartnerIndexRouteImport.update({
+  id: '/partner/',
+  path: '/partner/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 const AppBusinessDashboardIndexRoute =
   AppBusinessDashboardIndexRouteImport.update({
@@ -35,34 +47,43 @@ const AppBusinessDashboardIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/sign-in': typeof AuthSignInRoute
   '/business-dashboard': typeof AppBusinessDashboardIndexRoute
+  '/partner': typeof AppPartnerIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/sign-in': typeof AuthSignInRoute
   '/business-dashboard': typeof AppBusinessDashboardIndexRoute
+  '/partner': typeof AppPartnerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/business-dashboard/': typeof AppBusinessDashboardIndexRoute
+  '/_app/partner/': typeof AppPartnerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/sign-in' | '/business-dashboard'
+  fullPaths: '/' | '/sign-in' | '/business-dashboard' | '/partner'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/business-dashboard'
+  to: '/' | '/sign-in' | '/business-dashboard' | '/partner'
   id:
     | '__root__'
+    | '/'
     | '/_app'
     | '/_auth'
     | '/_auth/sign-in'
     | '/_app/business-dashboard/'
+    | '/_app/partner/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
 }
@@ -83,12 +104,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/sign-in': {
       id: '/_auth/sign-in'
       path: '/sign-in'
       fullPath: '/sign-in'
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof AuthLayoutRoute
+    }
+    '/_app/partner/': {
+      id: '/_app/partner/'
+      path: '/partner'
+      fullPath: '/partner'
+      preLoaderRoute: typeof AppPartnerIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
     }
     '/_app/business-dashboard/': {
       id: '/_app/business-dashboard/'
@@ -102,10 +137,12 @@ declare module '@tanstack/react-router' {
 
 interface AppLayoutRouteChildren {
   AppBusinessDashboardIndexRoute: typeof AppBusinessDashboardIndexRoute
+  AppPartnerIndexRoute: typeof AppPartnerIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppBusinessDashboardIndexRoute: AppBusinessDashboardIndexRoute,
+  AppPartnerIndexRoute: AppPartnerIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
@@ -125,6 +162,7 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
 }

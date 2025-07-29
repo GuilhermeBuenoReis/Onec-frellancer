@@ -7,8 +7,8 @@ export type UpdatePortalControllPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type UpdatePortalControll200 = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -27,57 +27,57 @@ export type UpdatePortalControll404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type UpdatePortalControllMutationRequest = {
   /**
    * @type string
    */
-  enterprise?: string | null
+  enterprise?: string | null;
   /**
    * @type string
    */
-  product?: string | null
+  product?: string | null;
   /**
    * @type number
    */
-  percentageHonorary?: number | null
+  percentageHonorary?: number | null;
   /**
    * @type number
    */
-  compensation?: number | null
+  compensation?: number | null;
   /**
    * @type number
    */
-  honorary?: number | null
+  honorary?: number | null;
   /**
    * @type number
    */
-  tax?: number | null
+  tax?: number | null;
   /**
    * @type number
    */
-  tj?: number | null
+  tj?: number | null;
   /**
    * @type number
    */
-  value?: number | null
+  value?: number | null;
   /**
    * @type string
    */
-  situation?: string | null
+  situation?: string | null;
   /**
    * @type string | undefined
    */
-  partnerId?: string
-}
+  partnerId?: string;
+};
 
-export type UpdatePortalControllMutationResponse = UpdatePortalControll200
+export type UpdatePortalControllMutationResponse = UpdatePortalControll200;
 
 export type UpdatePortalControllMutation = {
-  Response: UpdatePortalControll200
-  Request: UpdatePortalControllMutationRequest
-  PathParams: UpdatePortalControllPathParams
-  Errors: UpdatePortalControll404
-}
+  Response: UpdatePortalControll200;
+  Request: UpdatePortalControllMutationRequest;
+  PathParams: UpdatePortalControllPathParams;
+  Errors: UpdatePortalControll404;
+};

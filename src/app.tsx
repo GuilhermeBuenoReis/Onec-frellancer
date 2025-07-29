@@ -3,6 +3,7 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@/components/shared/theme-provider';
 import { routeTree } from '@/route-tree-gen';
+import { ExportProvider } from './context/export-context';
 import { queryClient } from './lib/query-client';
 
 export const router = createRouter({ routeTree });
@@ -17,7 +18,9 @@ export function AppRouter() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
+        <ExportProvider>
+          <RouterProvider router={router} />
+        </ExportProvider>
         <Toaster richColors />
       </ThemeProvider>
     </QueryClientProvider>

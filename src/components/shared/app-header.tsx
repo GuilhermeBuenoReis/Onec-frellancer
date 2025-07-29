@@ -1,8 +1,8 @@
 import onec_logo from '../../assets/onec_logo_redonda.svg';
 import { Separator } from '../ui/separator';
 import { ActiveNavLink } from './active-nav-link';
-import { ChatIa } from './chat-ia';
 import { ModeToggle } from './mode-toggle';
+import { SmartUploadChat } from './smart-upload-chat.tsx';
 
 export function AppHeader() {
   return (
@@ -18,11 +18,13 @@ export function AppHeader() {
 
         <nav className="w-full flex gap-5">
           <ActiveNavLink to="/business-dashboard">Dashboard</ActiveNavLink>
+
+          <ActiveNavLink to="/partner">Parceiro</ActiveNavLink>
         </nav>
       </div>
 
       <div className="flex items-center gap-2">
-        <ChatIa />
+        <SmartUploadChat />
         <ModeToggle />
       </div>
     </header>

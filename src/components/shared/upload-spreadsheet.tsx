@@ -1,13 +1,11 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AnimatePresence, motion } from 'framer-motion';
-import { FileIcon, Loader2, UploadCloud } from 'lucide-react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod/v4';
-import { useUploadSpreadsheet } from '../../hooks/use-upload-spreadsheet';
-import { cn } from '../../lib/utils';
+import { motion } from 'framer-motion';
+import { FileIcon, UploadCloud } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import * as XLSX from 'xlsx';
+import { env } from '@/env';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Progress } from '../ui/progress';
@@ -20,41 +18,164 @@ import {
 } from '../ui/select';
 import { CheckAnimated } from './check-animated';
 
-export const uploadSpreadsheetSchema = z.object({
-  type: z.enum(['negotiation', 'client', 'partner'], {
-    error: 'Selecione o tipo de planilha',
-  }),
-  file: z
-    .instanceof(File, { message: 'Arquivo obrigatório' })
-    .refine(file => file.size > 0, 'Arquivo obrigatório'),
-});
+type DataType =
+  | 'Contratos'
+  | 'Dados'
+  | 'Parceiros'
+  | 'Pendencias'
+  | 'Controle'
+  | 'ClientReceipt';
 
-export type UploadSpreadsheetSchema = z.infer<typeof uploadSpreadsheetSchema>;
+const endpoints: Record<DataType, string> = {
+  Contratos: `${env.VITE_API_URL}/contract`,
+  Dados: `${env.VITE_API_URL}/negotiation`,
+  Parceiros: `${env.VITE_API_URL}/partners`,
+  Pendencias: `${env.VITE_API_URL}/pendings`,
+  Controle: `${env.VITE_API_URL}/portalcontrolls`,
+  ClientReceipt: `${env.VITE_API_URL}/client-receipt`,
+};
+
+const normalizeString = (value: unknown): string | null => {
+  const str = value != null ? String(value).trim() : '';
+  return str === '' ? null : str;
+};
+
+const normalizeNumber = (value: unknown): number | null => {
+  if (value == null) return null;
+  const num =
+    typeof value === 'number' ? value : Number(String(value).replace(',', '.'));
+  return Number.isNaN(num) ? null : num;
+};
+
+const normalizeHeader = (header: string): string =>
+  header
+    .trim()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '_')
+    .replace(/[^\w]/g, '')
+    .toLowerCase();
+
+const parseExcelDate = (serial: number): Date => {
+  const utc_days = Math.floor(serial - 25569);
+  const utc_value = utc_days * 86400;
+  const date_info = new Date(utc_value * 1000);
+  const fractional_day = serial - Math.floor(serial) + 0.0000001;
+  const total_seconds = Math.floor(86400 * fractional_day);
+  const seconds = total_seconds % 60;
+  const hours = Math.floor(total_seconds / 3600);
+  const minutes = Math.floor(total_seconds / 60) % 60;
+  return new Date(
+    date_info.getFullYear(),
+    date_info.getMonth(),
+    date_info.getDate(),
+    hours,
+    minutes,
+    seconds
+  );
+};
+
+const formatDateBR = (value: unknown): string | null => {
+  if (value == null) return null;
+  let dateObj: Date;
+  if (typeof value === 'number') {
+    dateObj = parseExcelDate(value);
+  } else {
+    const parsed = new Date(String(value));
+    if (Number.isNaN(parsed.getTime())) return null;
+    dateObj = parsed;
+  }
+  const dd = String(dateObj.getDate()).padStart(2, '0');
+  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const yyyy = dateObj.getFullYear();
+  return `${dd}/${mm}/${yyyy}`;
+};
+
+const transformExcelData = (rawData: any[], dataType: DataType) => {
+  const rows = rawData
+    .filter(row =>
+      Object.values(row).some(v => v != null && String(v).trim() !== '')
+    )
+    .map(row => {
+      const out: Record<string, any> = {};
+      Object.entries(row).forEach(([key, val]) => {
+        out[normalizeHeader(key)] = val;
+      });
+      return out;
+    });
+
+  switch (dataType) {
+    case 'Contratos':
+      return rows.map(r => ({
+        city: normalizeString(r['cidade']),
+        client: normalizeString(r['cliente']),
+        state: normalizeString(r['estado']),
+        cnpj: normalizeString(r['cnpj']),
+        sindic: normalizeString(r['sindic']),
+        year: formatDateBR(r['ano']),
+        matter: normalizeString(r['materia']),
+        forecast: normalizeString(r['previsao']),
+        contractTotal: normalizeString(r['contrato_total']),
+        percentage: normalizeNumber(r['percentual']) ?? 0,
+        signedContract: normalizeString(r['contrato_assinado']),
+        status: normalizeString(r['status']),
+        averageGuide: normalizeNumber(r['media_de_guia']) ?? 0,
+        partner: normalizeString(r['parceiro']),
+        partnerCommission: normalizeNumber(r['comissao_parceiro']) ?? 0,
+        counter: normalizeString(r['contador']),
+        email: normalizeString(r['email_responsavel']),
+      }));
+    case 'Dados':
+      return rows.map(r => ({
+        title: normalizeString(r['titulo']),
+        client: normalizeString(r['cliente']),
+        user: normalizeString(r['ususario']),
+        tags: normalizeString(r['tags']),
+        step: normalizeString(r['etapa']),
+        status: normalizeString(r['status']),
+        value: normalizeNumber(r['valor']),
+        partnerId: normalizeString(r['parceiro']),
+        startsDate: formatDateBR(r['data_inicio']),
+        observation: normalizeString(r['obs']),
+        averageGuide: normalizeNumber(r['media_guia']),
+      }));
+    case 'Parceiros':
+      return rows.map(r => ({
+        name: normalizeString(r['nome']),
+        cpfOrCnpj: normalizeString(r['cpf_cnpj']),
+        city: normalizeString(r['cidade']),
+        state: normalizeString(r['estado']),
+        commission: normalizeNumber(r['comissao']) ?? 0,
+        portal: normalizeString(r['portal']),
+        channelHead: normalizeString(r['head_de_canal']),
+        regional: normalizeString(r['regional']),
+        coordinator: normalizeString(r['coordenador']),
+        agent: normalizeString(r['agente']),
+        indicator: normalizeString(r['indicador']),
+        contract: normalizeString(r['contrato']),
+        phone: normalizeString(r['telefone']),
+        email: normalizeString(r['email']),
+        responsible: normalizeString(r['responsavel']),
+      }));
+    default:
+      return rows;
+  }
+};
 
 export function UploadSpreadsheet() {
+  const [file, setFile] = useState<File | null>(null);
+  const [dataType, setDataType] = useState<DataType>('Contratos');
+  const [transformedData, setTransformedData] = useState<any[]>([]);
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-    reset,
-  } = useForm<UploadSpreadsheetSchema>({
-    resolver: zodResolver(uploadSpreadsheetSchema),
-    mode: 'onChange',
-  });
+  useEffect(() => {
+    if (file && uploading) simulateProgress();
+  }, [file]);
 
-  const file = watch('file');
-  const type = watch('type');
-
-  const uploadMutation = useUploadSpreadsheet();
-
-  function simulateProgress() {
-    setUploading(true);
+  const simulateProgress = () => {
     let value = 0;
     const interval = setInterval(() => {
       value += 10;
@@ -69,73 +190,88 @@ export function UploadSpreadsheet() {
         setProgress(value);
       }
     }, 300);
-  }
-
-  const onSubmit = (data: UploadSpreadsheetSchema) => {
-    simulateProgress();
-    uploadMutation.mutate(data, {
-      onSuccess: () => {
-        setTimeout(() => {
-          setCompleted(false);
-          setProgress(0);
-          reset();
-          location.reload();
-        }, 1200);
-      },
-      onError: () => {
-        setUploading(false);
-        setCompleted(false);
-        setProgress(0);
-        alert('Erro ao enviar a planilha.');
-      },
-    });
   };
 
-  const sending = uploadMutation.isPending;
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+    setError(null);
+    const reader = new FileReader();
+
+    reader.onload = ev => {
+      const data = new Uint8Array(ev.target?.result as ArrayBuffer);
+      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+      const sheetIndex = dataType === 'Parceiros' ? 3 : 0;
+      const sheet = workbook.Sheets[workbook.SheetNames[sheetIndex]];
+      const raw = XLSX.utils.sheet_to_json(sheet, {
+        defval: null,
+        raw: true,
+        range: sheet['!ref'],
+        blankrows: false,
+      });
+      const transformed = transformExcelData(raw, dataType);
+      setTransformedData(transformed);
+    };
+
+    reader.readAsArrayBuffer(selectedFile);
+  };
+
+  const handleSubmit = async () => {
+    if (!file || transformedData.length === 0) {
+      setError('Arquivo ou dados inválidos');
+      toast.error('Erro ao enviar. Verifique o arquivo.');
+      return;
+    }
+
+    try {
+      for (const rec of transformedData) {
+        await fetch(endpoints[dataType], {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rec),
+        });
+      }
+      toast.success(`${transformedData.length} registros enviados!`);
+      simulateProgress();
+    } catch (err) {
+      console.error(err);
+      toast.error('Erro no envio da planilha.');
+    }
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={cn(
-        'w-full max-w-[90%] sm:max-w-sm border border-dashed border-input rounded-xl p-6 flex flex-col items-center justify-start text-center gap-4',
-        'bg-muted text-muted-foreground transition-all min-h-[180px] mt-3 mx-auto'
-      )}
+      onSubmit={e => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+      className="w-full max-w-[90%] sm:max-w-sm border border-dashed border-input rounded-xl p-6 flex flex-col items-center justify-start text-center gap-4 bg-muted text-muted-foreground transition-all min-h-[180px] mt-3 mx-auto"
     >
       <UploadCloud className="w-8 h-8 text-muted-foreground" />
-      <p className="text-sm font-medium text-foreground">Upload files</p>
-      <p className="text-xs text-muted-foreground">Apenas .xls, .xlsx e .csv</p>
+      <p className="text-sm font-medium text-foreground">Upload de planilha</p>
+      <p className="text-xs text-muted-foreground">.xls, .xlsx ou .csv</p>
 
-      {/* Select Tipado */}
       <Select
-        value={type}
-        onValueChange={value => setValue('type', value as any)}
+        value={dataType}
+        onValueChange={value => setDataType(value as DataType)}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Selecione o tipo de dados" />
+          <SelectValue placeholder="Tipo de dados" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="negotiation">Negociações</SelectItem>
-          <SelectItem value="client">Clientes</SelectItem>
-          <SelectItem value="partner">Parceiros</SelectItem>
+          <SelectItem value="Contratos">Contratos</SelectItem>
+          <SelectItem value="Dados">Negociações</SelectItem>
+          <SelectItem value="Parceiros">Parceiros</SelectItem>
+          <SelectItem value="Pendencias">Pendências</SelectItem>
+          <SelectItem value="Controle">Controle</SelectItem>
+          <SelectItem value="ClientReceipt">Recebimentos</SelectItem>
         </SelectContent>
       </Select>
-      {errors.type && (
-        <span className="text-xs text-red-600">{errors.type.message}</span>
-      )}
 
-      {/* Input de arquivo */}
-      <Input
-        type="file"
-        accept=".xls,.xlsx,.csv"
-        {...register('file')}
-        onChange={e => {
-          setValue('file', e.target.files?.[0]!);
-        }}
-        className="block"
-      />
-      {errors.file && (
-        <span className="text-xs text-red-600">{errors.file.message}</span>
-      )}
+      <Input type="file" accept=".xls,.xlsx,.csv" onChange={handleFileChange} />
+      {error && <span className="text-xs text-red-600">{error}</span>}
 
       {file && uploading && (
         <div className="w-full flex flex-col items-center gap-2 mt-3">
@@ -143,53 +279,30 @@ export function UploadSpreadsheet() {
           <span className="text-sm truncate max-w-[200px] text-foreground">
             {file.name}
           </span>
-          <Progress
-            value={progress}
-            className="w-full h-2"
-            progressSuccess={true}
-          />
+          <Progress value={progress} className="w-full h-2" />
           <span className="text-xs text-muted-foreground">Enviando...</span>
         </div>
       )}
 
-      {file && completed && !sending && (
-        <AnimatePresence>
-          <motion.div
-            key="completed-state"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0.5, scale: 0.9 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="w-full flex flex-col items-center gap-3"
-          >
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1.1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-            >
-              <CheckAnimated size={32} />
-            </motion.div>
-            <span className="text-sm font-medium text-green-700 dark:text-green-400">
-              Upload completo
-            </span>
-            <span className="text-xs text-muted-foreground truncate max-w-[200px]">
-              {file.name}
-            </span>
-          </motion.div>
-        </AnimatePresence>
-      )}
-
-      {sending && (
-        <div className="flex flex-col items-center gap-2 animate-pulse">
-          <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">
-            Enviando para o banco...
+      {file && completed && !uploading && (
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1.1, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+          className="w-full flex flex-col items-center gap-3"
+        >
+          <CheckAnimated size={32} />
+          <span className="text-sm font-medium text-green-700 dark:text-green-400">
+            Upload completo
           </span>
-        </div>
+          <span className="text-xs text-muted-foreground truncate max-w-[200px]">
+            {file.name}
+          </span>
+        </motion.div>
       )}
 
-      <Button type="submit" disabled={uploadMutation.isPending || uploading}>
-        {uploadMutation.isPending ? 'Enviando...' : 'Enviar'}
+      <Button type="submit" disabled={uploading}>
+        {uploading ? 'Enviando...' : 'Enviar'}
       </Button>
     </form>
   );
