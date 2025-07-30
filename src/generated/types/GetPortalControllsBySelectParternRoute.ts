@@ -8,8 +8,8 @@ export type GetPortalControllsBySelectParternRouteQueryParams = {
    * @minLength 1
    * @type string
    */
-  partnerId: string;
-};
+  partnerId: string
+}
 
 /**
  * @description Default Response
@@ -18,60 +18,60 @@ export type GetPortalControllsBySelectParternRoute200 = {
   /**
    * @type string
    */
-  id: string | null;
+  id: string | null
   /**
    * @type string
    */
-  monthOfCalculation: string | null;
+  monthOfCalculation: string | null
   /**
    * @type string
    */
-  competenceMonth: string | null;
+  competenceMonth: string | null
   /**
    * @type number
    */
-  contract: number | null;
+  contract: number | null
   /**
    * @type string
    */
-  enterprise: string | null;
+  enterprise: string | null
   /**
    * @type string
    */
-  product: string | null;
+  product: string | null
   /**
    * @type number
    */
-  percentageHonorary: number | null;
+  percentageHonorary: number | null
   /**
    * @type number
    */
-  compensation: number | null;
+  compensation: number | null
   /**
    * @type number
    */
-  honorary: number | null;
+  honorary: number | null
   /**
    * @type number
    */
-  tax: number | null;
+  tax: number | null
   /**
    * @type number
    */
-  tj: number | null;
+  tj: number | null
   /**
    * @type number
    */
-  value: number | null;
+  value: number | null
   /**
    * @type string
    */
-  situation: string | null;
+  situation: string | null
   /**
    * @type string
    */
-  partnerId: string;
-}[];
+  partnerId: string
+}[]
 
 /**
  * @description Default Response
@@ -80,14 +80,13 @@ export type GetPortalControllsBySelectParternRoute500 = {
   /**
    * @type string
    */
-  error: string;
-};
+  error: string
+}
 
-export type GetPortalControllsBySelectParternRouteQueryResponse =
-  GetPortalControllsBySelectParternRoute200;
+export type GetPortalControllsBySelectParternRouteQueryResponse = GetPortalControllsBySelectParternRoute200
 
 export type GetPortalControllsBySelectParternRouteQuery = {
-  Response: GetPortalControllsBySelectParternRoute200;
-  QueryParams: GetPortalControllsBySelectParternRouteQueryParams;
-  Errors: GetPortalControllsBySelectParternRoute500;
-};
+  Response: GetPortalControllsBySelectParternRoute200
+  QueryParams: GetPortalControllsBySelectParternRouteQueryParams
+  Errors: GetPortalControllsBySelectParternRoute500
+}

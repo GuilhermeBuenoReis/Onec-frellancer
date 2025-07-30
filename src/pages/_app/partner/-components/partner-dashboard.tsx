@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useDashboardProvider } from '../-context/dashboard-context';
 import { PartnerTableFromAPI } from '../-tables/table-from-api';
+import { InformationPartner } from './information-partner';
 import { DashboardChart } from './partner-dashboard-chart';
 import { DashboardHeader } from './partner-dashboard-header';
 import { DashboardStat } from './partner-dashboard-stats';
@@ -25,6 +26,8 @@ export function PartnerDashboard() {
       </CardContent>
 
       <PartnerTableFromAPI />
+
+      <InformationPartner />
     </Card>
   );
 }
