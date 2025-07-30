@@ -11,6 +11,15 @@ export type { GetClientReceiptQueryKey } from './hooks/clientReceiptHooks/useGet
 export type { GetClientReceiptInfiniteQueryKey } from './hooks/clientReceiptHooks/useGetClientReceiptInfinite.ts'
 export type { GetClientReceiptSuspenseQueryKey } from './hooks/clientReceiptHooks/useGetClientReceiptSuspense.ts'
 export type { UpdateClientReceiptMutationKey } from './hooks/clientReceiptHooks/useUpdateClientReceipt.ts'
+export type { CreateContestationMutationKey } from './hooks/contestationHooks/useCreateContestation.ts'
+export type { DeleteContestationMutationKey } from './hooks/contestationHooks/useDeleteContestation.ts'
+export type { GetContestationQueryKey } from './hooks/contestationHooks/useGetContestation.ts'
+export type { GetContestationByIdQueryKey } from './hooks/contestationHooks/useGetContestationById.ts'
+export type { GetContestationByIdInfiniteQueryKey } from './hooks/contestationHooks/useGetContestationByIdInfinite.ts'
+export type { GetContestationByIdSuspenseQueryKey } from './hooks/contestationHooks/useGetContestationByIdSuspense.ts'
+export type { GetContestationInfiniteQueryKey } from './hooks/contestationHooks/useGetContestationInfinite.ts'
+export type { GetContestationSuspenseQueryKey } from './hooks/contestationHooks/useGetContestationSuspense.ts'
+export type { UpdateContestationMutationKey } from './hooks/contestationHooks/useUpdateContestation.ts'
 export type { CreateContractMutationKey } from './hooks/contractHooks/useCreateContract.ts'
 export type { DeleteContractMutationKey } from './hooks/contractHooks/useDeleteContract.ts'
 export type { GetContractQueryKey } from './hooks/contractHooks/useGetContract.ts'
@@ -95,6 +104,13 @@ export type {
   CreateClientReceiptMutation,
 } from './types/CreateClientReceipt.ts'
 export type {
+  CreateContestation201,
+  CreateContestation400,
+  CreateContestationMutationRequest,
+  CreateContestationMutationResponse,
+  CreateContestationMutation,
+} from './types/CreateContestation.ts'
+export type {
   CreateContract201,
   CreateContract400,
   CreateContractMutationRequest,
@@ -137,6 +153,13 @@ export type {
   DeleteClientReceiptMutationResponse,
   DeleteClientReceiptMutation,
 } from './types/DeleteClientReceipt.ts'
+export type {
+  DeleteContestationPathParams,
+  DeleteContestation200,
+  DeleteContestation404,
+  DeleteContestationMutationResponse,
+  DeleteContestationMutation,
+} from './types/DeleteContestation.ts'
 export type {
   DeleteContractPathParams,
   DeleteContract200,
@@ -182,6 +205,14 @@ export type {
 export type { DeleteUserPathParams, DeleteUser200, DeleteUser400, DeleteUserMutationResponse, DeleteUserMutation } from './types/DeleteUser.ts'
 export type { GetClient200, GetClientQueryResponse, GetClientQuery } from './types/GetClient.ts'
 export type { GetClientReceipt200, GetClientReceiptQueryResponse, GetClientReceiptQuery } from './types/GetClientReceipt.ts'
+export type { GetContestation200, GetContestationQueryResponse, GetContestationQuery } from './types/GetContestation.ts'
+export type {
+  GetContestationByIdPathParams,
+  GetContestationById200,
+  GetContestationById404,
+  GetContestationByIdQueryResponse,
+  GetContestationByIdQuery,
+} from './types/GetContestationById.ts'
 export type { GetContract200, GetContractQueryResponse, GetContractQuery } from './types/GetContract.ts'
 export type {
   GetContractByIdPathParams,
@@ -259,6 +290,14 @@ export type {
   UpdateClientReceiptMutationResponse,
   UpdateClientReceiptMutation,
 } from './types/UpdateClientReceipt.ts'
+export type {
+  UpdateContestationPathParams,
+  UpdateContestation200,
+  UpdateContestation404,
+  UpdateContestationMutationRequest,
+  UpdateContestationMutationResponse,
+  UpdateContestationMutation,
+} from './types/UpdateContestation.ts'
 export type {
   UpdateContractPathParams,
   UpdateContract200,
@@ -361,6 +400,32 @@ export type {
   UpdateClientMutationRequestSchema,
   UpdateClientMutationResponseSchema,
 } from './zod/clientSchemas/updateClientSchema.ts'
+export type {
+  CreateContestation201Schema,
+  CreateContestation400Schema,
+  CreateContestationMutationRequestSchema,
+  CreateContestationMutationResponseSchema,
+} from './zod/contestationSchemas/createContestationSchema.ts'
+export type {
+  DeleteContestationPathParamsSchema,
+  DeleteContestation200Schema,
+  DeleteContestation404Schema,
+  DeleteContestationMutationResponseSchema,
+} from './zod/contestationSchemas/deleteContestationSchema.ts'
+export type {
+  GetContestationByIdPathParamsSchema,
+  GetContestationById200Schema,
+  GetContestationById404Schema,
+  GetContestationByIdQueryResponseSchema,
+} from './zod/contestationSchemas/getContestationByIdSchema.ts'
+export type { GetContestation200Schema, GetContestationQueryResponseSchema } from './zod/contestationSchemas/getContestationSchema.ts'
+export type {
+  UpdateContestationPathParamsSchema,
+  UpdateContestation200Schema,
+  UpdateContestation404Schema,
+  UpdateContestationMutationRequestSchema,
+  UpdateContestationMutationResponseSchema,
+} from './zod/contestationSchemas/updateContestationSchema.ts'
 export type {
   CreateContract201Schema,
   CreateContract400Schema,
@@ -576,6 +641,40 @@ export {
   useGetClientReceiptSuspense,
 } from './hooks/clientReceiptHooks/useGetClientReceiptSuspense.ts'
 export { updateClientReceiptMutationKey, updateClientReceipt, useUpdateClientReceipt } from './hooks/clientReceiptHooks/useUpdateClientReceipt.ts'
+export { createContestationMutationKey, createContestation, useCreateContestation } from './hooks/contestationHooks/useCreateContestation.ts'
+export { deleteContestationMutationKey, deleteContestation, useDeleteContestation } from './hooks/contestationHooks/useDeleteContestation.ts'
+export { getContestationQueryKey, getContestation, getContestationQueryOptions, useGetContestation } from './hooks/contestationHooks/useGetContestation.ts'
+export {
+  getContestationByIdQueryKey,
+  getContestationById,
+  getContestationByIdQueryOptions,
+  useGetContestationById,
+} from './hooks/contestationHooks/useGetContestationById.ts'
+export {
+  getContestationByIdInfiniteQueryKey,
+  getContestationByIdInfinite,
+  getContestationByIdInfiniteQueryOptions,
+  useGetContestationByIdInfinite,
+} from './hooks/contestationHooks/useGetContestationByIdInfinite.ts'
+export {
+  getContestationByIdSuspenseQueryKey,
+  getContestationByIdSuspense,
+  getContestationByIdSuspenseQueryOptions,
+  useGetContestationByIdSuspense,
+} from './hooks/contestationHooks/useGetContestationByIdSuspense.ts'
+export {
+  getContestationInfiniteQueryKey,
+  getContestationInfinite,
+  getContestationInfiniteQueryOptions,
+  useGetContestationInfinite,
+} from './hooks/contestationHooks/useGetContestationInfinite.ts'
+export {
+  getContestationSuspenseQueryKey,
+  getContestationSuspense,
+  getContestationSuspenseQueryOptions,
+  useGetContestationSuspense,
+} from './hooks/contestationHooks/useGetContestationSuspense.ts'
+export { updateContestationMutationKey, updateContestation, useUpdateContestation } from './hooks/contestationHooks/useUpdateContestation.ts'
 export { createContractMutationKey, createContract, useCreateContract } from './hooks/contractHooks/useCreateContract.ts'
 export { deleteContractMutationKey, deleteContract, useDeleteContract } from './hooks/contractHooks/useDeleteContract.ts'
 export { getContractQueryKey, getContract, getContractQueryOptions, useGetContract } from './hooks/contractHooks/useGetContract.ts'
@@ -869,6 +968,32 @@ export {
   updateClientMutationRequestSchema,
   updateClientMutationResponseSchema,
 } from './zod/clientSchemas/updateClientSchema.ts'
+export {
+  createContestation201Schema,
+  createContestation400Schema,
+  createContestationMutationRequestSchema,
+  createContestationMutationResponseSchema,
+} from './zod/contestationSchemas/createContestationSchema.ts'
+export {
+  deleteContestationPathParamsSchema,
+  deleteContestation200Schema,
+  deleteContestation404Schema,
+  deleteContestationMutationResponseSchema,
+} from './zod/contestationSchemas/deleteContestationSchema.ts'
+export {
+  getContestationByIdPathParamsSchema,
+  getContestationById200Schema,
+  getContestationById404Schema,
+  getContestationByIdQueryResponseSchema,
+} from './zod/contestationSchemas/getContestationByIdSchema.ts'
+export { getContestation200Schema, getContestationQueryResponseSchema } from './zod/contestationSchemas/getContestationSchema.ts'
+export {
+  updateContestationPathParamsSchema,
+  updateContestation200Schema,
+  updateContestation404Schema,
+  updateContestationMutationRequestSchema,
+  updateContestationMutationResponseSchema,
+} from './zod/contestationSchemas/updateContestationSchema.ts'
 export {
   createContract201Schema,
   createContract400Schema,

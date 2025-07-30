@@ -11,6 +11,15 @@ export type { GetClientReceiptQueryKey } from './clientReceiptHooks/useGetClient
 export type { GetClientReceiptInfiniteQueryKey } from './clientReceiptHooks/useGetClientReceiptInfinite.ts'
 export type { GetClientReceiptSuspenseQueryKey } from './clientReceiptHooks/useGetClientReceiptSuspense.ts'
 export type { UpdateClientReceiptMutationKey } from './clientReceiptHooks/useUpdateClientReceipt.ts'
+export type { CreateContestationMutationKey } from './contestationHooks/useCreateContestation.ts'
+export type { DeleteContestationMutationKey } from './contestationHooks/useDeleteContestation.ts'
+export type { GetContestationQueryKey } from './contestationHooks/useGetContestation.ts'
+export type { GetContestationByIdQueryKey } from './contestationHooks/useGetContestationById.ts'
+export type { GetContestationByIdInfiniteQueryKey } from './contestationHooks/useGetContestationByIdInfinite.ts'
+export type { GetContestationByIdSuspenseQueryKey } from './contestationHooks/useGetContestationByIdSuspense.ts'
+export type { GetContestationInfiniteQueryKey } from './contestationHooks/useGetContestationInfinite.ts'
+export type { GetContestationSuspenseQueryKey } from './contestationHooks/useGetContestationSuspense.ts'
+export type { UpdateContestationMutationKey } from './contestationHooks/useUpdateContestation.ts'
 export type { CreateContractMutationKey } from './contractHooks/useCreateContract.ts'
 export type { DeleteContractMutationKey } from './contractHooks/useDeleteContract.ts'
 export type { GetContractQueryKey } from './contractHooks/useGetContract.ts'
@@ -102,6 +111,40 @@ export {
   useGetClientReceiptSuspense,
 } from './clientReceiptHooks/useGetClientReceiptSuspense.ts'
 export { updateClientReceiptMutationKey, updateClientReceipt, useUpdateClientReceipt } from './clientReceiptHooks/useUpdateClientReceipt.ts'
+export { createContestationMutationKey, createContestation, useCreateContestation } from './contestationHooks/useCreateContestation.ts'
+export { deleteContestationMutationKey, deleteContestation, useDeleteContestation } from './contestationHooks/useDeleteContestation.ts'
+export { getContestationQueryKey, getContestation, getContestationQueryOptions, useGetContestation } from './contestationHooks/useGetContestation.ts'
+export {
+  getContestationByIdQueryKey,
+  getContestationById,
+  getContestationByIdQueryOptions,
+  useGetContestationById,
+} from './contestationHooks/useGetContestationById.ts'
+export {
+  getContestationByIdInfiniteQueryKey,
+  getContestationByIdInfinite,
+  getContestationByIdInfiniteQueryOptions,
+  useGetContestationByIdInfinite,
+} from './contestationHooks/useGetContestationByIdInfinite.ts'
+export {
+  getContestationByIdSuspenseQueryKey,
+  getContestationByIdSuspense,
+  getContestationByIdSuspenseQueryOptions,
+  useGetContestationByIdSuspense,
+} from './contestationHooks/useGetContestationByIdSuspense.ts'
+export {
+  getContestationInfiniteQueryKey,
+  getContestationInfinite,
+  getContestationInfiniteQueryOptions,
+  useGetContestationInfinite,
+} from './contestationHooks/useGetContestationInfinite.ts'
+export {
+  getContestationSuspenseQueryKey,
+  getContestationSuspense,
+  getContestationSuspenseQueryOptions,
+  useGetContestationSuspense,
+} from './contestationHooks/useGetContestationSuspense.ts'
+export { updateContestationMutationKey, updateContestation, useUpdateContestation } from './contestationHooks/useUpdateContestation.ts'
 export { createContractMutationKey, createContract, useCreateContract } from './contractHooks/useCreateContract.ts'
 export { deleteContractMutationKey, deleteContract, useDeleteContract } from './contractHooks/useDeleteContract.ts'
 export { getContractQueryKey, getContract, getContractQueryOptions, useGetContract } from './contractHooks/useGetContract.ts'

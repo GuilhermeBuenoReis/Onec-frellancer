@@ -1,4 +1,4 @@
-import onec_logo from '../../assets/onec_logo_redonda.svg';
+import onec_logo from '../../assets/logotipo negativo-02.png';
 import { Separator } from '../ui/separator';
 import { ActiveNavLink } from './active-nav-link';
 import { ModeToggle } from './mode-toggle';
@@ -22,6 +22,8 @@ export function AppHeader() {
           <ActiveNavLink to="/partner">Parceiro</ActiveNavLink>
 
           <ActiveNavLink to="/pending">Pendências</ActiveNavLink>
+
+          <ActiveNavLink to="/contestation">Contestação</ActiveNavLink>
         </nav>
       </div>
 

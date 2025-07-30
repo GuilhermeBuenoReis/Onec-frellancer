@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './pages/index'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
 import { Route as AppPendingIndexRouteImport } from './pages/_app/pending/index'
 import { Route as AppPartnerIndexRouteImport } from './pages/_app/partner/index'
+import { Route as AppContestationIndexRouteImport } from './pages/_app/contestation/index'
 import { Route as AppBusinessDashboardIndexRouteImport } from './pages/_app/business-dashboard/index'
 
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
@@ -45,6 +46,11 @@ const AppPartnerIndexRoute = AppPartnerIndexRouteImport.update({
   path: '/partner/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
+const AppContestationIndexRoute = AppContestationIndexRouteImport.update({
+  id: '/contestation/',
+  path: '/contestation/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
 const AppBusinessDashboardIndexRoute =
   AppBusinessDashboardIndexRouteImport.update({
     id: '/business-dashboard/',
@@ -56,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sign-in': typeof AuthSignInRoute
   '/business-dashboard': typeof AppBusinessDashboardIndexRoute
+  '/contestation': typeof AppContestationIndexRoute
   '/partner': typeof AppPartnerIndexRoute
   '/pending': typeof AppPendingIndexRoute
 }
@@ -63,6 +70,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sign-in': typeof AuthSignInRoute
   '/business-dashboard': typeof AppBusinessDashboardIndexRoute
+  '/contestation': typeof AppContestationIndexRoute
   '/partner': typeof AppPartnerIndexRoute
   '/pending': typeof AppPendingIndexRoute
 }
@@ -73,14 +81,27 @@ export interface FileRoutesById {
   '/_auth': typeof AuthLayoutRouteWithChildren
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/business-dashboard/': typeof AppBusinessDashboardIndexRoute
+  '/_app/contestation/': typeof AppContestationIndexRoute
   '/_app/partner/': typeof AppPartnerIndexRoute
   '/_app/pending/': typeof AppPendingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/business-dashboard' | '/partner' | '/pending'
+  fullPaths:
+    | '/'
+    | '/sign-in'
+    | '/business-dashboard'
+    | '/contestation'
+    | '/partner'
+    | '/pending'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/business-dashboard' | '/partner' | '/pending'
+  to:
+    | '/'
+    | '/sign-in'
+    | '/business-dashboard'
+    | '/contestation'
+    | '/partner'
+    | '/pending'
   id:
     | '__root__'
     | '/'
@@ -88,6 +109,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/_auth/sign-in'
     | '/_app/business-dashboard/'
+    | '/_app/contestation/'
     | '/_app/partner/'
     | '/_app/pending/'
   fileRoutesById: FileRoutesById
@@ -142,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPartnerIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
+    '/_app/contestation/': {
+      id: '/_app/contestation/'
+      path: '/contestation'
+      fullPath: '/contestation'
+      preLoaderRoute: typeof AppContestationIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/_app/business-dashboard/': {
       id: '/_app/business-dashboard/'
       path: '/business-dashboard'
@@ -154,12 +183,14 @@ declare module '@tanstack/react-router' {
 
 interface AppLayoutRouteChildren {
   AppBusinessDashboardIndexRoute: typeof AppBusinessDashboardIndexRoute
+  AppContestationIndexRoute: typeof AppContestationIndexRoute
   AppPartnerIndexRoute: typeof AppPartnerIndexRoute
   AppPendingIndexRoute: typeof AppPendingIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppBusinessDashboardIndexRoute: AppBusinessDashboardIndexRoute,
+  AppContestationIndexRoute: AppContestationIndexRoute,
   AppPartnerIndexRoute: AppPartnerIndexRoute,
   AppPendingIndexRoute: AppPendingIndexRoute,
 }

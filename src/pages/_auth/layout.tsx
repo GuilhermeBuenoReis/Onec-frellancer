@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
-import onecLogo from '@/assets/onec_logo_redonda.svg';
+import onecLogo from '@/assets/logotipo negativo-02.png';
 import { Separator } from '@/components/ui/separator';
 
 export const Route = createFileRoute('/_auth')({

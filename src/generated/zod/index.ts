@@ -45,6 +45,32 @@ export type {
   UpdateClientMutationResponseSchema,
 } from './clientSchemas/updateClientSchema.ts'
 export type {
+  CreateContestation201Schema,
+  CreateContestation400Schema,
+  CreateContestationMutationRequestSchema,
+  CreateContestationMutationResponseSchema,
+} from './contestationSchemas/createContestationSchema.ts'
+export type {
+  DeleteContestationPathParamsSchema,
+  DeleteContestation200Schema,
+  DeleteContestation404Schema,
+  DeleteContestationMutationResponseSchema,
+} from './contestationSchemas/deleteContestationSchema.ts'
+export type {
+  GetContestationByIdPathParamsSchema,
+  GetContestationById200Schema,
+  GetContestationById404Schema,
+  GetContestationByIdQueryResponseSchema,
+} from './contestationSchemas/getContestationByIdSchema.ts'
+export type { GetContestation200Schema, GetContestationQueryResponseSchema } from './contestationSchemas/getContestationSchema.ts'
+export type {
+  UpdateContestationPathParamsSchema,
+  UpdateContestation200Schema,
+  UpdateContestation404Schema,
+  UpdateContestationMutationRequestSchema,
+  UpdateContestationMutationResponseSchema,
+} from './contestationSchemas/updateContestationSchema.ts'
+export type {
   CreateContract201Schema,
   CreateContract400Schema,
   CreateContractMutationRequestSchema,
@@ -264,6 +290,32 @@ export {
   updateClientMutationRequestSchema,
   updateClientMutationResponseSchema,
 } from './clientSchemas/updateClientSchema.ts'
+export {
+  createContestation201Schema,
+  createContestation400Schema,
+  createContestationMutationRequestSchema,
+  createContestationMutationResponseSchema,
+} from './contestationSchemas/createContestationSchema.ts'
+export {
+  deleteContestationPathParamsSchema,
+  deleteContestation200Schema,
+  deleteContestation404Schema,
+  deleteContestationMutationResponseSchema,
+} from './contestationSchemas/deleteContestationSchema.ts'
+export {
+  getContestationByIdPathParamsSchema,
+  getContestationById200Schema,
+  getContestationById404Schema,
+  getContestationByIdQueryResponseSchema,
+} from './contestationSchemas/getContestationByIdSchema.ts'
+export { getContestation200Schema, getContestationQueryResponseSchema } from './contestationSchemas/getContestationSchema.ts'
+export {
+  updateContestationPathParamsSchema,
+  updateContestation200Schema,
+  updateContestation404Schema,
+  updateContestationMutationRequestSchema,
+  updateContestationMutationResponseSchema,
+} from './contestationSchemas/updateContestationSchema.ts'
 export {
   createContract201Schema,
   createContract400Schema,

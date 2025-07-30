@@ -14,6 +14,13 @@ export type {
   CreateClientReceiptMutation,
 } from './CreateClientReceipt.ts'
 export type {
+  CreateContestation201,
+  CreateContestation400,
+  CreateContestationMutationRequest,
+  CreateContestationMutationResponse,
+  CreateContestationMutation,
+} from './CreateContestation.ts'
+export type {
   CreateContract201,
   CreateContract400,
   CreateContractMutationRequest,
@@ -57,6 +64,13 @@ export type {
   DeleteClientReceiptMutation,
 } from './DeleteClientReceipt.ts'
 export type {
+  DeleteContestationPathParams,
+  DeleteContestation200,
+  DeleteContestation404,
+  DeleteContestationMutationResponse,
+  DeleteContestationMutation,
+} from './DeleteContestation.ts'
+export type {
   DeleteContractPathParams,
   DeleteContract200,
   DeleteContract404,
@@ -89,6 +103,14 @@ export type {
 export type { DeleteUserPathParams, DeleteUser200, DeleteUser400, DeleteUserMutationResponse, DeleteUserMutation } from './DeleteUser.ts'
 export type { GetClient200, GetClientQueryResponse, GetClientQuery } from './GetClient.ts'
 export type { GetClientReceipt200, GetClientReceiptQueryResponse, GetClientReceiptQuery } from './GetClientReceipt.ts'
+export type { GetContestation200, GetContestationQueryResponse, GetContestationQuery } from './GetContestation.ts'
+export type {
+  GetContestationByIdPathParams,
+  GetContestationById200,
+  GetContestationById404,
+  GetContestationByIdQueryResponse,
+  GetContestationByIdQuery,
+} from './GetContestationById.ts'
 export type { GetContract200, GetContractQueryResponse, GetContractQuery } from './GetContract.ts'
 export type {
   GetContractByIdPathParams,
@@ -156,6 +178,14 @@ export type {
   UpdateClientReceiptMutationResponse,
   UpdateClientReceiptMutation,
 } from './UpdateClientReceipt.ts'
+export type {
+  UpdateContestationPathParams,
+  UpdateContestation200,
+  UpdateContestation404,
+  UpdateContestationMutationRequest,
+  UpdateContestationMutationResponse,
+  UpdateContestationMutation,
+} from './UpdateContestation.ts'
 export type {
   UpdateContractPathParams,
   UpdateContract200,

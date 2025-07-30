@@ -3,57 +3,33 @@
  * Do not edit manually.
  */
 
-import type {
-  QueryClient,
-  QueryKey,
-  QueryObserverOptions,
-  UseQueryResult,
-} from '@tanstack/react-query';
-import { queryOptions, useQuery } from '@tanstack/react-query';
-import type {
-  RequestConfig,
-  ResponseConfig,
-  ResponseErrorConfig,
-} from '../../../http/client-kubb.ts';
-import fetch from '../../../http/client-kubb.ts';
-import type {
-  GetOnePartner404,
-  GetOnePartnerPathParams,
-  GetOnePartnerQueryResponse,
-} from '../../types/GetOnePartner.ts';
+import fetch from '../../../http/client-kubb.ts'
+import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
+import type { GetOnePartnerQueryResponse, GetOnePartnerPathParams, GetOnePartner404 } from '../../types/GetOnePartner.ts'
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 
-export const getOnePartnerQueryKey = (id: GetOnePartnerPathParams['id']) =>
-  [{ url: '/partners/:id', params: { id: id } }] as const;
+export const getOnePartnerQueryKey = (id: GetOnePartnerPathParams['id']) => [{ url: '/partners/:id', params: { id: id } }] as const
 
-export type GetOnePartnerQueryKey = ReturnType<typeof getOnePartnerQueryKey>;
+export type GetOnePartnerQueryKey = ReturnType<typeof getOnePartnerQueryKey>
 
 /**
  * @description Get a single partner by id
  * {@link /partners/:id}
  */
-export async function getOnePartner(
-  id: GetOnePartnerPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
-) {
-  const { client: request = fetch, ...requestConfig } = config;
+export async function getOnePartner(id: GetOnePartnerPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
+  const { client: request = fetch, ...requestConfig } = config
 
-  const res = await request<
-    GetOnePartnerQueryResponse,
-    ResponseErrorConfig<GetOnePartner404>,
-    unknown
-  >({
+  const res = await request<GetOnePartnerQueryResponse, ResponseErrorConfig<GetOnePartner404>, unknown>({
     method: 'GET',
     url: `/partners/${id}`,
     ...requestConfig,
-  });
-  return res;
+  })
+  return res
 }
 
-export function getOnePartnerQueryOptions(
-  id: GetOnePartnerPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
-) {
-  const queryKey = getOnePartnerQueryKey(id);
+export function getOnePartnerQueryOptions(id: GetOnePartnerPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
+  const queryKey = getOnePartnerQueryKey(id)
   return queryOptions<
     ResponseConfig<GetOnePartnerQueryResponse>,
     ResponseErrorConfig<GetOnePartner404>,
@@ -63,10 +39,10 @@ export function getOnePartnerQueryOptions(
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal;
-      return getOnePartner(id, config);
+      config.signal = signal
+      return getOnePartner(id, config)
     },
-  });
+  })
 }
 
 /**
@@ -80,25 +56,14 @@ export function useGetOnePartner<
 >(
   id: GetOnePartnerPathParams['id'],
   options: {
-    query?: Partial<
-      QueryObserverOptions<
-        ResponseConfig<GetOnePartnerQueryResponse>,
-        ResponseErrorConfig<GetOnePartner404>,
-        TData,
-        TQueryData,
-        TQueryKey
-      >
-    > & {
-      client?: QueryClient;
-    };
-    client?: Partial<RequestConfig> & { client?: typeof fetch };
-  } = {}
+    query?: Partial<QueryObserverOptions<ResponseConfig<GetOnePartnerQueryResponse>, ResponseErrorConfig<GetOnePartner404>, TData, TQueryData, TQueryKey>> & {
+      client?: QueryClient
+    }
+    client?: Partial<RequestConfig> & { client?: typeof fetch }
+  } = {},
 ) {
-  const {
-    query: { client: queryClient, ...queryOptions } = {},
-    client: config = {},
-  } = options ?? {};
-  const queryKey = queryOptions?.queryKey ?? getOnePartnerQueryKey(id);
+  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
+  const queryKey = queryOptions?.queryKey ?? getOnePartnerQueryKey(id)
 
   const query = useQuery(
     {
@@ -106,12 +71,10 @@ export function useGetOnePartner<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient
-  ) as UseQueryResult<TData, ResponseErrorConfig<GetOnePartner404>> & {
-    queryKey: TQueryKey;
-  };
+    queryClient,
+  ) as UseQueryResult<TData, ResponseErrorConfig<GetOnePartner404>> & { queryKey: TQueryKey }
 
-  query.queryKey = queryKey as TQueryKey;
+  query.queryKey = queryKey as TQueryKey
 
-  return query;
+  return query
 }

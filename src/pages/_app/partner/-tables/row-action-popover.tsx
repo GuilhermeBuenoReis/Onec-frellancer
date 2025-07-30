@@ -1,7 +1,7 @@
 'use client';
 
 import { Eye, MoreVertical, Pencil, Trash } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -26,44 +26,85 @@ export function RowActionsPopoverPortalControll({
   controll,
 }: RowActionsPopoverPortalControllProps) {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
-
+  const [open, setOpen] = useState(false);
   const { setSelectedControllId, setSelectedControllData } =
     useDashboardProvider();
 
-  function handleOpenPopover() {
-    setSelectedControllId(controllId);
-    setSelectedControllData(controll);
-  }
+  // só vamos travar propagação nos botões do conteúdo (não no trigger)
+  const stopBubbling = useCallback((e: React.SyntheticEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const handleSelect = useCallback(
+    (type: ModalType) => {
+      setSelectedControllId(controllId);
+      setSelectedControllData(controll);
+      setOpen(false);
+      setActiveModal(type);
+    },
+    [controllId, controll, setSelectedControllData, setSelectedControllId]
+  );
 
   return (
     <>
-      <Popover onOpenChange={open => open && handleOpenPopover()}>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            // sem preventDefault aqui!
+            onClick={e => e.stopPropagation()}
+            data-partner-actions
+          >
             <MoreVertical className="h-4 w-4" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="end" className="w-44 p-1">
+
+        <PopoverContent
+          align="end"
+          className="w-44 p-1"
+          onOpenAutoFocus={e => e.preventDefault()} // ok manter pra não roubar foco
+          data-partner-actions
+        >
           <Button
+            type="button"
             variant="ghost"
             className="w-full justify-start text-sm"
-            onClick={() => setActiveModal('details')}
+            onClick={e => {
+              stopBubbling(e);
+              handleSelect('details');
+            }}
+            data-partner-actions
           >
             <Eye className="mr-2 w-4 h-4" />
             Ver detalhes
           </Button>
+
           <Button
+            type="button"
             variant="ghost"
             className="w-full justify-start text-sm"
-            onClick={() => setActiveModal('edit')}
+            onClick={e => {
+              stopBubbling(e);
+              handleSelect('edit');
+            }}
+            data-partner-actions
           >
             <Pencil className="mr-2 w-4 h-4" />
             Editar
           </Button>
+
           <Button
+            type="button"
             variant="ghost"
             className="w-full justify-start text-sm text-red-500"
-            onClick={() => setActiveModal('delete')}
+            onClick={e => {
+              stopBubbling(e);
+              handleSelect('delete');
+            }}
+            data-partner-actions
           >
             <Trash className="mr-2 w-4 h-4" />
             Deletar
@@ -77,12 +118,14 @@ export function RowActionsPopoverPortalControll({
           onOpenChange={() => setActiveModal(null)}
         />
       )}
+
       {activeModal === 'edit' && (
         <PortalControllEditSheet
           open
           onOpenChange={() => setActiveModal(null)}
         />
       )}
+
       {activeModal === 'delete' && (
         <PortalControllDeleteAlert
           open
