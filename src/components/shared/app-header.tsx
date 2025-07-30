@@ -20,6 +20,8 @@ export function AppHeader() {
           <ActiveNavLink to="/business-dashboard">Dashboard</ActiveNavLink>
 
           <ActiveNavLink to="/partner">Parceiro</ActiveNavLink>
+
+          <ActiveNavLink to="/pending">Pendências</ActiveNavLink>
         </nav>
       </div>
 

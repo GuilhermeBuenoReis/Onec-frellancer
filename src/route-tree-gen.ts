@@ -13,6 +13,7 @@ import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
+import { Route as AppPendingIndexRouteImport } from './pages/_app/pending/index'
 import { Route as AppPartnerIndexRouteImport } from './pages/_app/partner/index'
 import { Route as AppBusinessDashboardIndexRouteImport } from './pages/_app/business-dashboard/index'
 
@@ -34,6 +35,11 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const AppPendingIndexRoute = AppPendingIndexRouteImport.update({
+  id: '/pending/',
+  path: '/pending/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
 const AppPartnerIndexRoute = AppPartnerIndexRouteImport.update({
   id: '/partner/',
   path: '/partner/',
@@ -51,12 +57,14 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
   '/business-dashboard': typeof AppBusinessDashboardIndexRoute
   '/partner': typeof AppPartnerIndexRoute
+  '/pending': typeof AppPendingIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sign-in': typeof AuthSignInRoute
   '/business-dashboard': typeof AppBusinessDashboardIndexRoute
   '/partner': typeof AppPartnerIndexRoute
+  '/pending': typeof AppPendingIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -66,12 +74,13 @@ export interface FileRoutesById {
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_app/business-dashboard/': typeof AppBusinessDashboardIndexRoute
   '/_app/partner/': typeof AppPartnerIndexRoute
+  '/_app/pending/': typeof AppPendingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/business-dashboard' | '/partner'
+  fullPaths: '/' | '/sign-in' | '/business-dashboard' | '/partner' | '/pending'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/business-dashboard' | '/partner'
+  to: '/' | '/sign-in' | '/business-dashboard' | '/partner' | '/pending'
   id:
     | '__root__'
     | '/'
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/_auth/sign-in'
     | '/_app/business-dashboard/'
     | '/_app/partner/'
+    | '/_app/pending/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,6 +128,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_app/pending/': {
+      id: '/_app/pending/'
+      path: '/pending'
+      fullPath: '/pending'
+      preLoaderRoute: typeof AppPendingIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/_app/partner/': {
       id: '/_app/partner/'
       path: '/partner'
@@ -138,11 +155,13 @@ declare module '@tanstack/react-router' {
 interface AppLayoutRouteChildren {
   AppBusinessDashboardIndexRoute: typeof AppBusinessDashboardIndexRoute
   AppPartnerIndexRoute: typeof AppPartnerIndexRoute
+  AppPendingIndexRoute: typeof AppPendingIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppBusinessDashboardIndexRoute: AppBusinessDashboardIndexRoute,
   AppPartnerIndexRoute: AppPartnerIndexRoute,
+  AppPendingIndexRoute: AppPendingIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(

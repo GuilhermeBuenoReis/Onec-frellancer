@@ -3,33 +3,57 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetOnePendingQueryResponse, GetOnePendingPathParams, GetOnePending404 } from '../../types/GetOnePending.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetOnePending404,
+  GetOnePendingPathParams,
+  GetOnePendingQueryResponse,
+} from '../../types/GetOnePending.ts';
 
-export const getOnePendingQueryKey = (id: GetOnePendingPathParams['id']) => [{ url: '/pending/:id', params: { id: id } }] as const
+export const getOnePendingQueryKey = (id: GetOnePendingPathParams['id']) =>
+  [{ url: '/pending/:id', params: { id: id } }] as const;
 
-export type GetOnePendingQueryKey = ReturnType<typeof getOnePendingQueryKey>
+export type GetOnePendingQueryKey = ReturnType<typeof getOnePendingQueryKey>;
 
 /**
  * @description Get a single pending by id
  * {@link /pending/:id}
  */
-export async function getOnePending(id: GetOnePendingPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getOnePending(
+  id: GetOnePendingPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetOnePendingQueryResponse, ResponseErrorConfig<GetOnePending404>, unknown>({
+  const res = await request<
+    GetOnePendingQueryResponse,
+    ResponseErrorConfig<GetOnePending404>,
+    unknown
+  >({
     method: 'GET',
     url: `/pending/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getOnePendingQueryOptions(id: GetOnePendingPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getOnePendingQueryKey(id)
+export function getOnePendingQueryOptions(
+  id: GetOnePendingPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getOnePendingQueryKey(id);
   return queryOptions<
     ResponseConfig<GetOnePendingQueryResponse>,
     ResponseErrorConfig<GetOnePending404>,
@@ -39,10 +63,10 @@ export function getOnePendingQueryOptions(id: GetOnePendingPathParams['id'], con
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getOnePending(id, config)
+      config.signal = signal;
+      return getOnePending(id, config);
     },
-  })
+  });
 }
 
 /**
@@ -56,14 +80,25 @@ export function useGetOnePending<
 >(
   id: GetOnePendingPathParams['id'],
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetOnePendingQueryResponse>, ResponseErrorConfig<GetOnePending404>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetOnePendingQueryResponse>,
+        ResponseErrorConfig<GetOnePending404>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getOnePendingQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getOnePendingQueryKey(id);
 
   const query = useQuery(
     {
@@ -71,10 +106,12 @@ export function useGetOnePending<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<GetOnePending404>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<GetOnePending404>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

@@ -13,13 +13,14 @@ import {
   type VisibilityState,
 } from '@tanstack/react-table';
 import { useState } from 'react';
-import { Button } from '../../../../../../components/ui/button';
+import { ExportDialog } from '@/components/shared/dialog-export-xlsx';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '../../../../../../components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import {
   Pagination,
   PaginationContent,
@@ -27,7 +28,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '../../../../../../components/ui/pagination';
+} from '@/components/ui/pagination';
 import {
   Table,
   TableBody,
@@ -35,9 +36,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../../../../../../components/ui/table';
-import { ExportDialog } from './export-dialog';
-import { FilterDialog } from './filter-dialog';
+} from '@/components/ui/table';
+import { PendingCreateDialog } from '../-components/create-pending';
+import { FilterDialog } from '../-components/filter-dialog';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -52,7 +53,6 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  const [exportOpen, setExportOpen] = useState(false);
 
   const table = useReactTable({
     data,
@@ -75,27 +75,21 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-end gap-3">
-        <FilterDialog
-          onApply={filters => {
-            // Aqui futuramente aplicar filtros ao estado
-            console.log('Filtros aplicados:', filters);
-          }}
-        />
-        <Button
-          variant="secondary"
-          onClick={() => setExportOpen(true)}
-          className="cursor-pointer"
-        >
-          Exportar com IA
-        </Button>
-        <ExportDialog open={exportOpen} onOpenChange={setExportOpen} />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex gap-2 w-full max-w-2xl">
+          <FilterDialog />
+        </div>
+
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-10">
-              Colunas
-            </Button>
-          </DropdownMenuTrigger>
+          <div className="flex items-center gap-3">
+            <PendingCreateDialog />
+            <ExportDialog />
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="h-10">
+                Colunas
+              </Button>
+            </DropdownMenuTrigger>
+          </div>
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
