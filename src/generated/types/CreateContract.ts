@@ -10,12 +10,12 @@ export type CreateContract201 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string | undefined
    */
-  name?: string
-}
+  name?: string;
+};
 
 /**
  * @description Default Response
@@ -24,84 +24,84 @@ export type CreateContract400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type CreateContractMutationRequest = {
   /**
    * @type string
    */
-  city: string | null
+  city: string | null;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type string
    */
-  state: string | null
+  state: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  sindic: string | null
+  sindic: string | null;
   /**
    * @type string
    */
-  year: string | null
+  year: string | null;
   /**
    * @type string
    */
-  matter: string | null
+  matter: string | null;
   /**
    * @type string
    */
-  forecast: string | null
+  forecast: string | null;
   /**
    * @type string
    */
-  contractTotal: string | null
+  contractTotal: string | null;
   /**
    * @type number
    */
-  percentage: number | null
+  percentage: number | null;
   /**
    * @type string
    */
-  signedContract: string | null
+  signedContract: string | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type number
    */
-  averageGuide: number | null
+  averageGuide: number | null;
   /**
    * @type string
    */
-  partner: string | null
+  partner: string | null;
   /**
    * @type number
    */
-  partnerCommission: number | null
+  partnerCommission: number | null;
   /**
    * @type string
    */
-  counter: string | null
+  counter: string | null;
   /**
    * @type string
    */
-  email: string | null
-}
+  email: string | null;
+};
 
-export type CreateContractMutationResponse = CreateContract201
+export type CreateContractMutationResponse = CreateContract201;
 
 export type CreateContractMutation = {
-  Response: CreateContract201
-  Request: CreateContractMutationRequest
-  Errors: CreateContract400
-}
+  Response: CreateContract201;
+  Request: CreateContractMutationRequest;
+  Errors: CreateContract400;
+};

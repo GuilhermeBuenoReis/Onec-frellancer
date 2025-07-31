@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -20,11 +20,15 @@ export const getPendings200Schema = z.array(
     description: z.string().nullable(),
     createdAt: z.string().datetime({ offset: true }).optional(),
     updatedAt: z.string().datetime({ offset: true }).optional(),
-  }),
-)
+  })
+);
 
-export type GetPendings200Schema = z.infer<typeof getPendings200Schema>
+export type GetPendings200Schema = z.infer<typeof getPendings200Schema>;
 
-export const getPendingsQueryResponseSchema = z.lazy(() => getPendings200Schema)
+export const getPendingsQueryResponseSchema = z.lazy(
+  () => getPendings200Schema
+);
 
-export type GetPendingsQueryResponseSchema = z.infer<typeof getPendingsQueryResponseSchema>
+export type GetPendingsQueryResponseSchema = z.infer<
+  typeof getPendingsQueryResponseSchema
+>;

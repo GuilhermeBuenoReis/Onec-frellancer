@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updateContractPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdateContractPathParamsSchema = z.infer<typeof updateContractPathParamsSchema>
+export type UpdateContractPathParamsSchema = z.infer<
+  typeof updateContractPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -37,18 +39,18 @@ export const updateContract200Schema = z.object({
     createdAt: z.string().nullable(),
     updatedAt: z.string().nullable(),
   }),
-})
+});
 
-export type UpdateContract200Schema = z.infer<typeof updateContract200Schema>
+export type UpdateContract200Schema = z.infer<typeof updateContract200Schema>;
 
 /**
  * @description Default Response
  */
 export const updateContract404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateContract404Schema = z.infer<typeof updateContract404Schema>
+export type UpdateContract404Schema = z.infer<typeof updateContract404Schema>;
 
 export const updateContractMutationRequestSchema = z.object({
   city: z.string().nullable().nullish(),
@@ -68,10 +70,16 @@ export const updateContractMutationRequestSchema = z.object({
   partnerCommission: z.number().nullable().nullish(),
   counter: z.string().nullable().nullish(),
   email: z.string().nullable().nullish(),
-})
+});
 
-export type UpdateContractMutationRequestSchema = z.infer<typeof updateContractMutationRequestSchema>
+export type UpdateContractMutationRequestSchema = z.infer<
+  typeof updateContractMutationRequestSchema
+>;
 
-export const updateContractMutationResponseSchema = z.lazy(() => updateContract200Schema)
+export const updateContractMutationResponseSchema = z.lazy(
+  () => updateContract200Schema
+);
 
-export type UpdateContractMutationResponseSchema = z.infer<typeof updateContractMutationResponseSchema>
+export type UpdateContractMutationResponseSchema = z.infer<
+  typeof updateContractMutationResponseSchema
+>;

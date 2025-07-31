@@ -3,29 +3,52 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetProfileUserQueryResponse, GetProfileUser400 } from '../../types/GetProfileUser.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetProfileUser400,
+  GetProfileUserQueryResponse,
+} from '../../types/GetProfileUser.ts';
 
-export const getProfileUserSuspenseQueryKey = () => [{ url: '/users' }] as const
+export const getProfileUserSuspenseQueryKey = () =>
+  [{ url: '/users' }] as const;
 
-export type GetProfileUserSuspenseQueryKey = ReturnType<typeof getProfileUserSuspenseQueryKey>
+export type GetProfileUserSuspenseQueryKey = ReturnType<
+  typeof getProfileUserSuspenseQueryKey
+>;
 
 /**
  * @description List all Users
  * {@link /users}
  */
-export async function getProfileUserSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getProfileUserSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetProfileUserQueryResponse, ResponseErrorConfig<GetProfileUser400>, unknown>({ method: 'GET', url: `/users`, ...requestConfig })
-  return res
+  const res = await request<
+    GetProfileUserQueryResponse,
+    ResponseErrorConfig<GetProfileUser400>,
+    unknown
+  >({ method: 'GET', url: `/users`, ...requestConfig });
+  return res;
 }
 
-export function getProfileUserSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getProfileUserSuspenseQueryKey()
+export function getProfileUserSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getProfileUserSuspenseQueryKey();
   return queryOptions<
     ResponseConfig<GetProfileUserQueryResponse>,
     ResponseErrorConfig<GetProfileUser400>,
@@ -34,26 +57,39 @@ export function getProfileUserSuspenseQueryOptions(config: Partial<RequestConfig
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getProfileUserSuspense(config)
+      config.signal = signal;
+      return getProfileUserSuspense(config);
     },
-  })
+  });
 }
 
 /**
  * @description List all Users
  * {@link /users}
  */
-export function useGetProfileUserSuspense<TData = ResponseConfig<GetProfileUserQueryResponse>, TQueryKey extends QueryKey = GetProfileUserSuspenseQueryKey>(
+export function useGetProfileUserSuspense<
+  TData = ResponseConfig<GetProfileUserQueryResponse>,
+  TQueryKey extends QueryKey = GetProfileUserSuspenseQueryKey,
+>(
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetProfileUserQueryResponse>, ResponseErrorConfig<GetProfileUser400>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetProfileUserQueryResponse>,
+        ResponseErrorConfig<GetProfileUser400>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getProfileUserSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getProfileUserSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -61,10 +97,12 @@ export function useGetProfileUserSuspense<TData = ResponseConfig<GetProfileUserQ
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetProfileUser400>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetProfileUser400>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

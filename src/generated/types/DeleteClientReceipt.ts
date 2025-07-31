@@ -7,8 +7,8 @@ export type DeleteClientReceiptPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeleteClientReceipt200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeleteClientReceipt404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeleteClientReceiptMutationResponse = DeleteClientReceipt200
+export type DeleteClientReceiptMutationResponse = DeleteClientReceipt200;
 
 export type DeleteClientReceiptMutation = {
-  Response: DeleteClientReceipt200
-  PathParams: DeleteClientReceiptPathParams
-  Errors: DeleteClientReceipt404
-}
+  Response: DeleteClientReceipt200;
+  PathParams: DeleteClientReceiptPathParams;
+  Errors: DeleteClientReceipt404;
+};

@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const getContractByIdPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type GetContractByIdPathParamsSchema = z.infer<typeof getContractByIdPathParamsSchema>
+export type GetContractByIdPathParamsSchema = z.infer<
+  typeof getContractByIdPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -33,19 +35,23 @@ export const getContractById200Schema = z.object({
   partnerCommission: z.number().nullable(),
   counter: z.string().nullable(),
   email: z.string().nullable(),
-})
+});
 
-export type GetContractById200Schema = z.infer<typeof getContractById200Schema>
+export type GetContractById200Schema = z.infer<typeof getContractById200Schema>;
 
 /**
  * @description Default Response
  */
 export const getContractById404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type GetContractById404Schema = z.infer<typeof getContractById404Schema>
+export type GetContractById404Schema = z.infer<typeof getContractById404Schema>;
 
-export const getContractByIdQueryResponseSchema = z.lazy(() => getContractById200Schema)
+export const getContractByIdQueryResponseSchema = z.lazy(
+  () => getContractById200Schema
+);
 
-export type GetContractByIdQueryResponseSchema = z.infer<typeof getContractByIdQueryResponseSchema>
+export type GetContractByIdQueryResponseSchema = z.infer<
+  typeof getContractByIdQueryResponseSchema
+>;

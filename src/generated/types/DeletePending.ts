@@ -7,8 +7,8 @@ export type DeletePendingPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeletePending200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeletePending404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeletePendingMutationResponse = DeletePending200
+export type DeletePendingMutationResponse = DeletePending200;
 
 export type DeletePendingMutation = {
-  Response: DeletePending200
-  PathParams: DeletePendingPathParams
-  Errors: DeletePending404
-}
+  Response: DeletePending200;
+  PathParams: DeletePendingPathParams;
+  Errors: DeletePending404;
+};

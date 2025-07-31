@@ -6,7 +6,7 @@
 /**
  * @description Default Response
  */
-export type CreateClient201 = any
+export type CreateClient201 = any;
 
 /**
  * @description Default Response
@@ -15,40 +15,40 @@ export type CreateClient400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type CreateClientMutationRequest = {
   /**
    * @type string
    */
-  enterprise: string | null
+  enterprise: string | null;
   /**
    * @type string
    */
-  competenceMonth: string | null
+  competenceMonth: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  contestation: string | null
+  contestation: string | null;
   /**
    * @type string
    */
-  returned: string | null
+  returned: string | null;
   /**
    * @type string
    */
-  product: string | null
-}
+  product: string | null;
+};
 
-export type CreateClientMutationResponse = CreateClient201
+export type CreateClientMutationResponse = CreateClient201;
 
 export type CreateClientMutation = {
-  Response: CreateClient201
-  Request: CreateClientMutationRequest
-  Errors: CreateClient400
-}
+  Response: CreateClient201;
+  Request: CreateClientMutationRequest;
+  Errors: CreateClient400;
+};

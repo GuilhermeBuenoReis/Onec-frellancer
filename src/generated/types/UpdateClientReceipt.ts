@@ -7,8 +7,8 @@ export type UpdateClientReceiptPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type UpdateClientReceipt200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,53 +27,53 @@ export type UpdateClientReceipt404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type UpdateClientReceiptMutationRequest = {
   /**
    * @type string
    */
-  receiptDate?: string | null
+  receiptDate?: string | null;
   /**
    * @type string
    */
-  competence?: string | null
+  competence?: string | null;
   /**
    * @type string
    */
-  cnpj?: string | null
+  cnpj?: string | null;
   /**
    * @type string
    */
-  clientName?: string | null
+  clientName?: string | null;
   /**
    * @type number
    */
-  percentage?: number | null
+  percentage?: number | null;
   /**
    * @type string
    */
-  compensationMonth?: string | null
+  compensationMonth?: string | null;
   /**
    * @type number
    */
-  honorary?: number | null
+  honorary?: number | null;
   /**
    * @type number
    */
-  tax?: number | null
+  tax?: number | null;
   /**
    * @type string
    */
-  status?: string | null
-}
+  status?: string | null;
+};
 
-export type UpdateClientReceiptMutationResponse = UpdateClientReceipt200
+export type UpdateClientReceiptMutationResponse = UpdateClientReceipt200;
 
 export type UpdateClientReceiptMutation = {
-  Response: UpdateClientReceipt200
-  Request: UpdateClientReceiptMutationRequest
-  PathParams: UpdateClientReceiptPathParams
-  Errors: UpdateClientReceipt404
-}
+  Response: UpdateClientReceipt200;
+  Request: UpdateClientReceiptMutationRequest;
+  PathParams: UpdateClientReceiptPathParams;
+  Errors: UpdateClientReceipt404;
+};

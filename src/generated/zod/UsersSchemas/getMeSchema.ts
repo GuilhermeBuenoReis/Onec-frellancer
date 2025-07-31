@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -12,19 +12,19 @@ export const getMe200Schema = z.object({
   id: z.string(),
   email: z.string().email(),
   role: z.string(),
-})
+});
 
-export type GetMe200Schema = z.infer<typeof getMe200Schema>
+export type GetMe200Schema = z.infer<typeof getMe200Schema>;
 
 /**
  * @description Default Response
  */
 export const getMe401Schema = z.object({
   message: z.string(),
-})
+});
 
-export type GetMe401Schema = z.infer<typeof getMe401Schema>
+export type GetMe401Schema = z.infer<typeof getMe401Schema>;
 
-export const getMeQueryResponseSchema = z.lazy(() => getMe200Schema)
+export const getMeQueryResponseSchema = z.lazy(() => getMe200Schema);
 
-export type GetMeQueryResponseSchema = z.infer<typeof getMeQueryResponseSchema>
+export type GetMeQueryResponseSchema = z.infer<typeof getMeQueryResponseSchema>;

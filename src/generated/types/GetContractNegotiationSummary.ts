@@ -14,141 +14,141 @@ export type GetContractNegotiationSummary200 = {
     /**
      * @type string
      */
-    negotiationId: string
+    negotiationId: string;
     /**
      * @type string
      */
-    title: string | null
+    title: string | null;
     /**
      * @type string
      */
-    negotiationClient: string | null
+    negotiationClient: string | null;
     /**
      * @type string
      */
-    user: string | null
+    user: string | null;
     /**
      * @type string
      */
-    tags: string | null
+    tags: string | null;
     /**
      * @type string
      */
-    step: string | null
+    step: string | null;
     /**
      * @type string
      */
-    negotiationStatus: string | null
+    negotiationStatus: string | null;
     /**
      * @type number
      */
-    value: number | null
+    value: number | null;
     /**
      * @type string
      */
-    startsDate: string | null
+    startsDate: string | null;
     /**
      * @type string
      */
-    observation: string | null
+    observation: string | null;
     /**
      * @type string
      */
-    partnerId: string | null
+    partnerId: string | null;
     /**
      * @type number
      */
-    negotiationAverageGuide: number | null
+    negotiationAverageGuide: number | null;
     /**
      * @type string, date-time
      */
-    negotiationCreatedAt: string
+    negotiationCreatedAt: string;
     /**
      * @type string, date-time
      */
-    negotiationUpdatedAt: string
+    negotiationUpdatedAt: string;
     /**
      * @type string
      */
-    contractId: string
+    contractId: string;
     /**
      * @type string
      */
-    contractClient: string | null
+    contractClient: string | null;
     /**
      * @type string
      */
-    city: string | null
+    city: string | null;
     /**
      * @type string
      */
-    state: string | null
+    state: string | null;
     /**
      * @type string
      */
-    cnpj: string | null
+    cnpj: string | null;
     /**
      * @type string
      */
-    sindic: string | null
+    sindic: string | null;
     /**
      * @type string
      */
-    year: string | null
+    year: string | null;
     /**
      * @type string
      */
-    matter: string | null
+    matter: string | null;
     /**
      * @type string
      */
-    forecast: string | null
+    forecast: string | null;
     /**
      * @type number
      */
-    contractTotal: number | null
+    contractTotal: number | null;
     /**
      * @type number
      */
-    percentage: number | null
+    percentage: number | null;
     /**
      * @type string
      */
-    signedContract: string | null
+    signedContract: string | null;
     /**
      * @type string
      */
-    contractStatus: string | null
+    contractStatus: string | null;
     /**
      * @type number
      */
-    contractAverageGuide: number | null
+    contractAverageGuide: number | null;
     /**
      * @type string
      */
-    partner: string | null
+    partner: string | null;
     /**
      * @type number
      */
-    partnerCommission: number | null
+    partnerCommission: number | null;
     /**
      * @type string
      */
-    counter: string | null
+    counter: string | null;
     /**
      * @type string
      */
-    email: string | null
+    email: string | null;
     /**
      * @type string, date-time
      */
-    contractCreatedAt: string
+    contractCreatedAt: string;
     /**
      * @type string, date-time
      */
-    contractUpdatedAt: string
-  }[]
-}
+    contractUpdatedAt: string;
+  }[];
+};
 
 /**
  * @description Default Response
@@ -157,12 +157,13 @@ export type GetContractNegotiationSummary500 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type GetContractNegotiationSummaryQueryResponse = GetContractNegotiationSummary200
+export type GetContractNegotiationSummaryQueryResponse =
+  GetContractNegotiationSummary200;
 
 export type GetContractNegotiationSummaryQuery = {
-  Response: GetContractNegotiationSummary200
-  Errors: GetContractNegotiationSummary500
-}
+  Response: GetContractNegotiationSummary200;
+  Errors: GetContractNegotiationSummary500;
+};

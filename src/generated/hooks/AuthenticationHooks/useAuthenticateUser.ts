@@ -3,15 +3,25 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { AuthenticateUserMutationRequest, AuthenticateUserMutationResponse, AuthenticateUser401 } from '../../types/AuthenticateUser.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  AuthenticateUser401,
+  AuthenticateUserMutationRequest,
+  AuthenticateUserMutationResponse,
+} from '../../types/AuthenticateUser.ts';
 
-export const authenticateUserMutationKey = () => [{ url: '/login' }] as const
+export const authenticateUserMutationKey = () => [{ url: '/login' }] as const;
 
-export type AuthenticateUserMutationKey = ReturnType<typeof authenticateUserMutationKey>
+export type AuthenticateUserMutationKey = ReturnType<
+  typeof authenticateUserMutationKey
+>;
 
 /**
  * @description Realiza o login do usuário e retorna o token JWT com validade de 60 dias
@@ -19,18 +29,24 @@ export type AuthenticateUserMutationKey = ReturnType<typeof authenticateUserMuta
  */
 export async function authenticateUser(
   data: AuthenticateUserMutationRequest,
-  config: Partial<RequestConfig<AuthenticateUserMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<AuthenticateUserMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<AuthenticateUserMutationResponse, ResponseErrorConfig<AuthenticateUser401>, AuthenticateUserMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    AuthenticateUserMutationResponse,
+    ResponseErrorConfig<AuthenticateUser401>,
+    AuthenticateUserMutationRequest
+  >({
     method: 'POST',
     url: `/login`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,13 +60,16 @@ export function useAuthenticateUser<TContext>(
       ResponseErrorConfig<AuthenticateUser401>,
       { data: AuthenticateUserMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<AuthenticateUserMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<AuthenticateUserMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? authenticateUserMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? authenticateUserMutationKey();
 
   return useMutation<
     ResponseConfig<AuthenticateUserMutationResponse>,
@@ -60,11 +79,11 @@ export function useAuthenticateUser<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return authenticateUser(data, config)
+        return authenticateUser(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

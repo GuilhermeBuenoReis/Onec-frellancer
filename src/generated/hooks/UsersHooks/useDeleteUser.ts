@@ -3,29 +3,44 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeleteUserMutationResponse, DeleteUserPathParams, DeleteUser400 } from '../../types/DeleteUser.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeleteUser400,
+  DeleteUserMutationResponse,
+  DeleteUserPathParams,
+} from '../../types/DeleteUser.ts';
 
-export const deleteUserMutationKey = () => [{ url: '/users/{id}' }] as const
+export const deleteUserMutationKey = () => [{ url: '/users/{id}' }] as const;
 
-export type DeleteUserMutationKey = ReturnType<typeof deleteUserMutationKey>
+export type DeleteUserMutationKey = ReturnType<typeof deleteUserMutationKey>;
 
 /**
  * @description Delete an existing User
  * {@link /users/:id}
  */
-export async function deleteUser(id: DeleteUserPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deleteUser(
+  id: DeleteUserPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeleteUserMutationResponse, ResponseErrorConfig<DeleteUser400>, unknown>({
+  const res = await request<
+    DeleteUserMutationResponse,
+    ResponseErrorConfig<DeleteUser400>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/users/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,22 +54,27 @@ export function useDeleteUser<TContext>(
       ResponseErrorConfig<DeleteUser400>,
       { id: DeleteUserPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deleteUserMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? deleteUserMutationKey();
 
-  return useMutation<ResponseConfig<DeleteUserMutationResponse>, ResponseErrorConfig<DeleteUser400>, { id: DeleteUserPathParams['id'] }, TContext>(
+  return useMutation<
+    ResponseConfig<DeleteUserMutationResponse>,
+    ResponseErrorConfig<DeleteUser400>,
+    { id: DeleteUserPathParams['id'] },
+    TContext
+  >(
     {
       mutationFn: async ({ id }) => {
-        return deleteUser(id, config)
+        return deleteUser(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

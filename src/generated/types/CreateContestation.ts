@@ -6,7 +6,7 @@
 /**
  * @description Default Response
  */
-export type CreateContestation201 = any
+export type CreateContestation201 = any;
 
 /**
  * @description Default Response
@@ -15,64 +15,64 @@ export type CreateContestation400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type CreateContestationMutationRequest = {
   /**
    * @type string
    */
-  product: string
+  product: string;
   /**
    * @type string
    */
-  competence: string
+  competence: string;
   /**
    * @type string
    */
-  cnpj: string
+  cnpj: string;
   /**
    * @type string
    */
-  client: string
+  client: string;
   /**
    * @type number
    */
-  percentage: number
+  percentage: number;
   /**
    * @type number
    */
-  compensation: number
+  compensation: number;
   /**
    * @type number
    */
-  honorary: number
+  honorary: number;
   /**
    * @type number
    */
-  tax: number
+  tax: number;
   /**
    * @type number
    */
-  valueTj: number
+  valueTj: number;
   /**
    * @type number
    */
-  toPay: number
+  toPay: number;
   /**
    * @type string
    */
-  status: string
+  status: string;
   /**
    * @type string
    */
-  observation: string | null
-}
+  observation: string | null;
+};
 
-export type CreateContestationMutationResponse = CreateContestation201
+export type CreateContestationMutationResponse = CreateContestation201;
 
 export type CreateContestationMutation = {
-  Response: CreateContestation201
-  Request: CreateContestationMutationRequest
-  Errors: CreateContestation400
-}
+  Response: CreateContestation201;
+  Request: CreateContestationMutationRequest;
+  Errors: CreateContestation400;
+};

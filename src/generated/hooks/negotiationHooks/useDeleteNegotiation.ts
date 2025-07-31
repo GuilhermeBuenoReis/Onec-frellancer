@@ -3,29 +3,47 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeleteNegotiationMutationResponse, DeleteNegotiationPathParams, DeleteNegotiation404 } from '../../types/DeleteNegotiation.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeleteNegotiation404,
+  DeleteNegotiationMutationResponse,
+  DeleteNegotiationPathParams,
+} from '../../types/DeleteNegotiation.ts';
 
-export const deleteNegotiationMutationKey = () => [{ url: '/negotiation/{id}' }] as const
+export const deleteNegotiationMutationKey = () =>
+  [{ url: '/negotiation/{id}' }] as const;
 
-export type DeleteNegotiationMutationKey = ReturnType<typeof deleteNegotiationMutationKey>
+export type DeleteNegotiationMutationKey = ReturnType<
+  typeof deleteNegotiationMutationKey
+>;
 
 /**
  * @description Delete a negotiation
  * {@link /negotiation/:id}
  */
-export async function deleteNegotiation(id: DeleteNegotiationPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deleteNegotiation(
+  id: DeleteNegotiationPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeleteNegotiationMutationResponse, ResponseErrorConfig<DeleteNegotiation404>, unknown>({
+  const res = await request<
+    DeleteNegotiationMutationResponse,
+    ResponseErrorConfig<DeleteNegotiation404>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/negotiation/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,13 +57,14 @@ export function useDeleteNegotiation<TContext>(
       ResponseErrorConfig<DeleteNegotiation404>,
       { id: DeleteNegotiationPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deleteNegotiationMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? deleteNegotiationMutationKey();
 
   return useMutation<
     ResponseConfig<DeleteNegotiationMutationResponse>,
@@ -55,11 +74,11 @@ export function useDeleteNegotiation<TContext>(
   >(
     {
       mutationFn: async ({ id }) => {
-        return deleteNegotiation(id, config)
+        return deleteNegotiation(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

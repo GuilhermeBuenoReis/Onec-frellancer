@@ -3,31 +3,37 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updatePortalControllPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdatePortalControllPathParamsSchema = z.infer<typeof updatePortalControllPathParamsSchema>
+export type UpdatePortalControllPathParamsSchema = z.infer<
+  typeof updatePortalControllPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const updatePortalControll200Schema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdatePortalControll200Schema = z.infer<typeof updatePortalControll200Schema>
+export type UpdatePortalControll200Schema = z.infer<
+  typeof updatePortalControll200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const updatePortalControll404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdatePortalControll404Schema = z.infer<typeof updatePortalControll404Schema>
+export type UpdatePortalControll404Schema = z.infer<
+  typeof updatePortalControll404Schema
+>;
 
 export const updatePortalControllMutationRequestSchema = z.object({
   enterprise: z.string().nullable().nullish(),
@@ -40,10 +46,16 @@ export const updatePortalControllMutationRequestSchema = z.object({
   value: z.number().nullable().nullish(),
   situation: z.string().nullable().nullish(),
   partnerId: z.string().optional(),
-})
+});
 
-export type UpdatePortalControllMutationRequestSchema = z.infer<typeof updatePortalControllMutationRequestSchema>
+export type UpdatePortalControllMutationRequestSchema = z.infer<
+  typeof updatePortalControllMutationRequestSchema
+>;
 
-export const updatePortalControllMutationResponseSchema = z.lazy(() => updatePortalControll200Schema)
+export const updatePortalControllMutationResponseSchema = z.lazy(
+  () => updatePortalControll200Schema
+);
 
-export type UpdatePortalControllMutationResponseSchema = z.infer<typeof updatePortalControllMutationResponseSchema>
+export type UpdatePortalControllMutationResponseSchema = z.infer<
+  typeof updatePortalControllMutationResponseSchema
+>;

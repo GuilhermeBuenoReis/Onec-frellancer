@@ -6,7 +6,7 @@ import {
   useGetPartners,
   useGetPortalControllsBySelectParternRoute,
 } from '@/generated';
-import type { DashboardParams } from '../-types';
+import type { DashboardParams } from '../-types/-types';
 import { useFiltersContext } from './filter-context';
 import { useMonthContext } from './month-context';
 import { useSelectedControllContext } from './selected-controll-context';

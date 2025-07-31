@@ -3,32 +3,42 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const deleteNegotiationPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type DeleteNegotiationPathParamsSchema = z.infer<typeof deleteNegotiationPathParamsSchema>
+export type DeleteNegotiationPathParamsSchema = z.infer<
+  typeof deleteNegotiationPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const deleteNegotiation200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeleteNegotiation200Schema = z.infer<typeof deleteNegotiation200Schema>
+export type DeleteNegotiation200Schema = z.infer<
+  typeof deleteNegotiation200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const deleteNegotiation404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeleteNegotiation404Schema = z.infer<typeof deleteNegotiation404Schema>
+export type DeleteNegotiation404Schema = z.infer<
+  typeof deleteNegotiation404Schema
+>;
 
-export const deleteNegotiationMutationResponseSchema = z.lazy(() => deleteNegotiation200Schema)
+export const deleteNegotiationMutationResponseSchema = z.lazy(
+  () => deleteNegotiation200Schema
+);
 
-export type DeleteNegotiationMutationResponseSchema = z.infer<typeof deleteNegotiationMutationResponseSchema>
+export type DeleteNegotiationMutationResponseSchema = z.infer<
+  typeof deleteNegotiationMutationResponseSchema
+>;

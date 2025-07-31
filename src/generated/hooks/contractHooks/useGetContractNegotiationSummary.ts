@@ -3,33 +3,56 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContractNegotiationSummaryQueryResponse, GetContractNegotiationSummary500 } from '../../types/GetContractNegotiationSummary.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetContractNegotiationSummary500,
+  GetContractNegotiationSummaryQueryResponse,
+} from '../../types/GetContractNegotiationSummary.ts';
 
-export const getContractNegotiationSummaryQueryKey = () => [{ url: '/contract-negotiation-summary' }] as const
+export const getContractNegotiationSummaryQueryKey = () =>
+  [{ url: '/contract-negotiation-summary' }] as const;
 
-export type GetContractNegotiationSummaryQueryKey = ReturnType<typeof getContractNegotiationSummaryQueryKey>
+export type GetContractNegotiationSummaryQueryKey = ReturnType<
+  typeof getContractNegotiationSummaryQueryKey
+>;
 
 /**
  * @description Retrieve merged contract and negotiation data
  * {@link /contract-negotiation-summary}
  */
-export async function getContractNegotiationSummary(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContractNegotiationSummary(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContractNegotiationSummaryQueryResponse, ResponseErrorConfig<GetContractNegotiationSummary500>, unknown>({
+  const res = await request<
+    GetContractNegotiationSummaryQueryResponse,
+    ResponseErrorConfig<GetContractNegotiationSummary500>,
+    unknown
+  >({
     method: 'GET',
     url: `/contract-negotiation-summary`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getContractNegotiationSummaryQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContractNegotiationSummaryQueryKey()
+export function getContractNegotiationSummaryQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContractNegotiationSummaryQueryKey();
   return queryOptions<
     ResponseConfig<GetContractNegotiationSummaryQueryResponse>,
     ResponseErrorConfig<GetContractNegotiationSummary500>,
@@ -38,10 +61,10 @@ export function getContractNegotiationSummaryQueryOptions(config: Partial<Reques
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContractNegotiationSummary(config)
+      config.signal = signal;
+      return getContractNegotiationSummary(config);
     },
-  })
+  });
 }
 
 /**
@@ -62,12 +85,16 @@ export function useGetContractNegotiationSummary<
         TQueryData,
         TQueryKey
       >
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContractNegotiationSummaryQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getContractNegotiationSummaryQueryKey();
 
   const query = useQuery(
     {
@@ -75,10 +102,13 @@ export function useGetContractNegotiationSummary<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<GetContractNegotiationSummary500>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<
+    TData,
+    ResponseErrorConfig<GetContractNegotiationSummary500>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

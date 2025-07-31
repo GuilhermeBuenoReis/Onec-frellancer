@@ -3,41 +3,53 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updateCredentialPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdateCredentialPathParamsSchema = z.infer<typeof updateCredentialPathParamsSchema>
+export type UpdateCredentialPathParamsSchema = z.infer<
+  typeof updateCredentialPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const updateCredential200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateCredential200Schema = z.infer<typeof updateCredential200Schema>
+export type UpdateCredential200Schema = z.infer<
+  typeof updateCredential200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const updateCredential404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateCredential404Schema = z.infer<typeof updateCredential404Schema>
+export type UpdateCredential404Schema = z.infer<
+  typeof updateCredential404Schema
+>;
 
 export const updateCredentialMutationRequestSchema = z.object({
   channelHead: z.string().nullable().nullish(),
   cnpj: z.string().nullable().nullish(),
   agentIndicator: z.string().nullable().nullish(),
   partner: z.string().nullable().nullish(),
-})
+});
 
-export type UpdateCredentialMutationRequestSchema = z.infer<typeof updateCredentialMutationRequestSchema>
+export type UpdateCredentialMutationRequestSchema = z.infer<
+  typeof updateCredentialMutationRequestSchema
+>;
 
-export const updateCredentialMutationResponseSchema = z.lazy(() => updateCredential200Schema)
+export const updateCredentialMutationResponseSchema = z.lazy(
+  () => updateCredential200Schema
+);
 
-export type UpdateCredentialMutationResponseSchema = z.infer<typeof updateCredentialMutationResponseSchema>
+export type UpdateCredentialMutationResponseSchema = z.infer<
+  typeof updateCredentialMutationResponseSchema
+>;

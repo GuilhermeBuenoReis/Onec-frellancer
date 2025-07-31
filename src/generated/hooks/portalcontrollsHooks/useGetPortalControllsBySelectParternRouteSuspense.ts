@@ -3,20 +3,32 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
 import type {
-  GetPortalControllsBySelectParternRouteQueryResponse,
-  GetPortalControllsBySelectParternRouteQueryParams,
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
   GetPortalControllsBySelectParternRoute500,
-} from '../../types/GetPortalControllsBySelectParternRoute.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+  GetPortalControllsBySelectParternRouteQueryParams,
+  GetPortalControllsBySelectParternRouteQueryResponse,
+} from '../../types/GetPortalControllsBySelectParternRoute.ts';
 
-export const getPortalControllsBySelectParternRouteSuspenseQueryKey = (params: GetPortalControllsBySelectParternRouteQueryParams) =>
-  [{ url: '/portal/portalcontrolls' }, ...(params ? [params] : [])] as const
+export const getPortalControllsBySelectParternRouteSuspenseQueryKey = (
+  params: GetPortalControllsBySelectParternRouteQueryParams
+) => [{ url: '/portal/portalcontrolls' }, ...(params ? [params] : [])] as const;
 
-export type GetPortalControllsBySelectParternRouteSuspenseQueryKey = ReturnType<typeof getPortalControllsBySelectParternRouteSuspenseQueryKey>
+export type GetPortalControllsBySelectParternRouteSuspenseQueryKey = ReturnType<
+  typeof getPortalControllsBySelectParternRouteSuspenseQueryKey
+>;
 
 /**
  * @description Retorna todos os registros de PortalControlls para o parceiro informado via querystring
@@ -24,24 +36,29 @@ export type GetPortalControllsBySelectParternRouteSuspenseQueryKey = ReturnType<
  */
 export async function getPortalControllsBySelectParternRouteSuspense(
   params: GetPortalControllsBySelectParternRouteQueryParams,
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPortalControllsBySelectParternRouteQueryResponse, ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>, unknown>({
+  const res = await request<
+    GetPortalControllsBySelectParternRouteQueryResponse,
+    ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>,
+    unknown
+  >({
     method: 'GET',
     url: `/portal/portalcontrolls`,
     params,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 export function getPortalControllsBySelectParternRouteSuspenseQueryOptions(
   params: GetPortalControllsBySelectParternRouteQueryParams,
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const queryKey = getPortalControllsBySelectParternRouteSuspenseQueryKey(params)
+  const queryKey =
+    getPortalControllsBySelectParternRouteSuspenseQueryKey(params);
   return queryOptions<
     ResponseConfig<GetPortalControllsBySelectParternRouteQueryResponse>,
     ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>,
@@ -51,10 +68,10 @@ export function getPortalControllsBySelectParternRouteSuspenseQueryOptions(
     enabled: !!params,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getPortalControllsBySelectParternRouteSuspense(params, config)
+      config.signal = signal;
+      return getPortalControllsBySelectParternRouteSuspense(params, config);
     },
-  })
+  });
 }
 
 /**
@@ -63,7 +80,8 @@ export function getPortalControllsBySelectParternRouteSuspenseQueryOptions(
  */
 export function useGetPortalControllsBySelectParternRouteSuspense<
   TData = ResponseConfig<GetPortalControllsBySelectParternRouteQueryResponse>,
-  TQueryKey extends QueryKey = GetPortalControllsBySelectParternRouteSuspenseQueryKey,
+  TQueryKey extends
+    QueryKey = GetPortalControllsBySelectParternRouteSuspenseQueryKey,
 >(
   params: GetPortalControllsBySelectParternRouteQueryParams,
   options: {
@@ -74,23 +92,34 @@ export function useGetPortalControllsBySelectParternRouteSuspense<
         TData,
         TQueryKey
       >
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPortalControllsBySelectParternRouteSuspenseQueryKey(params)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getPortalControllsBySelectParternRouteSuspenseQueryKey(params);
 
   const query = useSuspenseQuery(
     {
-      ...getPortalControllsBySelectParternRouteSuspenseQueryOptions(params, config),
+      ...getPortalControllsBySelectParternRouteSuspenseQueryOptions(
+        params,
+        config
+      ),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<
+    TData,
+    ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

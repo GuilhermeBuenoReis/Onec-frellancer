@@ -1,2 +1,8 @@
-export type { PostUploadXlsx200Schema, PostUploadXlsxMutationResponseSchema } from './postUploadXlsxSchema.ts'
-export { postUploadXlsx200Schema, postUploadXlsxMutationResponseSchema } from './postUploadXlsxSchema.ts'
+export type {
+  PostUploadXlsx200Schema,
+  PostUploadXlsxMutationResponseSchema,
+} from './postUploadXlsxSchema.ts';
+export {
+  postUploadXlsx200Schema,
+  postUploadXlsxMutationResponseSchema,
+} from './postUploadXlsxSchema.ts';

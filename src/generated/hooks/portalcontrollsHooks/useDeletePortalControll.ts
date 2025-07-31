@@ -3,29 +3,47 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeletePortalControllMutationResponse, DeletePortalControllPathParams, DeletePortalControll404 } from '../../types/DeletePortalControll.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeletePortalControll404,
+  DeletePortalControllMutationResponse,
+  DeletePortalControllPathParams,
+} from '../../types/DeletePortalControll.ts';
 
-export const deletePortalControllMutationKey = () => [{ url: '/portalcontrolls/{id}' }] as const
+export const deletePortalControllMutationKey = () =>
+  [{ url: '/portalcontrolls/{id}' }] as const;
 
-export type DeletePortalControllMutationKey = ReturnType<typeof deletePortalControllMutationKey>
+export type DeletePortalControllMutationKey = ReturnType<
+  typeof deletePortalControllMutationKey
+>;
 
 /**
  * @description Delete a portalcontroll
  * {@link /portalcontrolls/:id}
  */
-export async function deletePortalControll(id: DeletePortalControllPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deletePortalControll(
+  id: DeletePortalControllPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeletePortalControllMutationResponse, ResponseErrorConfig<DeletePortalControll404>, unknown>({
+  const res = await request<
+    DeletePortalControllMutationResponse,
+    ResponseErrorConfig<DeletePortalControll404>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/portalcontrolls/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,13 +57,14 @@ export function useDeletePortalControll<TContext>(
       ResponseErrorConfig<DeletePortalControll404>,
       { id: DeletePortalControllPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deletePortalControllMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? deletePortalControllMutationKey();
 
   return useMutation<
     ResponseConfig<DeletePortalControllMutationResponse>,
@@ -55,11 +74,11 @@ export function useDeletePortalControll<TContext>(
   >(
     {
       mutationFn: async ({ id }) => {
-        return deletePortalControll(id, config)
+        return deletePortalControll(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

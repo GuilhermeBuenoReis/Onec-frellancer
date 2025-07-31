@@ -3,29 +3,50 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContestationQueryResponse } from '../../types/GetContestation.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetContestationQueryResponse } from '../../types/GetContestation.ts';
 
-export const getContestationInfiniteQueryKey = () => [{ url: '/contestation' }] as const
+export const getContestationInfiniteQueryKey = () =>
+  [{ url: '/contestation' }] as const;
 
-export type GetContestationInfiniteQueryKey = ReturnType<typeof getContestationInfiniteQueryKey>
+export type GetContestationInfiniteQueryKey = ReturnType<
+  typeof getContestationInfiniteQueryKey
+>;
 
 /**
  * @description Get a list of contestation
  * {@link /contestation}
  */
-export async function getContestationInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContestationInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContestationQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/contestation`, ...requestConfig })
-  return res
+  const res = await request<
+    GetContestationQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/contestation`, ...requestConfig });
+  return res;
 }
 
-export function getContestationInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContestationInfiniteQueryKey()
+export function getContestationInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContestationInfiniteQueryKey();
   return infiniteQueryOptions<
     ResponseConfig<GetContestationQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -34,13 +55,13 @@ export function getContestationInfiniteQueryOptions(config: Partial<RequestConfi
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContestationInfinite(config)
+      config.signal = signal;
+      return getContestationInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -53,14 +74,24 @@ export function useGetContestationInfinite<
   TQueryKey extends QueryKey = GetContestationInfiniteQueryKey,
 >(
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetContestationQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetContestationQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContestationInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getContestationInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -68,10 +99,12 @@ export function useGetContestationInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

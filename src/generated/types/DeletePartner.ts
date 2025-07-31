@@ -7,8 +7,8 @@ export type DeletePartnerPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeletePartner200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeletePartner404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeletePartnerMutationResponse = DeletePartner200
+export type DeletePartnerMutationResponse = DeletePartner200;
 
 export type DeletePartnerMutation = {
-  Response: DeletePartner200
-  PathParams: DeletePartnerPathParams
-  Errors: DeletePartner404
-}
+  Response: DeletePartner200;
+  PathParams: DeletePartnerPathParams;
+  Errors: DeletePartner404;
+};

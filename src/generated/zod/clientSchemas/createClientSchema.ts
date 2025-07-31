@@ -3,23 +3,23 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
-export const createClient201Schema = z.unknown()
+export const createClient201Schema = z.unknown();
 
-export type CreateClient201Schema = z.infer<typeof createClient201Schema>
+export type CreateClient201Schema = z.infer<typeof createClient201Schema>;
 
 /**
  * @description Default Response
  */
 export const createClient400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type CreateClient400Schema = z.infer<typeof createClient400Schema>
+export type CreateClient400Schema = z.infer<typeof createClient400Schema>;
 
 export const createClientMutationRequestSchema = z.object({
   enterprise: z.string().nullable(),
@@ -28,10 +28,16 @@ export const createClientMutationRequestSchema = z.object({
   contestation: z.string().nullable(),
   returned: z.string().nullable(),
   product: z.string().nullable(),
-})
+});
 
-export type CreateClientMutationRequestSchema = z.infer<typeof createClientMutationRequestSchema>
+export type CreateClientMutationRequestSchema = z.infer<
+  typeof createClientMutationRequestSchema
+>;
 
-export const createClientMutationResponseSchema = z.lazy(() => createClient201Schema)
+export const createClientMutationResponseSchema = z.lazy(
+  () => createClient201Schema
+);
 
-export type CreateClientMutationResponseSchema = z.infer<typeof createClientMutationResponseSchema>
+export type CreateClientMutationResponseSchema = z.infer<
+  typeof createClientMutationResponseSchema
+>;

@@ -3,52 +3,90 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContestationQueryResponse } from '../../types/GetContestation.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetContestationQueryResponse } from '../../types/GetContestation.ts';
 
-export const getContestationSuspenseQueryKey = () => [{ url: '/contestation' }] as const
+export const getContestationSuspenseQueryKey = () =>
+  [{ url: '/contestation' }] as const;
 
-export type GetContestationSuspenseQueryKey = ReturnType<typeof getContestationSuspenseQueryKey>
+export type GetContestationSuspenseQueryKey = ReturnType<
+  typeof getContestationSuspenseQueryKey
+>;
 
 /**
  * @description Get a list of contestation
  * {@link /contestation}
  */
-export async function getContestationSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContestationSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContestationQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/contestation`, ...requestConfig })
-  return res
+  const res = await request<
+    GetContestationQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/contestation`, ...requestConfig });
+  return res;
 }
 
-export function getContestationSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContestationSuspenseQueryKey()
-  return queryOptions<ResponseConfig<GetContestationQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetContestationQueryResponse>, typeof queryKey>({
+export function getContestationSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContestationSuspenseQueryKey();
+  return queryOptions<
+    ResponseConfig<GetContestationQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetContestationQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContestationSuspense(config)
+      config.signal = signal;
+      return getContestationSuspense(config);
     },
-  })
+  });
 }
 
 /**
  * @description Get a list of contestation
  * {@link /contestation}
  */
-export function useGetContestationSuspense<TData = ResponseConfig<GetContestationQueryResponse>, TQueryKey extends QueryKey = GetContestationSuspenseQueryKey>(
+export function useGetContestationSuspense<
+  TData = ResponseConfig<GetContestationQueryResponse>,
+  TQueryKey extends QueryKey = GetContestationSuspenseQueryKey,
+>(
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetContestationQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetContestationQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContestationSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getContestationSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -56,10 +94,12 @@ export function useGetContestationSuspense<TData = ResponseConfig<GetContestatio
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

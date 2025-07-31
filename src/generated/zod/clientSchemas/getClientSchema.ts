@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -16,11 +16,13 @@ export const getClient200Schema = z.array(
     contestation: z.string().nullable(),
     returned: z.string().nullable(),
     product: z.string().nullable(),
-  }),
-)
+  })
+);
 
-export type GetClient200Schema = z.infer<typeof getClient200Schema>
+export type GetClient200Schema = z.infer<typeof getClient200Schema>;
 
-export const getClientQueryResponseSchema = z.lazy(() => getClient200Schema)
+export const getClientQueryResponseSchema = z.lazy(() => getClient200Schema);
 
-export type GetClientQueryResponseSchema = z.infer<typeof getClientQueryResponseSchema>
+export type GetClientQueryResponseSchema = z.infer<
+  typeof getClientQueryResponseSchema
+>;

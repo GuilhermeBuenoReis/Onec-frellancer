@@ -3,33 +3,61 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetOnePartnerQueryResponse, GetOnePartnerPathParams, GetOnePartner404 } from '../../types/GetOnePartner.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetOnePartner404,
+  GetOnePartnerPathParams,
+  GetOnePartnerQueryResponse,
+} from '../../types/GetOnePartner.ts';
 
-export const getOnePartnerInfiniteQueryKey = (id: GetOnePartnerPathParams['id']) => [{ url: '/partners/:id', params: { id: id } }] as const
+export const getOnePartnerInfiniteQueryKey = (
+  id: GetOnePartnerPathParams['id']
+) => [{ url: '/partners/:id', params: { id: id } }] as const;
 
-export type GetOnePartnerInfiniteQueryKey = ReturnType<typeof getOnePartnerInfiniteQueryKey>
+export type GetOnePartnerInfiniteQueryKey = ReturnType<
+  typeof getOnePartnerInfiniteQueryKey
+>;
 
 /**
  * @description Get a single partner by id
  * {@link /partners/:id}
  */
-export async function getOnePartnerInfinite(id: GetOnePartnerPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getOnePartnerInfinite(
+  id: GetOnePartnerPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetOnePartnerQueryResponse, ResponseErrorConfig<GetOnePartner404>, unknown>({
+  const res = await request<
+    GetOnePartnerQueryResponse,
+    ResponseErrorConfig<GetOnePartner404>,
+    unknown
+  >({
     method: 'GET',
     url: `/partners/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getOnePartnerInfiniteQueryOptions(id: GetOnePartnerPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getOnePartnerInfiniteQueryKey(id)
+export function getOnePartnerInfiniteQueryOptions(
+  id: GetOnePartnerPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getOnePartnerInfiniteQueryKey(id);
   return infiniteQueryOptions<
     ResponseConfig<GetOnePartnerQueryResponse>,
     ResponseErrorConfig<GetOnePartner404>,
@@ -39,13 +67,13 @@ export function getOnePartnerInfiniteQueryOptions(id: GetOnePartnerPathParams['i
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getOnePartnerInfinite(id, config)
+      config.signal = signal;
+      return getOnePartnerInfinite(id, config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -59,14 +87,24 @@ export function useGetOnePartnerInfinite<
 >(
   id: GetOnePartnerPathParams['id'],
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetOnePartnerQueryResponse>, ResponseErrorConfig<GetOnePartner404>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetOnePartnerQueryResponse>,
+        ResponseErrorConfig<GetOnePartner404>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getOnePartnerInfiniteQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getOnePartnerInfiniteQueryKey(id);
 
   const query = useInfiniteQuery(
     {
@@ -74,10 +112,12 @@ export function useGetOnePartnerInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetOnePartner404>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetOnePartner404>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

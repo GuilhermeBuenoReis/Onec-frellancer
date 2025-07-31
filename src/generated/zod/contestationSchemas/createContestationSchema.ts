@@ -3,23 +3,27 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
-export const createContestation201Schema = z.unknown()
+export const createContestation201Schema = z.unknown();
 
-export type CreateContestation201Schema = z.infer<typeof createContestation201Schema>
+export type CreateContestation201Schema = z.infer<
+  typeof createContestation201Schema
+>;
 
 /**
  * @description Default Response
  */
 export const createContestation400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type CreateContestation400Schema = z.infer<typeof createContestation400Schema>
+export type CreateContestation400Schema = z.infer<
+  typeof createContestation400Schema
+>;
 
 export const createContestationMutationRequestSchema = z.object({
   product: z.string(),
@@ -34,10 +38,16 @@ export const createContestationMutationRequestSchema = z.object({
   toPay: z.number(),
   status: z.string(),
   observation: z.string().nullable(),
-})
+});
 
-export type CreateContestationMutationRequestSchema = z.infer<typeof createContestationMutationRequestSchema>
+export type CreateContestationMutationRequestSchema = z.infer<
+  typeof createContestationMutationRequestSchema
+>;
 
-export const createContestationMutationResponseSchema = z.lazy(() => createContestation201Schema)
+export const createContestationMutationResponseSchema = z.lazy(
+  () => createContestation201Schema
+);
 
-export type CreateContestationMutationResponseSchema = z.infer<typeof createContestationMutationResponseSchema>
+export type CreateContestationMutationResponseSchema = z.infer<
+  typeof createContestationMutationResponseSchema
+>;

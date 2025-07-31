@@ -3,15 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { UpdatePendingMutationRequest, UpdatePendingMutationResponse, UpdatePendingPathParams, UpdatePending404 } from '../../types/UpdatePending.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdatePending404,
+  UpdatePendingMutationRequest,
+  UpdatePendingMutationResponse,
+  UpdatePendingPathParams,
+} from '../../types/UpdatePending.ts';
 
-export const updatePendingMutationKey = () => [{ url: '/pendings/{id}' }] as const
+export const updatePendingMutationKey = () =>
+  [{ url: '/pendings/{id}' }] as const;
 
-export type UpdatePendingMutationKey = ReturnType<typeof updatePendingMutationKey>
+export type UpdatePendingMutationKey = ReturnType<
+  typeof updatePendingMutationKey
+>;
 
 /**
  * @description Update a pending
@@ -20,18 +32,24 @@ export type UpdatePendingMutationKey = ReturnType<typeof updatePendingMutationKe
 export async function updatePending(
   id: UpdatePendingPathParams['id'],
   data?: UpdatePendingMutationRequest,
-  config: Partial<RequestConfig<UpdatePendingMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdatePendingMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdatePendingMutationResponse, ResponseErrorConfig<UpdatePending404>, UpdatePendingMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdatePendingMutationResponse,
+    ResponseErrorConfig<UpdatePending404>,
+    UpdatePendingMutationRequest
+  >({
     method: 'PUT',
     url: `/pendings/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -43,15 +61,20 @@ export function useUpdatePending<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdatePendingMutationResponse>,
       ResponseErrorConfig<UpdatePending404>,
-      { id: UpdatePendingPathParams['id']; data?: UpdatePendingMutationRequest },
+      {
+        id: UpdatePendingPathParams['id'];
+        data?: UpdatePendingMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdatePendingMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdatePendingMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updatePendingMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? updatePendingMutationKey();
 
   return useMutation<
     ResponseConfig<UpdatePendingMutationResponse>,
@@ -61,11 +84,11 @@ export function useUpdatePending<TContext>(
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updatePending(id, data, config)
+        return updatePending(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

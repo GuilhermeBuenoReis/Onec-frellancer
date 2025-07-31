@@ -3,20 +3,32 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
 import type {
-  GetPortalControllsBySelectByIdQueryResponse,
-  GetPortalControllsBySelectByIdPathParams,
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
   GetPortalControllsBySelectById500,
-} from '../../types/GetPortalControllsBySelectById.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+  GetPortalControllsBySelectByIdPathParams,
+  GetPortalControllsBySelectByIdQueryResponse,
+} from '../../types/GetPortalControllsBySelectById.ts';
 
-export const getPortalControllsBySelectByIdSuspenseQueryKey = (id: GetPortalControllsBySelectByIdPathParams['id']) =>
-  [{ url: '/portal/portalcontrolls/:id', params: { id: id } }] as const
+export const getPortalControllsBySelectByIdSuspenseQueryKey = (
+  id: GetPortalControllsBySelectByIdPathParams['id']
+) => [{ url: '/portal/portalcontrolls/:id', params: { id: id } }] as const;
 
-export type GetPortalControllsBySelectByIdSuspenseQueryKey = ReturnType<typeof getPortalControllsBySelectByIdSuspenseQueryKey>
+export type GetPortalControllsBySelectByIdSuspenseQueryKey = ReturnType<
+  typeof getPortalControllsBySelectByIdSuspenseQueryKey
+>;
 
 /**
  * @description Retorna todos os registros de PortalControlls para o parceiro informado via querystring
@@ -24,23 +36,27 @@ export type GetPortalControllsBySelectByIdSuspenseQueryKey = ReturnType<typeof g
  */
 export async function getPortalControllsBySelectByIdSuspense(
   id: GetPortalControllsBySelectByIdPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPortalControllsBySelectByIdQueryResponse, ResponseErrorConfig<GetPortalControllsBySelectById500>, unknown>({
+  const res = await request<
+    GetPortalControllsBySelectByIdQueryResponse,
+    ResponseErrorConfig<GetPortalControllsBySelectById500>,
+    unknown
+  >({
     method: 'GET',
     url: `/portal/portalcontrolls/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 export function getPortalControllsBySelectByIdSuspenseQueryOptions(
   id: GetPortalControllsBySelectByIdPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const queryKey = getPortalControllsBySelectByIdSuspenseQueryKey(id)
+  const queryKey = getPortalControllsBySelectByIdSuspenseQueryKey(id);
   return queryOptions<
     ResponseConfig<GetPortalControllsBySelectByIdQueryResponse>,
     ResponseErrorConfig<GetPortalControllsBySelectById500>,
@@ -50,10 +66,10 @@ export function getPortalControllsBySelectByIdSuspenseQueryOptions(
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getPortalControllsBySelectByIdSuspense(id, config)
+      config.signal = signal;
+      return getPortalControllsBySelectByIdSuspense(id, config);
     },
-  })
+  });
 }
 
 /**
@@ -73,12 +89,17 @@ export function useGetPortalControllsBySelectByIdSuspense<
         TData,
         TQueryKey
       >
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPortalControllsBySelectByIdSuspenseQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getPortalControllsBySelectByIdSuspenseQueryKey(id);
 
   const query = useSuspenseQuery(
     {
@@ -86,10 +107,13 @@ export function useGetPortalControllsBySelectByIdSuspense<
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetPortalControllsBySelectById500>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<
+    TData,
+    ResponseErrorConfig<GetPortalControllsBySelectById500>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

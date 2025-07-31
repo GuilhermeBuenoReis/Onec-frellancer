@@ -10,48 +10,48 @@ export type GetClientReceipt200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  receiptDate: string | null
+  receiptDate: string | null;
   /**
    * @type string
    */
-  competence: string | null
+  competence: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  clientName: string | null
+  clientName: string | null;
   /**
    * @type number
    */
-  percentage: number | null
+  percentage: number | null;
   /**
    * @type string
    */
-  compensationMonth: string | null
+  compensationMonth: string | null;
   /**
    * @type number
    */
-  honorary: number | null
+  honorary: number | null;
   /**
    * @type number
    */
-  tax: number | null
+  tax: number | null;
   /**
    * @type string
    */
-  status: string | null
-}[]
+  status: string | null;
+}[];
 
-export type GetClientReceiptQueryResponse = GetClientReceipt200
+export type GetClientReceiptQueryResponse = GetClientReceipt200;
 
 export type GetClientReceiptQuery = {
-  Response: GetClientReceipt200
-  Errors: any
-}
+  Response: GetClientReceipt200;
+  Errors: any;
+};

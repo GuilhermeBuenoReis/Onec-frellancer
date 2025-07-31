@@ -10,12 +10,12 @@ export type CreateDataNegotiation201 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string | undefined
    */
-  name?: string
-}
+  name?: string;
+};
 
 /**
  * @description Default Response
@@ -24,60 +24,60 @@ export type CreateDataNegotiation400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type CreateDataNegotiationMutationRequest = {
   /**
    * @type string
    */
-  title: string | null
+  title: string | null;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type string
    */
-  user: string | null
+  user: string | null;
   /**
    * @type string
    */
-  tags: string | null
+  tags: string | null;
   /**
    * @type string
    */
-  step: string | null
+  step: string | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type number
    */
-  value: number | null
+  value: number | null;
   /**
    * @type string
    */
-  partnerId: string | null
+  partnerId: string | null;
   /**
    * @type string
    */
-  startsDate: string | null
+  startsDate: string | null;
   /**
    * @type string
    */
-  observation: string | null
+  observation: string | null;
   /**
    * @type number
    */
-  averageGuide: number | null
-}
+  averageGuide: number | null;
+};
 
-export type CreateDataNegotiationMutationResponse = CreateDataNegotiation201
+export type CreateDataNegotiationMutationResponse = CreateDataNegotiation201;
 
 export type CreateDataNegotiationMutation = {
-  Response: CreateDataNegotiation201
-  Request: CreateDataNegotiationMutationRequest
-  Errors: CreateDataNegotiation400
-}
+  Response: CreateDataNegotiation201;
+  Request: CreateDataNegotiationMutationRequest;
+  Errors: CreateDataNegotiation400;
+};

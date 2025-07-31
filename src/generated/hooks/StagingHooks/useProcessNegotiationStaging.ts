@@ -3,29 +3,45 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { ProcessNegotiationStagingMutationResponse, ProcessNegotiationStaging500 } from '../../types/ProcessNegotiationStaging.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  ProcessNegotiationStaging500,
+  ProcessNegotiationStagingMutationResponse,
+} from '../../types/ProcessNegotiationStaging.ts';
 
-export const processNegotiationStagingMutationKey = () => [{ url: '/process-staging/negotiations' }] as const
+export const processNegotiationStagingMutationKey = () =>
+  [{ url: '/process-staging/negotiations' }] as const;
 
-export type ProcessNegotiationStagingMutationKey = ReturnType<typeof processNegotiationStagingMutationKey>
+export type ProcessNegotiationStagingMutationKey = ReturnType<
+  typeof processNegotiationStagingMutationKey
+>;
 
 /**
  * @summary Processa negociações da tabela negotiation_staging para a negotiation_imports
  * {@link /process-staging/negotiations}
  */
-export async function processNegotiationStaging(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function processNegotiationStaging(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<ProcessNegotiationStagingMutationResponse, ResponseErrorConfig<ProcessNegotiationStaging500>, unknown>({
+  const res = await request<
+    ProcessNegotiationStagingMutationResponse,
+    ResponseErrorConfig<ProcessNegotiationStaging500>,
+    unknown
+  >({
     method: 'POST',
     url: `/process-staging/negotiations`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,22 +55,28 @@ export function useProcessNegotiationStaging<TContext>(
       ResponseErrorConfig<ProcessNegotiationStaging500>,
       void,
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? processNegotiationStagingMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? processNegotiationStagingMutationKey();
 
-  return useMutation<ResponseConfig<ProcessNegotiationStagingMutationResponse>, ResponseErrorConfig<ProcessNegotiationStaging500>, void, TContext>(
+  return useMutation<
+    ResponseConfig<ProcessNegotiationStagingMutationResponse>,
+    ResponseErrorConfig<ProcessNegotiationStaging500>,
+    void,
+    TContext
+  >(
     {
       mutationFn: async () => {
-        return processNegotiationStaging(config)
+        return processNegotiationStaging(config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

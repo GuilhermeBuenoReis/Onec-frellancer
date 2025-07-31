@@ -7,8 +7,8 @@ export type UpdatePendingPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type UpdatePending200 = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -27,45 +27,45 @@ export type UpdatePending404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type UpdatePendingMutationRequest = {
   /**
    * @type string
    */
-  client?: string | null
+  client?: string | null;
   /**
    * @type string
    */
-  callReason?: string | null
+  callReason?: string | null;
   /**
    * @type string
    */
-  status?: string | null
+  status?: string | null;
   /**
    * @type string
    */
-  priority?: string | null
+  priority?: string | null;
   /**
    * @type string
    */
-  responsible?: string | null
+  responsible?: string | null;
   /**
    * @type string
    */
-  category?: string | null
+  category?: string | null;
   /**
    * @type string
    */
-  description?: string | null
-}
+  description?: string | null;
+};
 
-export type UpdatePendingMutationResponse = UpdatePending200
+export type UpdatePendingMutationResponse = UpdatePending200;
 
 export type UpdatePendingMutation = {
-  Response: UpdatePending200
-  Request: UpdatePendingMutationRequest
-  PathParams: UpdatePendingPathParams
-  Errors: UpdatePending404
-}
+  Response: UpdatePending200;
+  Request: UpdatePendingMutationRequest;
+  PathParams: UpdatePendingPathParams;
+  Errors: UpdatePending404;
+};

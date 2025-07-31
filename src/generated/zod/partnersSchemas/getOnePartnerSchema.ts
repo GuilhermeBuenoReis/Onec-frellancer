@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const getOnePartnerPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type GetOnePartnerPathParamsSchema = z.infer<typeof getOnePartnerPathParamsSchema>
+export type GetOnePartnerPathParamsSchema = z.infer<
+  typeof getOnePartnerPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -31,19 +33,23 @@ export const getOnePartner200Schema = z.object({
   phone: z.string().nullable(),
   email: z.string().nullable(),
   responsible: z.string().nullable(),
-})
+});
 
-export type GetOnePartner200Schema = z.infer<typeof getOnePartner200Schema>
+export type GetOnePartner200Schema = z.infer<typeof getOnePartner200Schema>;
 
 /**
  * @description Default Response
  */
 export const getOnePartner404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type GetOnePartner404Schema = z.infer<typeof getOnePartner404Schema>
+export type GetOnePartner404Schema = z.infer<typeof getOnePartner404Schema>;
 
-export const getOnePartnerQueryResponseSchema = z.lazy(() => getOnePartner200Schema)
+export const getOnePartnerQueryResponseSchema = z.lazy(
+  () => getOnePartner200Schema
+);
 
-export type GetOnePartnerQueryResponseSchema = z.infer<typeof getOnePartnerQueryResponseSchema>
+export type GetOnePartnerQueryResponseSchema = z.infer<
+  typeof getOnePartnerQueryResponseSchema
+>;

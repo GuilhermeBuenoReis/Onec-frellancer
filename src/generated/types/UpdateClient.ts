@@ -7,8 +7,8 @@ export type UpdateClientPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type UpdateClient200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,41 +27,41 @@ export type UpdateClient404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type UpdateClientMutationRequest = {
   /**
    * @type string
    */
-  enterprise?: string | null
+  enterprise?: string | null;
   /**
    * @type string
    */
-  competenceMonth?: string | null
+  competenceMonth?: string | null;
   /**
    * @type string
    */
-  cnpj?: string | null
+  cnpj?: string | null;
   /**
    * @type string
    */
-  contestation?: string | null
+  contestation?: string | null;
   /**
    * @type string
    */
-  returned?: string | null
+  returned?: string | null;
   /**
    * @type string
    */
-  product?: string | null
-}
+  product?: string | null;
+};
 
-export type UpdateClientMutationResponse = UpdateClient200
+export type UpdateClientMutationResponse = UpdateClient200;
 
 export type UpdateClientMutation = {
-  Response: UpdateClient200
-  Request: UpdateClientMutationRequest
-  PathParams: UpdateClientPathParams
-  Errors: UpdateClient404
-}
+  Response: UpdateClient200;
+  Request: UpdateClientMutationRequest;
+  PathParams: UpdateClientPathParams;
+  Errors: UpdateClient404;
+};

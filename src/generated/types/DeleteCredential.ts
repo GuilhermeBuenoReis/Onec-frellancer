@@ -7,8 +7,8 @@ export type DeleteCredentialPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeleteCredential200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeleteCredential404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeleteCredentialMutationResponse = DeleteCredential200
+export type DeleteCredentialMutationResponse = DeleteCredential200;
 
 export type DeleteCredentialMutation = {
-  Response: DeleteCredential200
-  PathParams: DeleteCredentialPathParams
-  Errors: DeleteCredential404
-}
+  Response: DeleteCredential200;
+  PathParams: DeleteCredentialPathParams;
+  Errors: DeleteCredential404;
+};

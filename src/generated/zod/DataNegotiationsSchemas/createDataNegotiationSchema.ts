@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -11,18 +11,22 @@ import { z } from 'zod'
 export const createDataNegotiation201Schema = z.object({
   id: z.string(),
   name: z.string().optional(),
-})
+});
 
-export type CreateDataNegotiation201Schema = z.infer<typeof createDataNegotiation201Schema>
+export type CreateDataNegotiation201Schema = z.infer<
+  typeof createDataNegotiation201Schema
+>;
 
 /**
  * @description Default Response
  */
 export const createDataNegotiation400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type CreateDataNegotiation400Schema = z.infer<typeof createDataNegotiation400Schema>
+export type CreateDataNegotiation400Schema = z.infer<
+  typeof createDataNegotiation400Schema
+>;
 
 export const createDataNegotiationMutationRequestSchema = z.object({
   title: z.string().nullable(),
@@ -36,10 +40,16 @@ export const createDataNegotiationMutationRequestSchema = z.object({
   startsDate: z.string().nullable(),
   observation: z.string().nullable(),
   averageGuide: z.number().nullable(),
-})
+});
 
-export type CreateDataNegotiationMutationRequestSchema = z.infer<typeof createDataNegotiationMutationRequestSchema>
+export type CreateDataNegotiationMutationRequestSchema = z.infer<
+  typeof createDataNegotiationMutationRequestSchema
+>;
 
-export const createDataNegotiationMutationResponseSchema = z.lazy(() => createDataNegotiation201Schema)
+export const createDataNegotiationMutationResponseSchema = z.lazy(
+  () => createDataNegotiation201Schema
+);
 
-export type CreateDataNegotiationMutationResponseSchema = z.infer<typeof createDataNegotiationMutationResponseSchema>
+export type CreateDataNegotiationMutationResponseSchema = z.infer<
+  typeof createDataNegotiationMutationResponseSchema
+>;

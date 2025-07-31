@@ -3,50 +3,88 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetPartnersQueryResponse } from '../../types/GetPartners.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetPartnersQueryResponse } from '../../types/GetPartners.ts';
 
-export const getPartnersSuspenseQueryKey = () => [{ url: '/partners' }] as const
+export const getPartnersSuspenseQueryKey = () =>
+  [{ url: '/partners' }] as const;
 
-export type GetPartnersSuspenseQueryKey = ReturnType<typeof getPartnersSuspenseQueryKey>
+export type GetPartnersSuspenseQueryKey = ReturnType<
+  typeof getPartnersSuspenseQueryKey
+>;
 
 /**
  * @description Get a list of partners
  * {@link /partners}
  */
-export async function getPartnersSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getPartnersSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPartnersQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/partners`, ...requestConfig })
-  return res
+  const res = await request<
+    GetPartnersQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/partners`, ...requestConfig });
+  return res;
 }
 
-export function getPartnersSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getPartnersSuspenseQueryKey()
-  return queryOptions<ResponseConfig<GetPartnersQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetPartnersQueryResponse>, typeof queryKey>({
+export function getPartnersSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getPartnersSuspenseQueryKey();
+  return queryOptions<
+    ResponseConfig<GetPartnersQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetPartnersQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getPartnersSuspense(config)
+      config.signal = signal;
+      return getPartnersSuspense(config);
     },
-  })
+  });
 }
 
 /**
  * @description Get a list of partners
  * {@link /partners}
  */
-export function useGetPartnersSuspense<TData = ResponseConfig<GetPartnersQueryResponse>, TQueryKey extends QueryKey = GetPartnersSuspenseQueryKey>(
+export function useGetPartnersSuspense<
+  TData = ResponseConfig<GetPartnersQueryResponse>,
+  TQueryKey extends QueryKey = GetPartnersSuspenseQueryKey,
+>(
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetPartnersQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetPartnersQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPartnersSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getPartnersSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -54,10 +92,12 @@ export function useGetPartnersSuspense<TData = ResponseConfig<GetPartnersQueryRe
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

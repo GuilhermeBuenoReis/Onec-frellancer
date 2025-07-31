@@ -7,8 +7,8 @@ export type DeleteUserPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeleteUser200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeleteUser400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeleteUserMutationResponse = DeleteUser200
+export type DeleteUserMutationResponse = DeleteUser200;
 
 export type DeleteUserMutation = {
-  Response: DeleteUser200
-  PathParams: DeleteUserPathParams
-  Errors: DeleteUser400
-}
+  Response: DeleteUser200;
+  PathParams: DeleteUserPathParams;
+  Errors: DeleteUser400;
+};

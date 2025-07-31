@@ -3,19 +3,26 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreateDataNegotiation400,
   CreateDataNegotiationMutationRequest,
   CreateDataNegotiationMutationResponse,
-  CreateDataNegotiation400,
-} from '../../types/CreateDataNegotiation.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+} from '../../types/CreateDataNegotiation.ts';
 
-export const createDataNegotiationMutationKey = () => [{ url: '/negotiation' }] as const
+export const createDataNegotiationMutationKey = () =>
+  [{ url: '/negotiation' }] as const;
 
-export type CreateDataNegotiationMutationKey = ReturnType<typeof createDataNegotiationMutationKey>
+export type CreateDataNegotiationMutationKey = ReturnType<
+  typeof createDataNegotiationMutationKey
+>;
 
 /**
  * @description Create a new DataNegotiation
@@ -23,18 +30,24 @@ export type CreateDataNegotiationMutationKey = ReturnType<typeof createDataNegot
  */
 export async function createDataNegotiation(
   data: CreateDataNegotiationMutationRequest,
-  config: Partial<RequestConfig<CreateDataNegotiationMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreateDataNegotiationMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreateDataNegotiationMutationResponse, ResponseErrorConfig<CreateDataNegotiation400>, CreateDataNegotiationMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreateDataNegotiationMutationResponse,
+    ResponseErrorConfig<CreateDataNegotiation400>,
+    CreateDataNegotiationMutationRequest
+  >({
     method: 'POST',
     url: `/negotiation`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -48,13 +61,16 @@ export function useCreateDataNegotiation<TContext>(
       ResponseErrorConfig<CreateDataNegotiation400>,
       { data: CreateDataNegotiationMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreateDataNegotiationMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreateDataNegotiationMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createDataNegotiationMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? createDataNegotiationMutationKey();
 
   return useMutation<
     ResponseConfig<CreateDataNegotiationMutationResponse>,
@@ -64,11 +80,11 @@ export function useCreateDataNegotiation<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return createDataNegotiation(data, config)
+        return createDataNegotiation(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

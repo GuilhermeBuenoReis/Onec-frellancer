@@ -3,29 +3,47 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeleteContestationMutationResponse, DeleteContestationPathParams, DeleteContestation404 } from '../../types/DeleteContestation.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeleteContestation404,
+  DeleteContestationMutationResponse,
+  DeleteContestationPathParams,
+} from '../../types/DeleteContestation.ts';
 
-export const deleteContestationMutationKey = () => [{ url: '/contestation/{id}' }] as const
+export const deleteContestationMutationKey = () =>
+  [{ url: '/contestation/{id}' }] as const;
 
-export type DeleteContestationMutationKey = ReturnType<typeof deleteContestationMutationKey>
+export type DeleteContestationMutationKey = ReturnType<
+  typeof deleteContestationMutationKey
+>;
 
 /**
  * @description Delete a contestation
  * {@link /contestation/:id}
  */
-export async function deleteContestation(id: DeleteContestationPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deleteContestation(
+  id: DeleteContestationPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeleteContestationMutationResponse, ResponseErrorConfig<DeleteContestation404>, unknown>({
+  const res = await request<
+    DeleteContestationMutationResponse,
+    ResponseErrorConfig<DeleteContestation404>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/contestation/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,13 +57,14 @@ export function useDeleteContestation<TContext>(
       ResponseErrorConfig<DeleteContestation404>,
       { id: DeleteContestationPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deleteContestationMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? deleteContestationMutationKey();
 
   return useMutation<
     ResponseConfig<DeleteContestationMutationResponse>,
@@ -55,11 +74,11 @@ export function useDeleteContestation<TContext>(
   >(
     {
       mutationFn: async ({ id }) => {
-        return deleteContestation(id, config)
+        return deleteContestation(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

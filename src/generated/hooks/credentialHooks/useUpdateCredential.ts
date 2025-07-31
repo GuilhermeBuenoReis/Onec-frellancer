@@ -3,20 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdateCredential404,
   UpdateCredentialMutationRequest,
   UpdateCredentialMutationResponse,
   UpdateCredentialPathParams,
-  UpdateCredential404,
-} from '../../types/UpdateCredential.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+} from '../../types/UpdateCredential.ts';
 
-export const updateCredentialMutationKey = () => [{ url: '/credential/{id}' }] as const
+export const updateCredentialMutationKey = () =>
+  [{ url: '/credential/{id}' }] as const;
 
-export type UpdateCredentialMutationKey = ReturnType<typeof updateCredentialMutationKey>
+export type UpdateCredentialMutationKey = ReturnType<
+  typeof updateCredentialMutationKey
+>;
 
 /**
  * @description Update a credential
@@ -25,18 +32,24 @@ export type UpdateCredentialMutationKey = ReturnType<typeof updateCredentialMuta
 export async function updateCredential(
   id: UpdateCredentialPathParams['id'],
   data?: UpdateCredentialMutationRequest,
-  config: Partial<RequestConfig<UpdateCredentialMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdateCredentialMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdateCredentialMutationResponse, ResponseErrorConfig<UpdateCredential404>, UpdateCredentialMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdateCredentialMutationResponse,
+    ResponseErrorConfig<UpdateCredential404>,
+    UpdateCredentialMutationRequest
+  >({
     method: 'PUT',
     url: `/credential/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -48,29 +61,38 @@ export function useUpdateCredential<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdateCredentialMutationResponse>,
       ResponseErrorConfig<UpdateCredential404>,
-      { id: UpdateCredentialPathParams['id']; data?: UpdateCredentialMutationRequest },
+      {
+        id: UpdateCredentialPathParams['id'];
+        data?: UpdateCredentialMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdateCredentialMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdateCredentialMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updateCredentialMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? updateCredentialMutationKey();
 
   return useMutation<
     ResponseConfig<UpdateCredentialMutationResponse>,
     ResponseErrorConfig<UpdateCredential404>,
-    { id: UpdateCredentialPathParams['id']; data?: UpdateCredentialMutationRequest },
+    {
+      id: UpdateCredentialPathParams['id'];
+      data?: UpdateCredentialMutationRequest;
+    },
     TContext
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updateCredential(id, data, config)
+        return updateCredential(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

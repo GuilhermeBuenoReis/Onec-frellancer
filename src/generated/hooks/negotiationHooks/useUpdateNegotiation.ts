@@ -3,20 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdateNegotiation404,
   UpdateNegotiationMutationRequest,
   UpdateNegotiationMutationResponse,
   UpdateNegotiationPathParams,
-  UpdateNegotiation404,
-} from '../../types/UpdateNegotiation.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+} from '../../types/UpdateNegotiation.ts';
 
-export const updateNegotiationMutationKey = () => [{ url: '/negotiation/{id}' }] as const
+export const updateNegotiationMutationKey = () =>
+  [{ url: '/negotiation/{id}' }] as const;
 
-export type UpdateNegotiationMutationKey = ReturnType<typeof updateNegotiationMutationKey>
+export type UpdateNegotiationMutationKey = ReturnType<
+  typeof updateNegotiationMutationKey
+>;
 
 /**
  * @description Update a Negotiation
@@ -25,18 +32,24 @@ export type UpdateNegotiationMutationKey = ReturnType<typeof updateNegotiationMu
 export async function updateNegotiation(
   id: UpdateNegotiationPathParams['id'],
   data?: UpdateNegotiationMutationRequest,
-  config: Partial<RequestConfig<UpdateNegotiationMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdateNegotiationMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdateNegotiationMutationResponse, ResponseErrorConfig<UpdateNegotiation404>, UpdateNegotiationMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdateNegotiationMutationResponse,
+    ResponseErrorConfig<UpdateNegotiation404>,
+    UpdateNegotiationMutationRequest
+  >({
     method: 'PUT',
     url: `/negotiation/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -48,29 +61,38 @@ export function useUpdateNegotiation<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdateNegotiationMutationResponse>,
       ResponseErrorConfig<UpdateNegotiation404>,
-      { id: UpdateNegotiationPathParams['id']; data?: UpdateNegotiationMutationRequest },
+      {
+        id: UpdateNegotiationPathParams['id'];
+        data?: UpdateNegotiationMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdateNegotiationMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdateNegotiationMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updateNegotiationMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? updateNegotiationMutationKey();
 
   return useMutation<
     ResponseConfig<UpdateNegotiationMutationResponse>,
     ResponseErrorConfig<UpdateNegotiation404>,
-    { id: UpdateNegotiationPathParams['id']; data?: UpdateNegotiationMutationRequest },
+    {
+      id: UpdateNegotiationPathParams['id'];
+      data?: UpdateNegotiationMutationRequest;
+    },
     TContext
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updateNegotiation(id, data, config)
+        return updateNegotiation(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

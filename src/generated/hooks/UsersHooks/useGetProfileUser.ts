@@ -3,29 +3,49 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetProfileUserQueryResponse, GetProfileUser400 } from '../../types/GetProfileUser.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetProfileUser400,
+  GetProfileUserQueryResponse,
+} from '../../types/GetProfileUser.ts';
 
-export const getProfileUserQueryKey = () => [{ url: '/users' }] as const
+export const getProfileUserQueryKey = () => [{ url: '/users' }] as const;
 
-export type GetProfileUserQueryKey = ReturnType<typeof getProfileUserQueryKey>
+export type GetProfileUserQueryKey = ReturnType<typeof getProfileUserQueryKey>;
 
 /**
  * @description List all Users
  * {@link /users}
  */
-export async function getProfileUser(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getProfileUser(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetProfileUserQueryResponse, ResponseErrorConfig<GetProfileUser400>, unknown>({ method: 'GET', url: `/users`, ...requestConfig })
-  return res
+  const res = await request<
+    GetProfileUserQueryResponse,
+    ResponseErrorConfig<GetProfileUser400>,
+    unknown
+  >({ method: 'GET', url: `/users`, ...requestConfig });
+  return res;
 }
 
-export function getProfileUserQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getProfileUserQueryKey()
+export function getProfileUserQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getProfileUserQueryKey();
   return queryOptions<
     ResponseConfig<GetProfileUserQueryResponse>,
     ResponseErrorConfig<GetProfileUser400>,
@@ -34,10 +54,10 @@ export function getProfileUserQueryOptions(config: Partial<RequestConfig> & { cl
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getProfileUser(config)
+      config.signal = signal;
+      return getProfileUser(config);
     },
-  })
+  });
 }
 
 /**
@@ -50,14 +70,25 @@ export function useGetProfileUser<
   TQueryKey extends QueryKey = GetProfileUserQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetProfileUserQueryResponse>, ResponseErrorConfig<GetProfileUser400>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetProfileUserQueryResponse>,
+        ResponseErrorConfig<GetProfileUser400>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getProfileUserQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getProfileUserQueryKey();
 
   const query = useQuery(
     {
@@ -65,10 +96,12 @@ export function useGetProfileUser<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<GetProfileUser400>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<GetProfileUser400>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

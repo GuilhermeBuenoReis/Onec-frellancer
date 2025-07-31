@@ -10,8 +10,8 @@ export type CreatePending201 = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 export const createPendingMutationRequestCategoryEnum = {
   SAC: 'SAC',
@@ -20,45 +20,46 @@ export const createPendingMutationRequestCategoryEnum = {
   Diretoria: 'Diretoria',
   Comercial: 'Comercial',
   Auditoria: 'Auditoria',
-} as const
+} as const;
 
-export type CreatePendingMutationRequestCategoryEnum = (typeof createPendingMutationRequestCategoryEnum)[keyof typeof createPendingMutationRequestCategoryEnum]
+export type CreatePendingMutationRequestCategoryEnum =
+  (typeof createPendingMutationRequestCategoryEnum)[keyof typeof createPendingMutationRequestCategoryEnum];
 
 export type CreatePendingMutationRequest = {
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type string
    */
-  callReason: string | null
+  callReason: string | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type string
    */
-  priority: string | null
+  priority: string | null;
   /**
    * @type string
    */
-  responsible: string | null
+  responsible: string | null;
   /**
    * @type string
    */
-  category: CreatePendingMutationRequestCategoryEnum
+  category: CreatePendingMutationRequestCategoryEnum;
   /**
    * @type string
    */
-  description: string | null
-}
+  description: string | null;
+};
 
-export type CreatePendingMutationResponse = CreatePending201
+export type CreatePendingMutationResponse = CreatePending201;
 
 export type CreatePendingMutation = {
-  Response: CreatePending201
-  Request: CreatePendingMutationRequest
-  Errors: any
-}
+  Response: CreatePending201;
+  Request: CreatePendingMutationRequest;
+  Errors: any;
+};

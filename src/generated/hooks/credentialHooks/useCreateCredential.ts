@@ -3,15 +3,26 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreateCredentialMutationRequest, CreateCredentialMutationResponse, CreateCredential400 } from '../../types/CreateCredential.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreateCredential400,
+  CreateCredentialMutationRequest,
+  CreateCredentialMutationResponse,
+} from '../../types/CreateCredential.ts';
 
-export const createCredentialMutationKey = () => [{ url: '/credential' }] as const
+export const createCredentialMutationKey = () =>
+  [{ url: '/credential' }] as const;
 
-export type CreateCredentialMutationKey = ReturnType<typeof createCredentialMutationKey>
+export type CreateCredentialMutationKey = ReturnType<
+  typeof createCredentialMutationKey
+>;
 
 /**
  * @description Create a new Credential
@@ -19,18 +30,24 @@ export type CreateCredentialMutationKey = ReturnType<typeof createCredentialMuta
  */
 export async function createCredential(
   data: CreateCredentialMutationRequest,
-  config: Partial<RequestConfig<CreateCredentialMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreateCredentialMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreateCredentialMutationResponse, ResponseErrorConfig<CreateCredential400>, CreateCredentialMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreateCredentialMutationResponse,
+    ResponseErrorConfig<CreateCredential400>,
+    CreateCredentialMutationRequest
+  >({
     method: 'POST',
     url: `/credential`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,13 +61,16 @@ export function useCreateCredential<TContext>(
       ResponseErrorConfig<CreateCredential400>,
       { data: CreateCredentialMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreateCredentialMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreateCredentialMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createCredentialMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? createCredentialMutationKey();
 
   return useMutation<
     ResponseConfig<CreateCredentialMutationResponse>,
@@ -60,11 +80,11 @@ export function useCreateCredential<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return createCredential(data, config)
+        return createCredential(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

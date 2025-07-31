@@ -10,68 +10,68 @@ export type CreatePortalControll201 = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 export type CreatePortalControllMutationRequest = {
   /**
    * @type string
    */
-  monthOfCalculation: string | null
+  monthOfCalculation: string | null;
   /**
    * @type string
    */
-  competenceMonth: string | null
+  competenceMonth: string | null;
   /**
    * @type number
    */
-  contract: number | null
+  contract: number | null;
   /**
    * @type string
    */
-  enterprise: string | null
+  enterprise: string | null;
   /**
    * @type string
    */
-  product: string | null
+  product: string | null;
   /**
    * @type number
    */
-  percentageHonorary: number | null
+  percentageHonorary: number | null;
   /**
    * @type number
    */
-  compensation: number | null
+  compensation: number | null;
   /**
    * @type number
    */
-  honorary: number | null
+  honorary: number | null;
   /**
    * @type number
    */
-  tax: number | null
+  tax: number | null;
   /**
    * @type number
    */
-  tj: number | null
+  tj: number | null;
   /**
    * @type number
    */
-  value: number | null
+  value: number | null;
   /**
    * @type string
    */
-  situation: string | null
+  situation: string | null;
   /**
    * @type string
    */
-  partnerId: string
-}
+  partnerId: string;
+};
 
-export type CreatePortalControllMutationResponse = CreatePortalControll201
+export type CreatePortalControllMutationResponse = CreatePortalControll201;
 
 export type CreatePortalControllMutation = {
-  Response: CreatePortalControll201
-  Request: CreatePortalControllMutationRequest
-  Errors: any
-}
+  Response: CreatePortalControll201;
+  Request: CreatePortalControllMutationRequest;
+  Errors: any;
+};

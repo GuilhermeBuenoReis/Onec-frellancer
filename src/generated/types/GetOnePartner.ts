@@ -7,8 +7,8 @@ export type GetOnePartnerPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,68 +17,68 @@ export type GetOnePartner200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  name: string | null
+  name: string | null;
   /**
    * @type string
    */
-  cpfOrCnpj: string | null
+  cpfOrCnpj: string | null;
   /**
    * @type string
    */
-  city: string | null
+  city: string | null;
   /**
    * @type string
    */
-  state: string | null
+  state: string | null;
   /**
    * @type number
    */
-  commission: number | null
+  commission: number | null;
   /**
    * @type string
    */
-  portal: string | null
+  portal: string | null;
   /**
    * @type string
    */
-  channelHead: string | null
+  channelHead: string | null;
   /**
    * @type string
    */
-  regional: string | null
+  regional: string | null;
   /**
    * @type string
    */
-  coordinator: string | null
+  coordinator: string | null;
   /**
    * @type string
    */
-  agent: string | null
+  agent: string | null;
   /**
    * @type string
    */
-  indicator: string | null
+  indicator: string | null;
   /**
    * @type string
    */
-  contract: string | null
+  contract: string | null;
   /**
    * @type string
    */
-  phone: string | null
+  phone: string | null;
   /**
    * @type string
    */
-  email: string | null
+  email: string | null;
   /**
    * @type string
    */
-  responsible: string | null
-}
+  responsible: string | null;
+};
 
 /**
  * @description Default Response
@@ -87,13 +87,13 @@ export type GetOnePartner404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type GetOnePartnerQueryResponse = GetOnePartner200
+export type GetOnePartnerQueryResponse = GetOnePartner200;
 
 export type GetOnePartnerQuery = {
-  Response: GetOnePartner200
-  PathParams: GetOnePartnerPathParams
-  Errors: GetOnePartner404
-}
+  Response: GetOnePartner200;
+  PathParams: GetOnePartnerPathParams;
+  Errors: GetOnePartner404;
+};

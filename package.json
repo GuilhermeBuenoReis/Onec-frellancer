@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "pnpm kubb:gen && vite",
     "kubb:gen": "kubb",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "preview": "vite preview",
-    "format": "biome format . --write"
+    "format": "biome format . --write",
+    "check:fix": "pnpm exec @biomejs/biome check src --write"
   },
   "dependencies": {
     "@fontsource/poppins": "^5.2.6",

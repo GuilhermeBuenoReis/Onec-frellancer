@@ -3,33 +3,43 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
-export const createCredential201Schema = z.unknown()
+export const createCredential201Schema = z.unknown();
 
-export type CreateCredential201Schema = z.infer<typeof createCredential201Schema>
+export type CreateCredential201Schema = z.infer<
+  typeof createCredential201Schema
+>;
 
 /**
  * @description Default Response
  */
 export const createCredential400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type CreateCredential400Schema = z.infer<typeof createCredential400Schema>
+export type CreateCredential400Schema = z.infer<
+  typeof createCredential400Schema
+>;
 
 export const createCredentialMutationRequestSchema = z.object({
   channelHead: z.string().nullable(),
   cnpj: z.string().nullable(),
   agentIndicator: z.string().nullable(),
   partner: z.string().nullable(),
-})
+});
 
-export type CreateCredentialMutationRequestSchema = z.infer<typeof createCredentialMutationRequestSchema>
+export type CreateCredentialMutationRequestSchema = z.infer<
+  typeof createCredentialMutationRequestSchema
+>;
 
-export const createCredentialMutationResponseSchema = z.lazy(() => createCredential201Schema)
+export const createCredentialMutationResponseSchema = z.lazy(
+  () => createCredential201Schema
+);
 
-export type CreateCredentialMutationResponseSchema = z.infer<typeof createCredentialMutationResponseSchema>
+export type CreateCredentialMutationResponseSchema = z.infer<
+  typeof createCredentialMutationResponseSchema
+>;

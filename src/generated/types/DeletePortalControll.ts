@@ -7,8 +7,8 @@ export type DeletePortalControllPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeletePortalControll200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeletePortalControll404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeletePortalControllMutationResponse = DeletePortalControll200
+export type DeletePortalControllMutationResponse = DeletePortalControll200;
 
 export type DeletePortalControllMutation = {
-  Response: DeletePortalControll200
-  PathParams: DeletePortalControllPathParams
-  Errors: DeletePortalControll404
-}
+  Response: DeletePortalControll200;
+  PathParams: DeletePortalControllPathParams;
+  Errors: DeletePortalControll404;
+};

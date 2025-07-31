@@ -10,12 +10,12 @@ export type AuthenticateUser200 = {
   /**
    * @type boolean
    */
-  success: boolean
+  success: boolean;
   /**
    * @type string
    */
-  token: string
-}
+  token: string;
+};
 
 /**
  * @description Default Response
@@ -24,24 +24,24 @@ export type AuthenticateUser401 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type AuthenticateUserMutationRequest = {
   /**
    * @type string, email
    */
-  email: string
+  email: string;
   /**
    * @type string
    */
-  password: string
-}
+  password: string;
+};
 
-export type AuthenticateUserMutationResponse = AuthenticateUser200
+export type AuthenticateUserMutationResponse = AuthenticateUser200;
 
 export type AuthenticateUserMutation = {
-  Response: AuthenticateUser200
-  Request: AuthenticateUserMutationRequest
-  Errors: AuthenticateUser401
-}
+  Response: AuthenticateUser200;
+  Request: AuthenticateUserMutationRequest;
+  Errors: AuthenticateUser401;
+};

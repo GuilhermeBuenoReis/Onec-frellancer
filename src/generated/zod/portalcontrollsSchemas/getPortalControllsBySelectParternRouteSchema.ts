@@ -3,13 +3,17 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
-export const getPortalControllsBySelectParternRouteQueryParamsSchema = z.object({
-  partnerId: z.string().min(1),
-})
+export const getPortalControllsBySelectParternRouteQueryParamsSchema = z.object(
+  {
+    partnerId: z.string().min(1),
+  }
+);
 
-export type GetPortalControllsBySelectParternRouteQueryParamsSchema = z.infer<typeof getPortalControllsBySelectParternRouteQueryParamsSchema>
+export type GetPortalControllsBySelectParternRouteQueryParamsSchema = z.infer<
+  typeof getPortalControllsBySelectParternRouteQueryParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -30,20 +34,28 @@ export const getPortalControllsBySelectParternRoute200Schema = z.array(
     value: z.number().nullable(),
     situation: z.string().nullable(),
     partnerId: z.string(),
-  }),
-)
+  })
+);
 
-export type GetPortalControllsBySelectParternRoute200Schema = z.infer<typeof getPortalControllsBySelectParternRoute200Schema>
+export type GetPortalControllsBySelectParternRoute200Schema = z.infer<
+  typeof getPortalControllsBySelectParternRoute200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const getPortalControllsBySelectParternRoute500Schema = z.object({
   error: z.string(),
-})
+});
 
-export type GetPortalControllsBySelectParternRoute500Schema = z.infer<typeof getPortalControllsBySelectParternRoute500Schema>
+export type GetPortalControllsBySelectParternRoute500Schema = z.infer<
+  typeof getPortalControllsBySelectParternRoute500Schema
+>;
 
-export const getPortalControllsBySelectParternRouteQueryResponseSchema = z.lazy(() => getPortalControllsBySelectParternRoute200Schema)
+export const getPortalControllsBySelectParternRouteQueryResponseSchema = z.lazy(
+  () => getPortalControllsBySelectParternRoute200Schema
+);
 
-export type GetPortalControllsBySelectParternRouteQueryResponseSchema = z.infer<typeof getPortalControllsBySelectParternRouteQueryResponseSchema>
+export type GetPortalControllsBySelectParternRouteQueryResponseSchema = z.infer<
+  typeof getPortalControllsBySelectParternRouteQueryResponseSchema
+>;

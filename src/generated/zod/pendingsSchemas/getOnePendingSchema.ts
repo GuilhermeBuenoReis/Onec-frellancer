@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const getOnePendingPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type GetOnePendingPathParamsSchema = z.infer<typeof getOnePendingPathParamsSchema>
+export type GetOnePendingPathParamsSchema = z.infer<
+  typeof getOnePendingPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -25,19 +27,23 @@ export const getOnePending200Schema = z.object({
   description: z.string().nullable(),
   createdAt: z.string().datetime({ offset: true }).optional(),
   updatedAt: z.string().datetime({ offset: true }).optional(),
-})
+});
 
-export type GetOnePending200Schema = z.infer<typeof getOnePending200Schema>
+export type GetOnePending200Schema = z.infer<typeof getOnePending200Schema>;
 
 /**
  * @description Default Response
  */
 export const getOnePending404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type GetOnePending404Schema = z.infer<typeof getOnePending404Schema>
+export type GetOnePending404Schema = z.infer<typeof getOnePending404Schema>;
 
-export const getOnePendingQueryResponseSchema = z.lazy(() => getOnePending200Schema)
+export const getOnePendingQueryResponseSchema = z.lazy(
+  () => getOnePending200Schema
+);
 
-export type GetOnePendingQueryResponseSchema = z.infer<typeof getOnePendingQueryResponseSchema>
+export type GetOnePendingQueryResponseSchema = z.infer<
+  typeof getOnePendingQueryResponseSchema
+>;

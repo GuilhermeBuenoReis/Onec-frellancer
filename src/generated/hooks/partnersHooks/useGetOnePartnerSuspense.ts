@@ -3,33 +3,60 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetOnePartnerQueryResponse, GetOnePartnerPathParams, GetOnePartner404 } from '../../types/GetOnePartner.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetOnePartner404,
+  GetOnePartnerPathParams,
+  GetOnePartnerQueryResponse,
+} from '../../types/GetOnePartner.ts';
 
-export const getOnePartnerSuspenseQueryKey = (id: GetOnePartnerPathParams['id']) => [{ url: '/partners/:id', params: { id: id } }] as const
+export const getOnePartnerSuspenseQueryKey = (
+  id: GetOnePartnerPathParams['id']
+) => [{ url: '/partners/:id', params: { id: id } }] as const;
 
-export type GetOnePartnerSuspenseQueryKey = ReturnType<typeof getOnePartnerSuspenseQueryKey>
+export type GetOnePartnerSuspenseQueryKey = ReturnType<
+  typeof getOnePartnerSuspenseQueryKey
+>;
 
 /**
  * @description Get a single partner by id
  * {@link /partners/:id}
  */
-export async function getOnePartnerSuspense(id: GetOnePartnerPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getOnePartnerSuspense(
+  id: GetOnePartnerPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetOnePartnerQueryResponse, ResponseErrorConfig<GetOnePartner404>, unknown>({
+  const res = await request<
+    GetOnePartnerQueryResponse,
+    ResponseErrorConfig<GetOnePartner404>,
+    unknown
+  >({
     method: 'GET',
     url: `/partners/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getOnePartnerSuspenseQueryOptions(id: GetOnePartnerPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getOnePartnerSuspenseQueryKey(id)
+export function getOnePartnerSuspenseQueryOptions(
+  id: GetOnePartnerPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getOnePartnerSuspenseQueryKey(id);
   return queryOptions<
     ResponseConfig<GetOnePartnerQueryResponse>,
     ResponseErrorConfig<GetOnePartner404>,
@@ -39,27 +66,40 @@ export function getOnePartnerSuspenseQueryOptions(id: GetOnePartnerPathParams['i
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getOnePartnerSuspense(id, config)
+      config.signal = signal;
+      return getOnePartnerSuspense(id, config);
     },
-  })
+  });
 }
 
 /**
  * @description Get a single partner by id
  * {@link /partners/:id}
  */
-export function useGetOnePartnerSuspense<TData = ResponseConfig<GetOnePartnerQueryResponse>, TQueryKey extends QueryKey = GetOnePartnerSuspenseQueryKey>(
+export function useGetOnePartnerSuspense<
+  TData = ResponseConfig<GetOnePartnerQueryResponse>,
+  TQueryKey extends QueryKey = GetOnePartnerSuspenseQueryKey,
+>(
   id: GetOnePartnerPathParams['id'],
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetOnePartnerQueryResponse>, ResponseErrorConfig<GetOnePartner404>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetOnePartnerQueryResponse>,
+        ResponseErrorConfig<GetOnePartner404>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getOnePartnerSuspenseQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getOnePartnerSuspenseQueryKey(id);
 
   const query = useSuspenseQuery(
     {
@@ -67,10 +107,12 @@ export function useGetOnePartnerSuspense<TData = ResponseConfig<GetOnePartnerQue
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetOnePartner404>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetOnePartner404>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

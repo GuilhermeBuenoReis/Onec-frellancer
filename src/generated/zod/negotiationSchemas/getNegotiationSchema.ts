@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -24,11 +24,15 @@ export const getNegotiation200Schema = z.array(
     partnerId: z.string().nullable(),
     createdAt: z.string().nullable(),
     updatedAt: z.string().nullable(),
-  }),
-)
+  })
+);
 
-export type GetNegotiation200Schema = z.infer<typeof getNegotiation200Schema>
+export type GetNegotiation200Schema = z.infer<typeof getNegotiation200Schema>;
 
-export const getNegotiationQueryResponseSchema = z.lazy(() => getNegotiation200Schema)
+export const getNegotiationQueryResponseSchema = z.lazy(
+  () => getNegotiation200Schema
+);
 
-export type GetNegotiationQueryResponseSchema = z.infer<typeof getNegotiationQueryResponseSchema>
+export type GetNegotiationQueryResponseSchema = z.infer<
+  typeof getNegotiationQueryResponseSchema
+>;

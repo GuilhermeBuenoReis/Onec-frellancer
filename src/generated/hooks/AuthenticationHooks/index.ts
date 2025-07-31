@@ -1,2 +1,6 @@
-export type { AuthenticateUserMutationKey } from './useAuthenticateUser.ts'
-export { authenticateUserMutationKey, authenticateUser, useAuthenticateUser } from './useAuthenticateUser.ts'
+export type { AuthenticateUserMutationKey } from './useAuthenticateUser.ts';
+export {
+  authenticateUser,
+  authenticateUserMutationKey,
+  useAuthenticateUser,
+} from './useAuthenticateUser.ts';

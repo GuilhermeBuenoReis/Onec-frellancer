@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -12,11 +12,17 @@ export const getContractStatusCount200Schema = z.array(
   z.object({
     status: z.string().nullable(),
     count: z.number(),
-  }),
-)
+  })
+);
 
-export type GetContractStatusCount200Schema = z.infer<typeof getContractStatusCount200Schema>
+export type GetContractStatusCount200Schema = z.infer<
+  typeof getContractStatusCount200Schema
+>;
 
-export const getContractStatusCountQueryResponseSchema = z.lazy(() => getContractStatusCount200Schema)
+export const getContractStatusCountQueryResponseSchema = z.lazy(
+  () => getContractStatusCount200Schema
+);
 
-export type GetContractStatusCountQueryResponseSchema = z.infer<typeof getContractStatusCountQueryResponseSchema>
+export type GetContractStatusCountQueryResponseSchema = z.infer<
+  typeof getContractStatusCountQueryResponseSchema
+>;

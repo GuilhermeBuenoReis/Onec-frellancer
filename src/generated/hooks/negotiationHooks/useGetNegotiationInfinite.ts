@@ -3,29 +3,50 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetNegotiationQueryResponse } from '../../types/GetNegotiation.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetNegotiationQueryResponse } from '../../types/GetNegotiation.ts';
 
-export const getNegotiationInfiniteQueryKey = () => [{ url: '/negotiation' }] as const
+export const getNegotiationInfiniteQueryKey = () =>
+  [{ url: '/negotiation' }] as const;
 
-export type GetNegotiationInfiniteQueryKey = ReturnType<typeof getNegotiationInfiniteQueryKey>
+export type GetNegotiationInfiniteQueryKey = ReturnType<
+  typeof getNegotiationInfiniteQueryKey
+>;
 
 /**
  * @description Get a list of Negotiation
  * {@link /negotiation}
  */
-export async function getNegotiationInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getNegotiationInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetNegotiationQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/negotiation`, ...requestConfig })
-  return res
+  const res = await request<
+    GetNegotiationQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/negotiation`, ...requestConfig });
+  return res;
 }
 
-export function getNegotiationInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getNegotiationInfiniteQueryKey()
+export function getNegotiationInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getNegotiationInfiniteQueryKey();
   return infiniteQueryOptions<
     ResponseConfig<GetNegotiationQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -34,13 +55,13 @@ export function getNegotiationInfiniteQueryOptions(config: Partial<RequestConfig
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getNegotiationInfinite(config)
+      config.signal = signal;
+      return getNegotiationInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -53,14 +74,24 @@ export function useGetNegotiationInfinite<
   TQueryKey extends QueryKey = GetNegotiationInfiniteQueryKey,
 >(
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetNegotiationQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetNegotiationQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getNegotiationInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getNegotiationInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -68,10 +99,12 @@ export function useGetNegotiationInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

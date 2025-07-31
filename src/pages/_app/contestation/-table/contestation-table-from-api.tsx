@@ -1,8 +1,6 @@
 'use client';
 
-import type { GetContestation200 } from '@/generated';
 import { useGetContestation } from '@/generated/hooks/contestationHooks/useGetContestation';
-import type { GetContestationById200 } from '@/generated/types/GetContestationById';
 import { useContestationFiltersContext } from '../-context/contestation-filters-context';
 import { columns } from './columns';
 import { ContestationDataTable } from './data-table';

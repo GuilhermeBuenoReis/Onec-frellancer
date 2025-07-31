@@ -10,16 +10,16 @@ export type GetProfileUser200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string, email
    */
-  email: string
+  email: string;
   /**
    * @type string
    */
-  role: string
-}[]
+  role: string;
+}[];
 
 /**
  * @description Default Response
@@ -28,12 +28,12 @@ export type GetProfileUser400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type GetProfileUserQueryResponse = GetProfileUser200
+export type GetProfileUserQueryResponse = GetProfileUser200;
 
 export type GetProfileUserQuery = {
-  Response: GetProfileUser200
-  Errors: GetProfileUser400
-}
+  Response: GetProfileUser200;
+  Errors: GetProfileUser400;
+};

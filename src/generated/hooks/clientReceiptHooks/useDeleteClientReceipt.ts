@@ -3,29 +3,47 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeleteClientReceiptMutationResponse, DeleteClientReceiptPathParams, DeleteClientReceipt404 } from '../../types/DeleteClientReceipt.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeleteClientReceipt404,
+  DeleteClientReceiptMutationResponse,
+  DeleteClientReceiptPathParams,
+} from '../../types/DeleteClientReceipt.ts';
 
-export const deleteClientReceiptMutationKey = () => [{ url: '/client-receipt/{id}' }] as const
+export const deleteClientReceiptMutationKey = () =>
+  [{ url: '/client-receipt/{id}' }] as const;
 
-export type DeleteClientReceiptMutationKey = ReturnType<typeof deleteClientReceiptMutationKey>
+export type DeleteClientReceiptMutationKey = ReturnType<
+  typeof deleteClientReceiptMutationKey
+>;
 
 /**
  * @description Delete a client receipt
  * {@link /client-receipt/:id}
  */
-export async function deleteClientReceipt(id: DeleteClientReceiptPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deleteClientReceipt(
+  id: DeleteClientReceiptPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeleteClientReceiptMutationResponse, ResponseErrorConfig<DeleteClientReceipt404>, unknown>({
+  const res = await request<
+    DeleteClientReceiptMutationResponse,
+    ResponseErrorConfig<DeleteClientReceipt404>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/client-receipt/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,13 +57,14 @@ export function useDeleteClientReceipt<TContext>(
       ResponseErrorConfig<DeleteClientReceipt404>,
       { id: DeleteClientReceiptPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deleteClientReceiptMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? deleteClientReceiptMutationKey();
 
   return useMutation<
     ResponseConfig<DeleteClientReceiptMutationResponse>,
@@ -55,11 +74,11 @@ export function useDeleteClientReceipt<TContext>(
   >(
     {
       mutationFn: async ({ id }) => {
-        return deleteClientReceipt(id, config)
+        return deleteClientReceipt(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

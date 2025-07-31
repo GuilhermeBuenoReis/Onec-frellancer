@@ -3,24 +3,37 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { PostUploadXlsxMutationResponse } from '../../types/PostUploadXlsx.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { PostUploadXlsxMutationResponse } from '../../types/PostUploadXlsx.ts';
 
-export const postUploadXlsxMutationKey = () => [{ url: '/upload-xlsx' }] as const
+export const postUploadXlsxMutationKey = () =>
+  [{ url: '/upload-xlsx' }] as const;
 
-export type PostUploadXlsxMutationKey = ReturnType<typeof postUploadXlsxMutationKey>
+export type PostUploadXlsxMutationKey = ReturnType<
+  typeof postUploadXlsxMutationKey
+>;
 
 /**
  * {@link /upload-xlsx}
  */
-export async function postUploadXlsx(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function postUploadXlsx(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<PostUploadXlsxMutationResponse, ResponseErrorConfig<Error>, unknown>({ method: 'POST', url: `/upload-xlsx`, ...requestConfig })
-  return res
+  const res = await request<
+    PostUploadXlsxMutationResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'POST', url: `/upload-xlsx`, ...requestConfig });
+  return res;
 }
 
 /**
@@ -28,22 +41,33 @@ export async function postUploadXlsx(config: Partial<RequestConfig> & { client?:
  */
 export function usePostUploadXlsx<TContext>(
   options: {
-    mutation?: UseMutationOptions<ResponseConfig<PostUploadXlsxMutationResponse>, ResponseErrorConfig<Error>, void, TContext> & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    mutation?: UseMutationOptions<
+      ResponseConfig<PostUploadXlsxMutationResponse>,
+      ResponseErrorConfig<Error>,
+      void,
+      TContext
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? postUploadXlsxMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? postUploadXlsxMutationKey();
 
-  return useMutation<ResponseConfig<PostUploadXlsxMutationResponse>, ResponseErrorConfig<Error>, void, TContext>(
+  return useMutation<
+    ResponseConfig<PostUploadXlsxMutationResponse>,
+    ResponseErrorConfig<Error>,
+    void,
+    TContext
+  >(
     {
       mutationFn: async () => {
-        return postUploadXlsx(config)
+        return postUploadXlsx(config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

@@ -7,8 +7,8 @@ export type GetContractByIdPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,76 +17,76 @@ export type GetContractById200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  city: string | null
+  city: string | null;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type string
    */
-  state: string | null
+  state: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  sindic: string | null
+  sindic: string | null;
   /**
    * @type string
    */
-  year: string | null
+  year: string | null;
   /**
    * @type string
    */
-  matter: string | null
+  matter: string | null;
   /**
    * @type string
    */
-  forecast: string | null
+  forecast: string | null;
   /**
    * @type string
    */
-  contractTotal: string | null
+  contractTotal: string | null;
   /**
    * @type number
    */
-  percentage: number | null
+  percentage: number | null;
   /**
    * @type string
    */
-  signedContract: string | null
+  signedContract: string | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type number
    */
-  averageGuide: number | null
+  averageGuide: number | null;
   /**
    * @type string
    */
-  partner: string | null
+  partner: string | null;
   /**
    * @type number
    */
-  partnerCommission: number | null
+  partnerCommission: number | null;
   /**
    * @type string
    */
-  counter: string | null
+  counter: string | null;
   /**
    * @type string
    */
-  email: string | null
-}
+  email: string | null;
+};
 
 /**
  * @description Default Response
@@ -95,13 +95,13 @@ export type GetContractById404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type GetContractByIdQueryResponse = GetContractById200
+export type GetContractByIdQueryResponse = GetContractById200;
 
 export type GetContractByIdQuery = {
-  Response: GetContractById200
-  PathParams: GetContractByIdPathParams
-  Errors: GetContractById404
-}
+  Response: GetContractById200;
+  PathParams: GetContractByIdPathParams;
+  Errors: GetContractById404;
+};

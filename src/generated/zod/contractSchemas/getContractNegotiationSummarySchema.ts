@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -45,21 +45,29 @@ export const getContractNegotiationSummary200Schema = z.object({
       email: z.string().nullable(),
       contractCreatedAt: z.string().datetime({ offset: true }),
       contractUpdatedAt: z.string().datetime({ offset: true }),
-    }),
+    })
   ),
-})
+});
 
-export type GetContractNegotiationSummary200Schema = z.infer<typeof getContractNegotiationSummary200Schema>
+export type GetContractNegotiationSummary200Schema = z.infer<
+  typeof getContractNegotiationSummary200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const getContractNegotiationSummary500Schema = z.object({
   message: z.string(),
-})
+});
 
-export type GetContractNegotiationSummary500Schema = z.infer<typeof getContractNegotiationSummary500Schema>
+export type GetContractNegotiationSummary500Schema = z.infer<
+  typeof getContractNegotiationSummary500Schema
+>;
 
-export const getContractNegotiationSummaryQueryResponseSchema = z.lazy(() => getContractNegotiationSummary200Schema)
+export const getContractNegotiationSummaryQueryResponseSchema = z.lazy(
+  () => getContractNegotiationSummary200Schema
+);
 
-export type GetContractNegotiationSummaryQueryResponseSchema = z.infer<typeof getContractNegotiationSummaryQueryResponseSchema>
+export type GetContractNegotiationSummaryQueryResponseSchema = z.infer<
+  typeof getContractNegotiationSummaryQueryResponseSchema
+>;

@@ -10,7 +10,7 @@ export type ListCredentialClient200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type object
    */
@@ -18,24 +18,24 @@ export type ListCredentialClient200 = {
     /**
      * @type string
      */
-    id: string
+    id: string;
     /**
      * @type string
      */
-    channelHead: string | null
+    channelHead: string | null;
     /**
      * @type string
      */
-    partner: string | null
+    partner: string | null;
     /**
      * @type string
      */
-    cnpj: string | null
+    cnpj: string | null;
     /**
      * @type string
      */
-    agentIndicator: string | null
-  }
+    agentIndicator: string | null;
+  };
   /**
    * @type object
    */
@@ -43,29 +43,29 @@ export type ListCredentialClient200 = {
     /**
      * @type string
      */
-    id: string
+    id: string;
     /**
      * @type string
      */
-    enterprise: string
+    enterprise: string;
     /**
      * @type string
      */
-    competenceMonth: string
+    competenceMonth: string;
     /**
      * @type string
      */
-    cnpj: string
+    cnpj: string;
     /**
      * @type string
      */
-    contestation: string
+    contestation: string;
     /**
      * @type string
      */
-    returned: string
-  }
-}[]
+    returned: string;
+  };
+}[];
 
 /**
  * @description Default Response
@@ -74,12 +74,12 @@ export type ListCredentialClient400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type ListCredentialClientQueryResponse = ListCredentialClient200
+export type ListCredentialClientQueryResponse = ListCredentialClient200;
 
 export type ListCredentialClientQuery = {
-  Response: ListCredentialClient200
-  Errors: ListCredentialClient400
-}
+  Response: ListCredentialClient200;
+  Errors: ListCredentialClient400;
+};

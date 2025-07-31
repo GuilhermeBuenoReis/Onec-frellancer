@@ -3,40 +3,48 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updateUserPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdateUserPathParamsSchema = z.infer<typeof updateUserPathParamsSchema>
+export type UpdateUserPathParamsSchema = z.infer<
+  typeof updateUserPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const updateUser200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateUser200Schema = z.infer<typeof updateUser200Schema>
+export type UpdateUser200Schema = z.infer<typeof updateUser200Schema>;
 
 /**
  * @description Default Response
  */
 export const updateUser400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateUser400Schema = z.infer<typeof updateUser400Schema>
+export type UpdateUser400Schema = z.infer<typeof updateUser400Schema>;
 
 export const updateUserMutationRequestSchema = z.object({
   email: z.string().email().optional(),
   password: z.string().min(6).optional(),
   role: z.string().optional(),
-})
+});
 
-export type UpdateUserMutationRequestSchema = z.infer<typeof updateUserMutationRequestSchema>
+export type UpdateUserMutationRequestSchema = z.infer<
+  typeof updateUserMutationRequestSchema
+>;
 
-export const updateUserMutationResponseSchema = z.lazy(() => updateUser200Schema)
+export const updateUserMutationResponseSchema = z.lazy(
+  () => updateUser200Schema
+);
 
-export type UpdateUserMutationResponseSchema = z.infer<typeof updateUserMutationResponseSchema>
+export type UpdateUserMutationResponseSchema = z.infer<
+  typeof updateUserMutationResponseSchema
+>;

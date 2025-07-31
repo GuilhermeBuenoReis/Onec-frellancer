@@ -3,15 +3,25 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreatePortalControllMutationRequest, CreatePortalControllMutationResponse } from '../../types/CreatePortalControll.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreatePortalControllMutationRequest,
+  CreatePortalControllMutationResponse,
+} from '../../types/CreatePortalControll.ts';
 
-export const createPortalControllMutationKey = () => [{ url: '/portalcontrolls' }] as const
+export const createPortalControllMutationKey = () =>
+  [{ url: '/portalcontrolls' }] as const;
 
-export type CreatePortalControllMutationKey = ReturnType<typeof createPortalControllMutationKey>
+export type CreatePortalControllMutationKey = ReturnType<
+  typeof createPortalControllMutationKey
+>;
 
 /**
  * @description Create a new portalcontroll
@@ -19,18 +29,24 @@ export type CreatePortalControllMutationKey = ReturnType<typeof createPortalCont
  */
 export async function createPortalControll(
   data: CreatePortalControllMutationRequest,
-  config: Partial<RequestConfig<CreatePortalControllMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreatePortalControllMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreatePortalControllMutationResponse, ResponseErrorConfig<Error>, CreatePortalControllMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreatePortalControllMutationResponse,
+    ResponseErrorConfig<Error>,
+    CreatePortalControllMutationRequest
+  >({
     method: 'POST',
     url: `/portalcontrolls`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,22 +60,30 @@ export function useCreatePortalControll<TContext>(
       ResponseErrorConfig<Error>,
       { data: CreatePortalControllMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreatePortalControllMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreatePortalControllMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createPortalControllMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? createPortalControllMutationKey();
 
-  return useMutation<ResponseConfig<CreatePortalControllMutationResponse>, ResponseErrorConfig<Error>, { data: CreatePortalControllMutationRequest }, TContext>(
+  return useMutation<
+    ResponseConfig<CreatePortalControllMutationResponse>,
+    ResponseErrorConfig<Error>,
+    { data: CreatePortalControllMutationRequest },
+    TContext
+  >(
     {
       mutationFn: async ({ data }) => {
-        return createPortalControll(data, config)
+        return createPortalControll(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

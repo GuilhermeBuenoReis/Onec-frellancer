@@ -7,8 +7,8 @@ export type DeleteNegotiationPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeleteNegotiation200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeleteNegotiation404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeleteNegotiationMutationResponse = DeleteNegotiation200
+export type DeleteNegotiationMutationResponse = DeleteNegotiation200;
 
 export type DeleteNegotiationMutation = {
-  Response: DeleteNegotiation200
-  PathParams: DeleteNegotiationPathParams
-  Errors: DeleteNegotiation404
-}
+  Response: DeleteNegotiation200;
+  PathParams: DeleteNegotiationPathParams;
+  Errors: DeleteNegotiation404;
+};

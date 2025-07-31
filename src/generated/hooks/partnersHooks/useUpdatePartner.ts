@@ -3,15 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { UpdatePartnerMutationRequest, UpdatePartnerMutationResponse, UpdatePartnerPathParams, UpdatePartner404 } from '../../types/UpdatePartner.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdatePartner404,
+  UpdatePartnerMutationRequest,
+  UpdatePartnerMutationResponse,
+  UpdatePartnerPathParams,
+} from '../../types/UpdatePartner.ts';
 
-export const updatePartnerMutationKey = () => [{ url: '/partners/{id}' }] as const
+export const updatePartnerMutationKey = () =>
+  [{ url: '/partners/{id}' }] as const;
 
-export type UpdatePartnerMutationKey = ReturnType<typeof updatePartnerMutationKey>
+export type UpdatePartnerMutationKey = ReturnType<
+  typeof updatePartnerMutationKey
+>;
 
 /**
  * @description Update a partner
@@ -20,18 +32,24 @@ export type UpdatePartnerMutationKey = ReturnType<typeof updatePartnerMutationKe
 export async function updatePartner(
   id: UpdatePartnerPathParams['id'],
   data?: UpdatePartnerMutationRequest,
-  config: Partial<RequestConfig<UpdatePartnerMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdatePartnerMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdatePartnerMutationResponse, ResponseErrorConfig<UpdatePartner404>, UpdatePartnerMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdatePartnerMutationResponse,
+    ResponseErrorConfig<UpdatePartner404>,
+    UpdatePartnerMutationRequest
+  >({
     method: 'PUT',
     url: `/partners/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -43,15 +61,20 @@ export function useUpdatePartner<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdatePartnerMutationResponse>,
       ResponseErrorConfig<UpdatePartner404>,
-      { id: UpdatePartnerPathParams['id']; data?: UpdatePartnerMutationRequest },
+      {
+        id: UpdatePartnerPathParams['id'];
+        data?: UpdatePartnerMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdatePartnerMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdatePartnerMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updatePartnerMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? updatePartnerMutationKey();
 
   return useMutation<
     ResponseConfig<UpdatePartnerMutationResponse>,
@@ -61,11 +84,11 @@ export function useUpdatePartner<TContext>(
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updatePartner(id, data, config)
+        return updatePartner(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

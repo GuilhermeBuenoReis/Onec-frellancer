@@ -3,15 +3,24 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreatePartnerMutationRequest, CreatePartnerMutationResponse } from '../../types/CreatePartner.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreatePartnerMutationRequest,
+  CreatePartnerMutationResponse,
+} from '../../types/CreatePartner.ts';
 
-export const createPartnerMutationKey = () => [{ url: '/partners' }] as const
+export const createPartnerMutationKey = () => [{ url: '/partners' }] as const;
 
-export type CreatePartnerMutationKey = ReturnType<typeof createPartnerMutationKey>
+export type CreatePartnerMutationKey = ReturnType<
+  typeof createPartnerMutationKey
+>;
 
 /**
  * @description Create a new partner
@@ -19,18 +28,24 @@ export type CreatePartnerMutationKey = ReturnType<typeof createPartnerMutationKe
  */
 export async function createPartner(
   data: CreatePartnerMutationRequest,
-  config: Partial<RequestConfig<CreatePartnerMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreatePartnerMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreatePartnerMutationResponse, ResponseErrorConfig<Error>, CreatePartnerMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreatePartnerMutationResponse,
+    ResponseErrorConfig<Error>,
+    CreatePartnerMutationRequest
+  >({
     method: 'POST',
     url: `/partners`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,22 +59,29 @@ export function useCreatePartner<TContext>(
       ResponseErrorConfig<Error>,
       { data: CreatePartnerMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreatePartnerMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreatePartnerMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createPartnerMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? createPartnerMutationKey();
 
-  return useMutation<ResponseConfig<CreatePartnerMutationResponse>, ResponseErrorConfig<Error>, { data: CreatePartnerMutationRequest }, TContext>(
+  return useMutation<
+    ResponseConfig<CreatePartnerMutationResponse>,
+    ResponseErrorConfig<Error>,
+    { data: CreatePartnerMutationRequest },
+    TContext
+  >(
     {
       mutationFn: async ({ data }) => {
-        return createPartner(data, config)
+        return createPartner(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

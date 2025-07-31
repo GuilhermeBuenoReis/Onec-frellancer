@@ -3,15 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { UpdateContractMutationRequest, UpdateContractMutationResponse, UpdateContractPathParams, UpdateContract404 } from '../../types/UpdateContract.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdateContract404,
+  UpdateContractMutationRequest,
+  UpdateContractMutationResponse,
+  UpdateContractPathParams,
+} from '../../types/UpdateContract.ts';
 
-export const updateContractMutationKey = () => [{ url: '/contract/{id}' }] as const
+export const updateContractMutationKey = () =>
+  [{ url: '/contract/{id}' }] as const;
 
-export type UpdateContractMutationKey = ReturnType<typeof updateContractMutationKey>
+export type UpdateContractMutationKey = ReturnType<
+  typeof updateContractMutationKey
+>;
 
 /**
  * @description Update a contract
@@ -20,18 +32,24 @@ export type UpdateContractMutationKey = ReturnType<typeof updateContractMutation
 export async function updateContract(
   id: UpdateContractPathParams['id'],
   data?: UpdateContractMutationRequest,
-  config: Partial<RequestConfig<UpdateContractMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdateContractMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdateContractMutationResponse, ResponseErrorConfig<UpdateContract404>, UpdateContractMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdateContractMutationResponse,
+    ResponseErrorConfig<UpdateContract404>,
+    UpdateContractMutationRequest
+  >({
     method: 'PUT',
     url: `/contract/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -43,29 +61,38 @@ export function useUpdateContract<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdateContractMutationResponse>,
       ResponseErrorConfig<UpdateContract404>,
-      { id: UpdateContractPathParams['id']; data?: UpdateContractMutationRequest },
+      {
+        id: UpdateContractPathParams['id'];
+        data?: UpdateContractMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdateContractMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdateContractMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updateContractMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? updateContractMutationKey();
 
   return useMutation<
     ResponseConfig<UpdateContractMutationResponse>,
     ResponseErrorConfig<UpdateContract404>,
-    { id: UpdateContractPathParams['id']; data?: UpdateContractMutationRequest },
+    {
+      id: UpdateContractPathParams['id'];
+      data?: UpdateContractMutationRequest;
+    },
     TContext
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updateContract(id, data, config)
+        return updateContract(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

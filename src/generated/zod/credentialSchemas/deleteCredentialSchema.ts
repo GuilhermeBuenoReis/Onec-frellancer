@@ -3,32 +3,42 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const deleteCredentialPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type DeleteCredentialPathParamsSchema = z.infer<typeof deleteCredentialPathParamsSchema>
+export type DeleteCredentialPathParamsSchema = z.infer<
+  typeof deleteCredentialPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const deleteCredential200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeleteCredential200Schema = z.infer<typeof deleteCredential200Schema>
+export type DeleteCredential200Schema = z.infer<
+  typeof deleteCredential200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const deleteCredential404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeleteCredential404Schema = z.infer<typeof deleteCredential404Schema>
+export type DeleteCredential404Schema = z.infer<
+  typeof deleteCredential404Schema
+>;
 
-export const deleteCredentialMutationResponseSchema = z.lazy(() => deleteCredential200Schema)
+export const deleteCredentialMutationResponseSchema = z.lazy(
+  () => deleteCredential200Schema
+);
 
-export type DeleteCredentialMutationResponseSchema = z.infer<typeof deleteCredentialMutationResponseSchema>
+export type DeleteCredentialMutationResponseSchema = z.infer<
+  typeof deleteCredentialMutationResponseSchema
+>;

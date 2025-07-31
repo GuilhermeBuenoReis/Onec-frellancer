@@ -3,36 +3,58 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetMeQueryResponse, GetMe401 } from '../../types/GetMe.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetMe401, GetMeQueryResponse } from '../../types/GetMe.ts';
 
-export const getMeQueryKey = () => [{ url: '/me' }] as const
+export const getMeQueryKey = () => [{ url: '/me' }] as const;
 
-export type GetMeQueryKey = ReturnType<typeof getMeQueryKey>
+export type GetMeQueryKey = ReturnType<typeof getMeQueryKey>;
 
 /**
  * @description Retorna o perfil do usuário autenticado
  * {@link /me}
  */
-export async function getMe(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getMe(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetMeQueryResponse, ResponseErrorConfig<GetMe401>, unknown>({ method: 'GET', url: `/me`, ...requestConfig })
-  return res
+  const res = await request<
+    GetMeQueryResponse,
+    ResponseErrorConfig<GetMe401>,
+    unknown
+  >({ method: 'GET', url: `/me`, ...requestConfig });
+  return res;
 }
 
-export function getMeQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getMeQueryKey()
-  return queryOptions<ResponseConfig<GetMeQueryResponse>, ResponseErrorConfig<GetMe401>, ResponseConfig<GetMeQueryResponse>, typeof queryKey>({
+export function getMeQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getMeQueryKey();
+  return queryOptions<
+    ResponseConfig<GetMeQueryResponse>,
+    ResponseErrorConfig<GetMe401>,
+    ResponseConfig<GetMeQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getMe(config)
+      config.signal = signal;
+      return getMe(config);
     },
-  })
+  });
 }
 
 /**
@@ -45,14 +67,25 @@ export function useGetMe<
   TQueryKey extends QueryKey = GetMeQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetMeQueryResponse>, ResponseErrorConfig<GetMe401>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetMeQueryResponse>,
+        ResponseErrorConfig<GetMe401>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getMeQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getMeQueryKey();
 
   const query = useQuery(
     {
@@ -60,10 +93,12 @@ export function useGetMe<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<GetMe401>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<GetMe401>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

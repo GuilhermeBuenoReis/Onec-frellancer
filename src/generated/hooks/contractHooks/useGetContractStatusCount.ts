@@ -3,33 +3,53 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContractStatusCountQueryResponse } from '../../types/GetContractStatusCount.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetContractStatusCountQueryResponse } from '../../types/GetContractStatusCount.ts';
 
-export const getContractStatusCountQueryKey = () => [{ url: '/contract/status-count' }] as const
+export const getContractStatusCountQueryKey = () =>
+  [{ url: '/contract/status-count' }] as const;
 
-export type GetContractStatusCountQueryKey = ReturnType<typeof getContractStatusCountQueryKey>
+export type GetContractStatusCountQueryKey = ReturnType<
+  typeof getContractStatusCountQueryKey
+>;
 
 /**
  * @description Get count of contracts by status
  * {@link /contract/status-count}
  */
-export async function getContractStatusCount(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContractStatusCount(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContractStatusCountQueryResponse, ResponseErrorConfig<Error>, unknown>({
+  const res = await request<
+    GetContractStatusCountQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({
     method: 'GET',
     url: `/contract/status-count`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getContractStatusCountQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContractStatusCountQueryKey()
+export function getContractStatusCountQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContractStatusCountQueryKey();
   return queryOptions<
     ResponseConfig<GetContractStatusCountQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -38,10 +58,10 @@ export function getContractStatusCountQueryOptions(config: Partial<RequestConfig
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContractStatusCount(config)
+      config.signal = signal;
+      return getContractStatusCount(config);
     },
-  })
+  });
 }
 
 /**
@@ -54,14 +74,25 @@ export function useGetContractStatusCount<
   TQueryKey extends QueryKey = GetContractStatusCountQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetContractStatusCountQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetContractStatusCountQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContractStatusCountQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getContractStatusCountQueryKey();
 
   const query = useQuery(
     {
@@ -69,10 +100,12 @@ export function useGetContractStatusCount<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

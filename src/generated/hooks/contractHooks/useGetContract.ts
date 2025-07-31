@@ -3,36 +3,58 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContractQueryResponse } from '../../types/GetContract.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetContractQueryResponse } from '../../types/GetContract.ts';
 
-export const getContractQueryKey = () => [{ url: '/contract' }] as const
+export const getContractQueryKey = () => [{ url: '/contract' }] as const;
 
-export type GetContractQueryKey = ReturnType<typeof getContractQueryKey>
+export type GetContractQueryKey = ReturnType<typeof getContractQueryKey>;
 
 /**
  * @description Get a list of contract
  * {@link /contract}
  */
-export async function getContract(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContract(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContractQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/contract`, ...requestConfig })
-  return res
+  const res = await request<
+    GetContractQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/contract`, ...requestConfig });
+  return res;
 }
 
-export function getContractQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContractQueryKey()
-  return queryOptions<ResponseConfig<GetContractQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetContractQueryResponse>, typeof queryKey>({
+export function getContractQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContractQueryKey();
+  return queryOptions<
+    ResponseConfig<GetContractQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetContractQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContract(config)
+      config.signal = signal;
+      return getContract(config);
     },
-  })
+  });
 }
 
 /**
@@ -45,14 +67,25 @@ export function useGetContract<
   TQueryKey extends QueryKey = GetContractQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetContractQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetContractQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContractQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getContractQueryKey();
 
   const query = useQuery(
     {
@@ -60,10 +93,12 @@ export function useGetContract<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

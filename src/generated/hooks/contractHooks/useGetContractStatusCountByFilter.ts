@@ -3,18 +3,25 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
 import type {
   GetContractStatusCountByFilterMutationRequest,
   GetContractStatusCountByFilterMutationResponse,
-} from '../../types/GetContractStatusCountByFilter.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+} from '../../types/GetContractStatusCountByFilter.ts';
 
-export const getContractStatusCountByFilterMutationKey = () => [{ url: '/contract/status-count/filter' }] as const
+export const getContractStatusCountByFilterMutationKey = () =>
+  [{ url: '/contract/status-count/filter' }] as const;
 
-export type GetContractStatusCountByFilterMutationKey = ReturnType<typeof getContractStatusCountByFilterMutationKey>
+export type GetContractStatusCountByFilterMutationKey = ReturnType<
+  typeof getContractStatusCountByFilterMutationKey
+>;
 
 /**
  * @description Get count of contracts by status using a filter
@@ -22,18 +29,24 @@ export type GetContractStatusCountByFilterMutationKey = ReturnType<typeof getCon
  */
 export async function getContractStatusCountByFilter(
   data: GetContractStatusCountByFilterMutationRequest,
-  config: Partial<RequestConfig<GetContractStatusCountByFilterMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<
+    RequestConfig<GetContractStatusCountByFilterMutationRequest>
+  > & { client?: typeof fetch } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<GetContractStatusCountByFilterMutationResponse, ResponseErrorConfig<Error>, GetContractStatusCountByFilterMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    GetContractStatusCountByFilterMutationResponse,
+    ResponseErrorConfig<Error>,
+    GetContractStatusCountByFilterMutationRequest
+  >({
     method: 'POST',
     url: `/contract/status-count/filter`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -47,13 +60,16 @@ export function useGetContractStatusCountByFilter<TContext>(
       ResponseErrorConfig<Error>,
       { data: GetContractStatusCountByFilterMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<GetContractStatusCountByFilterMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<
+      RequestConfig<GetContractStatusCountByFilterMutationRequest>
+    > & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? getContractStatusCountByFilterMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? getContractStatusCountByFilterMutationKey();
 
   return useMutation<
     ResponseConfig<GetContractStatusCountByFilterMutationResponse>,
@@ -63,11 +79,11 @@ export function useGetContractStatusCountByFilter<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return getContractStatusCountByFilter(data, config)
+        return getContractStatusCountByFilter(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

@@ -3,16 +3,18 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
 export const createPortalControll201Schema = z.object({
   id: z.string(),
-})
+});
 
-export type CreatePortalControll201Schema = z.infer<typeof createPortalControll201Schema>
+export type CreatePortalControll201Schema = z.infer<
+  typeof createPortalControll201Schema
+>;
 
 export const createPortalControllMutationRequestSchema = z.object({
   monthOfCalculation: z.string().nullable(),
@@ -28,10 +30,16 @@ export const createPortalControllMutationRequestSchema = z.object({
   value: z.number().nullable(),
   situation: z.string().nullable(),
   partnerId: z.string(),
-})
+});
 
-export type CreatePortalControllMutationRequestSchema = z.infer<typeof createPortalControllMutationRequestSchema>
+export type CreatePortalControllMutationRequestSchema = z.infer<
+  typeof createPortalControllMutationRequestSchema
+>;
 
-export const createPortalControllMutationResponseSchema = z.lazy(() => createPortalControll201Schema)
+export const createPortalControllMutationResponseSchema = z.lazy(
+  () => createPortalControll201Schema
+);
 
-export type CreatePortalControllMutationResponseSchema = z.infer<typeof createPortalControllMutationResponseSchema>
+export type CreatePortalControllMutationResponseSchema = z.infer<
+  typeof createPortalControllMutationResponseSchema
+>;

@@ -7,8 +7,8 @@ export type UpdateNegotiationPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -21,61 +21,61 @@ export type UpdateNegotiation200 = {
     /**
      * @type string
      */
-    id: string
+    id: string;
     /**
      * @type string
      */
-    title: string | null
+    title: string | null;
     /**
      * @type string
      */
-    client: string | null
+    client: string | null;
     /**
      * @type string
      */
-    user: string | null
+    user: string | null;
     /**
      * @type string
      */
-    tags: string | null
+    tags: string | null;
     /**
      * @type string
      */
-    step: string | null
+    step: string | null;
     /**
      * @type string
      */
-    status: string | null
+    status: string | null;
     /**
      * @type number
      */
-    value: number | null
+    value: number | null;
     /**
      * @type string
      */
-    startsDate: string | null
+    startsDate: string | null;
     /**
      * @type string
      */
-    observation: string | null
+    observation: string | null;
     /**
      * @type string
      */
-    partnerId: string | null
+    partnerId: string | null;
     /**
      * @type number
      */
-    averageGuide: number | null
+    averageGuide: number | null;
     /**
      * @type string
      */
-    createdAt: string | null
+    createdAt: string | null;
     /**
      * @type string
      */
-    updatedAt: string | null
-  }
-}
+    updatedAt: string | null;
+  };
+};
 
 /**
  * @description Default Response
@@ -84,61 +84,61 @@ export type UpdateNegotiation404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type UpdateNegotiationMutationRequest = {
   /**
    * @type string
    */
-  title?: string | null
+  title?: string | null;
   /**
    * @type string
    */
-  client?: string | null
+  client?: string | null;
   /**
    * @type string
    */
-  user?: string | null
+  user?: string | null;
   /**
    * @type string
    */
-  tags?: string | null
+  tags?: string | null;
   /**
    * @type string
    */
-  step?: string | null
+  step?: string | null;
   /**
    * @type string
    */
-  status?: string | null
+  status?: string | null;
   /**
    * @type number
    */
-  value?: number | null
+  value?: number | null;
   /**
    * @type string
    */
-  startsDate?: string | null
+  startsDate?: string | null;
   /**
    * @type string
    */
-  partnerId?: string | null
+  partnerId?: string | null;
   /**
    * @type string
    */
-  observation?: string | null
+  observation?: string | null;
   /**
    * @type number
    */
-  averageGuide?: number | null
-}
+  averageGuide?: number | null;
+};
 
-export type UpdateNegotiationMutationResponse = UpdateNegotiation200
+export type UpdateNegotiationMutationResponse = UpdateNegotiation200;
 
 export type UpdateNegotiationMutation = {
-  Response: UpdateNegotiation200
-  Request: UpdateNegotiationMutationRequest
-  PathParams: UpdateNegotiationPathParams
-  Errors: UpdateNegotiation404
-}
+  Response: UpdateNegotiation200;
+  Request: UpdateNegotiationMutationRequest;
+  PathParams: UpdateNegotiationPathParams;
+  Errors: UpdateNegotiation404;
+};

@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -25,11 +25,15 @@ export const getContestation200Schema = z.array(
     observation: z.string().nullable(),
     createdAt: z.string().nullable(),
     updatedAt: z.string().nullable(),
-  }),
-)
+  })
+);
 
-export type GetContestation200Schema = z.infer<typeof getContestation200Schema>
+export type GetContestation200Schema = z.infer<typeof getContestation200Schema>;
 
-export const getContestationQueryResponseSchema = z.lazy(() => getContestation200Schema)
+export const getContestationQueryResponseSchema = z.lazy(
+  () => getContestation200Schema
+);
 
-export type GetContestationQueryResponseSchema = z.infer<typeof getContestationQueryResponseSchema>
+export type GetContestationQueryResponseSchema = z.infer<
+  typeof getContestationQueryResponseSchema
+>;

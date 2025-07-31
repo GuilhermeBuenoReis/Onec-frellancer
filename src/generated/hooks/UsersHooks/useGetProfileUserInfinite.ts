@@ -3,29 +3,53 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetProfileUserQueryResponse, GetProfileUser400 } from '../../types/GetProfileUser.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetProfileUser400,
+  GetProfileUserQueryResponse,
+} from '../../types/GetProfileUser.ts';
 
-export const getProfileUserInfiniteQueryKey = () => [{ url: '/users' }] as const
+export const getProfileUserInfiniteQueryKey = () =>
+  [{ url: '/users' }] as const;
 
-export type GetProfileUserInfiniteQueryKey = ReturnType<typeof getProfileUserInfiniteQueryKey>
+export type GetProfileUserInfiniteQueryKey = ReturnType<
+  typeof getProfileUserInfiniteQueryKey
+>;
 
 /**
  * @description List all Users
  * {@link /users}
  */
-export async function getProfileUserInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getProfileUserInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetProfileUserQueryResponse, ResponseErrorConfig<GetProfileUser400>, unknown>({ method: 'GET', url: `/users`, ...requestConfig })
-  return res
+  const res = await request<
+    GetProfileUserQueryResponse,
+    ResponseErrorConfig<GetProfileUser400>,
+    unknown
+  >({ method: 'GET', url: `/users`, ...requestConfig });
+  return res;
 }
 
-export function getProfileUserInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getProfileUserInfiniteQueryKey()
+export function getProfileUserInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getProfileUserInfiniteQueryKey();
   return infiniteQueryOptions<
     ResponseConfig<GetProfileUserQueryResponse>,
     ResponseErrorConfig<GetProfileUser400>,
@@ -34,13 +58,13 @@ export function getProfileUserInfiniteQueryOptions(config: Partial<RequestConfig
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getProfileUserInfinite(config)
+      config.signal = signal;
+      return getProfileUserInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -53,14 +77,24 @@ export function useGetProfileUserInfinite<
   TQueryKey extends QueryKey = GetProfileUserInfiniteQueryKey,
 >(
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetProfileUserQueryResponse>, ResponseErrorConfig<GetProfileUser400>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetProfileUserQueryResponse>,
+        ResponseErrorConfig<GetProfileUser400>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getProfileUserInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getProfileUserInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -68,10 +102,12 @@ export function useGetProfileUserInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetProfileUser400>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetProfileUser400>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -20,11 +20,17 @@ export const getClientReceipt200Schema = z.array(
     honorary: z.number().nullable(),
     tax: z.number().nullable(),
     status: z.string().nullable(),
-  }),
-)
+  })
+);
 
-export type GetClientReceipt200Schema = z.infer<typeof getClientReceipt200Schema>
+export type GetClientReceipt200Schema = z.infer<
+  typeof getClientReceipt200Schema
+>;
 
-export const getClientReceiptQueryResponseSchema = z.lazy(() => getClientReceipt200Schema)
+export const getClientReceiptQueryResponseSchema = z.lazy(
+  () => getClientReceipt200Schema
+);
 
-export type GetClientReceiptQueryResponseSchema = z.infer<typeof getClientReceiptQueryResponseSchema>
+export type GetClientReceiptQueryResponseSchema = z.infer<
+  typeof getClientReceiptQueryResponseSchema
+>;

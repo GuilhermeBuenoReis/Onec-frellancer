@@ -3,29 +3,49 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetClientReceiptQueryResponse } from '../../types/GetClientReceipt.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetClientReceiptQueryResponse } from '../../types/GetClientReceipt.ts';
 
-export const getClientReceiptQueryKey = () => [{ url: '/client-receipt' }] as const
+export const getClientReceiptQueryKey = () =>
+  [{ url: '/client-receipt' }] as const;
 
-export type GetClientReceiptQueryKey = ReturnType<typeof getClientReceiptQueryKey>
+export type GetClientReceiptQueryKey = ReturnType<
+  typeof getClientReceiptQueryKey
+>;
 
 /**
  * @description Get a list of client Receipt
  * {@link /client-receipt}
  */
-export async function getClientReceipt(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getClientReceipt(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetClientReceiptQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/client-receipt`, ...requestConfig })
-  return res
+  const res = await request<
+    GetClientReceiptQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/client-receipt`, ...requestConfig });
+  return res;
 }
 
-export function getClientReceiptQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getClientReceiptQueryKey()
+export function getClientReceiptQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getClientReceiptQueryKey();
   return queryOptions<
     ResponseConfig<GetClientReceiptQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -34,10 +54,10 @@ export function getClientReceiptQueryOptions(config: Partial<RequestConfig> & { 
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getClientReceipt(config)
+      config.signal = signal;
+      return getClientReceipt(config);
     },
-  })
+  });
 }
 
 /**
@@ -50,14 +70,25 @@ export function useGetClientReceipt<
   TQueryKey extends QueryKey = GetClientReceiptQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetClientReceiptQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetClientReceiptQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getClientReceiptQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getClientReceiptQueryKey();
 
   const query = useQuery(
     {
@@ -65,10 +96,12 @@ export function useGetClientReceipt<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

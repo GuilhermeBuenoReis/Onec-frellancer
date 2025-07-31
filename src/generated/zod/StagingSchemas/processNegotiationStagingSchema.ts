@@ -3,26 +3,34 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
 export const processNegotiationStaging200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type ProcessNegotiationStaging200Schema = z.infer<typeof processNegotiationStaging200Schema>
+export type ProcessNegotiationStaging200Schema = z.infer<
+  typeof processNegotiationStaging200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const processNegotiationStaging500Schema = z.object({
   message: z.string(),
-})
+});
 
-export type ProcessNegotiationStaging500Schema = z.infer<typeof processNegotiationStaging500Schema>
+export type ProcessNegotiationStaging500Schema = z.infer<
+  typeof processNegotiationStaging500Schema
+>;
 
-export const processNegotiationStagingMutationResponseSchema = z.lazy(() => processNegotiationStaging200Schema)
+export const processNegotiationStagingMutationResponseSchema = z.lazy(
+  () => processNegotiationStaging200Schema
+);
 
-export type ProcessNegotiationStagingMutationResponseSchema = z.infer<typeof processNegotiationStagingMutationResponseSchema>
+export type ProcessNegotiationStagingMutationResponseSchema = z.infer<
+  typeof processNegotiationStagingMutationResponseSchema
+>;

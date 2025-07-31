@@ -7,8 +7,8 @@ export type UpdateCredentialPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type UpdateCredential200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,33 +27,33 @@ export type UpdateCredential404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type UpdateCredentialMutationRequest = {
   /**
    * @type string
    */
-  channelHead?: string | null
+  channelHead?: string | null;
   /**
    * @type string
    */
-  cnpj?: string | null
+  cnpj?: string | null;
   /**
    * @type string
    */
-  agentIndicator?: string | null
+  agentIndicator?: string | null;
   /**
    * @type string
    */
-  partner?: string | null
-}
+  partner?: string | null;
+};
 
-export type UpdateCredentialMutationResponse = UpdateCredential200
+export type UpdateCredentialMutationResponse = UpdateCredential200;
 
 export type UpdateCredentialMutation = {
-  Response: UpdateCredential200
-  Request: UpdateCredentialMutationRequest
-  PathParams: UpdateCredentialPathParams
-  Errors: UpdateCredential404
-}
+  Response: UpdateCredential200;
+  Request: UpdateCredentialMutationRequest;
+  PathParams: UpdateCredentialPathParams;
+  Errors: UpdateCredential404;
+};

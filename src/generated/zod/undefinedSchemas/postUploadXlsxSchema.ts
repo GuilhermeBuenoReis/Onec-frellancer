@@ -3,15 +3,19 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
-export const postUploadXlsx200Schema = z.unknown()
+export const postUploadXlsx200Schema = z.unknown();
 
-export type PostUploadXlsx200Schema = z.infer<typeof postUploadXlsx200Schema>
+export type PostUploadXlsx200Schema = z.infer<typeof postUploadXlsx200Schema>;
 
-export const postUploadXlsxMutationResponseSchema = z.lazy(() => postUploadXlsx200Schema)
+export const postUploadXlsxMutationResponseSchema = z.lazy(
+  () => postUploadXlsx200Schema
+);
 
-export type PostUploadXlsxMutationResponseSchema = z.infer<typeof postUploadXlsxMutationResponseSchema>
+export type PostUploadXlsxMutationResponseSchema = z.infer<
+  typeof postUploadXlsxMutationResponseSchema
+>;

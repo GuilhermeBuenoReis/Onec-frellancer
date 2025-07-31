@@ -7,8 +7,8 @@ export type DeleteContestationPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeleteContestation200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeleteContestation404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeleteContestationMutationResponse = DeleteContestation200
+export type DeleteContestationMutationResponse = DeleteContestation200;
 
 export type DeleteContestationMutation = {
-  Response: DeleteContestation200
-  PathParams: DeleteContestationPathParams
-  Errors: DeleteContestation404
-}
+  Response: DeleteContestation200;
+  PathParams: DeleteContestationPathParams;
+  Errors: DeleteContestation404;
+};

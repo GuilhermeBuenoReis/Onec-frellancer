@@ -3,32 +3,38 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const deletePendingPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type DeletePendingPathParamsSchema = z.infer<typeof deletePendingPathParamsSchema>
+export type DeletePendingPathParamsSchema = z.infer<
+  typeof deletePendingPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const deletePending200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeletePending200Schema = z.infer<typeof deletePending200Schema>
+export type DeletePending200Schema = z.infer<typeof deletePending200Schema>;
 
 /**
  * @description Default Response
  */
 export const deletePending404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeletePending404Schema = z.infer<typeof deletePending404Schema>
+export type DeletePending404Schema = z.infer<typeof deletePending404Schema>;
 
-export const deletePendingMutationResponseSchema = z.lazy(() => deletePending200Schema)
+export const deletePendingMutationResponseSchema = z.lazy(
+  () => deletePending200Schema
+);
 
-export type DeletePendingMutationResponseSchema = z.infer<typeof deletePendingMutationResponseSchema>
+export type DeletePendingMutationResponseSchema = z.infer<
+  typeof deletePendingMutationResponseSchema
+>;

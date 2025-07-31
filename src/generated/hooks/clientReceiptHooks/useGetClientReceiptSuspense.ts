@@ -3,29 +3,49 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetClientReceiptQueryResponse } from '../../types/GetClientReceipt.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetClientReceiptQueryResponse } from '../../types/GetClientReceipt.ts';
 
-export const getClientReceiptSuspenseQueryKey = () => [{ url: '/client-receipt' }] as const
+export const getClientReceiptSuspenseQueryKey = () =>
+  [{ url: '/client-receipt' }] as const;
 
-export type GetClientReceiptSuspenseQueryKey = ReturnType<typeof getClientReceiptSuspenseQueryKey>
+export type GetClientReceiptSuspenseQueryKey = ReturnType<
+  typeof getClientReceiptSuspenseQueryKey
+>;
 
 /**
  * @description Get a list of client Receipt
  * {@link /client-receipt}
  */
-export async function getClientReceiptSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getClientReceiptSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetClientReceiptQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/client-receipt`, ...requestConfig })
-  return res
+  const res = await request<
+    GetClientReceiptQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/client-receipt`, ...requestConfig });
+  return res;
 }
 
-export function getClientReceiptSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getClientReceiptSuspenseQueryKey()
+export function getClientReceiptSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getClientReceiptSuspenseQueryKey();
   return queryOptions<
     ResponseConfig<GetClientReceiptQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -34,10 +54,10 @@ export function getClientReceiptSuspenseQueryOptions(config: Partial<RequestConf
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getClientReceiptSuspense(config)
+      config.signal = signal;
+      return getClientReceiptSuspense(config);
     },
-  })
+  });
 }
 
 /**
@@ -49,14 +69,24 @@ export function useGetClientReceiptSuspense<
   TQueryKey extends QueryKey = GetClientReceiptSuspenseQueryKey,
 >(
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetClientReceiptQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetClientReceiptQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getClientReceiptSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getClientReceiptSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -64,10 +94,12 @@ export function useGetClientReceiptSuspense<
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

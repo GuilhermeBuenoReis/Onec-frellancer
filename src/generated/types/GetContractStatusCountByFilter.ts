@@ -10,24 +10,25 @@ export type GetContractStatusCountByFilter200 = {
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type number
    */
-  count: number
-}[]
+  count: number;
+}[];
 
 export type GetContractStatusCountByFilterMutationRequest = {
   /**
    * @type string
    */
-  filter: string
-}
+  filter: string;
+};
 
-export type GetContractStatusCountByFilterMutationResponse = GetContractStatusCountByFilter200
+export type GetContractStatusCountByFilterMutationResponse =
+  GetContractStatusCountByFilter200;
 
 export type GetContractStatusCountByFilterMutation = {
-  Response: GetContractStatusCountByFilter200
-  Request: GetContractStatusCountByFilterMutationRequest
-  Errors: any
-}
+  Response: GetContractStatusCountByFilter200;
+  Request: GetContractStatusCountByFilterMutationRequest;
+  Errors: any;
+};

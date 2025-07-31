@@ -3,15 +3,25 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreateClientMutationRequest, CreateClientMutationResponse, CreateClient400 } from '../../types/CreateClient.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreateClient400,
+  CreateClientMutationRequest,
+  CreateClientMutationResponse,
+} from '../../types/CreateClient.ts';
 
-export const createClientMutationKey = () => [{ url: '/client' }] as const
+export const createClientMutationKey = () => [{ url: '/client' }] as const;
 
-export type CreateClientMutationKey = ReturnType<typeof createClientMutationKey>
+export type CreateClientMutationKey = ReturnType<
+  typeof createClientMutationKey
+>;
 
 /**
  * @description Create a new Client
@@ -19,18 +29,24 @@ export type CreateClientMutationKey = ReturnType<typeof createClientMutationKey>
  */
 export async function createClient(
   data: CreateClientMutationRequest,
-  config: Partial<RequestConfig<CreateClientMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreateClientMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreateClientMutationResponse, ResponseErrorConfig<CreateClient400>, CreateClientMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreateClientMutationResponse,
+    ResponseErrorConfig<CreateClient400>,
+    CreateClientMutationRequest
+  >({
     method: 'POST',
     url: `/client`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,22 +60,29 @@ export function useCreateClient<TContext>(
       ResponseErrorConfig<CreateClient400>,
       { data: CreateClientMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreateClientMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreateClientMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createClientMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? createClientMutationKey();
 
-  return useMutation<ResponseConfig<CreateClientMutationResponse>, ResponseErrorConfig<CreateClient400>, { data: CreateClientMutationRequest }, TContext>(
+  return useMutation<
+    ResponseConfig<CreateClientMutationResponse>,
+    ResponseErrorConfig<CreateClient400>,
+    { data: CreateClientMutationRequest },
+    TContext
+  >(
     {
       mutationFn: async ({ data }) => {
-        return createClient(data, config)
+        return createClient(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

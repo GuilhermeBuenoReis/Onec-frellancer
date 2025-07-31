@@ -3,20 +3,33 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
 import type {
-  GetPortalControllsBySelectParternRouteQueryResponse,
-  GetPortalControllsBySelectParternRouteQueryParams,
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
   GetPortalControllsBySelectParternRoute500,
-} from '../../types/GetPortalControllsBySelectParternRoute.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+  GetPortalControllsBySelectParternRouteQueryParams,
+  GetPortalControllsBySelectParternRouteQueryResponse,
+} from '../../types/GetPortalControllsBySelectParternRoute.ts';
 
-export const getPortalControllsBySelectParternRouteInfiniteQueryKey = (params: GetPortalControllsBySelectParternRouteQueryParams) =>
-  [{ url: '/portal/portalcontrolls' }, ...(params ? [params] : [])] as const
+export const getPortalControllsBySelectParternRouteInfiniteQueryKey = (
+  params: GetPortalControllsBySelectParternRouteQueryParams
+) => [{ url: '/portal/portalcontrolls' }, ...(params ? [params] : [])] as const;
 
-export type GetPortalControllsBySelectParternRouteInfiniteQueryKey = ReturnType<typeof getPortalControllsBySelectParternRouteInfiniteQueryKey>
+export type GetPortalControllsBySelectParternRouteInfiniteQueryKey = ReturnType<
+  typeof getPortalControllsBySelectParternRouteInfiniteQueryKey
+>;
 
 /**
  * @description Retorna todos os registros de PortalControlls para o parceiro informado via querystring
@@ -24,24 +37,29 @@ export type GetPortalControllsBySelectParternRouteInfiniteQueryKey = ReturnType<
  */
 export async function getPortalControllsBySelectParternRouteInfinite(
   params: GetPortalControllsBySelectParternRouteQueryParams,
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPortalControllsBySelectParternRouteQueryResponse, ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>, unknown>({
+  const res = await request<
+    GetPortalControllsBySelectParternRouteQueryResponse,
+    ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>,
+    unknown
+  >({
     method: 'GET',
     url: `/portal/portalcontrolls`,
     params,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 export function getPortalControllsBySelectParternRouteInfiniteQueryOptions(
   params: GetPortalControllsBySelectParternRouteQueryParams,
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const queryKey = getPortalControllsBySelectParternRouteInfiniteQueryKey(params)
+  const queryKey =
+    getPortalControllsBySelectParternRouteInfiniteQueryKey(params);
   return infiniteQueryOptions<
     ResponseConfig<GetPortalControllsBySelectParternRouteQueryResponse>,
     ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>,
@@ -52,17 +70,18 @@ export function getPortalControllsBySelectParternRouteInfiniteQueryOptions(
     enabled: !!params,
     queryKey,
     queryFn: async ({ signal, pageParam }) => {
-      config.signal = signal
+      config.signal = signal;
 
       if (params) {
-        params['next_page'] = pageParam as unknown as GetPortalControllsBySelectParternRouteQueryParams['next_page']
+        params['next_page'] =
+          pageParam as unknown as GetPortalControllsBySelectParternRouteQueryParams['next_page'];
       }
-      return getPortalControllsBySelectParternRouteInfinite(params, config)
+      return getPortalControllsBySelectParternRouteInfinite(params, config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -70,9 +89,12 @@ export function getPortalControllsBySelectParternRouteInfiniteQueryOptions(
  * {@link /portal/portalcontrolls}
  */
 export function useGetPortalControllsBySelectParternRouteInfinite<
-  TData = InfiniteData<ResponseConfig<GetPortalControllsBySelectParternRouteQueryResponse>>,
+  TData = InfiniteData<
+    ResponseConfig<GetPortalControllsBySelectParternRouteQueryResponse>
+  >,
   TQueryData = ResponseConfig<GetPortalControllsBySelectParternRouteQueryResponse>,
-  TQueryKey extends QueryKey = GetPortalControllsBySelectParternRouteInfiniteQueryKey,
+  TQueryKey extends
+    QueryKey = GetPortalControllsBySelectParternRouteInfiniteQueryKey,
 >(
   params: GetPortalControllsBySelectParternRouteQueryParams,
   options: {
@@ -83,23 +105,34 @@ export function useGetPortalControllsBySelectParternRouteInfinite<
         TData,
         TQueryKey
       >
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPortalControllsBySelectParternRouteInfiniteQueryKey(params)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getPortalControllsBySelectParternRouteInfiniteQueryKey(params);
 
   const query = useInfiniteQuery(
     {
-      ...getPortalControllsBySelectParternRouteInfiniteQueryOptions(params, config),
+      ...getPortalControllsBySelectParternRouteInfiniteQueryOptions(
+        params,
+        config
+      ),
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<
+    TData,
+    ResponseErrorConfig<GetPortalControllsBySelectParternRoute500>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

@@ -3,36 +3,58 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetClientQueryResponse } from '../../types/GetClient.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetClientQueryResponse } from '../../types/GetClient.ts';
 
-export const getClientQueryKey = () => [{ url: '/client' }] as const
+export const getClientQueryKey = () => [{ url: '/client' }] as const;
 
-export type GetClientQueryKey = ReturnType<typeof getClientQueryKey>
+export type GetClientQueryKey = ReturnType<typeof getClientQueryKey>;
 
 /**
  * @description Get a list of client
  * {@link /client}
  */
-export async function getClient(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getClient(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetClientQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/client`, ...requestConfig })
-  return res
+  const res = await request<
+    GetClientQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/client`, ...requestConfig });
+  return res;
 }
 
-export function getClientQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getClientQueryKey()
-  return queryOptions<ResponseConfig<GetClientQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetClientQueryResponse>, typeof queryKey>({
+export function getClientQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getClientQueryKey();
+  return queryOptions<
+    ResponseConfig<GetClientQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetClientQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getClient(config)
+      config.signal = signal;
+      return getClient(config);
     },
-  })
+  });
 }
 
 /**
@@ -45,14 +67,25 @@ export function useGetClient<
   TQueryKey extends QueryKey = GetClientQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetClientQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetClientQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getClientQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getClientQueryKey();
 
   const query = useQuery(
     {
@@ -60,10 +93,12 @@ export function useGetClient<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

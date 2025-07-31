@@ -3,20 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdatePortalControll404,
   UpdatePortalControllMutationRequest,
   UpdatePortalControllMutationResponse,
   UpdatePortalControllPathParams,
-  UpdatePortalControll404,
-} from '../../types/UpdatePortalControll.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+} from '../../types/UpdatePortalControll.ts';
 
-export const updatePortalControllMutationKey = () => [{ url: '/portalcontrolls/{id}' }] as const
+export const updatePortalControllMutationKey = () =>
+  [{ url: '/portalcontrolls/{id}' }] as const;
 
-export type UpdatePortalControllMutationKey = ReturnType<typeof updatePortalControllMutationKey>
+export type UpdatePortalControllMutationKey = ReturnType<
+  typeof updatePortalControllMutationKey
+>;
 
 /**
  * @description Update a portalcontroll
@@ -25,18 +32,24 @@ export type UpdatePortalControllMutationKey = ReturnType<typeof updatePortalCont
 export async function updatePortalControll(
   id: UpdatePortalControllPathParams['id'],
   data?: UpdatePortalControllMutationRequest,
-  config: Partial<RequestConfig<UpdatePortalControllMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdatePortalControllMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdatePortalControllMutationResponse, ResponseErrorConfig<UpdatePortalControll404>, UpdatePortalControllMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdatePortalControllMutationResponse,
+    ResponseErrorConfig<UpdatePortalControll404>,
+    UpdatePortalControllMutationRequest
+  >({
     method: 'PUT',
     url: `/portalcontrolls/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -48,29 +61,38 @@ export function useUpdatePortalControll<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdatePortalControllMutationResponse>,
       ResponseErrorConfig<UpdatePortalControll404>,
-      { id: UpdatePortalControllPathParams['id']; data?: UpdatePortalControllMutationRequest },
+      {
+        id: UpdatePortalControllPathParams['id'];
+        data?: UpdatePortalControllMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdatePortalControllMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdatePortalControllMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updatePortalControllMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? updatePortalControllMutationKey();
 
   return useMutation<
     ResponseConfig<UpdatePortalControllMutationResponse>,
     ResponseErrorConfig<UpdatePortalControll404>,
-    { id: UpdatePortalControllPathParams['id']; data?: UpdatePortalControllMutationRequest },
+    {
+      id: UpdatePortalControllPathParams['id'];
+      data?: UpdatePortalControllMutationRequest;
+    },
     TContext
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updatePortalControll(id, data, config)
+        return updatePortalControll(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

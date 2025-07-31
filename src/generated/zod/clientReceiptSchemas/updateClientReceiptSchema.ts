@@ -3,31 +3,37 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updateClientReceiptPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdateClientReceiptPathParamsSchema = z.infer<typeof updateClientReceiptPathParamsSchema>
+export type UpdateClientReceiptPathParamsSchema = z.infer<
+  typeof updateClientReceiptPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const updateClientReceipt200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateClientReceipt200Schema = z.infer<typeof updateClientReceipt200Schema>
+export type UpdateClientReceipt200Schema = z.infer<
+  typeof updateClientReceipt200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const updateClientReceipt404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateClientReceipt404Schema = z.infer<typeof updateClientReceipt404Schema>
+export type UpdateClientReceipt404Schema = z.infer<
+  typeof updateClientReceipt404Schema
+>;
 
 export const updateClientReceiptMutationRequestSchema = z.object({
   receiptDate: z.string().nullable().nullish(),
@@ -39,10 +45,16 @@ export const updateClientReceiptMutationRequestSchema = z.object({
   honorary: z.number().nullable().nullish(),
   tax: z.number().nullable().nullish(),
   status: z.string().nullable().nullish(),
-})
+});
 
-export type UpdateClientReceiptMutationRequestSchema = z.infer<typeof updateClientReceiptMutationRequestSchema>
+export type UpdateClientReceiptMutationRequestSchema = z.infer<
+  typeof updateClientReceiptMutationRequestSchema
+>;
 
-export const updateClientReceiptMutationResponseSchema = z.lazy(() => updateClientReceipt200Schema)
+export const updateClientReceiptMutationResponseSchema = z.lazy(
+  () => updateClientReceipt200Schema
+);
 
-export type UpdateClientReceiptMutationResponseSchema = z.infer<typeof updateClientReceiptMutationResponseSchema>
+export type UpdateClientReceiptMutationResponseSchema = z.infer<
+  typeof updateClientReceiptMutationResponseSchema
+>;

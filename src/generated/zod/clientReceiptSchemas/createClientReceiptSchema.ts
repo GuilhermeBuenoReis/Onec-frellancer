@@ -3,23 +3,27 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
-export const createClientReceipt201Schema = z.unknown()
+export const createClientReceipt201Schema = z.unknown();
 
-export type CreateClientReceipt201Schema = z.infer<typeof createClientReceipt201Schema>
+export type CreateClientReceipt201Schema = z.infer<
+  typeof createClientReceipt201Schema
+>;
 
 /**
  * @description Default Response
  */
 export const createClientReceipt400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type CreateClientReceipt400Schema = z.infer<typeof createClientReceipt400Schema>
+export type CreateClientReceipt400Schema = z.infer<
+  typeof createClientReceipt400Schema
+>;
 
 export const createClientReceiptMutationRequestSchema = z.object({
   receiptDate: z.string().nullable(),
@@ -31,10 +35,16 @@ export const createClientReceiptMutationRequestSchema = z.object({
   honorary: z.number().nullable(),
   tax: z.number().nullable(),
   status: z.string().nullable(),
-})
+});
 
-export type CreateClientReceiptMutationRequestSchema = z.infer<typeof createClientReceiptMutationRequestSchema>
+export type CreateClientReceiptMutationRequestSchema = z.infer<
+  typeof createClientReceiptMutationRequestSchema
+>;
 
-export const createClientReceiptMutationResponseSchema = z.lazy(() => createClientReceipt201Schema)
+export const createClientReceiptMutationResponseSchema = z.lazy(
+  () => createClientReceipt201Schema
+);
 
-export type CreateClientReceiptMutationResponseSchema = z.infer<typeof createClientReceiptMutationResponseSchema>
+export type CreateClientReceiptMutationResponseSchema = z.infer<
+  typeof createClientReceiptMutationResponseSchema
+>;

@@ -3,15 +3,26 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { UpdateClientMutationRequest, UpdateClientMutationResponse, UpdateClientPathParams, UpdateClient404 } from '../../types/UpdateClient.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdateClient404,
+  UpdateClientMutationRequest,
+  UpdateClientMutationResponse,
+  UpdateClientPathParams,
+} from '../../types/UpdateClient.ts';
 
-export const updateClientMutationKey = () => [{ url: '/client/{id}' }] as const
+export const updateClientMutationKey = () => [{ url: '/client/{id}' }] as const;
 
-export type UpdateClientMutationKey = ReturnType<typeof updateClientMutationKey>
+export type UpdateClientMutationKey = ReturnType<
+  typeof updateClientMutationKey
+>;
 
 /**
  * @description Update a client
@@ -20,18 +31,24 @@ export type UpdateClientMutationKey = ReturnType<typeof updateClientMutationKey>
 export async function updateClient(
   id: UpdateClientPathParams['id'],
   data?: UpdateClientMutationRequest,
-  config: Partial<RequestConfig<UpdateClientMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdateClientMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdateClientMutationResponse, ResponseErrorConfig<UpdateClient404>, UpdateClientMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdateClientMutationResponse,
+    ResponseErrorConfig<UpdateClient404>,
+    UpdateClientMutationRequest
+  >({
     method: 'PUT',
     url: `/client/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -45,13 +62,15 @@ export function useUpdateClient<TContext>(
       ResponseErrorConfig<UpdateClient404>,
       { id: UpdateClientPathParams['id']; data?: UpdateClientMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdateClientMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdateClientMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updateClientMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? updateClientMutationKey();
 
   return useMutation<
     ResponseConfig<UpdateClientMutationResponse>,
@@ -61,11 +80,11 @@ export function useUpdateClient<TContext>(
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updateClient(id, data, config)
+        return updateClient(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

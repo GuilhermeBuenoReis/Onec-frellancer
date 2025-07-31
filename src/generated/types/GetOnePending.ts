@@ -7,8 +7,8 @@ export type GetOnePendingPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,44 +17,44 @@ export type GetOnePending200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type string
    */
-  callReason: string | null
+  callReason: string | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type string
    */
-  priority: string | null
+  priority: string | null;
   /**
    * @type string
    */
-  responsible: string | null
+  responsible: string | null;
   /**
    * @type string
    */
-  category: string | null
+  category: string | null;
   /**
    * @type string
    */
-  description: string | null
+  description: string | null;
   /**
    * @type string | undefined, date-time
    */
-  createdAt?: string
+  createdAt?: string;
   /**
    * @type string | undefined, date-time
    */
-  updatedAt?: string
-}
+  updatedAt?: string;
+};
 
 /**
  * @description Default Response
@@ -63,13 +63,13 @@ export type GetOnePending404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type GetOnePendingQueryResponse = GetOnePending200
+export type GetOnePendingQueryResponse = GetOnePending200;
 
 export type GetOnePendingQuery = {
-  Response: GetOnePending200
-  PathParams: GetOnePendingPathParams
-  Errors: GetOnePending404
-}
+  Response: GetOnePending200;
+  PathParams: GetOnePendingPathParams;
+  Errors: GetOnePending404;
+};

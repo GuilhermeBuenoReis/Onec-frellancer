@@ -10,32 +10,32 @@ export type GetClient200 = {
   /**
    * @type string
    */
-  enterprise: string | null
+  enterprise: string | null;
   /**
    * @type string
    */
-  competenceMonth: string | null
+  competenceMonth: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  contestation: string | null
+  contestation: string | null;
   /**
    * @type string
    */
-  returned: string | null
+  returned: string | null;
   /**
    * @type string
    */
-  product: string | null
-}[]
+  product: string | null;
+}[];
 
-export type GetClientQueryResponse = GetClient200
+export type GetClientQueryResponse = GetClient200;
 
 export type GetClientQuery = {
-  Response: GetClient200
-  Errors: any
-}
+  Response: GetClient200;
+  Errors: any;
+};

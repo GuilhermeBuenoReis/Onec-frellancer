@@ -3,15 +3,24 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreatePendingMutationRequest, CreatePendingMutationResponse } from '../../types/CreatePending.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreatePendingMutationRequest,
+  CreatePendingMutationResponse,
+} from '../../types/CreatePending.ts';
 
-export const createPendingMutationKey = () => [{ url: '/pendings' }] as const
+export const createPendingMutationKey = () => [{ url: '/pendings' }] as const;
 
-export type CreatePendingMutationKey = ReturnType<typeof createPendingMutationKey>
+export type CreatePendingMutationKey = ReturnType<
+  typeof createPendingMutationKey
+>;
 
 /**
  * @description Create a new pending
@@ -19,18 +28,24 @@ export type CreatePendingMutationKey = ReturnType<typeof createPendingMutationKe
  */
 export async function createPending(
   data: CreatePendingMutationRequest,
-  config: Partial<RequestConfig<CreatePendingMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreatePendingMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreatePendingMutationResponse, ResponseErrorConfig<Error>, CreatePendingMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreatePendingMutationResponse,
+    ResponseErrorConfig<Error>,
+    CreatePendingMutationRequest
+  >({
     method: 'POST',
     url: `/pendings`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,22 +59,29 @@ export function useCreatePending<TContext>(
       ResponseErrorConfig<Error>,
       { data: CreatePendingMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreatePendingMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreatePendingMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createPendingMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? createPendingMutationKey();
 
-  return useMutation<ResponseConfig<CreatePendingMutationResponse>, ResponseErrorConfig<Error>, { data: CreatePendingMutationRequest }, TContext>(
+  return useMutation<
+    ResponseConfig<CreatePendingMutationResponse>,
+    ResponseErrorConfig<Error>,
+    { data: CreatePendingMutationRequest },
+    TContext
+  >(
     {
       mutationFn: async ({ data }) => {
-        return createPending(data, config)
+        return createPending(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

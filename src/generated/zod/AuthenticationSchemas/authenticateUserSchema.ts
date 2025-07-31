@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -11,26 +11,36 @@ import { z } from 'zod'
 export const authenticateUser200Schema = z.object({
   success: z.boolean(),
   token: z.string(),
-})
+});
 
-export type AuthenticateUser200Schema = z.infer<typeof authenticateUser200Schema>
+export type AuthenticateUser200Schema = z.infer<
+  typeof authenticateUser200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const authenticateUser401Schema = z.object({
   message: z.string(),
-})
+});
 
-export type AuthenticateUser401Schema = z.infer<typeof authenticateUser401Schema>
+export type AuthenticateUser401Schema = z.infer<
+  typeof authenticateUser401Schema
+>;
 
 export const authenticateUserMutationRequestSchema = z.object({
   email: z.string().email(),
   password: z.string(),
-})
+});
 
-export type AuthenticateUserMutationRequestSchema = z.infer<typeof authenticateUserMutationRequestSchema>
+export type AuthenticateUserMutationRequestSchema = z.infer<
+  typeof authenticateUserMutationRequestSchema
+>;
 
-export const authenticateUserMutationResponseSchema = z.lazy(() => authenticateUser200Schema)
+export const authenticateUserMutationResponseSchema = z.lazy(
+  () => authenticateUser200Schema
+);
 
-export type AuthenticateUserMutationResponseSchema = z.infer<typeof authenticateUserMutationResponseSchema>
+export type AuthenticateUserMutationResponseSchema = z.infer<
+  typeof authenticateUserMutationResponseSchema
+>;

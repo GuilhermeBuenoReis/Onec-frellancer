@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import type { GetContestation200, GetNegotiation200 } from '@/generated';
+import type { GetContestation200 } from '@/generated';
 import { formatCurrency } from '@/lib/format-currency';
 import { ContestationActionColumn } from '../-components/row-action-popover';
 

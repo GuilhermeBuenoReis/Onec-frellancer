@@ -10,68 +10,68 @@ export type GetContestation200 = {
   /**
    * @type string
    */
-  id: string | null
+  id: string | null;
   /**
    * @type string
    */
-  product: string | null
+  product: string | null;
   /**
    * @type string
    */
-  competence: string | null
+  competence: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type number
    */
-  percentage: number | null
+  percentage: number | null;
   /**
    * @type number
    */
-  compensation: number | null
+  compensation: number | null;
   /**
    * @type number
    */
-  honorary: number | null
+  honorary: number | null;
   /**
    * @type number
    */
-  tax: number | null
+  tax: number | null;
   /**
    * @type number
    */
-  valueTj: number | null
+  valueTj: number | null;
   /**
    * @type number
    */
-  toPay: number | null
+  toPay: number | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type string
    */
-  observation: string | null
+  observation: string | null;
   /**
    * @type string
    */
-  createdAt: string | null
+  createdAt: string | null;
   /**
    * @type string
    */
-  updatedAt: string | null
-}[]
+  updatedAt: string | null;
+}[];
 
-export type GetContestationQueryResponse = GetContestation200
+export type GetContestationQueryResponse = GetContestation200;
 
 export type GetContestationQuery = {
-  Response: GetContestation200
-  Errors: any
-}
+  Response: GetContestation200;
+  Errors: any;
+};

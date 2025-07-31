@@ -5,10 +5,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { GraphicTableAction } from './-components/graphic-table-action';
-import { SectionCards } from './-components/sections-cards';
-import { BusinessTabContent } from './-tables/busines-tab-content';
-import { BusinessDataTableTabs } from './-tables/business-data-table-tabs';
+import { BusinessTabContent } from '../-tables/busines-tab-content';
+import { BusinessDataTableTabs } from '../-tables/business-data-table-tabs';
+import { GraphicTableAction } from './graphic-table-action';
+import { SectionCards } from './sections-cards';
 
 export function BusinessDashboardContent() {
   return (

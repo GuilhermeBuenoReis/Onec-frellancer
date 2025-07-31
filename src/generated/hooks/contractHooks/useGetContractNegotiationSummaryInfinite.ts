@@ -3,33 +3,57 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContractNegotiationSummaryQueryResponse, GetContractNegotiationSummary500 } from '../../types/GetContractNegotiationSummary.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetContractNegotiationSummary500,
+  GetContractNegotiationSummaryQueryResponse,
+} from '../../types/GetContractNegotiationSummary.ts';
 
-export const getContractNegotiationSummaryInfiniteQueryKey = () => [{ url: '/contract-negotiation-summary' }] as const
+export const getContractNegotiationSummaryInfiniteQueryKey = () =>
+  [{ url: '/contract-negotiation-summary' }] as const;
 
-export type GetContractNegotiationSummaryInfiniteQueryKey = ReturnType<typeof getContractNegotiationSummaryInfiniteQueryKey>
+export type GetContractNegotiationSummaryInfiniteQueryKey = ReturnType<
+  typeof getContractNegotiationSummaryInfiniteQueryKey
+>;
 
 /**
  * @description Retrieve merged contract and negotiation data
  * {@link /contract-negotiation-summary}
  */
-export async function getContractNegotiationSummaryInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContractNegotiationSummaryInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContractNegotiationSummaryQueryResponse, ResponseErrorConfig<GetContractNegotiationSummary500>, unknown>({
+  const res = await request<
+    GetContractNegotiationSummaryQueryResponse,
+    ResponseErrorConfig<GetContractNegotiationSummary500>,
+    unknown
+  >({
     method: 'GET',
     url: `/contract-negotiation-summary`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getContractNegotiationSummaryInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContractNegotiationSummaryInfiniteQueryKey()
+export function getContractNegotiationSummaryInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContractNegotiationSummaryInfiniteQueryKey();
   return infiniteQueryOptions<
     ResponseConfig<GetContractNegotiationSummaryQueryResponse>,
     ResponseErrorConfig<GetContractNegotiationSummary500>,
@@ -38,13 +62,13 @@ export function getContractNegotiationSummaryInfiniteQueryOptions(config: Partia
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContractNegotiationSummaryInfinite(config)
+      config.signal = signal;
+      return getContractNegotiationSummaryInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -52,7 +76,9 @@ export function getContractNegotiationSummaryInfiniteQueryOptions(config: Partia
  * {@link /contract-negotiation-summary}
  */
 export function useGetContractNegotiationSummaryInfinite<
-  TData = InfiniteData<ResponseConfig<GetContractNegotiationSummaryQueryResponse>>,
+  TData = InfiniteData<
+    ResponseConfig<GetContractNegotiationSummaryQueryResponse>
+  >,
   TQueryData = ResponseConfig<GetContractNegotiationSummaryQueryResponse>,
   TQueryKey extends QueryKey = GetContractNegotiationSummaryInfiniteQueryKey,
 >(
@@ -64,12 +90,16 @@ export function useGetContractNegotiationSummaryInfinite<
         TData,
         TQueryKey
       >
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContractNegotiationSummaryInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getContractNegotiationSummaryInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -77,10 +107,13 @@ export function useGetContractNegotiationSummaryInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetContractNegotiationSummary500>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<
+    TData,
+    ResponseErrorConfig<GetContractNegotiationSummary500>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

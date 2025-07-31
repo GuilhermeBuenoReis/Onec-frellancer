@@ -3,36 +3,61 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContestationQueryResponse } from '../../types/GetContestation.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetContestationQueryResponse } from '../../types/GetContestation.ts';
 
-export const getContestationQueryKey = () => [{ url: '/contestation' }] as const
+export const getContestationQueryKey = () =>
+  [{ url: '/contestation' }] as const;
 
-export type GetContestationQueryKey = ReturnType<typeof getContestationQueryKey>
+export type GetContestationQueryKey = ReturnType<
+  typeof getContestationQueryKey
+>;
 
 /**
  * @description Get a list of contestation
  * {@link /contestation}
  */
-export async function getContestation(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContestation(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContestationQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/contestation`, ...requestConfig })
-  return res
+  const res = await request<
+    GetContestationQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/contestation`, ...requestConfig });
+  return res;
 }
 
-export function getContestationQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContestationQueryKey()
-  return queryOptions<ResponseConfig<GetContestationQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetContestationQueryResponse>, typeof queryKey>({
+export function getContestationQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContestationQueryKey();
+  return queryOptions<
+    ResponseConfig<GetContestationQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetContestationQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContestation(config)
+      config.signal = signal;
+      return getContestation(config);
     },
-  })
+  });
 }
 
 /**
@@ -45,14 +70,25 @@ export function useGetContestation<
   TQueryKey extends QueryKey = GetContestationQueryKey,
 >(
   options: {
-    query?: Partial<QueryObserverOptions<ResponseConfig<GetContestationQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      QueryObserverOptions<
+        ResponseConfig<GetContestationQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContestationQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getContestationQueryKey();
 
   const query = useQuery(
     {
@@ -60,10 +96,12 @@ export function useGetContestation<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

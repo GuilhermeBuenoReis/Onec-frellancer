@@ -3,33 +3,53 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContractStatusCountQueryResponse } from '../../types/GetContractStatusCount.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetContractStatusCountQueryResponse } from '../../types/GetContractStatusCount.ts';
 
-export const getContractStatusCountSuspenseQueryKey = () => [{ url: '/contract/status-count' }] as const
+export const getContractStatusCountSuspenseQueryKey = () =>
+  [{ url: '/contract/status-count' }] as const;
 
-export type GetContractStatusCountSuspenseQueryKey = ReturnType<typeof getContractStatusCountSuspenseQueryKey>
+export type GetContractStatusCountSuspenseQueryKey = ReturnType<
+  typeof getContractStatusCountSuspenseQueryKey
+>;
 
 /**
  * @description Get count of contracts by status
  * {@link /contract/status-count}
  */
-export async function getContractStatusCountSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContractStatusCountSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContractStatusCountQueryResponse, ResponseErrorConfig<Error>, unknown>({
+  const res = await request<
+    GetContractStatusCountQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({
     method: 'GET',
     url: `/contract/status-count`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getContractStatusCountSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContractStatusCountSuspenseQueryKey()
+export function getContractStatusCountSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContractStatusCountSuspenseQueryKey();
   return queryOptions<
     ResponseConfig<GetContractStatusCountQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -38,10 +58,10 @@ export function getContractStatusCountSuspenseQueryOptions(config: Partial<Reque
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContractStatusCountSuspense(config)
+      config.signal = signal;
+      return getContractStatusCountSuspense(config);
     },
-  })
+  });
 }
 
 /**
@@ -53,14 +73,25 @@ export function useGetContractStatusCountSuspense<
   TQueryKey extends QueryKey = GetContractStatusCountSuspenseQueryKey,
 >(
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetContractStatusCountQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetContractStatusCountQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContractStatusCountSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getContractStatusCountSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -68,10 +99,12 @@ export function useGetContractStatusCountSuspense<
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

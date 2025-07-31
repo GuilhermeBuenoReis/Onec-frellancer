@@ -3,16 +3,16 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
  */
 export const createPending201Schema = z.object({
   id: z.string(),
-})
+});
 
-export type CreatePending201Schema = z.infer<typeof createPending201Schema>
+export type CreatePending201Schema = z.infer<typeof createPending201Schema>;
 
 export const createPendingMutationRequestSchema = z.object({
   client: z.string().nullable(),
@@ -20,12 +20,25 @@ export const createPendingMutationRequestSchema = z.object({
   status: z.string().nullable(),
   priority: z.string().nullable(),
   responsible: z.string().nullable(),
-  category: z.enum(['SAC', 'Atendimento', 'Financeiro', 'Diretoria', 'Comercial', 'Auditoria']),
+  category: z.enum([
+    'SAC',
+    'Atendimento',
+    'Financeiro',
+    'Diretoria',
+    'Comercial',
+    'Auditoria',
+  ]),
   description: z.string().nullable(),
-})
+});
 
-export type CreatePendingMutationRequestSchema = z.infer<typeof createPendingMutationRequestSchema>
+export type CreatePendingMutationRequestSchema = z.infer<
+  typeof createPendingMutationRequestSchema
+>;
 
-export const createPendingMutationResponseSchema = z.lazy(() => createPending201Schema)
+export const createPendingMutationResponseSchema = z.lazy(
+  () => createPending201Schema
+);
 
-export type CreatePendingMutationResponseSchema = z.infer<typeof createPendingMutationResponseSchema>
+export type CreatePendingMutationResponseSchema = z.infer<
+  typeof createPendingMutationResponseSchema
+>;

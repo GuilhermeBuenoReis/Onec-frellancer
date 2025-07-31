@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -11,18 +11,18 @@ import { z } from 'zod'
 export const createContract201Schema = z.object({
   id: z.string(),
   name: z.string().optional(),
-})
+});
 
-export type CreateContract201Schema = z.infer<typeof createContract201Schema>
+export type CreateContract201Schema = z.infer<typeof createContract201Schema>;
 
 /**
  * @description Default Response
  */
 export const createContract400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type CreateContract400Schema = z.infer<typeof createContract400Schema>
+export type CreateContract400Schema = z.infer<typeof createContract400Schema>;
 
 export const createContractMutationRequestSchema = z.object({
   city: z.string().nullable(),
@@ -42,10 +42,16 @@ export const createContractMutationRequestSchema = z.object({
   partnerCommission: z.number().nullable(),
   counter: z.string().nullable(),
   email: z.string().nullable(),
-})
+});
 
-export type CreateContractMutationRequestSchema = z.infer<typeof createContractMutationRequestSchema>
+export type CreateContractMutationRequestSchema = z.infer<
+  typeof createContractMutationRequestSchema
+>;
 
-export const createContractMutationResponseSchema = z.lazy(() => createContract201Schema)
+export const createContractMutationResponseSchema = z.lazy(
+  () => createContract201Schema
+);
 
-export type CreateContractMutationResponseSchema = z.infer<typeof createContractMutationResponseSchema>
+export type CreateContractMutationResponseSchema = z.infer<
+  typeof createContractMutationResponseSchema
+>;

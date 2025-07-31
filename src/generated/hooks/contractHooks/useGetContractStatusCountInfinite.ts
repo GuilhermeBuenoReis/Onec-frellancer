@@ -3,33 +3,54 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContractStatusCountQueryResponse } from '../../types/GetContractStatusCount.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetContractStatusCountQueryResponse } from '../../types/GetContractStatusCount.ts';
 
-export const getContractStatusCountInfiniteQueryKey = () => [{ url: '/contract/status-count' }] as const
+export const getContractStatusCountInfiniteQueryKey = () =>
+  [{ url: '/contract/status-count' }] as const;
 
-export type GetContractStatusCountInfiniteQueryKey = ReturnType<typeof getContractStatusCountInfiniteQueryKey>
+export type GetContractStatusCountInfiniteQueryKey = ReturnType<
+  typeof getContractStatusCountInfiniteQueryKey
+>;
 
 /**
  * @description Get count of contracts by status
  * {@link /contract/status-count}
  */
-export async function getContractStatusCountInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContractStatusCountInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContractStatusCountQueryResponse, ResponseErrorConfig<Error>, unknown>({
+  const res = await request<
+    GetContractStatusCountQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({
     method: 'GET',
     url: `/contract/status-count`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getContractStatusCountInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContractStatusCountInfiniteQueryKey()
+export function getContractStatusCountInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContractStatusCountInfiniteQueryKey();
   return infiniteQueryOptions<
     ResponseConfig<GetContractStatusCountQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -38,13 +59,13 @@ export function getContractStatusCountInfiniteQueryOptions(config: Partial<Reque
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContractStatusCountInfinite(config)
+      config.signal = signal;
+      return getContractStatusCountInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -57,14 +78,25 @@ export function useGetContractStatusCountInfinite<
   TQueryKey extends QueryKey = GetContractStatusCountInfiniteQueryKey,
 >(
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetContractStatusCountQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetContractStatusCountQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContractStatusCountInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getContractStatusCountInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -72,10 +104,12 @@ export function useGetContractStatusCountInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

@@ -3,39 +3,62 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetMeQueryResponse, GetMe401 } from '../../types/GetMe.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetMe401, GetMeQueryResponse } from '../../types/GetMe.ts';
 
-export const getMeInfiniteQueryKey = () => [{ url: '/me' }] as const
+export const getMeInfiniteQueryKey = () => [{ url: '/me' }] as const;
 
-export type GetMeInfiniteQueryKey = ReturnType<typeof getMeInfiniteQueryKey>
+export type GetMeInfiniteQueryKey = ReturnType<typeof getMeInfiniteQueryKey>;
 
 /**
  * @description Retorna o perfil do usuário autenticado
  * {@link /me}
  */
-export async function getMeInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getMeInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetMeQueryResponse, ResponseErrorConfig<GetMe401>, unknown>({ method: 'GET', url: `/me`, ...requestConfig })
-  return res
+  const res = await request<
+    GetMeQueryResponse,
+    ResponseErrorConfig<GetMe401>,
+    unknown
+  >({ method: 'GET', url: `/me`, ...requestConfig });
+  return res;
 }
 
-export function getMeInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getMeInfiniteQueryKey()
-  return infiniteQueryOptions<ResponseConfig<GetMeQueryResponse>, ResponseErrorConfig<GetMe401>, ResponseConfig<GetMeQueryResponse>, typeof queryKey>({
+export function getMeInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getMeInfiniteQueryKey();
+  return infiniteQueryOptions<
+    ResponseConfig<GetMeQueryResponse>,
+    ResponseErrorConfig<GetMe401>,
+    ResponseConfig<GetMeQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getMeInfinite(config)
+      config.signal = signal;
+      return getMeInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -48,14 +71,24 @@ export function useGetMeInfinite<
   TQueryKey extends QueryKey = GetMeInfiniteQueryKey,
 >(
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetMeQueryResponse>, ResponseErrorConfig<GetMe401>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetMeQueryResponse>,
+        ResponseErrorConfig<GetMe401>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getMeInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getMeInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -63,10 +96,12 @@ export function useGetMeInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetMe401>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetMe401>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

@@ -10,16 +10,16 @@ export type GetContractStatusCount200 = {
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type number
    */
-  count: number
-}[]
+  count: number;
+}[];
 
-export type GetContractStatusCountQueryResponse = GetContractStatusCount200
+export type GetContractStatusCountQueryResponse = GetContractStatusCount200;
 
 export type GetContractStatusCountQuery = {
-  Response: GetContractStatusCount200
-  Errors: any
-}
+  Response: GetContractStatusCount200;
+  Errors: any;
+};

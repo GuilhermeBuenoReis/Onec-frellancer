@@ -10,16 +10,16 @@ export type GetMe200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string, email
    */
-  email: string
+  email: string;
   /**
    * @type string
    */
-  role: string
-}
+  role: string;
+};
 
 /**
  * @description Default Response
@@ -28,12 +28,12 @@ export type GetMe401 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type GetMeQueryResponse = GetMe200
+export type GetMeQueryResponse = GetMe200;
 
 export type GetMeQuery = {
-  Response: GetMe200
-  Errors: GetMe401
-}
+  Response: GetMe200;
+  Errors: GetMe401;
+};

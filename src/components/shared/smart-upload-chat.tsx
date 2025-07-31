@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import * as XLSX from 'xlsx';
 import { env } from '@/env';
-import { useGetPartners } from '@/generated';
 import { useLunnaIntentParser } from '@/hooks/use-lunna-intent-parser';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -38,6 +37,8 @@ type DataType =
   | 'Controle'
   | 'ClientReceipt';
 
+type ChatMessage = { from: 'bot' | 'user'; text: string };
+
 const endpoints: Record<DataType, string> = {
   Contratos: `${env.VITE_API_URL}/contract`,
   Dados: `${env.VITE_API_URL}/negotiation`,
@@ -45,18 +46,6 @@ const endpoints: Record<DataType, string> = {
   Pendencias: `${env.VITE_API_URL}/pendings`,
   Controle: `${env.VITE_API_URL}/portalcontrolls`,
   ClientReceipt: `${env.VITE_API_URL}/client-receipt`,
-};
-
-const normalizeString = (value: unknown): string | null => {
-  const str = value != null ? String(value).trim() : '';
-  return str === '' ? null : str;
-};
-
-const normalizeNumber = (value: unknown): number | null => {
-  if (value == null) return null;
-  const num =
-    typeof value === 'number' ? value : Number(String(value).replace(',', '.'));
-  return Number.isNaN(num) ? null : num;
 };
 
 const normalizeHeader = (header: string): string =>
@@ -68,43 +57,8 @@ const normalizeHeader = (header: string): string =>
     .replace(/[^\w]/g, '')
     .toLowerCase();
 
-const parseExcelDate = (serial: number): Date => {
-  const utc_days = Math.floor(serial - 25569);
-  const utc_value = utc_days * 86400;
-  const date_info = new Date(utc_value * 1000);
-  const fractional_day = serial - Math.floor(serial) + 0.0000001;
-  const total_seconds = Math.floor(86400 * fractional_day);
-  const seconds = total_seconds % 60;
-  const hours = Math.floor(total_seconds / 3600);
-  const minutes = Math.floor(total_seconds / 60) % 60;
-  return new Date(
-    date_info.getFullYear(),
-    date_info.getMonth(),
-    date_info.getDate(),
-    hours,
-    minutes,
-    seconds
-  );
-};
-
-const formatDateBR = (value: unknown): string | null => {
-  if (value == null) return null;
-  let dateObj: Date;
-  if (typeof value === 'number') {
-    dateObj = parseExcelDate(value);
-  } else {
-    const parsed = new Date(String(value));
-    if (Number.isNaN(parsed.getTime())) return null;
-    dateObj = parsed;
-  }
-  const dd = String(dateObj.getDate()).padStart(2, '0');
-  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const yyyy = dateObj.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
-};
-
 export function SmartUploadChat() {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       from: 'bot',
       text: 'Olá! Eu sou a Lunna. Posso te ajudar a enviar suas planilhas ✨',
@@ -112,22 +66,13 @@ export function SmartUploadChat() {
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [showUploader, setShowUploader] = useState(false);
-  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(
-    null
-  );
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  const [requirePartnerSelect, setRequirePartnerSelect] = useState(false);
-  const [requireMonthSelect, setRequireMonthSelect] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [type, setType] = useState<DataType>('Contratos');
-  const [data, setData] = useState<any[]>([]);
+  const [dataRows, setDataRows] = useState<any[]>([]);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [completed, setCompleted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const { data: partnersData } = useGetPartners();
-  const partners = partnersData?.data || [];
 
   const parseIntent = useLunnaIntentParser();
 
@@ -164,11 +109,9 @@ export function SmartUploadChat() {
             ...prev,
             {
               from: 'bot',
-              text: 'Entendido! Selecione abaixo o parceiro e o mês desejado para associar os honorários.',
+              text: 'Entendido! Selecione abaixo o tipo e envie sua planilha de honorários.',
             },
           ]);
-          setRequirePartnerSelect(true);
-          setRequireMonthSelect(true);
           setShowUploader(true);
         }, 500);
         break;
@@ -193,28 +136,35 @@ export function SmartUploadChat() {
 
     const reader = new FileReader();
     reader.onload = ev => {
-      const data = new Uint8Array(ev.target?.result as ArrayBuffer);
-      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+      const arrayBuffer = new Uint8Array(ev.target?.result as ArrayBuffer);
+      const workbook = XLSX.read(arrayBuffer, {
+        type: 'array',
+        cellDates: true,
+      });
       const sheetIndex = type === 'Parceiros' ? 3 : 0;
-      const sheet = workbook.Sheets[workbook.SheetNames[sheetIndex]];
+      const sheetName = workbook.SheetNames[sheetIndex];
+      const sheet = workbook.Sheets[sheetName];
+      if (!sheet) {
+        toast.error('A planilha selecionada não possui a aba esperada');
+        return;
+      }
+
       const raw = XLSX.utils.sheet_to_json(sheet, {
         defval: null,
         raw: true,
         range: sheet['!ref'],
         blankrows: false,
-      });
+      }) as Record<string, unknown>[];
 
       const transformed = raw.map(row => {
-        const output: Record<string, any> = {};
-        for (const [key, val] of Object.entries(
-          row as Record<string, unknown>
-        )) {
+        const output: Record<string, unknown> = {};
+        for (const [key, val] of Object.entries(row)) {
           output[normalizeHeader(key)] = val;
         }
         return output;
       });
 
-      setData(transformed);
+      setDataRows(transformed);
       toast.success(
         `📄 ${selected.name} carregado com ${transformed.length} registros`
       );
@@ -223,14 +173,16 @@ export function SmartUploadChat() {
   };
 
   const handleUpload = async () => {
-    if (!file || !data.length)
-      return toast.error('Nenhum arquivo ou dados carregados');
+    if (!file || !dataRows.length) {
+      toast.error('Nenhum arquivo ou dados carregados');
+      return;
+    }
 
     setUploading(true);
-    let progress = 0;
-    const step = 100 / data.length;
+    let current = 0;
+    const step = 100 / dataRows.length;
 
-    for (const item of data) {
+    for (const item of dataRows) {
       try {
         await fetch(endpoints[type], {
           method: 'POST',
@@ -238,10 +190,9 @@ export function SmartUploadChat() {
           body: JSON.stringify(item),
           credentials: 'include',
         });
-        progress += step;
-        setProgress(Math.min(100, progress));
-      } catch (err) {
-        console.error(err);
+        current += step;
+        setProgress(Math.min(100, current));
+      } catch {
         toast.error('Erro ao enviar um dos registros');
       }
     }
@@ -309,7 +260,7 @@ export function SmartUploadChat() {
                       <SelectValue placeholder="Tipo de dado" />
                     </SelectTrigger>
                     <SelectContent>
-                      {Object.keys(endpoints).map(key => (
+                      {(Object.keys(endpoints) as DataType[]).map(key => (
                         <SelectItem key={key} value={key}>
                           {key}
                         </SelectItem>

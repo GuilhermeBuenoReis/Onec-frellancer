@@ -6,11 +6,11 @@
 /**
  * @description Default Response
  */
-export type PostUploadXlsx200 = any
+export type PostUploadXlsx200 = any;
 
-export type PostUploadXlsxMutationResponse = PostUploadXlsx200
+export type PostUploadXlsxMutationResponse = PostUploadXlsx200;
 
 export type PostUploadXlsxMutation = {
-  Response: PostUploadXlsx200
-  Errors: any
-}
+  Response: PostUploadXlsx200;
+  Errors: any;
+};

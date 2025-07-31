@@ -3,39 +3,65 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetPartnersQueryResponse } from '../../types/GetPartners.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetPartnersQueryResponse } from '../../types/GetPartners.ts';
 
-export const getPartnersInfiniteQueryKey = () => [{ url: '/partners' }] as const
+export const getPartnersInfiniteQueryKey = () =>
+  [{ url: '/partners' }] as const;
 
-export type GetPartnersInfiniteQueryKey = ReturnType<typeof getPartnersInfiniteQueryKey>
+export type GetPartnersInfiniteQueryKey = ReturnType<
+  typeof getPartnersInfiniteQueryKey
+>;
 
 /**
  * @description Get a list of partners
  * {@link /partners}
  */
-export async function getPartnersInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getPartnersInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPartnersQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/partners`, ...requestConfig })
-  return res
+  const res = await request<
+    GetPartnersQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/partners`, ...requestConfig });
+  return res;
 }
 
-export function getPartnersInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getPartnersInfiniteQueryKey()
-  return infiniteQueryOptions<ResponseConfig<GetPartnersQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetPartnersQueryResponse>, typeof queryKey>({
+export function getPartnersInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getPartnersInfiniteQueryKey();
+  return infiniteQueryOptions<
+    ResponseConfig<GetPartnersQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetPartnersQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getPartnersInfinite(config)
+      config.signal = signal;
+      return getPartnersInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -48,14 +74,24 @@ export function useGetPartnersInfinite<
   TQueryKey extends QueryKey = GetPartnersInfiniteQueryKey,
 >(
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetPartnersQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetPartnersQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPartnersInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getPartnersInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -63,10 +99,12 @@ export function useGetPartnersInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

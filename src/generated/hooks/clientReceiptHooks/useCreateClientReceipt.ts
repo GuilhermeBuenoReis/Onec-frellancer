@@ -3,15 +3,26 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreateClientReceiptMutationRequest, CreateClientReceiptMutationResponse, CreateClientReceipt400 } from '../../types/CreateClientReceipt.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreateClientReceipt400,
+  CreateClientReceiptMutationRequest,
+  CreateClientReceiptMutationResponse,
+} from '../../types/CreateClientReceipt.ts';
 
-export const createClientReceiptMutationKey = () => [{ url: '/client-receipt' }] as const
+export const createClientReceiptMutationKey = () =>
+  [{ url: '/client-receipt' }] as const;
 
-export type CreateClientReceiptMutationKey = ReturnType<typeof createClientReceiptMutationKey>
+export type CreateClientReceiptMutationKey = ReturnType<
+  typeof createClientReceiptMutationKey
+>;
 
 /**
  * @description Create a new Client Receipt
@@ -19,18 +30,24 @@ export type CreateClientReceiptMutationKey = ReturnType<typeof createClientRecei
  */
 export async function createClientReceipt(
   data: CreateClientReceiptMutationRequest,
-  config: Partial<RequestConfig<CreateClientReceiptMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreateClientReceiptMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreateClientReceiptMutationResponse, ResponseErrorConfig<CreateClientReceipt400>, CreateClientReceiptMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreateClientReceiptMutationResponse,
+    ResponseErrorConfig<CreateClientReceipt400>,
+    CreateClientReceiptMutationRequest
+  >({
     method: 'POST',
     url: `/client-receipt`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,13 +61,16 @@ export function useCreateClientReceipt<TContext>(
       ResponseErrorConfig<CreateClientReceipt400>,
       { data: CreateClientReceiptMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreateClientReceiptMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreateClientReceiptMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createClientReceiptMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? createClientReceiptMutationKey();
 
   return useMutation<
     ResponseConfig<CreateClientReceiptMutationResponse>,
@@ -60,11 +80,11 @@ export function useCreateClientReceipt<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return createClientReceipt(data, config)
+        return createClientReceipt(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

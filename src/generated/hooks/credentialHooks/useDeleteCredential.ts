@@ -3,29 +3,47 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeleteCredentialMutationResponse, DeleteCredentialPathParams, DeleteCredential404 } from '../../types/DeleteCredential.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeleteCredential404,
+  DeleteCredentialMutationResponse,
+  DeleteCredentialPathParams,
+} from '../../types/DeleteCredential.ts';
 
-export const deleteCredentialMutationKey = () => [{ url: '/credential/{id}' }] as const
+export const deleteCredentialMutationKey = () =>
+  [{ url: '/credential/{id}' }] as const;
 
-export type DeleteCredentialMutationKey = ReturnType<typeof deleteCredentialMutationKey>
+export type DeleteCredentialMutationKey = ReturnType<
+  typeof deleteCredentialMutationKey
+>;
 
 /**
  * @description Delete a credential
  * {@link /credential/:id}
  */
-export async function deleteCredential(id: DeleteCredentialPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deleteCredential(
+  id: DeleteCredentialPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeleteCredentialMutationResponse, ResponseErrorConfig<DeleteCredential404>, unknown>({
+  const res = await request<
+    DeleteCredentialMutationResponse,
+    ResponseErrorConfig<DeleteCredential404>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/credential/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,13 +57,14 @@ export function useDeleteCredential<TContext>(
       ResponseErrorConfig<DeleteCredential404>,
       { id: DeleteCredentialPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deleteCredentialMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? deleteCredentialMutationKey();
 
   return useMutation<
     ResponseConfig<DeleteCredentialMutationResponse>,
@@ -55,11 +74,11 @@ export function useDeleteCredential<TContext>(
   >(
     {
       mutationFn: async ({ id }) => {
-        return deleteCredential(id, config)
+        return deleteCredential(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

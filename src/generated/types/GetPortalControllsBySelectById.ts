@@ -7,8 +7,8 @@ export type GetPortalControllsBySelectByIdPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,60 +17,60 @@ export type GetPortalControllsBySelectById200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  monthOfCalculation: string | null
+  monthOfCalculation: string | null;
   /**
    * @type string
    */
-  competenceMonth: string | null
+  competenceMonth: string | null;
   /**
    * @type number
    */
-  contract: number | null
+  contract: number | null;
   /**
    * @type string
    */
-  enterprise: string | null
+  enterprise: string | null;
   /**
    * @type string
    */
-  product: string | null
+  product: string | null;
   /**
    * @type number
    */
-  percentageHonorary: number | null
+  percentageHonorary: number | null;
   /**
    * @type number
    */
-  compensation: number | null
+  compensation: number | null;
   /**
    * @type number
    */
-  honorary: number | null
+  honorary: number | null;
   /**
    * @type number
    */
-  tax: number | null
+  tax: number | null;
   /**
    * @type number
    */
-  tj: number | null
+  tj: number | null;
   /**
    * @type number
    */
-  value: number | null
+  value: number | null;
   /**
    * @type string
    */
-  situation: string | null
+  situation: string | null;
   /**
    * @type string
    */
-  partnerId: string
-}[]
+  partnerId: string;
+}[];
 
 /**
  * @description Default Response
@@ -79,13 +79,14 @@ export type GetPortalControllsBySelectById500 = {
   /**
    * @type string
    */
-  error: string
-}
+  error: string;
+};
 
-export type GetPortalControllsBySelectByIdQueryResponse = GetPortalControllsBySelectById200
+export type GetPortalControllsBySelectByIdQueryResponse =
+  GetPortalControllsBySelectById200;
 
 export type GetPortalControllsBySelectByIdQuery = {
-  Response: GetPortalControllsBySelectById200
-  PathParams: GetPortalControllsBySelectByIdPathParams
-  Errors: GetPortalControllsBySelectById500
-}
+  Response: GetPortalControllsBySelectById200;
+  PathParams: GetPortalControllsBySelectByIdPathParams;
+  Errors: GetPortalControllsBySelectById500;
+};

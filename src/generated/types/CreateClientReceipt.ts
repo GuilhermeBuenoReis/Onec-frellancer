@@ -6,7 +6,7 @@
 /**
  * @description Default Response
  */
-export type CreateClientReceipt201 = any
+export type CreateClientReceipt201 = any;
 
 /**
  * @description Default Response
@@ -15,52 +15,52 @@ export type CreateClientReceipt400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type CreateClientReceiptMutationRequest = {
   /**
    * @type string
    */
-  receiptDate: string | null
+  receiptDate: string | null;
   /**
    * @type string
    */
-  competence: string | null
+  competence: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  clientName: string | null
+  clientName: string | null;
   /**
    * @type number
    */
-  percentage: number | null
+  percentage: number | null;
   /**
    * @type string
    */
-  compensationMonth: string | null
+  compensationMonth: string | null;
   /**
    * @type number
    */
-  honorary: number | null
+  honorary: number | null;
   /**
    * @type number
    */
-  tax: number | null
+  tax: number | null;
   /**
    * @type string
    */
-  status: string | null
-}
+  status: string | null;
+};
 
-export type CreateClientReceiptMutationResponse = CreateClientReceipt201
+export type CreateClientReceiptMutationResponse = CreateClientReceipt201;
 
 export type CreateClientReceiptMutation = {
-  Response: CreateClientReceipt201
-  Request: CreateClientReceiptMutationRequest
-  Errors: CreateClientReceipt400
-}
+  Response: CreateClientReceipt201;
+  Request: CreateClientReceiptMutationRequest;
+  Errors: CreateClientReceipt400;
+};

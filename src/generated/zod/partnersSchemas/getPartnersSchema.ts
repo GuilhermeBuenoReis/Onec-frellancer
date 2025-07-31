@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -26,11 +26,15 @@ export const getPartners200Schema = z.array(
     phone: z.string().nullable(),
     email: z.string().nullable(),
     responsible: z.string().nullable(),
-  }),
-)
+  })
+);
 
-export type GetPartners200Schema = z.infer<typeof getPartners200Schema>
+export type GetPartners200Schema = z.infer<typeof getPartners200Schema>;
 
-export const getPartnersQueryResponseSchema = z.lazy(() => getPartners200Schema)
+export const getPartnersQueryResponseSchema = z.lazy(
+  () => getPartners200Schema
+);
 
-export type GetPartnersQueryResponseSchema = z.infer<typeof getPartnersQueryResponseSchema>
+export type GetPartnersQueryResponseSchema = z.infer<
+  typeof getPartnersQueryResponseSchema
+>;

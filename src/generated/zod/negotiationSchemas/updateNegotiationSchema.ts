@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updateNegotiationPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdateNegotiationPathParamsSchema = z.infer<typeof updateNegotiationPathParamsSchema>
+export type UpdateNegotiationPathParamsSchema = z.infer<
+  typeof updateNegotiationPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -31,18 +33,22 @@ export const updateNegotiation200Schema = z.object({
     createdAt: z.string().nullable(),
     updatedAt: z.string().nullable(),
   }),
-})
+});
 
-export type UpdateNegotiation200Schema = z.infer<typeof updateNegotiation200Schema>
+export type UpdateNegotiation200Schema = z.infer<
+  typeof updateNegotiation200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const updateNegotiation404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateNegotiation404Schema = z.infer<typeof updateNegotiation404Schema>
+export type UpdateNegotiation404Schema = z.infer<
+  typeof updateNegotiation404Schema
+>;
 
 export const updateNegotiationMutationRequestSchema = z.object({
   title: z.string().nullable().nullish(),
@@ -56,10 +62,16 @@ export const updateNegotiationMutationRequestSchema = z.object({
   partnerId: z.string().nullable().nullish(),
   observation: z.string().nullable().nullish(),
   averageGuide: z.number().nullable().nullish(),
-})
+});
 
-export type UpdateNegotiationMutationRequestSchema = z.infer<typeof updateNegotiationMutationRequestSchema>
+export type UpdateNegotiationMutationRequestSchema = z.infer<
+  typeof updateNegotiationMutationRequestSchema
+>;
 
-export const updateNegotiationMutationResponseSchema = z.lazy(() => updateNegotiation200Schema)
+export const updateNegotiationMutationResponseSchema = z.lazy(
+  () => updateNegotiation200Schema
+);
 
-export type UpdateNegotiationMutationResponseSchema = z.infer<typeof updateNegotiationMutationResponseSchema>
+export type UpdateNegotiationMutationResponseSchema = z.infer<
+  typeof updateNegotiationMutationResponseSchema
+>;

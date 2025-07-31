@@ -3,29 +3,47 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeletePendingMutationResponse, DeletePendingPathParams, DeletePending404 } from '../../types/DeletePending.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeletePending404,
+  DeletePendingMutationResponse,
+  DeletePendingPathParams,
+} from '../../types/DeletePending.ts';
 
-export const deletePendingMutationKey = () => [{ url: '/pendings/{id}' }] as const
+export const deletePendingMutationKey = () =>
+  [{ url: '/pendings/{id}' }] as const;
 
-export type DeletePendingMutationKey = ReturnType<typeof deletePendingMutationKey>
+export type DeletePendingMutationKey = ReturnType<
+  typeof deletePendingMutationKey
+>;
 
 /**
  * @description Delete a pending
  * {@link /pendings/:id}
  */
-export async function deletePending(id: DeletePendingPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deletePending(
+  id: DeletePendingPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeletePendingMutationResponse, ResponseErrorConfig<DeletePending404>, unknown>({
+  const res = await request<
+    DeletePendingMutationResponse,
+    ResponseErrorConfig<DeletePending404>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/pendings/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,22 +57,27 @@ export function useDeletePending<TContext>(
       ResponseErrorConfig<DeletePending404>,
       { id: DeletePendingPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deletePendingMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? deletePendingMutationKey();
 
-  return useMutation<ResponseConfig<DeletePendingMutationResponse>, ResponseErrorConfig<DeletePending404>, { id: DeletePendingPathParams['id'] }, TContext>(
+  return useMutation<
+    ResponseConfig<DeletePendingMutationResponse>,
+    ResponseErrorConfig<DeletePending404>,
+    { id: DeletePendingPathParams['id'] },
+    TContext
+  >(
     {
       mutationFn: async ({ id }) => {
-        return deletePending(id, config)
+        return deletePending(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

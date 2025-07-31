@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -26,20 +26,28 @@ export const listCredentialClient200Schema = z.array(
       contestation: z.string(),
       returned: z.string(),
     }),
-  }),
-)
+  })
+);
 
-export type ListCredentialClient200Schema = z.infer<typeof listCredentialClient200Schema>
+export type ListCredentialClient200Schema = z.infer<
+  typeof listCredentialClient200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const listCredentialClient400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type ListCredentialClient400Schema = z.infer<typeof listCredentialClient400Schema>
+export type ListCredentialClient400Schema = z.infer<
+  typeof listCredentialClient400Schema
+>;
 
-export const listCredentialClientQueryResponseSchema = z.lazy(() => listCredentialClient200Schema)
+export const listCredentialClientQueryResponseSchema = z.lazy(
+  () => listCredentialClient200Schema
+);
 
-export type ListCredentialClientQueryResponseSchema = z.infer<typeof listCredentialClientQueryResponseSchema>
+export type ListCredentialClientQueryResponseSchema = z.infer<
+  typeof listCredentialClientQueryResponseSchema
+>;

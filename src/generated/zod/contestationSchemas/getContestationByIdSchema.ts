@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const getContestationByIdPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type GetContestationByIdPathParamsSchema = z.infer<typeof getContestationByIdPathParamsSchema>
+export type GetContestationByIdPathParamsSchema = z.infer<
+  typeof getContestationByIdPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -30,19 +32,27 @@ export const getContestationById200Schema = z.object({
   observation: z.string().nullable(),
   createdAt: z.string().nullable(),
   updatedAt: z.string().nullable(),
-})
+});
 
-export type GetContestationById200Schema = z.infer<typeof getContestationById200Schema>
+export type GetContestationById200Schema = z.infer<
+  typeof getContestationById200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const getContestationById404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type GetContestationById404Schema = z.infer<typeof getContestationById404Schema>
+export type GetContestationById404Schema = z.infer<
+  typeof getContestationById404Schema
+>;
 
-export const getContestationByIdQueryResponseSchema = z.lazy(() => getContestationById200Schema)
+export const getContestationByIdQueryResponseSchema = z.lazy(
+  () => getContestationById200Schema
+);
 
-export type GetContestationByIdQueryResponseSchema = z.infer<typeof getContestationByIdQueryResponseSchema>
+export type GetContestationByIdQueryResponseSchema = z.infer<
+  typeof getContestationByIdQueryResponseSchema
+>;

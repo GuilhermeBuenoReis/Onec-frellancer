@@ -7,8 +7,8 @@ export type UpdateUserPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type UpdateUser200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,30 +27,30 @@ export type UpdateUser400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type UpdateUserMutationRequest = {
   /**
    * @type string | undefined, email
    */
-  email?: string
+  email?: string;
   /**
    * @minLength 6
    * @type string | undefined
    */
-  password?: string
+  password?: string;
   /**
    * @type string | undefined
    */
-  role?: string
-}
+  role?: string;
+};
 
-export type UpdateUserMutationResponse = UpdateUser200
+export type UpdateUserMutationResponse = UpdateUser200;
 
 export type UpdateUserMutation = {
-  Response: UpdateUser200
-  Request: UpdateUserMutationRequest
-  PathParams: UpdateUserPathParams
-  Errors: UpdateUser400
-}
+  Response: UpdateUser200;
+  Request: UpdateUserMutationRequest;
+  PathParams: UpdateUserPathParams;
+  Errors: UpdateUser400;
+};

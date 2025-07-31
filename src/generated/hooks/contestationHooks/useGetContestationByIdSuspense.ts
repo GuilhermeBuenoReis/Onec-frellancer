@@ -3,36 +3,60 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContestationByIdQueryResponse, GetContestationByIdPathParams, GetContestationById404 } from '../../types/GetContestationById.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetContestationById404,
+  GetContestationByIdPathParams,
+  GetContestationByIdQueryResponse,
+} from '../../types/GetContestationById.ts';
 
-export const getContestationByIdSuspenseQueryKey = (id: GetContestationByIdPathParams['id']) => [{ url: '/contestation/:id', params: { id: id } }] as const
+export const getContestationByIdSuspenseQueryKey = (
+  id: GetContestationByIdPathParams['id']
+) => [{ url: '/contestation/:id', params: { id: id } }] as const;
 
-export type GetContestationByIdSuspenseQueryKey = ReturnType<typeof getContestationByIdSuspenseQueryKey>
+export type GetContestationByIdSuspenseQueryKey = ReturnType<
+  typeof getContestationByIdSuspenseQueryKey
+>;
 
 /**
  * @description Get a contestation by ID
  * {@link /contestation/:id}
  */
-export async function getContestationByIdSuspense(id: GetContestationByIdPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContestationByIdSuspense(
+  id: GetContestationByIdPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContestationByIdQueryResponse, ResponseErrorConfig<GetContestationById404>, unknown>({
+  const res = await request<
+    GetContestationByIdQueryResponse,
+    ResponseErrorConfig<GetContestationById404>,
+    unknown
+  >({
     method: 'GET',
     url: `/contestation/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 export function getContestationByIdSuspenseQueryOptions(
   id: GetContestationByIdPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const queryKey = getContestationByIdSuspenseQueryKey(id)
+  const queryKey = getContestationByIdSuspenseQueryKey(id);
   return queryOptions<
     ResponseConfig<GetContestationByIdQueryResponse>,
     ResponseErrorConfig<GetContestationById404>,
@@ -42,10 +66,10 @@ export function getContestationByIdSuspenseQueryOptions(
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContestationByIdSuspense(id, config)
+      config.signal = signal;
+      return getContestationByIdSuspense(id, config);
     },
-  })
+  });
 }
 
 /**
@@ -59,13 +83,22 @@ export function useGetContestationByIdSuspense<
   id: GetContestationByIdPathParams['id'],
   options: {
     query?: Partial<
-      UseSuspenseQueryOptions<ResponseConfig<GetContestationByIdQueryResponse>, ResponseErrorConfig<GetContestationById404>, TData, TQueryKey>
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetContestationByIdQueryResponse>,
+        ResponseErrorConfig<GetContestationById404>,
+        TData,
+        TQueryKey
+      >
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContestationByIdSuspenseQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getContestationByIdSuspenseQueryKey(id);
 
   const query = useSuspenseQuery(
     {
@@ -73,10 +106,13 @@ export function useGetContestationByIdSuspense<
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetContestationById404>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<
+    TData,
+    ResponseErrorConfig<GetContestationById404>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

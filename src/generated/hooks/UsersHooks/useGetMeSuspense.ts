@@ -3,50 +3,85 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetMeQueryResponse, GetMe401 } from '../../types/GetMe.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetMe401, GetMeQueryResponse } from '../../types/GetMe.ts';
 
-export const getMeSuspenseQueryKey = () => [{ url: '/me' }] as const
+export const getMeSuspenseQueryKey = () => [{ url: '/me' }] as const;
 
-export type GetMeSuspenseQueryKey = ReturnType<typeof getMeSuspenseQueryKey>
+export type GetMeSuspenseQueryKey = ReturnType<typeof getMeSuspenseQueryKey>;
 
 /**
  * @description Retorna o perfil do usuário autenticado
  * {@link /me}
  */
-export async function getMeSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getMeSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetMeQueryResponse, ResponseErrorConfig<GetMe401>, unknown>({ method: 'GET', url: `/me`, ...requestConfig })
-  return res
+  const res = await request<
+    GetMeQueryResponse,
+    ResponseErrorConfig<GetMe401>,
+    unknown
+  >({ method: 'GET', url: `/me`, ...requestConfig });
+  return res;
 }
 
-export function getMeSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getMeSuspenseQueryKey()
-  return queryOptions<ResponseConfig<GetMeQueryResponse>, ResponseErrorConfig<GetMe401>, ResponseConfig<GetMeQueryResponse>, typeof queryKey>({
+export function getMeSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getMeSuspenseQueryKey();
+  return queryOptions<
+    ResponseConfig<GetMeQueryResponse>,
+    ResponseErrorConfig<GetMe401>,
+    ResponseConfig<GetMeQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getMeSuspense(config)
+      config.signal = signal;
+      return getMeSuspense(config);
     },
-  })
+  });
 }
 
 /**
  * @description Retorna o perfil do usuário autenticado
  * {@link /me}
  */
-export function useGetMeSuspense<TData = ResponseConfig<GetMeQueryResponse>, TQueryKey extends QueryKey = GetMeSuspenseQueryKey>(
+export function useGetMeSuspense<
+  TData = ResponseConfig<GetMeQueryResponse>,
+  TQueryKey extends QueryKey = GetMeSuspenseQueryKey,
+>(
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetMeQueryResponse>, ResponseErrorConfig<GetMe401>, TData, TQueryKey>> & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetMeQueryResponse>,
+        ResponseErrorConfig<GetMe401>,
+        TData,
+        TQueryKey
+      >
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getMeSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getMeSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -54,10 +89,12 @@ export function useGetMeSuspense<TData = ResponseConfig<GetMeQueryResponse>, TQu
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetMe401>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetMe401>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

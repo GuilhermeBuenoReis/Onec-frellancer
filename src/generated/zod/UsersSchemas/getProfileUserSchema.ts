@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * @description Default Response
@@ -13,20 +13,24 @@ export const getProfileUser200Schema = z.array(
     id: z.string(),
     email: z.string().email(),
     role: z.string(),
-  }),
-)
+  })
+);
 
-export type GetProfileUser200Schema = z.infer<typeof getProfileUser200Schema>
+export type GetProfileUser200Schema = z.infer<typeof getProfileUser200Schema>;
 
 /**
  * @description Default Response
  */
 export const getProfileUser400Schema = z.object({
   message: z.string(),
-})
+});
 
-export type GetProfileUser400Schema = z.infer<typeof getProfileUser400Schema>
+export type GetProfileUser400Schema = z.infer<typeof getProfileUser400Schema>;
 
-export const getProfileUserQueryResponseSchema = z.lazy(() => getProfileUser200Schema)
+export const getProfileUserQueryResponseSchema = z.lazy(
+  () => getProfileUser200Schema
+);
 
-export type GetProfileUserQueryResponseSchema = z.infer<typeof getProfileUserQueryResponseSchema>
+export type GetProfileUserQueryResponseSchema = z.infer<
+  typeof getProfileUserQueryResponseSchema
+>;

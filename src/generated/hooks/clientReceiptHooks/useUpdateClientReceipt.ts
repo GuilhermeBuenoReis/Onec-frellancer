@@ -3,20 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdateClientReceipt404,
   UpdateClientReceiptMutationRequest,
   UpdateClientReceiptMutationResponse,
   UpdateClientReceiptPathParams,
-  UpdateClientReceipt404,
-} from '../../types/UpdateClientReceipt.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+} from '../../types/UpdateClientReceipt.ts';
 
-export const updateClientReceiptMutationKey = () => [{ url: '/client-receipt/{id}' }] as const
+export const updateClientReceiptMutationKey = () =>
+  [{ url: '/client-receipt/{id}' }] as const;
 
-export type UpdateClientReceiptMutationKey = ReturnType<typeof updateClientReceiptMutationKey>
+export type UpdateClientReceiptMutationKey = ReturnType<
+  typeof updateClientReceiptMutationKey
+>;
 
 /**
  * @description Update a client Receipt
@@ -25,18 +32,24 @@ export type UpdateClientReceiptMutationKey = ReturnType<typeof updateClientRecei
 export async function updateClientReceipt(
   id: UpdateClientReceiptPathParams['id'],
   data?: UpdateClientReceiptMutationRequest,
-  config: Partial<RequestConfig<UpdateClientReceiptMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdateClientReceiptMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdateClientReceiptMutationResponse, ResponseErrorConfig<UpdateClientReceipt404>, UpdateClientReceiptMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdateClientReceiptMutationResponse,
+    ResponseErrorConfig<UpdateClientReceipt404>,
+    UpdateClientReceiptMutationRequest
+  >({
     method: 'PUT',
     url: `/client-receipt/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -48,29 +61,38 @@ export function useUpdateClientReceipt<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdateClientReceiptMutationResponse>,
       ResponseErrorConfig<UpdateClientReceipt404>,
-      { id: UpdateClientReceiptPathParams['id']; data?: UpdateClientReceiptMutationRequest },
+      {
+        id: UpdateClientReceiptPathParams['id'];
+        data?: UpdateClientReceiptMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdateClientReceiptMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdateClientReceiptMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updateClientReceiptMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? updateClientReceiptMutationKey();
 
   return useMutation<
     ResponseConfig<UpdateClientReceiptMutationResponse>,
     ResponseErrorConfig<UpdateClientReceipt404>,
-    { id: UpdateClientReceiptPathParams['id']; data?: UpdateClientReceiptMutationRequest },
+    {
+      id: UpdateClientReceiptPathParams['id'];
+      data?: UpdateClientReceiptMutationRequest;
+    },
     TContext
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updateClientReceipt(id, data, config)
+        return updateClientReceipt(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

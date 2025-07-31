@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const getNegotiationByIdPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type GetNegotiationByIdPathParamsSchema = z.infer<typeof getNegotiationByIdPathParamsSchema>
+export type GetNegotiationByIdPathParamsSchema = z.infer<
+  typeof getNegotiationByIdPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -28,11 +30,17 @@ export const getNegotiationById200Schema = z.array(
     observation: z.string().nullable(),
     averageGuide: z.number().nullable(),
     partnerId: z.string().nullable(),
-  }),
-)
+  })
+);
 
-export type GetNegotiationById200Schema = z.infer<typeof getNegotiationById200Schema>
+export type GetNegotiationById200Schema = z.infer<
+  typeof getNegotiationById200Schema
+>;
 
-export const getNegotiationByIdQueryResponseSchema = z.lazy(() => getNegotiationById200Schema)
+export const getNegotiationByIdQueryResponseSchema = z.lazy(
+  () => getNegotiationById200Schema
+);
 
-export type GetNegotiationByIdQueryResponseSchema = z.infer<typeof getNegotiationByIdQueryResponseSchema>
+export type GetNegotiationByIdQueryResponseSchema = z.infer<
+  typeof getNegotiationByIdQueryResponseSchema
+>;

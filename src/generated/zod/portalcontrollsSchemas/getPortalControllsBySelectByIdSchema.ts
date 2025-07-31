@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const getPortalControllsBySelectByIdPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type GetPortalControllsBySelectByIdPathParamsSchema = z.infer<typeof getPortalControllsBySelectByIdPathParamsSchema>
+export type GetPortalControllsBySelectByIdPathParamsSchema = z.infer<
+  typeof getPortalControllsBySelectByIdPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -30,20 +32,28 @@ export const getPortalControllsBySelectById200Schema = z.array(
     value: z.number().nullable(),
     situation: z.string().nullable(),
     partnerId: z.string(),
-  }),
-)
+  })
+);
 
-export type GetPortalControllsBySelectById200Schema = z.infer<typeof getPortalControllsBySelectById200Schema>
+export type GetPortalControllsBySelectById200Schema = z.infer<
+  typeof getPortalControllsBySelectById200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const getPortalControllsBySelectById500Schema = z.object({
   error: z.string(),
-})
+});
 
-export type GetPortalControllsBySelectById500Schema = z.infer<typeof getPortalControllsBySelectById500Schema>
+export type GetPortalControllsBySelectById500Schema = z.infer<
+  typeof getPortalControllsBySelectById500Schema
+>;
 
-export const getPortalControllsBySelectByIdQueryResponseSchema = z.lazy(() => getPortalControllsBySelectById200Schema)
+export const getPortalControllsBySelectByIdQueryResponseSchema = z.lazy(
+  () => getPortalControllsBySelectById200Schema
+);
 
-export type GetPortalControllsBySelectByIdQueryResponseSchema = z.infer<typeof getPortalControllsBySelectByIdQueryResponseSchema>
+export type GetPortalControllsBySelectByIdQueryResponseSchema = z.infer<
+  typeof getPortalControllsBySelectByIdQueryResponseSchema
+>;

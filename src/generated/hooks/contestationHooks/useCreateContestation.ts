@@ -3,15 +3,26 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreateContestationMutationRequest, CreateContestationMutationResponse, CreateContestation400 } from '../../types/CreateContestation.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreateContestation400,
+  CreateContestationMutationRequest,
+  CreateContestationMutationResponse,
+} from '../../types/CreateContestation.ts';
 
-export const createContestationMutationKey = () => [{ url: '/contestation' }] as const
+export const createContestationMutationKey = () =>
+  [{ url: '/contestation' }] as const;
 
-export type CreateContestationMutationKey = ReturnType<typeof createContestationMutationKey>
+export type CreateContestationMutationKey = ReturnType<
+  typeof createContestationMutationKey
+>;
 
 /**
  * @description Create a new Contestation
@@ -19,18 +30,24 @@ export type CreateContestationMutationKey = ReturnType<typeof createContestation
  */
 export async function createContestation(
   data: CreateContestationMutationRequest,
-  config: Partial<RequestConfig<CreateContestationMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreateContestationMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreateContestationMutationResponse, ResponseErrorConfig<CreateContestation400>, CreateContestationMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreateContestationMutationResponse,
+    ResponseErrorConfig<CreateContestation400>,
+    CreateContestationMutationRequest
+  >({
     method: 'POST',
     url: `/contestation`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,13 +61,16 @@ export function useCreateContestation<TContext>(
       ResponseErrorConfig<CreateContestation400>,
       { data: CreateContestationMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreateContestationMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreateContestationMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createContestationMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? createContestationMutationKey();
 
   return useMutation<
     ResponseConfig<CreateContestationMutationResponse>,
@@ -60,11 +80,11 @@ export function useCreateContestation<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return createContestation(data, config)
+        return createContestation(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

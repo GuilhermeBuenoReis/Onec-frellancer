@@ -7,8 +7,8 @@ export type DeleteClientPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeleteClient200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeleteClient404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeleteClientMutationResponse = DeleteClient200
+export type DeleteClientMutationResponse = DeleteClient200;
 
 export type DeleteClientMutation = {
-  Response: DeleteClient200
-  PathParams: DeleteClientPathParams
-  Errors: DeleteClient404
-}
+  Response: DeleteClient200;
+  PathParams: DeleteClientPathParams;
+  Errors: DeleteClient404;
+};

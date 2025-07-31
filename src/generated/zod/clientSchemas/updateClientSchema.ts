@@ -3,31 +3,33 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updateClientPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdateClientPathParamsSchema = z.infer<typeof updateClientPathParamsSchema>
+export type UpdateClientPathParamsSchema = z.infer<
+  typeof updateClientPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const updateClient200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateClient200Schema = z.infer<typeof updateClient200Schema>
+export type UpdateClient200Schema = z.infer<typeof updateClient200Schema>;
 
 /**
  * @description Default Response
  */
 export const updateClient404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateClient404Schema = z.infer<typeof updateClient404Schema>
+export type UpdateClient404Schema = z.infer<typeof updateClient404Schema>;
 
 export const updateClientMutationRequestSchema = z.object({
   enterprise: z.string().nullable().nullish(),
@@ -36,10 +38,16 @@ export const updateClientMutationRequestSchema = z.object({
   contestation: z.string().nullable().nullish(),
   returned: z.string().nullable().nullish(),
   product: z.string().nullable().nullish(),
-})
+});
 
-export type UpdateClientMutationRequestSchema = z.infer<typeof updateClientMutationRequestSchema>
+export type UpdateClientMutationRequestSchema = z.infer<
+  typeof updateClientMutationRequestSchema
+>;
 
-export const updateClientMutationResponseSchema = z.lazy(() => updateClient200Schema)
+export const updateClientMutationResponseSchema = z.lazy(
+  () => updateClient200Schema
+);
 
-export type UpdateClientMutationResponseSchema = z.infer<typeof updateClientMutationResponseSchema>
+export type UpdateClientMutationResponseSchema = z.infer<
+  typeof updateClientMutationResponseSchema
+>;

@@ -3,33 +3,56 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { ListCredentialClientQueryResponse, ListCredentialClient400 } from '../../types/ListCredentialClient.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  ListCredentialClient400,
+  ListCredentialClientQueryResponse,
+} from '../../types/ListCredentialClient.ts';
 
-export const listCredentialClientQueryKey = () => [{ url: '/credential-client' }] as const
+export const listCredentialClientQueryKey = () =>
+  [{ url: '/credential-client' }] as const;
 
-export type ListCredentialClientQueryKey = ReturnType<typeof listCredentialClientQueryKey>
+export type ListCredentialClientQueryKey = ReturnType<
+  typeof listCredentialClientQueryKey
+>;
 
 /**
  * @description Lista os pares de credential e client agregados em um array JSON, com um novo id para cada objeto
  * {@link /credential-client}
  */
-export async function listCredentialClient(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function listCredentialClient(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<ListCredentialClientQueryResponse, ResponseErrorConfig<ListCredentialClient400>, unknown>({
+  const res = await request<
+    ListCredentialClientQueryResponse,
+    ResponseErrorConfig<ListCredentialClient400>,
+    unknown
+  >({
     method: 'GET',
     url: `/credential-client`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function listCredentialClientQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = listCredentialClientQueryKey()
+export function listCredentialClientQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = listCredentialClientQueryKey();
   return queryOptions<
     ResponseConfig<ListCredentialClientQueryResponse>,
     ResponseErrorConfig<ListCredentialClient400>,
@@ -38,10 +61,10 @@ export function listCredentialClientQueryOptions(config: Partial<RequestConfig> 
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return listCredentialClient(config)
+      config.signal = signal;
+      return listCredentialClient(config);
     },
-  })
+  });
 }
 
 /**
@@ -55,13 +78,22 @@ export function useListCredentialClient<
 >(
   options: {
     query?: Partial<
-      QueryObserverOptions<ResponseConfig<ListCredentialClientQueryResponse>, ResponseErrorConfig<ListCredentialClient400>, TData, TQueryData, TQueryKey>
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+      QueryObserverOptions<
+        ResponseConfig<ListCredentialClientQueryResponse>,
+        ResponseErrorConfig<ListCredentialClient400>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? listCredentialClientQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? listCredentialClientQueryKey();
 
   const query = useQuery(
     {
@@ -69,10 +101,12 @@ export function useListCredentialClient<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<ListCredentialClient400>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<ListCredentialClient400>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

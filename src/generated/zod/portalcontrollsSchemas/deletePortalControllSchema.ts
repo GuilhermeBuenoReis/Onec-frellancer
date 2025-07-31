@@ -3,32 +3,42 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const deletePortalControllPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type DeletePortalControllPathParamsSchema = z.infer<typeof deletePortalControllPathParamsSchema>
+export type DeletePortalControllPathParamsSchema = z.infer<
+  typeof deletePortalControllPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const deletePortalControll200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeletePortalControll200Schema = z.infer<typeof deletePortalControll200Schema>
+export type DeletePortalControll200Schema = z.infer<
+  typeof deletePortalControll200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const deletePortalControll404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeletePortalControll404Schema = z.infer<typeof deletePortalControll404Schema>
+export type DeletePortalControll404Schema = z.infer<
+  typeof deletePortalControll404Schema
+>;
 
-export const deletePortalControllMutationResponseSchema = z.lazy(() => deletePortalControll200Schema)
+export const deletePortalControllMutationResponseSchema = z.lazy(
+  () => deletePortalControll200Schema
+);
 
-export type DeletePortalControllMutationResponseSchema = z.infer<typeof deletePortalControllMutationResponseSchema>
+export type DeletePortalControllMutationResponseSchema = z.infer<
+  typeof deletePortalControllMutationResponseSchema
+>;

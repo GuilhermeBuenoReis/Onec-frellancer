@@ -3,33 +3,61 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetOnePendingQueryResponse, GetOnePendingPathParams, GetOnePending404 } from '../../types/GetOnePending.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetOnePending404,
+  GetOnePendingPathParams,
+  GetOnePendingQueryResponse,
+} from '../../types/GetOnePending.ts';
 
-export const getOnePendingInfiniteQueryKey = (id: GetOnePendingPathParams['id']) => [{ url: '/pending/:id', params: { id: id } }] as const
+export const getOnePendingInfiniteQueryKey = (
+  id: GetOnePendingPathParams['id']
+) => [{ url: '/pending/:id', params: { id: id } }] as const;
 
-export type GetOnePendingInfiniteQueryKey = ReturnType<typeof getOnePendingInfiniteQueryKey>
+export type GetOnePendingInfiniteQueryKey = ReturnType<
+  typeof getOnePendingInfiniteQueryKey
+>;
 
 /**
  * @description Get a single pending by id
  * {@link /pending/:id}
  */
-export async function getOnePendingInfinite(id: GetOnePendingPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getOnePendingInfinite(
+  id: GetOnePendingPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetOnePendingQueryResponse, ResponseErrorConfig<GetOnePending404>, unknown>({
+  const res = await request<
+    GetOnePendingQueryResponse,
+    ResponseErrorConfig<GetOnePending404>,
+    unknown
+  >({
     method: 'GET',
     url: `/pending/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getOnePendingInfiniteQueryOptions(id: GetOnePendingPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getOnePendingInfiniteQueryKey(id)
+export function getOnePendingInfiniteQueryOptions(
+  id: GetOnePendingPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getOnePendingInfiniteQueryKey(id);
   return infiniteQueryOptions<
     ResponseConfig<GetOnePendingQueryResponse>,
     ResponseErrorConfig<GetOnePending404>,
@@ -39,13 +67,13 @@ export function getOnePendingInfiniteQueryOptions(id: GetOnePendingPathParams['i
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getOnePendingInfinite(id, config)
+      config.signal = signal;
+      return getOnePendingInfinite(id, config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -59,14 +87,24 @@ export function useGetOnePendingInfinite<
 >(
   id: GetOnePendingPathParams['id'],
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetOnePendingQueryResponse>, ResponseErrorConfig<GetOnePending404>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetOnePendingQueryResponse>,
+        ResponseErrorConfig<GetOnePending404>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getOnePendingInfiniteQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getOnePendingInfiniteQueryKey(id);
 
   const query = useInfiniteQuery(
     {
@@ -74,10 +112,12 @@ export function useGetOnePendingInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetOnePending404>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetOnePending404>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

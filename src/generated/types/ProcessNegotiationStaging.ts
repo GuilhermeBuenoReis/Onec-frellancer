@@ -10,8 +10,8 @@ export type ProcessNegotiationStaging200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -20,12 +20,13 @@ export type ProcessNegotiationStaging500 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type ProcessNegotiationStagingMutationResponse = ProcessNegotiationStaging200
+export type ProcessNegotiationStagingMutationResponse =
+  ProcessNegotiationStaging200;
 
 export type ProcessNegotiationStagingMutation = {
-  Response: ProcessNegotiationStaging200
-  Errors: ProcessNegotiationStaging500
-}
+  Response: ProcessNegotiationStaging200;
+  Errors: ProcessNegotiationStaging500;
+};

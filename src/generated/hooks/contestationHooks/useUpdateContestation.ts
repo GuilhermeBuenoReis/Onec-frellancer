@@ -3,20 +3,27 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  UpdateContestation404,
   UpdateContestationMutationRequest,
   UpdateContestationMutationResponse,
   UpdateContestationPathParams,
-  UpdateContestation404,
-} from '../../types/UpdateContestation.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+} from '../../types/UpdateContestation.ts';
 
-export const updateContestationMutationKey = () => [{ url: '/contestation/{id}' }] as const
+export const updateContestationMutationKey = () =>
+  [{ url: '/contestation/{id}' }] as const;
 
-export type UpdateContestationMutationKey = ReturnType<typeof updateContestationMutationKey>
+export type UpdateContestationMutationKey = ReturnType<
+  typeof updateContestationMutationKey
+>;
 
 /**
  * @description Update a contestation
@@ -25,18 +32,24 @@ export type UpdateContestationMutationKey = ReturnType<typeof updateContestation
 export async function updateContestation(
   id: UpdateContestationPathParams['id'],
   data?: UpdateContestationMutationRequest,
-  config: Partial<RequestConfig<UpdateContestationMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<UpdateContestationMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<UpdateContestationMutationResponse, ResponseErrorConfig<UpdateContestation404>, UpdateContestationMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    UpdateContestationMutationResponse,
+    ResponseErrorConfig<UpdateContestation404>,
+    UpdateContestationMutationRequest
+  >({
     method: 'PUT',
     url: `/contestation/${id}`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -48,29 +61,38 @@ export function useUpdateContestation<TContext>(
     mutation?: UseMutationOptions<
       ResponseConfig<UpdateContestationMutationResponse>,
       ResponseErrorConfig<UpdateContestation404>,
-      { id: UpdateContestationPathParams['id']; data?: UpdateContestationMutationRequest },
+      {
+        id: UpdateContestationPathParams['id'];
+        data?: UpdateContestationMutationRequest;
+      },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<UpdateContestationMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<UpdateContestationMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? updateContestationMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? updateContestationMutationKey();
 
   return useMutation<
     ResponseConfig<UpdateContestationMutationResponse>,
     ResponseErrorConfig<UpdateContestation404>,
-    { id: UpdateContestationPathParams['id']; data?: UpdateContestationMutationRequest },
+    {
+      id: UpdateContestationPathParams['id'];
+      data?: UpdateContestationMutationRequest;
+    },
     TContext
   >(
     {
       mutationFn: async ({ id, data }) => {
-        return updateContestation(id, data, config)
+        return updateContestation(id, data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

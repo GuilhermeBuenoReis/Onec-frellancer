@@ -3,32 +3,38 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const deletePartnerPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type DeletePartnerPathParamsSchema = z.infer<typeof deletePartnerPathParamsSchema>
+export type DeletePartnerPathParamsSchema = z.infer<
+  typeof deletePartnerPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const deletePartner200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeletePartner200Schema = z.infer<typeof deletePartner200Schema>
+export type DeletePartner200Schema = z.infer<typeof deletePartner200Schema>;
 
 /**
  * @description Default Response
  */
 export const deletePartner404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeletePartner404Schema = z.infer<typeof deletePartner404Schema>
+export type DeletePartner404Schema = z.infer<typeof deletePartner404Schema>;
 
-export const deletePartnerMutationResponseSchema = z.lazy(() => deletePartner200Schema)
+export const deletePartnerMutationResponseSchema = z.lazy(
+  () => deletePartner200Schema
+);
 
-export type DeletePartnerMutationResponseSchema = z.infer<typeof deletePartnerMutationResponseSchema>
+export type DeletePartnerMutationResponseSchema = z.infer<
+  typeof deletePartnerMutationResponseSchema
+>;

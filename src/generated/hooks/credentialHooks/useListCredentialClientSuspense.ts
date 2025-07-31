@@ -3,33 +3,56 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { ListCredentialClientQueryResponse, ListCredentialClient400 } from '../../types/ListCredentialClient.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  ListCredentialClient400,
+  ListCredentialClientQueryResponse,
+} from '../../types/ListCredentialClient.ts';
 
-export const listCredentialClientSuspenseQueryKey = () => [{ url: '/credential-client' }] as const
+export const listCredentialClientSuspenseQueryKey = () =>
+  [{ url: '/credential-client' }] as const;
 
-export type ListCredentialClientSuspenseQueryKey = ReturnType<typeof listCredentialClientSuspenseQueryKey>
+export type ListCredentialClientSuspenseQueryKey = ReturnType<
+  typeof listCredentialClientSuspenseQueryKey
+>;
 
 /**
  * @description Lista os pares de credential e client agregados em um array JSON, com um novo id para cada objeto
  * {@link /credential-client}
  */
-export async function listCredentialClientSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function listCredentialClientSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<ListCredentialClientQueryResponse, ResponseErrorConfig<ListCredentialClient400>, unknown>({
+  const res = await request<
+    ListCredentialClientQueryResponse,
+    ResponseErrorConfig<ListCredentialClient400>,
+    unknown
+  >({
     method: 'GET',
     url: `/credential-client`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function listCredentialClientSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = listCredentialClientSuspenseQueryKey()
+export function listCredentialClientSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = listCredentialClientSuspenseQueryKey();
   return queryOptions<
     ResponseConfig<ListCredentialClientQueryResponse>,
     ResponseErrorConfig<ListCredentialClient400>,
@@ -38,10 +61,10 @@ export function listCredentialClientSuspenseQueryOptions(config: Partial<Request
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return listCredentialClientSuspense(config)
+      config.signal = signal;
+      return listCredentialClientSuspense(config);
     },
-  })
+  });
 }
 
 /**
@@ -54,13 +77,22 @@ export function useListCredentialClientSuspense<
 >(
   options: {
     query?: Partial<
-      UseSuspenseQueryOptions<ResponseConfig<ListCredentialClientQueryResponse>, ResponseErrorConfig<ListCredentialClient400>, TData, TQueryKey>
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+      UseSuspenseQueryOptions<
+        ResponseConfig<ListCredentialClientQueryResponse>,
+        ResponseErrorConfig<ListCredentialClient400>,
+        TData,
+        TQueryKey
+      >
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? listCredentialClientSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? listCredentialClientSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -68,10 +100,13 @@ export function useListCredentialClientSuspense<
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<ListCredentialClient400>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<
+    TData,
+    ResponseErrorConfig<ListCredentialClient400>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

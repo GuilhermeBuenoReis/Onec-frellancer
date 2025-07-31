@@ -3,33 +3,60 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetContestationByIdQueryResponse, GetContestationByIdPathParams, GetContestationById404 } from '../../types/GetContestationById.ts'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  QueryObserverOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetContestationById404,
+  GetContestationByIdPathParams,
+  GetContestationByIdQueryResponse,
+} from '../../types/GetContestationById.ts';
 
-export const getContestationByIdQueryKey = (id: GetContestationByIdPathParams['id']) => [{ url: '/contestation/:id', params: { id: id } }] as const
+export const getContestationByIdQueryKey = (
+  id: GetContestationByIdPathParams['id']
+) => [{ url: '/contestation/:id', params: { id: id } }] as const;
 
-export type GetContestationByIdQueryKey = ReturnType<typeof getContestationByIdQueryKey>
+export type GetContestationByIdQueryKey = ReturnType<
+  typeof getContestationByIdQueryKey
+>;
 
 /**
  * @description Get a contestation by ID
  * {@link /contestation/:id}
  */
-export async function getContestationById(id: GetContestationByIdPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getContestationById(
+  id: GetContestationByIdPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetContestationByIdQueryResponse, ResponseErrorConfig<GetContestationById404>, unknown>({
+  const res = await request<
+    GetContestationByIdQueryResponse,
+    ResponseErrorConfig<GetContestationById404>,
+    unknown
+  >({
     method: 'GET',
     url: `/contestation/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
-export function getContestationByIdQueryOptions(id: GetContestationByIdPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getContestationByIdQueryKey(id)
+export function getContestationByIdQueryOptions(
+  id: GetContestationByIdPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getContestationByIdQueryKey(id);
   return queryOptions<
     ResponseConfig<GetContestationByIdQueryResponse>,
     ResponseErrorConfig<GetContestationById404>,
@@ -39,10 +66,10 @@ export function getContestationByIdQueryOptions(id: GetContestationByIdPathParam
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getContestationById(id, config)
+      config.signal = signal;
+      return getContestationById(id, config);
     },
-  })
+  });
 }
 
 /**
@@ -57,13 +84,22 @@ export function useGetContestationById<
   id: GetContestationByIdPathParams['id'],
   options: {
     query?: Partial<
-      QueryObserverOptions<ResponseConfig<GetContestationByIdQueryResponse>, ResponseErrorConfig<GetContestationById404>, TData, TQueryData, TQueryKey>
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+      QueryObserverOptions<
+        ResponseConfig<GetContestationByIdQueryResponse>,
+        ResponseErrorConfig<GetContestationById404>,
+        TData,
+        TQueryData,
+        TQueryKey
+      >
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getContestationByIdQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getContestationByIdQueryKey(id);
 
   const query = useQuery(
     {
@@ -71,10 +107,12 @@ export function useGetContestationById<
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
-    queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<GetContestationById404>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseQueryResult<TData, ResponseErrorConfig<GetContestationById404>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

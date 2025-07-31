@@ -3,31 +3,33 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updatePendingPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdatePendingPathParamsSchema = z.infer<typeof updatePendingPathParamsSchema>
+export type UpdatePendingPathParamsSchema = z.infer<
+  typeof updatePendingPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const updatePending200Schema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdatePending200Schema = z.infer<typeof updatePending200Schema>
+export type UpdatePending200Schema = z.infer<typeof updatePending200Schema>;
 
 /**
  * @description Default Response
  */
 export const updatePending404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdatePending404Schema = z.infer<typeof updatePending404Schema>
+export type UpdatePending404Schema = z.infer<typeof updatePending404Schema>;
 
 export const updatePendingMutationRequestSchema = z.object({
   client: z.string().nullable().nullish(),
@@ -37,10 +39,16 @@ export const updatePendingMutationRequestSchema = z.object({
   responsible: z.string().nullable().nullish(),
   category: z.string().nullable().nullish(),
   description: z.string().nullable().nullish(),
-})
+});
 
-export type UpdatePendingMutationRequestSchema = z.infer<typeof updatePendingMutationRequestSchema>
+export type UpdatePendingMutationRequestSchema = z.infer<
+  typeof updatePendingMutationRequestSchema
+>;
 
-export const updatePendingMutationResponseSchema = z.lazy(() => updatePending200Schema)
+export const updatePendingMutationResponseSchema = z.lazy(
+  () => updatePending200Schema
+);
 
-export type UpdatePendingMutationResponseSchema = z.infer<typeof updatePendingMutationResponseSchema>
+export type UpdatePendingMutationResponseSchema = z.infer<
+  typeof updatePendingMutationResponseSchema
+>;

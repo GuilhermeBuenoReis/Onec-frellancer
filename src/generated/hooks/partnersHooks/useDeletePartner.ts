@@ -3,29 +3,47 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { DeletePartnerMutationResponse, DeletePartnerPathParams, DeletePartner404 } from '../../types/DeletePartner.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  DeletePartner404,
+  DeletePartnerMutationResponse,
+  DeletePartnerPathParams,
+} from '../../types/DeletePartner.ts';
 
-export const deletePartnerMutationKey = () => [{ url: '/partners/{id}' }] as const
+export const deletePartnerMutationKey = () =>
+  [{ url: '/partners/{id}' }] as const;
 
-export type DeletePartnerMutationKey = ReturnType<typeof deletePartnerMutationKey>
+export type DeletePartnerMutationKey = ReturnType<
+  typeof deletePartnerMutationKey
+>;
 
 /**
  * @description Delete a partner
  * {@link /partners/:id}
  */
-export async function deletePartner(id: DeletePartnerPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function deletePartner(
+  id: DeletePartnerPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<DeletePartnerMutationResponse, ResponseErrorConfig<DeletePartner404>, unknown>({
+  const res = await request<
+    DeletePartnerMutationResponse,
+    ResponseErrorConfig<DeletePartner404>,
+    unknown
+  >({
     method: 'DELETE',
     url: `/partners/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -39,22 +57,27 @@ export function useDeletePartner<TContext>(
       ResponseErrorConfig<DeletePartner404>,
       { id: DeletePartnerPathParams['id'] },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? deletePartnerMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey = mutationOptions.mutationKey ?? deletePartnerMutationKey();
 
-  return useMutation<ResponseConfig<DeletePartnerMutationResponse>, ResponseErrorConfig<DeletePartner404>, { id: DeletePartnerPathParams['id'] }, TContext>(
+  return useMutation<
+    ResponseConfig<DeletePartnerMutationResponse>,
+    ResponseErrorConfig<DeletePartner404>,
+    { id: DeletePartnerPathParams['id'] },
+    TContext
+  >(
     {
       mutationFn: async ({ id }) => {
-        return deletePartner(id, config)
+        return deletePartner(id, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

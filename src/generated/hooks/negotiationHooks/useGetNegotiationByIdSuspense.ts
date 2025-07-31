@@ -3,36 +3,59 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetNegotiationByIdQueryResponse, GetNegotiationByIdPathParams } from '../../types/GetNegotiationById.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  GetNegotiationByIdPathParams,
+  GetNegotiationByIdQueryResponse,
+} from '../../types/GetNegotiationById.ts';
 
-export const getNegotiationByIdSuspenseQueryKey = (id: GetNegotiationByIdPathParams['id']) => [{ url: '/negotiation/:id', params: { id: id } }] as const
+export const getNegotiationByIdSuspenseQueryKey = (
+  id: GetNegotiationByIdPathParams['id']
+) => [{ url: '/negotiation/:id', params: { id: id } }] as const;
 
-export type GetNegotiationByIdSuspenseQueryKey = ReturnType<typeof getNegotiationByIdSuspenseQueryKey>
+export type GetNegotiationByIdSuspenseQueryKey = ReturnType<
+  typeof getNegotiationByIdSuspenseQueryKey
+>;
 
 /**
  * @description Get a list of Negotiation by id
  * {@link /negotiation/:id}
  */
-export async function getNegotiationByIdSuspense(id: GetNegotiationByIdPathParams['id'], config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getNegotiationByIdSuspense(
+  id: GetNegotiationByIdPathParams['id'],
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetNegotiationByIdQueryResponse, ResponseErrorConfig<Error>, unknown>({
+  const res = await request<
+    GetNegotiationByIdQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({
     method: 'GET',
     url: `/negotiation/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 export function getNegotiationByIdSuspenseQueryOptions(
   id: GetNegotiationByIdPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const queryKey = getNegotiationByIdSuspenseQueryKey(id)
+  const queryKey = getNegotiationByIdSuspenseQueryKey(id);
   return queryOptions<
     ResponseConfig<GetNegotiationByIdQueryResponse>,
     ResponseErrorConfig<Error>,
@@ -42,10 +65,10 @@ export function getNegotiationByIdSuspenseQueryOptions(
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getNegotiationByIdSuspense(id, config)
+      config.signal = signal;
+      return getNegotiationByIdSuspense(id, config);
     },
-  })
+  });
 }
 
 /**
@@ -58,14 +81,25 @@ export function useGetNegotiationByIdSuspense<
 >(
   id: GetNegotiationByIdPathParams['id'],
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetNegotiationByIdQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetNegotiationByIdQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getNegotiationByIdSuspenseQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getNegotiationByIdSuspenseQueryKey(id);
 
   const query = useSuspenseQuery(
     {
@@ -73,10 +107,12 @@ export function useGetNegotiationByIdSuspense<
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

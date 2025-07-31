@@ -3,31 +3,37 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updateContestationPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdateContestationPathParamsSchema = z.infer<typeof updateContestationPathParamsSchema>
+export type UpdateContestationPathParamsSchema = z.infer<
+  typeof updateContestationPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const updateContestation200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateContestation200Schema = z.infer<typeof updateContestation200Schema>
+export type UpdateContestation200Schema = z.infer<
+  typeof updateContestation200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const updateContestation404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdateContestation404Schema = z.infer<typeof updateContestation404Schema>
+export type UpdateContestation404Schema = z.infer<
+  typeof updateContestation404Schema
+>;
 
 export const updateContestationMutationRequestSchema = z.object({
   product: z.string().nullable().nullish(),
@@ -42,10 +48,16 @@ export const updateContestationMutationRequestSchema = z.object({
   toPay: z.number().nullable().nullish(),
   status: z.string().nullable().nullish(),
   observation: z.string().nullable().nullish(),
-})
+});
 
-export type UpdateContestationMutationRequestSchema = z.infer<typeof updateContestationMutationRequestSchema>
+export type UpdateContestationMutationRequestSchema = z.infer<
+  typeof updateContestationMutationRequestSchema
+>;
 
-export const updateContestationMutationResponseSchema = z.lazy(() => updateContestation200Schema)
+export const updateContestationMutationResponseSchema = z.lazy(
+  () => updateContestation200Schema
+);
 
-export type UpdateContestationMutationResponseSchema = z.infer<typeof updateContestationMutationResponseSchema>
+export type UpdateContestationMutationResponseSchema = z.infer<
+  typeof updateContestationMutationResponseSchema
+>;

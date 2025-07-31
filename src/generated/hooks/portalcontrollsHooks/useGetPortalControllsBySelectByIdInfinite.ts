@@ -3,20 +3,33 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
 import type {
-  GetPortalControllsBySelectByIdQueryResponse,
-  GetPortalControllsBySelectByIdPathParams,
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
   GetPortalControllsBySelectById500,
-} from '../../types/GetPortalControllsBySelectById.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+  GetPortalControllsBySelectByIdPathParams,
+  GetPortalControllsBySelectByIdQueryResponse,
+} from '../../types/GetPortalControllsBySelectById.ts';
 
-export const getPortalControllsBySelectByIdInfiniteQueryKey = (id: GetPortalControllsBySelectByIdPathParams['id']) =>
-  [{ url: '/portal/portalcontrolls/:id', params: { id: id } }] as const
+export const getPortalControllsBySelectByIdInfiniteQueryKey = (
+  id: GetPortalControllsBySelectByIdPathParams['id']
+) => [{ url: '/portal/portalcontrolls/:id', params: { id: id } }] as const;
 
-export type GetPortalControllsBySelectByIdInfiniteQueryKey = ReturnType<typeof getPortalControllsBySelectByIdInfiniteQueryKey>
+export type GetPortalControllsBySelectByIdInfiniteQueryKey = ReturnType<
+  typeof getPortalControllsBySelectByIdInfiniteQueryKey
+>;
 
 /**
  * @description Retorna todos os registros de PortalControlls para o parceiro informado via querystring
@@ -24,23 +37,27 @@ export type GetPortalControllsBySelectByIdInfiniteQueryKey = ReturnType<typeof g
  */
 export async function getPortalControllsBySelectByIdInfinite(
   id: GetPortalControllsBySelectByIdPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPortalControllsBySelectByIdQueryResponse, ResponseErrorConfig<GetPortalControllsBySelectById500>, unknown>({
+  const res = await request<
+    GetPortalControllsBySelectByIdQueryResponse,
+    ResponseErrorConfig<GetPortalControllsBySelectById500>,
+    unknown
+  >({
     method: 'GET',
     url: `/portal/portalcontrolls/${id}`,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 export function getPortalControllsBySelectByIdInfiniteQueryOptions(
   id: GetPortalControllsBySelectByIdPathParams['id'],
-  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
 ) {
-  const queryKey = getPortalControllsBySelectByIdInfiniteQueryKey(id)
+  const queryKey = getPortalControllsBySelectByIdInfiniteQueryKey(id);
   return infiniteQueryOptions<
     ResponseConfig<GetPortalControllsBySelectByIdQueryResponse>,
     ResponseErrorConfig<GetPortalControllsBySelectById500>,
@@ -50,13 +67,13 @@ export function getPortalControllsBySelectByIdInfiniteQueryOptions(
     enabled: !!id,
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getPortalControllsBySelectByIdInfinite(id, config)
+      config.signal = signal;
+      return getPortalControllsBySelectByIdInfinite(id, config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -64,7 +81,9 @@ export function getPortalControllsBySelectByIdInfiniteQueryOptions(
  * {@link /portal/portalcontrolls/:id}
  */
 export function useGetPortalControllsBySelectByIdInfinite<
-  TData = InfiniteData<ResponseConfig<GetPortalControllsBySelectByIdQueryResponse>>,
+  TData = InfiniteData<
+    ResponseConfig<GetPortalControllsBySelectByIdQueryResponse>
+  >,
   TQueryData = ResponseConfig<GetPortalControllsBySelectByIdQueryResponse>,
   TQueryKey extends QueryKey = GetPortalControllsBySelectByIdInfiniteQueryKey,
 >(
@@ -77,12 +96,17 @@ export function useGetPortalControllsBySelectByIdInfinite<
         TData,
         TQueryKey
       >
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPortalControllsBySelectByIdInfiniteQueryKey(id)
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getPortalControllsBySelectByIdInfiniteQueryKey(id);
 
   const query = useInfiniteQuery(
     {
@@ -90,10 +114,13 @@ export function useGetPortalControllsBySelectByIdInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<GetPortalControllsBySelectById500>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<
+    TData,
+    ResponseErrorConfig<GetPortalControllsBySelectById500>
+  > & { queryKey: TQueryKey };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

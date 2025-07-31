@@ -3,13 +3,15 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const updatePartnerPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type UpdatePartnerPathParamsSchema = z.infer<typeof updatePartnerPathParamsSchema>
+export type UpdatePartnerPathParamsSchema = z.infer<
+  typeof updatePartnerPathParamsSchema
+>;
 
 /**
  * @description Default Response
@@ -17,18 +19,18 @@ export type UpdatePartnerPathParamsSchema = z.infer<typeof updatePartnerPathPara
 export const updatePartner200Schema = z.object({
   id: z.string(),
   name: z.string().nullable(),
-})
+});
 
-export type UpdatePartner200Schema = z.infer<typeof updatePartner200Schema>
+export type UpdatePartner200Schema = z.infer<typeof updatePartner200Schema>;
 
 /**
  * @description Default Response
  */
 export const updatePartner404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type UpdatePartner404Schema = z.infer<typeof updatePartner404Schema>
+export type UpdatePartner404Schema = z.infer<typeof updatePartner404Schema>;
 
 export const updatePartnerMutationRequestSchema = z.object({
   name: z.string().optional(),
@@ -46,10 +48,16 @@ export const updatePartnerMutationRequestSchema = z.object({
   phone: z.string().nullable().nullish(),
   email: z.string().nullable().nullish(),
   responsible: z.string().nullable().nullish(),
-})
+});
 
-export type UpdatePartnerMutationRequestSchema = z.infer<typeof updatePartnerMutationRequestSchema>
+export type UpdatePartnerMutationRequestSchema = z.infer<
+  typeof updatePartnerMutationRequestSchema
+>;
 
-export const updatePartnerMutationResponseSchema = z.lazy(() => updatePartner200Schema)
+export const updatePartnerMutationResponseSchema = z.lazy(
+  () => updatePartner200Schema
+);
 
-export type UpdatePartnerMutationResponseSchema = z.infer<typeof updatePartnerMutationResponseSchema>
+export type UpdatePartnerMutationResponseSchema = z.infer<
+  typeof updatePartnerMutationResponseSchema
+>;

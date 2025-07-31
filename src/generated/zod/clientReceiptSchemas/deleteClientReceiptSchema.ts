@@ -3,32 +3,42 @@
  * Do not edit manually.
  */
 
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const deleteClientReceiptPathParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-export type DeleteClientReceiptPathParamsSchema = z.infer<typeof deleteClientReceiptPathParamsSchema>
+export type DeleteClientReceiptPathParamsSchema = z.infer<
+  typeof deleteClientReceiptPathParamsSchema
+>;
 
 /**
  * @description Default Response
  */
 export const deleteClientReceipt200Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeleteClientReceipt200Schema = z.infer<typeof deleteClientReceipt200Schema>
+export type DeleteClientReceipt200Schema = z.infer<
+  typeof deleteClientReceipt200Schema
+>;
 
 /**
  * @description Default Response
  */
 export const deleteClientReceipt404Schema = z.object({
   message: z.string(),
-})
+});
 
-export type DeleteClientReceipt404Schema = z.infer<typeof deleteClientReceipt404Schema>
+export type DeleteClientReceipt404Schema = z.infer<
+  typeof deleteClientReceipt404Schema
+>;
 
-export const deleteClientReceiptMutationResponseSchema = z.lazy(() => deleteClientReceipt200Schema)
+export const deleteClientReceiptMutationResponseSchema = z.lazy(
+  () => deleteClientReceipt200Schema
+);
 
-export type DeleteClientReceiptMutationResponseSchema = z.infer<typeof deleteClientReceiptMutationResponseSchema>
+export type DeleteClientReceiptMutationResponseSchema = z.infer<
+  typeof deleteClientReceiptMutationResponseSchema
+>;

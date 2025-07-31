@@ -6,7 +6,7 @@
 /**
  * @description Default Response
  */
-export type CreateCredential201 = any
+export type CreateCredential201 = any;
 
 /**
  * @description Default Response
@@ -15,32 +15,32 @@ export type CreateCredential400 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 export type CreateCredentialMutationRequest = {
   /**
    * @type string
    */
-  channelHead: string | null
+  channelHead: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  agentIndicator: string | null
+  agentIndicator: string | null;
   /**
    * @type string
    */
-  partner: string | null
-}
+  partner: string | null;
+};
 
-export type CreateCredentialMutationResponse = CreateCredential201
+export type CreateCredentialMutationResponse = CreateCredential201;
 
 export type CreateCredentialMutation = {
-  Response: CreateCredential201
-  Request: CreateCredentialMutationRequest
-  Errors: CreateCredential400
-}
+  Response: CreateCredential201;
+  Request: CreateCredentialMutationRequest;
+  Errors: CreateCredential400;
+};

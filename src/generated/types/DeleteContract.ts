@@ -7,8 +7,8 @@ export type DeleteContractPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,8 +17,8 @@ export type DeleteContract200 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
 /**
  * @description Default Response
@@ -27,13 +27,13 @@ export type DeleteContract404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type DeleteContractMutationResponse = DeleteContract200
+export type DeleteContractMutationResponse = DeleteContract200;
 
 export type DeleteContractMutation = {
-  Response: DeleteContract200
-  PathParams: DeleteContractPathParams
-  Errors: DeleteContract404
-}
+  Response: DeleteContract200;
+  PathParams: DeleteContractPathParams;
+  Errors: DeleteContract404;
+};

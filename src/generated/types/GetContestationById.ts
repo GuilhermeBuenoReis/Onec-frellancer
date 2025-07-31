@@ -7,8 +7,8 @@ export type GetContestationByIdPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,64 +17,64 @@ export type GetContestationById200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  product: string | null
+  product: string | null;
   /**
    * @type string
    */
-  competence: string | null
+  competence: string | null;
   /**
    * @type string
    */
-  cnpj: string | null
+  cnpj: string | null;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type number
    */
-  percentage: number | null
+  percentage: number | null;
   /**
    * @type number
    */
-  compensation: number | null
+  compensation: number | null;
   /**
    * @type number
    */
-  honorary: number | null
+  honorary: number | null;
   /**
    * @type number
    */
-  tax: number | null
+  tax: number | null;
   /**
    * @type number
    */
-  valueTj: number | null
+  valueTj: number | null;
   /**
    * @type number
    */
-  toPay: number | null
+  toPay: number | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type string
    */
-  observation: string | null
+  observation: string | null;
   /**
    * @type string
    */
-  createdAt: string | null
+  createdAt: string | null;
   /**
    * @type string
    */
-  updatedAt: string | null
-}
+  updatedAt: string | null;
+};
 
 /**
  * @description Default Response
@@ -83,13 +83,13 @@ export type GetContestationById404 = {
   /**
    * @type string
    */
-  message: string
-}
+  message: string;
+};
 
-export type GetContestationByIdQueryResponse = GetContestationById200
+export type GetContestationByIdQueryResponse = GetContestationById200;
 
 export type GetContestationByIdQuery = {
-  Response: GetContestationById200
-  PathParams: GetContestationByIdPathParams
-  Errors: GetContestationById404
-}
+  Response: GetContestationById200;
+  PathParams: GetContestationByIdPathParams;
+  Errors: GetContestationById404;
+};

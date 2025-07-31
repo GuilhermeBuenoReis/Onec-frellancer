@@ -3,15 +3,25 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseConfig, ResponseErrorConfig } from '../../../http/client-kubb.ts'
-import type { CreateContractMutationRequest, CreateContractMutationResponse, CreateContract400 } from '../../types/CreateContract.ts'
-import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
+import type { QueryClient, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type {
+  CreateContract400,
+  CreateContractMutationRequest,
+  CreateContractMutationResponse,
+} from '../../types/CreateContract.ts';
 
-export const createContractMutationKey = () => [{ url: '/contract' }] as const
+export const createContractMutationKey = () => [{ url: '/contract' }] as const;
 
-export type CreateContractMutationKey = ReturnType<typeof createContractMutationKey>
+export type CreateContractMutationKey = ReturnType<
+  typeof createContractMutationKey
+>;
 
 /**
  * @description Create a new Datacontract
@@ -19,18 +29,24 @@ export type CreateContractMutationKey = ReturnType<typeof createContractMutation
  */
 export async function createContract(
   data: CreateContractMutationRequest,
-  config: Partial<RequestConfig<CreateContractMutationRequest>> & { client?: typeof fetch } = {},
+  config: Partial<RequestConfig<CreateContractMutationRequest>> & {
+    client?: typeof fetch;
+  } = {}
 ) {
-  const { client: request = fetch, ...requestConfig } = config
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const requestData = data
-  const res = await request<CreateContractMutationResponse, ResponseErrorConfig<CreateContract400>, CreateContractMutationRequest>({
+  const requestData = data;
+  const res = await request<
+    CreateContractMutationResponse,
+    ResponseErrorConfig<CreateContract400>,
+    CreateContractMutationRequest
+  >({
     method: 'POST',
     url: `/contract`,
     data: requestData,
     ...requestConfig,
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -44,22 +60,30 @@ export function useCreateContract<TContext>(
       ResponseErrorConfig<CreateContract400>,
       { data: CreateContractMutationRequest },
       TContext
-    > & { client?: QueryClient }
-    client?: Partial<RequestConfig<CreateContractMutationRequest>> & { client?: typeof fetch }
-  } = {},
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig<CreateContractMutationRequest>> & {
+      client?: typeof fetch;
+    };
+  } = {}
 ) {
-  const { mutation = {}, client: config = {} } = options ?? {}
-  const { client: queryClient, ...mutationOptions } = mutation
-  const mutationKey = mutationOptions.mutationKey ?? createContractMutationKey()
+  const { mutation = {}, client: config = {} } = options ?? {};
+  const { client: queryClient, ...mutationOptions } = mutation;
+  const mutationKey =
+    mutationOptions.mutationKey ?? createContractMutationKey();
 
-  return useMutation<ResponseConfig<CreateContractMutationResponse>, ResponseErrorConfig<CreateContract400>, { data: CreateContractMutationRequest }, TContext>(
+  return useMutation<
+    ResponseConfig<CreateContractMutationResponse>,
+    ResponseErrorConfig<CreateContract400>,
+    { data: CreateContractMutationRequest },
+    TContext
+  >(
     {
       mutationFn: async ({ data }) => {
-        return createContract(data, config)
+        return createContract(data, config);
       },
       mutationKey,
       ...mutationOptions,
     },
-    queryClient,
-  )
+    queryClient
+  );
 }

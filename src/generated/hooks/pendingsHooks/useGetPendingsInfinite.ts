@@ -3,39 +3,65 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetPendingsQueryResponse } from '../../types/GetPendings.ts'
-import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
+import type {
+  InfiniteData,
+  InfiniteQueryObserverOptions,
+  QueryClient,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetPendingsQueryResponse } from '../../types/GetPendings.ts';
 
-export const getPendingsInfiniteQueryKey = () => [{ url: '/pendings' }] as const
+export const getPendingsInfiniteQueryKey = () =>
+  [{ url: '/pendings' }] as const;
 
-export type GetPendingsInfiniteQueryKey = ReturnType<typeof getPendingsInfiniteQueryKey>
+export type GetPendingsInfiniteQueryKey = ReturnType<
+  typeof getPendingsInfiniteQueryKey
+>;
 
 /**
  * @description Get a list of pendings
  * {@link /pendings}
  */
-export async function getPendingsInfinite(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getPendingsInfinite(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPendingsQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/pendings`, ...requestConfig })
-  return res
+  const res = await request<
+    GetPendingsQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/pendings`, ...requestConfig });
+  return res;
 }
 
-export function getPendingsInfiniteQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getPendingsInfiniteQueryKey()
-  return infiniteQueryOptions<ResponseConfig<GetPendingsQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetPendingsQueryResponse>, typeof queryKey>({
+export function getPendingsInfiniteQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getPendingsInfiniteQueryKey();
+  return infiniteQueryOptions<
+    ResponseConfig<GetPendingsQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetPendingsQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getPendingsInfinite(config)
+      config.signal = signal;
+      return getPendingsInfinite(config);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage['nextCursor'],
-    getPreviousPageParam: (firstPage) => firstPage['nextCursor'],
-  })
+    getNextPageParam: lastPage => lastPage['nextCursor'],
+    getPreviousPageParam: firstPage => firstPage['nextCursor'],
+  });
 }
 
 /**
@@ -48,14 +74,24 @@ export function useGetPendingsInfinite<
   TQueryKey extends QueryKey = GetPendingsInfiniteQueryKey,
 >(
   options: {
-    query?: Partial<InfiniteQueryObserverOptions<ResponseConfig<GetPendingsQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
-      client?: QueryClient
-    }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      InfiniteQueryObserverOptions<
+        ResponseConfig<GetPendingsQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & {
+      client?: QueryClient;
+    };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPendingsInfiniteQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getPendingsInfiniteQueryKey();
 
   const query = useInfiniteQuery(
     {
@@ -63,10 +99,12 @@ export function useGetPendingsInfinite<
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,
-    queryClient,
-  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseInfiniteQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

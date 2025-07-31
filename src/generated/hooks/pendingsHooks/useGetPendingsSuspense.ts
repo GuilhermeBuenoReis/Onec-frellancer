@@ -3,50 +3,88 @@
  * Do not edit manually.
  */
 
-import fetch from '../../../http/client-kubb.ts'
-import type { RequestConfig, ResponseErrorConfig, ResponseConfig } from '../../../http/client-kubb.ts'
-import type { GetPendingsQueryResponse } from '../../types/GetPendings.ts'
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import type {
+  QueryClient,
+  QueryKey,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import type {
+  RequestConfig,
+  ResponseConfig,
+  ResponseErrorConfig,
+} from '../../../http/client-kubb.ts';
+import fetch from '../../../http/client-kubb.ts';
+import type { GetPendingsQueryResponse } from '../../types/GetPendings.ts';
 
-export const getPendingsSuspenseQueryKey = () => [{ url: '/pendings' }] as const
+export const getPendingsSuspenseQueryKey = () =>
+  [{ url: '/pendings' }] as const;
 
-export type GetPendingsSuspenseQueryKey = ReturnType<typeof getPendingsSuspenseQueryKey>
+export type GetPendingsSuspenseQueryKey = ReturnType<
+  typeof getPendingsSuspenseQueryKey
+>;
 
 /**
  * @description Get a list of pendings
  * {@link /pendings}
  */
-export async function getPendingsSuspense(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
+export async function getPendingsSuspense(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const { client: request = fetch, ...requestConfig } = config;
 
-  const res = await request<GetPendingsQueryResponse, ResponseErrorConfig<Error>, unknown>({ method: 'GET', url: `/pendings`, ...requestConfig })
-  return res
+  const res = await request<
+    GetPendingsQueryResponse,
+    ResponseErrorConfig<Error>,
+    unknown
+  >({ method: 'GET', url: `/pendings`, ...requestConfig });
+  return res;
 }
 
-export function getPendingsSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
-  const queryKey = getPendingsSuspenseQueryKey()
-  return queryOptions<ResponseConfig<GetPendingsQueryResponse>, ResponseErrorConfig<Error>, ResponseConfig<GetPendingsQueryResponse>, typeof queryKey>({
+export function getPendingsSuspenseQueryOptions(
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {}
+) {
+  const queryKey = getPendingsSuspenseQueryKey();
+  return queryOptions<
+    ResponseConfig<GetPendingsQueryResponse>,
+    ResponseErrorConfig<Error>,
+    ResponseConfig<GetPendingsQueryResponse>,
+    typeof queryKey
+  >({
     queryKey,
     queryFn: async ({ signal }) => {
-      config.signal = signal
-      return getPendingsSuspense(config)
+      config.signal = signal;
+      return getPendingsSuspense(config);
     },
-  })
+  });
 }
 
 /**
  * @description Get a list of pendings
  * {@link /pendings}
  */
-export function useGetPendingsSuspense<TData = ResponseConfig<GetPendingsQueryResponse>, TQueryKey extends QueryKey = GetPendingsSuspenseQueryKey>(
+export function useGetPendingsSuspense<
+  TData = ResponseConfig<GetPendingsQueryResponse>,
+  TQueryKey extends QueryKey = GetPendingsSuspenseQueryKey,
+>(
   options: {
-    query?: Partial<UseSuspenseQueryOptions<ResponseConfig<GetPendingsQueryResponse>, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient }
-    client?: Partial<RequestConfig> & { client?: typeof fetch }
-  } = {},
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        ResponseConfig<GetPendingsQueryResponse>,
+        ResponseErrorConfig<Error>,
+        TData,
+        TQueryKey
+      >
+    > & { client?: QueryClient };
+    client?: Partial<RequestConfig> & { client?: typeof fetch };
+  } = {}
 ) {
-  const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? getPendingsSuspenseQueryKey()
+  const {
+    query: { client: queryClient, ...queryOptions } = {},
+    client: config = {},
+  } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getPendingsSuspenseQueryKey();
 
   const query = useSuspenseQuery(
     {
@@ -54,10 +92,12 @@ export function useGetPendingsSuspense<TData = ResponseConfig<GetPendingsQueryRe
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,
-    queryClient,
-  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+    queryClient
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & {
+    queryKey: TQueryKey;
+  };
 
-  query.queryKey = queryKey as TQueryKey
+  query.queryKey = queryKey as TQueryKey;
 
-  return query
+  return query;
 }

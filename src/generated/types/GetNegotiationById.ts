@@ -7,8 +7,8 @@ export type GetNegotiationByIdPathParams = {
   /**
    * @type string
    */
-  id: string
-}
+  id: string;
+};
 
 /**
  * @description Default Response
@@ -17,57 +17,57 @@ export type GetNegotiationById200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  title: string | null
+  title: string | null;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type string
    */
-  user: string | null
+  user: string | null;
   /**
    * @type string
    */
-  tags: string | null
+  tags: string | null;
   /**
    * @type string
    */
-  step: string | null
+  step: string | null;
   /**
    * @type string
    */
-  status: string
+  status: string;
   /**
    * @type number
    */
-  value: number | null
+  value: number | null;
   /**
    * @type string
    */
-  startsDate: string | null
+  startsDate: string | null;
   /**
    * @type string
    */
-  observation: string | null
+  observation: string | null;
   /**
    * @type number
    */
-  averageGuide: number | null
+  averageGuide: number | null;
   /**
    * @type string
    */
-  partnerId: string | null
-}[]
+  partnerId: string | null;
+}[];
 
-export type GetNegotiationByIdQueryResponse = GetNegotiationById200
+export type GetNegotiationByIdQueryResponse = GetNegotiationById200;
 
 export type GetNegotiationByIdQuery = {
-  Response: GetNegotiationById200
-  PathParams: GetNegotiationByIdPathParams
-  Errors: any
-}
+  Response: GetNegotiationById200;
+  PathParams: GetNegotiationByIdPathParams;
+  Errors: any;
+};

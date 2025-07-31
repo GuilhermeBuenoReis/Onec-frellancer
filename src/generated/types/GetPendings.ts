@@ -10,48 +10,48 @@ export type GetPendings200 = {
   /**
    * @type string
    */
-  id: string
+  id: string;
   /**
    * @type string
    */
-  client: string | null
+  client: string | null;
   /**
    * @type string
    */
-  callReason: string | null
+  callReason: string | null;
   /**
    * @type string
    */
-  status: string | null
+  status: string | null;
   /**
    * @type string
    */
-  priority: string | null
+  priority: string | null;
   /**
    * @type string
    */
-  responsible: string | null
+  responsible: string | null;
   /**
    * @type string
    */
-  category: string | null
+  category: string | null;
   /**
    * @type string
    */
-  description: string | null
+  description: string | null;
   /**
    * @type string | undefined, date-time
    */
-  createdAt?: string
+  createdAt?: string;
   /**
    * @type string | undefined, date-time
    */
-  updatedAt?: string
-}[]
+  updatedAt?: string;
+}[];
 
-export type GetPendingsQueryResponse = GetPendings200
+export type GetPendingsQueryResponse = GetPendings200;
 
 export type GetPendingsQuery = {
-  Response: GetPendings200
-  Errors: any
-}
+  Response: GetPendings200;
+  Errors: any;
+};
