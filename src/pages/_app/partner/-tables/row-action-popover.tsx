@@ -1,7 +1,7 @@
 'use client';
 
 import { Eye, MoreVertical, Pencil, Trash } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import type { UpdatePortalControll200 } from '@/generated';
-import { useDashboardProvider } from '../-context/dashboard-context';
+import { usePortalControllContext } from '../-context/portal-controll-context';
 import { PortalControllDeleteAlert } from './delete-alert';
 import { PortalControllEditSheet } from './edit-form-sheet';
 import { PortalControllViewAllInformationDialog } from './view-all-information-dialog';
@@ -26,85 +26,48 @@ export function RowActionsPopoverPortalControll({
   controll,
 }: RowActionsPopoverPortalControllProps) {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
-  const [open, setOpen] = useState(false);
-  const { setSelectedControllId, setSelectedControllData } =
-    useDashboardProvider();
+  const { setControllId, setControllData } = usePortalControllContext();
 
-  // só vamos travar propagação nos botões do conteúdo (não no trigger)
-  const stopBubbling = useCallback((e: React.SyntheticEvent) => {
-    e.stopPropagation();
-  }, []);
-
-  const handleSelect = useCallback(
-    (type: ModalType) => {
-      setSelectedControllId(controllId);
-      setSelectedControllData(controll);
-      setOpen(false);
-      setActiveModal(type);
-    },
-    [controllId, controll, setSelectedControllData, setSelectedControllId]
-  );
+  function handleOpenPopover() {
+    setControllId(controllId);
+    setControllData(controll);
+  }
 
   return (
     <>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover onOpenChange={open => open && handleOpenPopover()}>
         <PopoverTrigger asChild>
           <Button
-            type="button"
             variant="ghost"
             size="icon"
             className="h-8 w-8"
-            // sem preventDefault aqui!
             onClick={e => e.stopPropagation()}
-            data-partner-actions
+            onMouseDown={e => e.stopPropagation()}
           >
             <MoreVertical className="h-4 w-4" />
           </Button>
         </PopoverTrigger>
-
-        <PopoverContent
-          align="end"
-          className="w-44 p-1"
-          onOpenAutoFocus={e => e.preventDefault()} // ok manter pra não roubar foco
-          data-partner-actions
-        >
+        <PopoverContent align="end" className="w-44 p-1">
           <Button
-            type="button"
             variant="ghost"
             className="w-full justify-start text-sm"
-            onClick={e => {
-              stopBubbling(e);
-              handleSelect('details');
-            }}
-            data-partner-actions
+            onClick={() => setActiveModal('details')}
           >
             <Eye className="mr-2 w-4 h-4" />
             Ver detalhes
           </Button>
-
           <Button
-            type="button"
             variant="ghost"
             className="w-full justify-start text-sm"
-            onClick={e => {
-              stopBubbling(e);
-              handleSelect('edit');
-            }}
-            data-partner-actions
+            onClick={() => setActiveModal('edit')}
           >
             <Pencil className="mr-2 w-4 h-4" />
             Editar
           </Button>
-
           <Button
-            type="button"
             variant="ghost"
             className="w-full justify-start text-sm text-red-500"
-            onClick={e => {
-              stopBubbling(e);
-              handleSelect('delete');
-            }}
-            data-partner-actions
+            onClick={() => setActiveModal('delete')}
           >
             <Trash className="mr-2 w-4 h-4" />
             Deletar
@@ -118,14 +81,12 @@ export function RowActionsPopoverPortalControll({
           onOpenChange={() => setActiveModal(null)}
         />
       )}
-
       {activeModal === 'edit' && (
         <PortalControllEditSheet
           open
           onOpenChange={() => setActiveModal(null)}
         />
       )}
-
       {activeModal === 'delete' && (
         <PortalControllDeleteAlert
           open

@@ -20,6 +20,7 @@ import {
 } from '@/generated';
 import { queryClient } from '@/lib/query-client';
 import { useDashboardProvider } from '../-context/dashboard-context';
+import { usePortalControllContext } from '../-context/portal-controll-context';
 
 interface PortalControllDeleteAlertProps {
   open: boolean;
@@ -31,16 +32,17 @@ export function PortalControllDeleteAlert({
   onOpenChange,
 }: PortalControllDeleteAlertProps) {
   const { mutateAsync: deleteControll, isPending } = useDeletePortalControll();
-  const { selectedControllId, partnerId } = useDashboardProvider();
+  const { controllId } = usePortalControllContext();
+  const { partnerId } = useDashboardProvider();
 
   async function handleDeleteControll() {
-    if (!selectedControllId) {
+    if (!controllId) {
       toast.error('ID do honorário não encontrado');
       return;
     }
 
     try {
-      await deleteControll({ id: selectedControllId });
+      await deleteControll({ id: controllId });
       toast.success('Honorário deletado com sucesso!');
 
       queryClient.invalidateQueries({

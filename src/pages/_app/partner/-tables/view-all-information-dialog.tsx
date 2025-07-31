@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useGetPortalControllsBySelectById } from '@/generated';
-import { useDashboardProvider } from '../-context/dashboard-context';
+import { usePortalControllContext } from '../-context/portal-controll-context';
 
 const formatLabel = (key: string) => {
   return key
@@ -27,6 +27,15 @@ const formatValue = (value: unknown) => {
   if (value === null || value === undefined) return 'Não informado';
   if (Array.isArray(value)) return value.join(', ');
   if (typeof value === 'number') return value.toLocaleString('pt-BR');
+  if (typeof value === 'object') {
+    const entries = Object.values(value || {})
+      .filter(v => v !== undefined && v !== null)
+      .map(v => {
+        if (typeof v === 'number') return v.toLocaleString('pt-BR');
+        return String(v);
+      });
+    return entries.length ? entries.join(', ') : JSON.stringify(value);
+  }
   return String(value);
 };
 
@@ -39,13 +48,18 @@ export function PortalControllViewAllInformationDialog({
   open,
   onOpenChange,
 }: PortalControllViewAllInformationDialogProps) {
-  const { selectedControllId } = useDashboardProvider();
+  const { controllId } = usePortalControllContext();
 
-  const { data } = useGetPortalControllsBySelectById(selectedControllId ?? '', {
-    query: { enabled: !!selectedControllId },
+  const { data } = useGetPortalControllsBySelectById(controllId ?? '', {
+    query: { enabled: !!controllId },
   });
 
-  const controll = data?.data;
+  // corrige estrutura: se data?.data for array, pega o primeiro elemento
+  const controllRaw = data?.data;
+  const controll =
+    Array.isArray(controllRaw) && controllRaw.length > 0
+      ? controllRaw[0]
+      : controllRaw;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

@@ -1,5 +1,8 @@
-import { useNavigate } from '@tanstack/react-router';
+'use client';
+
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { Handshake } from 'lucide-react';
+import { useEffect } from 'react';
 import { useGetPartners } from '@/generated';
 import { Button } from '../../../../components/ui/button';
 import { ScrollArea } from '../../../../components/ui/scroll-area';
@@ -7,13 +10,34 @@ import { Separator } from '../../../../components/ui/separator';
 
 export function ListPartnerAside() {
   const navigate = useNavigate({ from: '/partner' });
+  const search = useSearch({ strict: false });
   const { data: partners } = useGetPartners();
 
-  if (!partners) {
-    return;
+  useEffect(() => {
+    if (!partners?.data) return;
+    if (!search.id) {
+      const defaultName = 'marina fonseca';
+      const defaultPartner = partners.data.find(
+        p => p.name?.trim().toLowerCase() === defaultName
+      );
+      if (defaultPartner) {
+        navigate({
+          to: '/partner',
+          search: prev => ({
+            ...prev,
+            id: defaultPartner.id,
+          }),
+          replace: true,
+        });
+      }
+    }
+  }, [partners, navigate, search.id]);
+
+  if (!partners?.data) {
+    return null;
   }
 
-  const allPartner = partners?.data;
+  const allPartner = partners.data;
 
   return (
     <aside className="h-full flex flex-col items-start p-4 gap-4">

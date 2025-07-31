@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -19,7 +18,7 @@ import {
   updatePortalControllMutationRequestSchema,
   useUpdatePortalControll,
 } from '@/generated';
-import { useDashboardProvider } from '../-context/dashboard-context';
+import { usePortalControllContext } from '../-context/portal-controll-context';
 
 interface PortalControllEditSheetProps {
   open: boolean;
@@ -30,7 +29,7 @@ export function PortalControllEditSheet({
   open,
   onOpenChange,
 }: PortalControllEditSheetProps) {
-  const { selectedControllId, selectedControllData } = useDashboardProvider();
+  const { controllId, controllData } = usePortalControllContext();
 
   const {
     register,
@@ -45,20 +44,20 @@ export function PortalControllEditSheet({
   const { mutateAsync: updateControll, isPending } = useUpdatePortalControll();
 
   useEffect(() => {
-    if (selectedControllData && open) {
-      reset(selectedControllData);
+    if (controllData && open) {
+      reset(controllData as unknown as UpdatePortalControllMutationRequest);
     }
-  }, [selectedControllData, open, reset]);
+  }, [controllData, open, reset]);
 
   async function handleUpdate(values: UpdatePortalControllMutationRequest) {
-    if (!selectedControllId) {
+    if (!controllId) {
       toast.error('ID do honorário não encontrado');
       return;
     }
 
     try {
       await updateControll(
-        { id: selectedControllId, data: values },
+        { id: controllId, data: values },
         {
           onSuccess: () => {
             toast.success('Honorário atualizado com sucesso!');

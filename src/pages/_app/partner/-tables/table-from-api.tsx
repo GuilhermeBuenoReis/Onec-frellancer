@@ -24,7 +24,7 @@ type filteredDataType = {
 }[];
 
 export function PartnerTableFromAPI() {
-  const { selectedControllData, entries } = useDashboardProvider();
+  const { entries } = useDashboardProvider();
 
   const isValidEntry = (
     entry: any
@@ -45,12 +45,7 @@ export function PartnerTableFromAPI() {
     );
   };
 
-  const filteredData = selectedControllData
-    ? isValidEntry(selectedControllData)
-      ? [selectedControllData]
-      : []
-    : (entries ?? []).filter(isValidEntry);
-
+  const filteredData = (entries ?? []).filter(isValidEntry);
   const columns = createPartnerColumns();
 
   if (!filteredData.length) {
